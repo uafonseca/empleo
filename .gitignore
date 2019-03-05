@@ -31,7 +31,6 @@
 /media/cache
 .idea/
 deploy/logs
-composer.lock
 node_modules/
 symfony.lock
 
