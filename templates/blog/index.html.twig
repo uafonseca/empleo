@@ -1,0 +1,79 @@
+{% extends 'blog/layout.html.twig' %}
+{% block post %}
+    {% if errors %}
+    <h6>{{ errors }}</h6>
+    {% endif %}
+    {% for post in posts %}
+    <div class="date-outer">
+        <h2 class='date-header'>
+        </h2>
+        <div class="date-posts">
+            <div class='post-outer'>
+                <div class='post hentry'>
+                    <div class='post-home-image'>
+
+                        <div class='post-thumb'>
+                            {% if post.local == 'local' %}
+                                <a href='{{ post.url }}'
+                                    style='background:url({{"images/blog/" ~ post.image }}) no-repeat center center;background-size:cover'></a>
+                            {% else %}
+                                <a href='#'
+                               style='background:url({{ post.image }}) no-repeat center center;background-size:cover'></a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class='post-header'>
+                    </div>
+                    <article>
+                        <div class='date-header'>
+                            <font class='retitle'>
+                                <h2 class='post-title entry-title'>
+                                    <a href='{{ post.url}}'>
+                                        {{ post.title }}
+                                    </a>
+                                </h2>
+                            </font>
+                            <div style='clear:both;'></div>
+                            <div id='meta-post'>
+                                <i class='fa fa-pencil'></i>
+                                <a class='g-profile' href='#' rel='author' title='Sora Templates'>
+                                    <span itemprop='name'>{{  post.user }}</span>
+                                </a>
+                                <i aria-hidden='true' class='fa  fa-ellipsis-h' style='font-size: 8px;margin: 0 5px;'></i>
+                                <i class='fa fa-calendar'></i>
+                                <abbr class='published timeago' title='{{ post.created|date('Y-m-d') }}'>
+                                    {{  post.created|date('Y-m-d') }}
+                                </abbr>
+                                <i aria-hidden='true' class='fa  fa-ellipsis-h' style='font-size: 8px;margin: 0 5px;'></i>
+                                {#<span class='post-comment-link'>#}
+                                                {#<i class='fa fa-commenting-o'></i>#}
+                                                {#<a class='comment-bubble' href='#' onclick=''>#}
+                                                {#{{ post.comments.count }}#}
+                                                {#</a>#}
+                                            {#</span>#}
+                            </div>
+                            <div class='resumo'>
+                                            <span>
+                                                <div id='summary3534484639744286447'>
+                                                    {% if post.local == 'local'%}
+                                                        {{ post.text|easyadmin_truncate(300) }}
+                                                    {% else %}
+                                                        {{ post.text|striptags }}
+                                                    {% endif %}
+                                                </div>
+                                            </span>
+                            </div>
+                            <div style='clear: both;'></div>
+                            <a class='read-more anchor-hover' href='{{ post.url}}'>
+                                Leer más &#187;
+                            </a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    {% endfor %}
+    {#{% endif %}#}
+{% endblock %}

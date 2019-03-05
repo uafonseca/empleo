@@ -1,0 +1,301 @@
+{% extends 'site/base.html.twig' %}
+{% block title %}Trabajos{% endblock %}
+{% block body %}
+    {% include 'site/header.html.twig' %}
+
+    <!-- Candidates Details -->
+    <div class="alice-bg padding-top-60 section-padding-bottom">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="job-listing-details">
+                        <div class="job-title-and-info">
+                            <div class="title">
+                                <div class="thumb">
+                                    <img src="{{ asset('site/images/upload/company/')~ job.image }}" class="img-fluid" alt="">
+                                </div>
+                                <div class="title-body">
+                                    <h4>{{ job.title }}</h4>
+                                    <div class="info">
+                                        <span class="company"><a href="#"><i data-feather="briefcase"></i>{{ job.companyName }}</a></span>
+                                        <span class="office-location"><a href="#"><i data-feather="map-pin"></i>{{ job.localtion }}</a></span>
+                                        {% if job.type == 'partial' %}
+                                            <span class="job-type part-time"><a href="#"><i data-feather="clock"></i>A tiempo parcial</a></span>
+                                        {% endif %}
+                                        {% if job.type == 'ful' %}
+                                            <span class="job-type full-time"><a href="#"><i data-feather="clock"></i>A tiempo completo</a></span>
+                                        {% endif %}
+                                        {% if job.type == 'temporary' %}
+                                            <span class="job-type temporary"><a href="#"><i data-feather="clock"></i>Temporal</a></span>
+                                        {% endif %}
+                                        {% if job.type == 'freelance' %}
+                                            <span class="job-type freelance"><a href="#"><i data-feather="clock"></i>Independiente</a></span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="buttons">
+                                <a class="save" href="#"><i data-feather="heart"></i>Guardar Empleo</a>
+                                <a class="apply" href="#">Aplicar en línea</a>
+                            </div>
+                        </div>
+                        <div class="details-information section-padding-60">
+                            <div class="row">
+                                <div class="col-xl-7 col-lg-8">
+                                    <div class="description details-section">
+                                        <h4><i data-feather="align-left"></i>Descripción del empleo</h4>
+                                        <p>{{ job.description }}</p>
+                                    </div>
+                                    <div class="responsibilities details-section">
+                                        <h4><i data-feather="zap"></i>Responsabilidades</h4>
+                                        {{ job.responsabilities }}
+                                    </div>
+                                    <div class="edication-and-experience details-section">
+                                        <h4><i data-feather="book"></i>Educación y Experiencia</h4>
+                                        <ul>
+                                            <li>{{ job.education }}</li>
+                                            <li>{{ job.experience }}</li>
+                                        </ul>
+                                    </div>
+                                    <div class="other-benifit details-section">
+                                        <h4><i data-feather="gift"></i>Otros beneficios</h4>
+                                        <ul>
+                                            <li>{{ job.others }}</li>
+                                        </ul>
+                                    </div>
+                                    <div class="job-apply-buttons">
+                                        <a href="#" class="apply">Aplicar en línea </a>
+                                        <a href="#" class="email"><i data-feather="mail"></i>Email Job</a>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 offset-xl-1 col-lg-4">
+                                    <div class="information-and-share">
+                                        <div class="job-summary">
+                                            <h4>Job Summary</h4>
+                                            <ul>
+                                                <li><span>Publicado el:</span> {{ job.date|date('F d, Y') }}</li>
+                                                {#<li><span>Vacancy:</span> 08</li>#}
+                                                <li><span>Estado del Empleo:
+                                                {% if job.type == 'partial' %}
+                                                    </span> A tiempo parcial</li>
+                                                {% endif %}
+                                                {% if job.type == 'ful' %}
+                                                    </span> A tiempo completo</li>
+                                                {% endif %}
+                                                {% if job.type == 'temporary' %}
+                                                    </span> Temporal</li>
+                                                {% endif %}
+                                                {% if job.type == 'freelance' %}
+                                                    </span> Independiente</li>
+                                                {% endif %}
+                                                <li><span>Experiencia:</span>{{ job.experience }}</li>
+                                                <li><span>Localización del empleo:</span> {{ job.yourLocaltion }}</li>
+                                                <li><span>Salario:</span> ${{ job.salaryMin }} - ${{ job.salaryMax }}</li>
+                                                <li><span>Gender:</span> Any</li>
+                                                <li><span>Application Deadline:</span> ****Oct 15, 2018****</li>
+                                            </ul>
+                                        </div>
+                                        <div class="share-job-post">
+                                            <span class="share"><i class="fas fa-share-alt"></i>Compartir:</span>
+                                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                            <a href="#"><i class="fab fa-twitter"></i></a>
+                                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                            <a href="#"><i class="fab fa-google-plus-g"></i></a>
+                                            <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                                            <a href="#" class="add-more"><span class="ti-plus"></span></a>
+                                        </div>
+                                        <div class="buttons">
+                                            <a href="#" class="button print"><i data-feather="printer"></i>Print Job</a>
+                                            <a href="#" class="button report"><i data-feather="flag"></i>Report Job</a>
+                                        </div>
+                                        <div class="job-location">
+                                            <h4>Job Location</h4>
+                                            <div id="map-area">
+                                                <div class="cp-map" id="location" data-lat="40.713355" data-lng="-74.005535" data-zoom="10"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-7 col-lg-8">
+                                <div class="company-information details-section">
+                                    <h4><i data-feather="briefcase"></i>Información de la compañía</h4>
+                                    <ul>
+                                        <li><span>Nombre de la compañía:</span> {{ job.companyName }}</li>
+                                        <li><span>Dirección:</span> {{ job.yourLocaltion }}</li>
+                                        <li><span>Sitio web:</span> <a href="{{ job.webAddress }}">{{ job.webAddress }}</a></li>
+                                        <li><span>Descripción:</span></li>
+                                        <li>{{ job.campanyProfile }}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Candidates Details End -->
+
+    <!-- Jobs -->
+    {#<div class="section-padding-bottom alice-bg">#}
+        {#<div class="container">#}
+            {#<div class="row">#}
+                {#<div class="col">#}
+                    {#<div class="section-header section-header-2 section-header-with-right-content">#}
+                        {#<h2>Simillar Jobs</h2>#}
+                        {#<a href="#" class="header-right">+ Browse All Jobs</a>#}
+                    {#</div>#}
+                {#</div>#}
+            {#</div>#}
+            {#<div class="row">#}
+                {#<div class="col">#}
+                    {#<div class="job-list">#}
+                        {#<div class="thumb">#}
+                            {#<a href="#">#}
+                                {#<img src="images/job/company-logo-1.png" class="img-fluid" alt="">#}
+                            {#</a>#}
+                        {#</div>#}
+                        {#<div class="body">#}
+                            {#<div class="content">#}
+                                {#<h4><a href="job-details.html">Designer Required</a></h4>#}
+                                {#<div class="info">#}
+                                    {#<span class="company"><a href="#"><i data-feather="briefcase"></i>Theoreo</a></span>#}
+                                    {#<span class="office-location"><a href="#"><i data-feather="map-pin"></i>New York City</a></span>#}
+                                    {#<span class="job-type full-time"><a href="#"><i data-feather="clock"></i>Full Time</a></span>#}
+                                {#</div>#}
+                            {#</div>#}
+                            {#<div class="more">#}
+                                {#<div class="buttons">#}
+                                    {#<a href="#" class="button">Apply Now</a>#}
+                                    {#<a href="#" class="favourite"><i data-feather="heart"></i></a>#}
+                                {#</div>#}
+                                {#<p class="deadline">Deadline: Oct 31, 2018</p>#}
+                            {#</div>#}
+                        {#</div>#}
+                    {#</div>#}
+                    {#<div class="job-list">#}
+                        {#<div class="thumb">#}
+                            {#<a href="#">#}
+                                {#<img src="images/job/company-logo-2.png" class="img-fluid" alt="">#}
+                            {#</a>#}
+                        {#</div>#}
+                        {#<div class="body">#}
+                            {#<div class="content">#}
+                                {#<h4><a href="job-details.html">Project Manager</a></h4>#}
+                                {#<div class="info">#}
+                                    {#<span class="company"><a href="#"><i data-feather="briefcase"></i>Degoin</a></span>#}
+                                    {#<span class="office-location"><a href="#"><i data-feather="map-pin"></i>San Francisco</a></span>#}
+                                    {#<span class="job-type part-time"><a href="#"><i data-feather="clock"></i>Part Time</a></span>#}
+                                {#</div>#}
+                            {#</div>#}
+                            {#<div class="more">#}
+                                {#<div class="buttons">#}
+                                    {#<a href="#" class="button">Apply Now</a>#}
+                                    {#<a href="#" class="favourite"><i data-feather="heart"></i></a>#}
+                                {#</div>#}
+                                {#<p class="deadline">Deadline: Oct 31, 2018</p>#}
+                            {#</div>#}
+                        {#</div>#}
+                    {#</div>#}
+                    {#<div class="job-list">#}
+                        {#<div class="thumb">#}
+                            {#<a href="#">#}
+                                {#<img src="images/job/company-logo-8.png" class="img-fluid" alt="">#}
+                            {#</a>#}
+                        {#</div>#}
+                        {#<div class="body">#}
+                            {#<div class="content">#}
+                                {#<h4><a href="job-details.html">Restaurant Team Member - Crew </a></h4>#}
+                                {#<div class="info">#}
+                                    {#<span class="company"><a href="#"><i data-feather="briefcase"></i>Geologitic</a></span>#}
+                                    {#<span class="office-location"><a href="#"><i data-feather="map-pin"></i>New Orleans</a></span>#}
+                                    {#<span class="job-type temporary"><a href="#"><i data-feather="clock"></i>Temporary</a></span>#}
+                                {#</div>#}
+                            {#</div>#}
+                            {#<div class="more">#}
+                                {#<div class="buttons">#}
+                                    {#<a href="#" class="button">Apply Now</a>#}
+                                    {#<a href="#" class="favourite"><i data-feather="heart"></i></a>#}
+                                {#</div>#}
+                                {#<p class="deadline">Deadline: Oct 31, 2018</p>#}
+                            {#</div>#}
+                        {#</div>#}
+                    {#</div>#}
+                    {#<div class="job-list">#}
+                        {#<div class="thumb">#}
+                            {#<a href="#">#}
+                                {#<img src="images/job/company-logo-9.png" class="img-fluid" alt="">#}
+                            {#</a>#}
+                        {#</div>#}
+                        {#<div class="body">#}
+                            {#<div class="content">#}
+                                {#<h4><a href="job-details.html">Nutrition Advisor</a></h4>#}
+                                {#<div class="info">#}
+                                    {#<span class="company"><a href="#"><i data-feather="briefcase"></i>Theoreo</a></span>#}
+                                    {#<span class="office-location"><a href="#"><i data-feather="map-pin"></i>New York City</a></span>#}
+                                    {#<span class="job-type full-time"><a href="#"><i data-feather="clock"></i>Full Time</a></span>#}
+                                {#</div>#}
+                            {#</div>#}
+                            {#<div class="more">#}
+                                {#<div class="buttons">#}
+                                    {#<a href="#" class="button">Apply Now</a>#}
+                                    {#<a href="#" class="favourite"><i data-feather="heart"></i></a>#}
+                                {#</div>#}
+                                {#<p class="deadline">Deadline: Oct 31, 2018</p>#}
+                            {#</div>#}
+                        {#</div>#}
+                    {#</div>#}
+                    {#<div class="job-list">#}
+                        {#<div class="thumb">#}
+                            {#<a href="#">#}
+                                {#<img src="images/job/company-logo-3.png" class="img-fluid" alt="">#}
+                            {#</a>#}
+                        {#</div>#}
+                        {#<div class="body">#}
+                            {#<div class="content">#}
+                                {#<h4><a href="job-details.html">Land Development Marketer</a></h4>#}
+                                {#<div class="info">#}
+                                    {#<span class="company"><a href="#"><i data-feather="briefcase"></i>Realouse</a></span>#}
+                                    {#<span class="office-location"><a href="#"><i data-feather="map-pin"></i>Washington, D.C.</a></span>#}
+                                    {#<span class="job-type freelance"><a href="#"><i data-feather="clock"></i>Freelance</a></span>#}
+                                {#</div>#}
+                            {#</div>#}
+                            {#<div class="more">#}
+                                {#<div class="buttons">#}
+                                    {#<a href="#" class="button">Apply Now</a>#}
+                                    {#<a href="#" class="favourite"><i data-feather="heart"></i></a>#}
+                                {#</div>#}
+                                {#<p class="deadline">Deadline: Oct 31, 2018</p>#}
+                            {#</div>#}
+                        {#</div>#}
+                    {#</div>#}
+                {#</div>#}
+            {#</div>#}
+        {#</div>#}
+    {#</div>#}
+    <!-- Jobs End -->
+
+    <!-- Call to Action -->
+    <div class="call-to-action-bg padding-top-90 padding-bottom-90">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="call-to-action-2">
+                        <div class="call-to-action-content">
+                            <h2>Para encontrar tu trabajo ideal o candidato</h2>
+                            <p>Añadir curriculum vitae o publicar un trabajo.</p>
+                        </div>
+                        <div class="call-to-action-button">
+                            <a href="add-resume.html" class="button">Añadir currículum</a>
+                            <span>Or</span>
+                            <a href="post-job.html" class="button">Publicar un trabajo</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

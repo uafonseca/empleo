@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html class='v2' dir='ltr' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b'
+      xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
+    <title>Emplear | {% block title %}Blog{% endblock %}</title>
+{{ include('blog/templates/head.html.twig') }}
+
+<body class='index'>
+<div class='theme-opt' style='display:none'>
+    <div class='option section' id='option' name='Theme Options'>
+        <div class='widget HTML' data-version='1' id='HTML900'>
+        </div>
+        <div class='widget HTML' data-version='1' id='HTML910'>
+            <script type='text/javascript'>
+                //<![CDATA[
+                var perPage = 7;
+                //]]>
+            </script>
+        </div>
+    </div>
+</div>
+<div id="body-wrapper" class="index home">
+    <div class='top-bar'>
+        <div class='top-bar-wrapper body-row'>
+            <div class='top-bar-social blue section' id='header social widget' name='Top Social Widget'>
+                <div class='widget LinkList' data-version='1' id='LinkList230'>
+                    <div class='widget-content'>
+                        <ul id='social'>
+                            <li><a class='facebook' href='#' title='facebook'></a></li>
+                            <li><a class='twitter' href='#' title='twitter'></a></li>
+                            <li><a class='gplus' href='#' title='gplus'></a></li>
+                            <li><a class='pinterest' href='#' title='pinterest'></a></li>
+                            <li><a class='bloglovin' href='#' title='bloglovin'></a></li>
+                            <li><a class='dribbble' href='#' title='dribbble'></a></li>
+                            <li><a class='rss' href='#' title='rss'></a></li>
+                            <li><a class='behance' href='#' title='behance'></a></li>
+                            <li><a class='instagram' href='#' title='instagram'></a></li>
+                            <li><a class='delicious' href='#' title='delicious'></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class='top-bar-menu'>
+                <div class='top-menu'>
+                    <div class='top-menu section' id='top-menu'>
+                        <div class='widget LinkList' data-version='1' id='LinkList940'>
+                            <div class='widget-content'>
+                                <ul id='nav' itemscope='' itemtype='http://schema.org/SiteNavigationElement'>
+                                    <li itemprop='name'><a href='{{ path('homepage') }}' itemprop='url'>Inicio</a></li>
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <li itemprop='name'><a href='{{ path('easyadmin') }}' itemprop='url'>Administrar</a></li>
+                                    {% endif %}
+                                    <li itemprop='name'><a href='{{ path('blog_') }}' itemprop='url'>Blog</a></li>
+                                    <li itemprop='name'><a href='{{ path('about') }}' itemprop='url'>Sobre nosotros</a></li>
+                                    <li itemprop='name'><a href='{{ path('contact') }}' itemprop='url'>Contacto</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style='clear: both;'></div>
+    <div class='header-wrap'>
+        <div class='body-row' id='header-wrappers'>
+            <div class='headerleft'>
+                <div class='headerleft section' id='headerleft' name='Blog Logo'>
+                    <div class='widget Header' data-version='1' id='Header1'>
+                        <div id='header-inner'>
+                            <div class='titlewrapper'>
+                                <h1 class='title'>
+                                    Emplear.com
+                                </h1>
+                            </div>
+                            <div class='descriptionwrapper'>
+                                <p class='description'><span>slogan</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='headerright'>
+                <div class='headerright section' id='headerright' name='Header Ads'>
+                    <div class='widget HTML' data-version='1' id='HTML1'>
+                        <div class='widget-content'>
+                            <img src="http://2.bp.blogspot.com/-afTeOoZhfSE/WUikbvBsOMI/AAAAAAAADAg/Y744fVOueT0hGB5PzzzV-VCjbE757SszQCLcBGAs/s1600/top-bannner2-1.jpg"
+                                 alt="test"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style='clear: both;'></div>
+        </div>
+    </div>
+
+    {{ include('blog/templates/tm_menu.html.twig') }}
+
+    <div style='clear: both;'></div>
+    <div style='clear: both;'></div>
+    <div class='feat-slider-wrap top-widget'>
+        <div class='ty-slide-show body-row section' id='Carousel Widget'>
+            <div class='widget HTML' data-version='1' id='HTML219'>
+                <h2 class='title'>Music</h2>
+                <div class='widget-content'>
+                    <span data-type="ty-latest-slide" data-no="6"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style='clear: both;'></div>
+    <div class='body-row' id='content-wrapper'>
+        <div id='main-wrapper'>
+            <div class='tyard-wrapper'>
+                <div class='featured preload section' id='featured'>
+                    <div class='widget HTML' data-version='1' id='HTML299'>
+                        <div class='widget-content'>
+                            <span data-type="tyard" data-label="News"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style='clear: both;'></div>
+            <div id='ads-blog'>
+                <div class='ad-home-widget section' id='adwidegt1' name='Home Ad Widget'>
+                    <div class='widget HTML' data-version='1' id='HTML90'>
+                        <h2 class='title'>Post Top Ad</h2>
+                        <div class='widget-content'>
+                    <span>
+                        <center>
+                            <a href="http://www.templatesyard.com/">
+                                <img alt="LightBlog" src="http://4.bp.blogspot.com/-_vd60vnaZiQ/U1zU7LvHjdI/AAAAAAAAB0w/sH4jObMJr9k/s1600/head-banner.png">
+                            </a>
+                        </center>
+                    </span>
+                        </div>
+                    </div>
+                </div>
+                <div style='clear: both;'></div>
+            </div>
+            <div id='ads-blog'>
+                <div class='ad-top-widget section' id='adwidegt2' name='Post Top Ad Widget'>
+                    <div class='widget HTML' data-version='1' id='HTML95'>
+                        <h2 class='title'>Post Top Ad</h2>
+                        <div class='widget-content'>
+                    <span>
+                        <div style="width:100%;height:90px;background:#f1e791;margin:0 auto;text-align: center;line-height: 90px;color: #fff;text-transform: uppercase;font-family: inherit;font-size: 30px;font-weight: bold;cursor: pointer;">
+                            Your Ad Spot
+                        </div>
+                    </span>
+                        </div>
+                    </div>
+                </div>
+                <div style='clear: both;'></div>
+            </div>
+            <div class='main section' id='main'>
+
+                <div class='widget Blog' data-version='1' id='Blog1'>
+
+                    <div class='blog-posts hfeed'>
+                        {% block post %}
+
+                        {% endblock %}
+                    </div>
+
+                    <div class='blog-pager' id='blog-pager'>
+                <span id='blog-pager-older-link'>
+                </span>
+                        <a class='home-link' href='{{ path('homepage') }}'>Inicio</a>
+                    </div>
+                    <div class='clear'></div>
+                    <div class='blog-feeds'>
+                    </div>
+                </div>
+                <div class='widget HTML' data-version='1' id='HTML901'>
+                </div>
+                <div class='widget HTML' data-version='1' id='HTML902'>
+                </div>
+            </div>
+            <div class='post-author-social section' id='Postwidegt2' name='Post Author Social Profiles'>
+                <div class='widget LinkList' data-version='1' id='LinkList1'>
+                    <div class='widget-content'>
+                        <ul>
+                            <li><a href='#'><i class="fa fa-facebook"></i></a></li>
+                            <li><a href='#'><i class="fa fa-twitter"></i></a></li>
+                            <li><a href='#'><i class="fa fa-google-plus"></i></a></li>
+                            <li><a href='#'><i class="fa fa-instagram"></i></a></li>
+                            <li><a href='#'><i class="fa fa-pinterest"></i></a></li>
+                            <li><a href='#'><i class="fa fa-linkedin"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ include('blog/templates/sidebar_wrapper.html.twig') }}
+
+        <div style='clear: both;'> </div>
+    </div>
+    {{ include('blog/templates/footer.html.twig') }}
+
+</html>

@@ -1,0 +1,132 @@
+<header class="header-2">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="header-top">
+                    <div class="logo-area">
+                        <a href="#"><img src="{{ asset('site/images/logo.png') }}" alt=""></a>
+                    </div>
+                    <div class="header-top-toggler">
+                        <div class="header-top-toggler-button"></div>
+                    </div>
+                    <div class="top-nav">
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <div class="dropdown header-top-notification">
+                            <a href="#" class="notification-button">Notificaciones</a>
+                            <div class="notification-card">
+                                <div class="notification-head">
+                                    <span>Notificaciones</span>
+                                    <a href="#">Marcar todos como leídos</a>
+                                </div>
+                                <div class="notification-body">
+                                    {% for n in notifications %}
+                                        <a href="#" class="notification-list">
+                                            <i class="fas fa-bolt"></i>
+                                            <p>{{ n.context }}</p>
+                                            <span class="time">{{ n.date|ago }}</span>
+                                        </a>
+                                     {% endfor %}
+                                </div>
+                                <div class="notification-footer">
+                                    <a href="{{ path('dashboard') }}">Ver todas las notificaciones</a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <div class="dropdown header-top-account">
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            <a href="#" class="account-button">Mi cuenta</a>
+                            <div class="account-card">
+                                <div class="header-top-account-info">
+                                    <a href="#" class="account-thumb">
+                                        <img src="{{ asset('images/user/')~ app.user.image }}" class="img-fluid" alt="">
+                                    </a>
+                                    <div class="account-body">
+                                        <h5><a href="#">{{ app.user.name }}</a></h5>
+                                        <span class="mail">{{ app.user.email }}</span>
+                                    </div>
+                                </div>
+                                <ul class="account-item-list">
+                                    <li><a href="{{ path('dashboard') }}"><span class="ti-user"></span>Cuenta</a></li>
+                                    <li><a href="{{ path('dashboard_edit') }}"><span class="ti-settings"></span>Configuración</a></li>
+                                    <li><a href="/logout"><span class="ti-power-off"></span>Salir</a></li>
+                                </ul>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <select class="selectpicker select-language" data-width="fit">
+                            <option  data-content='<span class="flag-icon flag-icon-mx"></span> Español'>Español</option>
+                            <option data-content='<span class="flag-icon flag-icon-us"></span> English'>English</option>
+                        </select>
+                    </div>
+                </div>
+                <nav class="navbar navbar-expand-lg cp-nav-2">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav">
+                            <li class="menu-item active"><a title="Home" href="{{ path('homepage') }}">Inicio</a></li>
+                            <li class="menu-item"><a title="Home" href="{{ path('job_list') }}">Listado de empleos</a></li>
+                            {% if is_granted('ROLE_ADMIN') %}
+                            <li class="menu-item dropdown">
+                                <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">Empleador</a>
+                                <ul  class="dropdown-menu">
+                                    <li class="menu-item"><a title="About" href="employer-listing.html">Listado de empleadores</a></li>
+                                    <li class="menu-item"><a title="About" href="employer-details.html">Detalles del empleador</a></li>
+                                    <li class="menu-item"><a title="About" href="{{ path('dashboard') }}">Tablero</a></li>
+                                    <li class="menu-item"><a title="About" href="{{ path('dashboard_edit') }}">Editar perfil</a></li>
+                                    <li class="menu-item"><a title="About" href="employer-dashboard-manage-candidate.html">Gestión de candidatos</a></li>
+                                    <li class="menu-item"><a title="About" href="employer-dashboard-manage-job.html">Gestionar trabajo</a></li>
+                                    <li class="menu-item"><a title="About" href="{{ path('job_new') }}">Publicar trabajo</a></li>
+                                </ul>
+                            </li>
+                            {% endif %}
+                            {% if is_granted('ROLE_USER') %}
+                            <li class="menu-item dropdown">
+                                <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">Candidatos</a>
+                                <ul  class="dropdown-menu">
+                                    <li class="menu-item"><a title="About" href="{{ path('candidates') }}">Lista de candidatos</a></li>
+                                    <li class="menu-item"><a title="About" href="candidate-details.html">Detalles del Candidato</a></li>
+                                    <li class="menu-item"><a title="About" href="{{ path('dashboard') }}">Tablero</a></li>
+                                    <li class="menu-item"><a title="About" href="{{ path('dashboard_edit') }}">Editar perfil</a></li>
+                                    {#<li class="menu-item"><a title="About" href="{{ path('dashboard_resume_edit') }}">Agregar Curriculum Vitae</a></li>#}
+                                    {#<li class="menu-item"><a title="About" href="resume.html">Resume</a></li>#}
+                                    <li class="menu-item"><a title="About" href="{{ path('dashboard_resume_edit') }}">Editar Curriculum Vitae</a></li>
+                                    <li class="menu-item"><a title="About" href="{{ path('dashboard_bookmarked') }}">Marcados</a></li>
+                                    <li class="menu-item"><a title="About" href="{{ path('dashboard_applied') }}">Aplicado</a></li>
+                                    <li class="menu-item"><a title="About" href="dashboard-pricing.html">Determinación de precios</a></li>
+                                    <li class="menu-item"><a title="About" href="dashboard-message.html">Mensaje</a></li>
+                                    <li class="menu-item"><a title="About" href="dashboard-alert.html">Alerta</a></li>
+                                </ul>
+                            </li>
+                            {% endif %}
+                            <li class="menu-item dropdown">
+                                <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">Páginas</a>
+                                <ul  class="dropdown-menu">
+                                    <li class="menu-item"><a title="About" href="about-us.html">Sobre Nosotros</a></li>
+                                    <li class="menu-item"><a title="About" href="blog.html">Blog</a></li>
+                                    {#<li class="menu-item"><a title="About" href="blog-grid.html">Blog Grid</a></li>#}
+                                    {#<li class="menu-item"><a title="About" href="blog-details.html">Blog Details</a></li>#}
+                                    <li class="menu-item"><a title="About" href="contact.html">Contáctenos</a></li>
+                                    <li class="menu-item"><a title="About" href="pricing.html">Determinación de precios</a></li>
+                                    <li class="menu-item"><a title="About" href="how-it-work.html">Cómo funciona</a></li>
+                                    <li class="menu-item"><a title="About" href="faq.html">FAQ</a></li>
+                                    <li class="menu-item"><a title="About" href="checkout.html">Realizar Pedido</a></li>
+                                    <li class="menu-item"><a title="About" href="payment-complete.html">Pago Completo</a></li>
+                                    <li class="menu-item"><a title="About" href="invoice.html">Factura</a></li>
+                                    <li class="menu-item"><a title="About" href="terms-and-condition.html">Términos y condiciones</a></li>
+                                </ul>
+                            </li>
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') == false %}
+                                <li class="menu-item post-job"><a title="Title" href="{{ path('job_new') }}"><i class="fas fa-plus"></i>Publicar un empleo</a></li>
+                            {% elseif  is_granted('ROLE_ADMIN')%}
+                                <li class="menu-item post-job"><a title="Title" href="{{ path('job_new') }}"><i class="fas fa-plus"></i>Publicar un empleo</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>

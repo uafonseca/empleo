@@ -1,0 +1,654 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Ubel
+ * Date: 2/11/2019
+ * Time: 12:00 PM
+ */
+
+namespace App\Entity;
+
+use Doctrine\Common\Collections\ArrayCollection;
+use FOS\UserBundle\Model\User as BaseUser;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="fos_user")
+ * @Vich\Uploadable
+ */
+class User extends BaseUser
+{
+
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    protected $name;
+
+
+    /**
+     * @ORM\Column(type="boolean", length=100, nullable=true)
+     */
+    protected $employer;
+
+    /**
+     * @ORM\Column(type="boolean", length=100, nullable=true)
+     */
+    protected $candidate;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string
+     */
+    protected $image;
+    /**
+     * @Vich\UploadableField(mapping="user_images", fileNameProperty="image")
+     * @var File
+     */
+    protected $imageFile;
+
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string
+     */
+    protected $companyName;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string
+     */
+    protected $phone;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string
+     */
+    protected $address;
+    /**
+     * @ORM\Column(type="text", length=255, nullable=true)
+     * @var string
+     */
+    protected $about;
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string
+     */
+    protected $videoIntro;
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string
+     */
+    protected $social_facebook;
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string
+     */
+    protected $social_twitter;
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string
+     */
+    protected $social_google;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     *
+     * @var \DateTime
+     */
+    private $updatedAt;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Resume", mappedBy="user")
+     */
+    private $resume;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category")
+     */
+    private $category;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $status;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $experience;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $gender;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $age;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $qualification;
+
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $skils = [];
+
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $social_links = [];
+
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $country;
+
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $bookmarked = [];
+
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $applied = [];
+
+
+
+    public function __construct()
+    {
+        parent::__construct();
+        // your own logic
+        $this->skils = array();
+        $this->social_links = array();
+        $this->bookmarked = array();
+        $this->applied = array();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name): void
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return File
+     */
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param File $imageFile
+     */
+    public function setImageFile(File $imageFile): void
+    {
+        $this->imageFile = $imageFile;
+        if ($imageFile instanceof UploadedFile) {
+            $this->setUpdatedAt(new \DateTime());
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param string $image
+     */
+    public function setImage($image): void
+    {
+        $this->image = $image;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCandidate()
+    {
+        return $this->candidate;
+    }
+
+    /**
+     * @param mixed $candidate
+     */
+    public function setCandidate($candidate): void
+    {
+        $this->candidate = $candidate;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmployer()
+    {
+        return $this->employer;
+    }
+
+    /**
+     * @param mixed $employer
+     */
+    public function setEmployer($employer): void
+    {
+        $this->employer = $employer;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCompanyName()
+    {
+        return $this->companyName;
+    }
+
+    /**
+     * @param string $companyName
+     */
+    public function setCompanyName(string $companyName): void
+    {
+        $this->companyName = $companyName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * @param string $address
+     */
+    public function setAddress(string $address): void
+    {
+        $this->address = $address;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAbout()
+    {
+        return $this->about;
+    }
+
+    /**
+     * @param string $about
+     */
+    public function setAbout($about): void
+    {
+        if ($about == null)
+            $about = "";
+        $this->about = $about;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPhone()
+    {
+        return $this->phone;
+    }
+
+    /**
+     * @param string $phone
+     */
+    public function setPhone(string $phone): void
+    {
+        $this->phone = $phone;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVideoIntro()
+    {
+        return $this->videoIntro;
+    }
+
+    /**
+     * @param string $videoIntro
+     */
+    public function setVideoIntro(string $videoIntro): void
+    {
+        $this->videoIntro = $videoIntro;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSocialFacebook()
+    {
+        return $this->social_facebook;
+    }
+
+    /**
+     * @param string $social_facebook
+     */
+    public function setSocialFacebook(string $social_facebook): void
+    {
+        $this->social_facebook = $social_facebook;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSocialTwitter()
+    {
+        return $this->social_twitter;
+    }
+
+    /**
+     * @param string $social_twitter
+     */
+    public function setSocialTwitter(string $social_twitter): void
+    {
+        $this->social_twitter = $social_twitter;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSocialGoogle()
+    {
+        return $this->social_google;
+    }
+
+    /**
+     * @param string $social_google
+     */
+    public function setSocialGoogle(string $social_google): void
+    {
+        $this->social_google = $social_google;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param \DateTime $updatedAt
+     */
+    public function setUpdatedAt(\DateTime $updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
+    public function getResume(): ?Resume
+    {
+        return $this->resume;
+    }
+
+    public function setResume(?Resume $resume): self
+    {
+        $this->resume = $resume;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newUser = $resume === null ? null : $this;
+        if ($newUser !== $resume->getUser()) {
+            $resume->setUser($newUser);
+        }
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getExperience(): ?string
+    {
+        return $this->experience;
+    }
+
+    public function setExperience(?string $experience): self
+    {
+        $this->experience = $experience;
+
+        return $this;
+    }
+
+    public function getGender(): ?string
+    {
+        return $this->gender;
+    }
+
+    public function setGender(?string $gender): self
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+    public function getAge(): ?int
+    {
+        return $this->age;
+    }
+
+    public function setAge(?int $age): self
+    {
+        $this->age = $age;
+
+        return $this;
+    }
+
+    public function getQualification(): ?string
+    {
+        return $this->qualification;
+    }
+
+    public function setQualification(?string $qualification): self
+    {
+        $this->qualification = $qualification;
+
+        return $this;
+    }
+
+    public function getSkils()
+    {
+        return $this->skils;
+    }
+
+    public function setSkils(?string $skils): self
+    {
+        $this->skils[] = $skils;
+
+        return $this;
+    }
+
+    public function setSkillArray(array $skils): self
+    {
+        $this->skils = $skils;
+
+        return $this;
+    }
+
+    public function remove_skill($skill)
+    {
+        if (false !== $key = array_search(strtoupper($skill), $this->skils, true)) {
+            unset($this->skils[$key]);
+            $this->skils = array_values($this->skils);
+        }
+        return $this;
+    }
+
+
+    public function getSocialLinks()
+    {
+        return $this->social_links;
+    }
+
+    public function setSocialLinks(?string $link, ?string $key): self
+    {
+        $this->social_links[$key] = $link;
+
+        return $this;
+    }
+
+    public function setSocialLinkArray(array $link): self
+    {
+        $this->social_links = $link;
+
+        return $this;
+    }
+
+    public function remove_socialLink($link)
+    {
+        if (false !== $key = array_search(strtoupper($link), $this->social_links, true)) {
+            unset($this->social_links[$key]);
+            $this->social_links = array_values($this->social_links);
+        }
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    /**
+     * @param mixed $country
+     */
+    public function setCountry($country): void
+    {
+        $this->country = $country;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBookmarked()
+    {
+        return $this->bookmarked;
+    }
+
+    /**
+     * @param mixed $bookmarked
+     */
+    public function setBookmarked(?string $bookmarked): void
+    {
+        $this->bookmarked[] = $bookmarked;
+    }
+
+    public function removeBookMarked($marked)
+    {
+        unset($this->bookmarked[$marked]);
+        $this->bookmarked = array_values($this->bookmarked);
+        return $this;
+    }
+
+
+
+    public function addBookMarket($bookMarked): self
+    {
+        $this->bookmarked[] = $bookMarked;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getApplied()
+    {
+        if($this->applied == null)
+            return array();
+        return $this->applied;
+    }
+
+    /**
+     * @param mixed $applied
+     */
+    public function setApplied(?string $applied): void
+    {
+        $this->applied[] = $applied;
+    }
+    public function removeApplied($applied)
+    {
+        unset($this->applied[$applied]);
+        $this->applied = array_values($this->applied);
+        return $this;
+    }
+
+    public function addApplied($applied): self
+    {
+        $this->applied[] = $applied;
+
+        return $this;
+    }
+}

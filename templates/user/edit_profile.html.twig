@@ -1,0 +1,248 @@
+{% extends 'site/base.html.twig' %}
+{% block title %}Tablero{% endblock %}
+{% block body %}
+{% include'site/header.html.twig' %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('site/dashboard/css/dashboard.css') }}">
+    <div class="alice-bg padding-top-70 padding-bottom-70">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="breadcrumb-area">
+                        <h1>Tablero de candidatos</h1>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Tablero de candidatos</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+
+    <div class="alice-bg section-padding-bottom">
+        <div class="container no-gliters">
+            <div class="row no-gliters">
+                <div class="col">
+                    <div class="dashboard-container">
+                        <div class="dashboard-content-wrapper">
+                            {#<form action="#" class="dashboard-form">#}
+                            {{ form_start(form, {attr: {'class': 'dashboard-form'} }) }}
+                                <div class="dashboard-section upload-profile-photo">
+                                    <div class="update-photo">
+                                        <img class="image" src="{{ asset('images/user/')~app.user.image }}" alt="">
+                                    </div>
+                                    <div id="file_upload" class="file-upload">
+                                        {#<input type="file" class="file-input">#}
+                                        {{ form_widget(form.imageFile, { 'attr': {'class': 'file-input'} } ) }}
+                                        Cambiar avatar
+                                    </div>
+
+                                </div>
+                                <div class="dashboard-section basic-info-input">
+                                    <h4><i data-feather="user-check"></i>Información básica</h4>
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Nombre de la compañía</label>
+                                        <div class="col-sm-9">
+                                            {#<input type="text" class="form-control" placeholder="Company Name">#}
+                                            {{ form_widget(form.companyName, { 'attr': {'class': 'form-control','placeholder':'Nombre de la compañía'} } ) }}
+                                        </div>
+                                    </div>
+                                    {% else  %}
+                                        <div class="form-group row" style="visibility: hidden">
+                                            <label class="col-sm-3 col-form-label">Nombre de la compañía</label>
+                                            <div class="col-sm-9">
+                                                {{ form_widget(form.companyName, { 'attr': {'type': 'hidden'} } ) }}
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Nombre</label>
+                                        <div class="col-sm-9">
+                                            {{ form_widget(form.name, { 'attr': {'class': 'form-control','placeholder':'Pedro Perez'} } ) }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Usuario</label>
+                                        <div class="col-sm-9">
+                                            {{ form_widget(form.username, { 'attr': {'class': 'form-control','placeholder':'@usuario'} } ) }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Género</label>
+                                        <div class="col-sm-9">
+                                            {{ form_widget(form.gender, { 'attr': {'class': 'form-control','placeholder':'Género'} } ) }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Años de experiencia</label>
+                                        <div class="col-sm-9">
+                                            {{ form_widget(form.experience, { 'attr': {'class': 'form-control','placeholder':'Años de experiencia'} } ) }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Edad</label>
+                                        <div class="col-sm-9">
+                                            {{ form_widget(form.age, { 'attr': {'class': 'form-control','placeholder':'Edad'} } ) }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Estudios</label>
+                                        <div class="col-sm-9">
+                                            {{ form_widget(form.qualification, { 'attr': {'class': 'form-control','placeholder':'Universitario'} } ) }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Dirección de correo</label>
+                                        <div class="col-sm-9">
+                                            {{ form_widget(form.email, { 'attr': {'class': 'form-control','placeholder':'email@example.com'} } ) }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Teléfono</label>
+                                        <div class="col-sm-9">
+                                            {#<input type="text" class="form-control" placeholder="+55 123 4563 4643">#}
+                                            {{ form_widget(form.phone, { 'attr': {'class': 'form-control','placeholder':'+55 123 4563 4643'} } ) }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Dirección</label>
+                                        <div class="col-sm-9">
+                                            {#<input type="text" class="form-control" placeholder="Washington D.C">#}
+                                            {{ form_widget(form.address, { 'attr': {'class': 'form-control','placeholder':'Washington D.C'} } ) }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Categoría</label>
+                                        <div class="col-sm-9">
+                                            {{ form_widget(form.category, { 'attr': {'class': 'form-control'} } ) }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Sobre usted</label>
+                                        <div class="col-sm-9">
+                                            {{ form_widget(form.about, { 'attr': {'class': 'form-control','placeholder':'Sobre usted'} } ) }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Su disponibilidad</label>
+                                        <div class="col-sm-9">
+                                            {{ form_widget(form.status, { 'attr': {'class': 'form-control','placeholder':'Sobre usted'} } ) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="dashboard-section media-inputs">
+                                    <h4><i data-feather="image"></i>Video</h4>
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Video Intro</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">Link</div>
+                                                </div>
+                                                {{ form_widget(form.videoIntro, { 'attr': {'class': 'form-control','placeholder':'https://www.youtube.com/watch?v=ZRkdyjJ_489M'} } ) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="dashboard-section social-inputs">
+                                    <h4><i data-feather="cast"></i>Redes sociales</h4>
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Links</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text"><i class="fab fa-facebook-f"></i></div>
+                                                </div>
+                                                {{ form_widget(form.socialFacebook, { 'attr': {'class': 'form-control','placeholder':'facebook.com/username'} } ) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="offset-sm-3 col-sm-9">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text"><i class="fab fa-twitter"></i></div>
+                                                </div>
+                                                {{ form_widget(form.socialTwitter, { 'attr': {'class': 'form-control','placeholder':'twitter.com/username'} } ) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="offset-sm-3 col-sm-9">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text"><i class="fab fa-google-plus"></i></div>
+                                                </div>
+                                                {{ form_widget(form.socialGoogle, { 'attr': {'class': 'form-control','placeholder':'google.com/username'} } ) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {#<div class="dashboard-section basic-info-input">#}
+                                    {#<h4><i data-feather="lock"></i>Change Password</h4>#}
+                                    {#<div class="form-group row">#}
+                                        {#<label class="col-sm-3 col-form-label">Current Password</label>#}
+                                        {#<div class="col-sm-9">#}
+                                            {#<input type="text" class="form-control" placeholder="Current Password">#}
+                                        {#</div>#}
+                                    {#</div>#}
+                                    {#<div class="form-group row">#}
+                                        {#<label class="col-sm-3 col-form-label">New Password</label>#}
+                                        {#<div class="col-sm-9">#}
+                                            {#<input type="password" class="form-control" placeholder="New Password">#}
+                                        {#</div>#}
+                                    {#</div>#}
+                                    {#<div class="form-group row">#}
+                                        {#<label class="col-sm-3 col-form-label">Retype Password</label>#}
+                                        {#<div class="col-sm-9">#}
+                                            {#<input type="text" class="form-control" placeholder="Retype Password">#}
+                                        {#</div>#}
+                                    {#</div>#}
+                                    {#<div class="form-group row">#}
+                                        {#<label class="col-sm-3 col-form-label"></label>#}
+                                        {#<div class="col-sm-9">#}
+                                            <button class="button">Guardar</button>
+                                        {#</div>#}
+                                    {#</div>#}
+                                {#</div>#}
+                            {{ form_rest(form) }}
+                            {{ form_end(form) }}
+                        </div>
+                        {% include 'user/dashboard_sidebar.html.twig' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="call-to-action-bg padding-top-90 padding-bottom-90">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="call-to-action-2">
+                        <div class="call-to-action-content">
+                            <h2>For Find Your Dream Job or Candidate</h2>
+                            <p>Add resume or post a job. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec.</p>
+                        </div>
+                        <div class="call-to-action-button">
+                            <a href="add-resume.html" class="button">Add Resume</a>
+                            <span>Or</span>
+                            <a href="post-job.html" class="button">Post A Job</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Call to Action End -->
+    <script src="{{ asset('site/assets/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('site/assets/js/jquery.ajaxchimp.min.js') }}"></script>
+    <script src="{{ asset('site/dashboard/js/dashboard.js') }}"></script>
+    <script src="{{ asset('site/dashboard/js/datePicker.js') }}"></script>
+    <script src="{{ asset('site/dashboard/js/upload-input.js') }}"></script>
+{% endblock %}

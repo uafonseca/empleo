@@ -1,0 +1,76 @@
+{% extends 'blog/layout.html.twig' %}
+{% block title %}{{ blog.title }}{% endblock %}
+{% block post %}
+    <div class="post-header">
+        <div class="post-head">
+            <h1 class="post-title entry-title" itemprop="name headline">
+                {{ blog.title }}
+            </h1>
+        </div>
+        <div class="post-meta">
+            <span class="post-author vcard" style="margin-right: 20px">
+                <i class="fa fa-user"></i>
+                <span itemprop="name">
+                    {{ blog.user }}
+                </span>
+            </span>
+            <span class="post-timestamp">
+                <i class="fa fa-calendar-o"></i>
+                    <abbr class="published timeago" itemprop="datePublished" title="2016-08-01T04:22:00-07:00">
+                        {{ blog.created | date('Y-m-d') }}
+                    </abbr>
+            </span>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+    <br>
+    <div dir="ltr" style="text-align: left;" trbidi="on">
+        <div dir="ltr" style="text-align: left;" trbidi="on">
+            <div style="text-align: justify;">
+                <div class="separator" style="clear: both; text-align: center;">
+
+                </div>
+                <div class="separator" style="clear: both; text-align: center;">
+
+                </div>
+                <div class="separator" style="clear: both; text-align: center;">
+
+                </div>
+                <div class="separator" style="clear: both; text-align: center;">
+
+                </div>
+                <div class="separator" style="clear: both; text-align: center;">
+
+                </div>
+                <div class="separator" style="clear: both; text-align: center;">
+
+                </div>
+                <div class="separator" style="clear: both; text-align: center;">
+
+                    <a imageanchor="1" style="margin-left: 1em; margin-right: 1em;"
+                       href="{{ asset('images/blog/') ~ blog.image }}">
+                        <img data-original-height="800" data-original-width="1200"
+                             src="{{ asset('images/blog/') ~ blog.image }}"
+                             border="0">
+                    </a>
+                </div>
+                <div class="separator" style="clear: both; text-align: justify;">
+                    <br>
+                </div>
+                <span style="text-align: justify;">
+                    {{ blog.text |raw}}
+                </span>
+                {% if blog.url %}
+                    <div style='clear: both;'></div>
+                    <a class='blog-pager-older-link' href='{{ blog.url}}'>
+                        Leer más &#187;
+                    </a>
+                {% endif %}
+            </div>
+            <br>
+        </div>
+    </div>
+
+
+
+{% endblock %}

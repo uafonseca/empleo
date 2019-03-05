@@ -1,0 +1,254 @@
+{% extends 'site/base.html.twig' %}
+{% block title %}Tablero{% endblock %}
+{% block body %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('site/dashboard/css/dashboard.css') }}">
+    {#{% set notifications = notifications %}#}
+    {{ include ('site/header.html.twig',{'notifications': notifications}  ) }}
+    {#{% include notifications %}#}
+    <!-- Breadcrumb -->
+    <div class="alice-bg padding-top-70 padding-bottom-70">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="breadcrumb-area">
+                        <h1>Resume</h1>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Curriculum Vitae</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+                {#<div class="col-md-6">#}
+                {#<div class="breadcrumb-form">#}
+                {#<form action="#">#}
+                {#<input type="text" placeholder="Enter Keywords">#}
+                {#<button><i data-feather="search"></i></button>#}
+                {#</form>#}
+                {#</div>#}
+                {#</div>#}
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+
+    <div class="alice-bg section-padding-bottom">
+        <div class="container no-gliters">
+            <div class="row no-gliters">
+                <div class="col">
+                    <div class="dashboard-container">
+                        <div class="dashboard-content-wrapper">
+                            <div class="download-resume dashboard-section">
+                                {% if cv != null %}
+                                <a target="_blank" href="{{ cv }}">Descargar Curriculum Vitae<i
+                                            data-feather="download"></i></a>
+                                {% endif %}
+                                {% if cart != null %}
+                                <a target="_blank" href="{{ cart }}">Descargar carta de presentación<i
+                                            data-feather="download"></i></a>
+                                {% endif %}
+                            </div>
+                            <div class="skill-and-profile dashboard-section">
+                                <div class="skill">
+                                    <label>Habilidades:</label>
+                                    {% for sk in app.user.skils %}
+                                        <a href="#">{{ sk }}</a>
+                                    {% endfor %}
+                                </div>
+                                <div class="social-profile">
+                                    <label>Social:</label>
+                                    {% if  app.user.sociallinks["fb"] is defined %}
+                                    <a target="_blank" href="{{ app.user.sociallinks["fb"] }}"><i
+                                                class="fab fa-facebook-f"></i></a>
+                                    {% endif %}
+                                    {% if  app.user.sociallinks["twitter"] is defined  %}
+                                    <a target="_blank" href="{{ app.user.sociallinks["twitter"] }}"><i
+                                                class="fab fa-twitter"></i></a>
+                                    {% endif %}
+                                    {% if  app.user.sociallinks["google"] is defined  %}
+                                    <a target="_blank" href="{{ app.user.sociallinks["google"] }}"><i
+                                                class="fab fa-google-plus"></i></a>
+                                    {% endif %}
+                                    {% if  app.user.sociallinks["linkedin"] is defined  %}
+                                    <a target="_blank" href="{{ app.user.sociallinks["linkedin"]  }}"><i
+                                                class="fab fa-linkedin-in"></i></a>
+                                    {% endif %}
+                                    {% if  app.user.sociallinks["printerest"] is defined  %}
+                                    <a target="_blank" href="{{ app.user.sociallinks["printerest"] }}"><i
+                                                class="fab fa-pinterest-p"></i></a>
+                                    {% endif %}
+                                    {% if  app.user.sociallinks["instagram"] is defined  %}
+                                    <a target="_blank" href="{{ app.user.sociallinks["instagram"] }}"><i
+                                                class="fab fa-instagram"></i></a>
+                                    {% endif %}
+                                    {% if  app.user.sociallinks["behance"] is defined  %}
+                                    <a target="_blank" href="{{ app.user.sociallinks["behance"] }}"><i
+                                                class="fab fa-behance"></i></a>
+                                    {% endif %}
+                                    {% if  app.user.sociallinks["dribbble"] is defined  %}
+                                    <a target="_blank" href="{{ app.user.sociallinks["dribbble"] }}"><i
+                                                class="fab fa-dribbble"></i></a>
+                                    {% endif %}
+                                    {% if  app.user.sociallinks["github"] is defined  %}
+                                    <a target="_blank" href="{{ app.user.sociallinks["github"] }}"><i
+                                                class="fab fa-github"></i></a>
+                                    {% endif %}
+
+                                </div>
+                            </div>
+                            <div class="about-details details-section dashboard-section">
+                                <h4><i data-feather="align-left"></i>Sobre mi</h4>
+                                {{ resume.aboutme }}
+                                <div class="information-and-contact">
+                                    <div class="information">
+                                        <h4>Información</h4>
+                                        <ul>
+                                            <li><span>Ubicación:</span> {{ app.user.address }} </li>
+                                            <li><span>Disponibilidad:</span> {{ app.user.status }}</li>
+                                            <li><span>Experiencia:</span> {{ app.user.experience }} Años</li>
+                                            <li><span>Género:</span> {{ app.user.gender }}</li>
+                                            <li><span>Edad:</span> {{ app.user.age }} Años</li>
+                                            <li><span>Estudios:</span> {{ app.user.qualification }}</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="edication-background details-section dashboard-section">
+                                <h4><i data-feather="book"></i>Antecedentes educacionales</h4>
+                                {% for m in metas %}
+                                    {% if m.type == 'metadata_education' %}
+                                        <div id="div1-{{ m.id }}" class="education-label">
+                                            <span class="study-year">{{ m.extra }}</span>
+                                            <h5>{{ m.header }}</h5>
+                                            <p>{{ m.description }}</p>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <div class="experience dashboard-section details-section">
+                                <h4><i data-feather="briefcase"></i>Experiencia laboral</h4>
+                                {% for m in metas %}
+                                    {% if m.type == 'metadata_experience' %}
+                                        <div id="div1-{{ m.id }}" class="experience-section">
+                                            <span class="service-year">{{ m.extra }}</span>
+                                            <h5>{{ m.header }}</h5>
+                                            <p>{{ m.description }}</p>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <div class="professonal-skill dashboard-section details-section">
+                                <h4><i data-feather="feather"></i>Habilidad profesionales</h4>
+                                <div class="progress-group">
+                                    {% for m in metas %}
+                                        {% if m.type == 'metadata_porcent' %}
+                                            <div id="div1-{{ m.id }}" class="progress-item">
+                                                <div class="progress-head">
+                                                    <p class="progress-on">{{ m.header }}</p>
+                                                </div>
+                                                <div class="progress-body">
+                                                    <div class="progress">
+                                                        <div class="progress-bar" role="progressbar"
+                                                             aria-valuenow="{{ m.context }}"
+                                                             aria-valuemin="0" aria-valuemax="100"
+                                                             style="width: 0;"></div>
+                                                    </div>
+                                                    <p class="progress-to">{{ m.context }}%</p>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="special-qualification dashboard-section details-section">
+                                <h4><i data-feather="gift"></i>Calificación Especial</h4>
+                                <ul>
+                                    {% for m in metas %}
+                                        {% if m.type == 'metadata_qualification' %}
+                                            <li id="div1-{{ m.id }}" >{{ m.header }}</li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            {#<div class="portfolio dashboard-section details-section">#}
+                                {#<h4><i data-feather="gift"></i>Portfolio</h4>#}
+                                {#<div class="portfolio-slider owl-carousel">#}
+                                    {#<div class="portfolio-item">#}
+                                        {#<img src="images/portfolio/thumb-3.jpg" class="img-fluid" alt="">#}
+                                        {#<div class="overlay">#}
+                                            {#<a href="#"><i data-feather="eye"></i></a>#}
+                                            {#<a href="#"><i data-feather="link"></i></a>#}
+                                        {#</div>#}
+                                    {#</div>#}
+                                    {#<div class="portfolio-item">#}
+                                        {#<img src="images/portfolio/thumb-1.jpg" class="img-fluid" alt="">#}
+                                        {#<div class="overlay">#}
+                                            {#<a href="#"><i data-feather="eye"></i></a>#}
+                                            {#<a href="#"><i data-feather="link"></i></a>#}
+                                        {#</div>#}
+                                    {#</div>#}
+                                    {#<div class="portfolio-item">#}
+                                        {#<img src="images/portfolio/thumb-2.jpg" class="img-fluid" alt="">#}
+                                        {#<div class="overlay">#}
+                                            {#<a href="#"><i data-feather="eye"></i></a>#}
+                                            {#<a href="#"><i data-feather="link"></i></a>#}
+                                        {#</div>#}
+                                    {#</div>#}
+                                    {#<div class="portfolio-item">#}
+                                        {#<img src="images/portfolio/thumb-3.jpg" class="img-fluid" alt="">#}
+                                        {#<div class="overlay">#}
+                                            {#<a href="#"><i data-feather="eye"></i></a>#}
+                                            {#<a href="#"><i data-feather="link"></i></a>#}
+                                        {#</div>#}
+                                    {#</div>#}
+                                    {#<div class="portfolio-item">#}
+                                        {#<img src="images/portfolio/thumb-2.jpg" class="img-fluid" alt="">#}
+                                        {#<div class="overlay">#}
+                                            {#<a href="#"><i data-feather="eye"></i></a>#}
+                                            {#<a href="#"><i data-feather="link"></i></a>#}
+                                        {#</div>#}
+                                    {#</div>#}
+                                {#</div>#}
+                            {#</div>#}
+                            <div class="personal-information dashboard-section last-child details-section">
+                                <h4><i data-feather="user-plus"></i>Datos personales</h4>
+                                <ul>
+                                    <li><span>Nombre:</span>{{ app.user.name }}</li>
+                                    <li><span>Nacionalidad:</span> {{ app.user.country }}</li>
+                                    <li><span>Sexo:</span> {{ app.user.gender }}</li>
+                                    <li><span>Dirección:</span> {{ app.user.address }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        {% include 'user/dashboard_sidebar.html.twig' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call to Action -->
+    {#<div class="call-to-action-bg padding-top-90 padding-bottom-90">#}
+        {#<div class="container">#}
+            {#<div class="row">#}
+                {#<div class="col">#}
+                    {#<div class="call-to-action-2">#}
+                        {#<div class="call-to-action-content">#}
+                            {#<h2>For Find Your Dream Job or Candidate</h2>#}
+                            {#<p>Add resume or post a job. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut#}
+                                {#elit tellus, luctus nec.</p>#}
+                        {#</div>#}
+                        {#<div class="call-to-action-button">#}
+                            {#<a href="add-resume.html" class="button">Add Resume</a>#}
+                            {#<span>Or</span>#}
+                            {#<a href="post-job.html" class="button">Post A Job</a>#}
+                        {#</div>#}
+                    {#</div>#}
+                {#</div>#}
+            {#</div>#}
+        {#</div>#}
+    {#</div>#}
+    <!-- Call to Action End -->
+
+{% endblock %}

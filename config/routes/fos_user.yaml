@@ -1,0 +1,7 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+
+# about
+fos_user:
+  resource: "@FOSUserBundle/Resources/config/routing/all.xml"

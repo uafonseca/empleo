@@ -1,0 +1,11 @@
+rss_client:
+    cache:
+        ttl:     3600 # This is the default
+    channels:
+        channel_name1:
+        - 'http://humanos.uci.cu/feed/'
+#        - 'http://desarrolla2.com/feed/'
+#
+#        channel_name2:
+#        - 'http://feeds.feedburner.com/symfony/blog'
+#        - 'http://www.symfony.es/feed/'

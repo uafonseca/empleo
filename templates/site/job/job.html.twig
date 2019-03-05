@@ -1,0 +1,417 @@
+{% extends 'site/base.html.twig' %}
+{% block title %}Crear trabajo{% endblock %}
+{% block stylesheet %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+    {{  include ('site/header.html.twig',{'notifications': notifications}  )}}
+
+
+    <!-- Breadcrumb -->
+    <div class="alice-bg padding-top-70 padding-bottom-70">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="breadcrumb-area">
+                        <h1>Publicar empleo</h1>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{{ path('homepage') }}">Inicio</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Publicar empleo</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="breadcrumb-form">
+                        <form action="#">
+                            <input type="text" placeholder="Enter Keywords">
+                            <button><i data-feather="search"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+    {#{{ form_start(form) }}#}
+    {#{{ form_widget(form) }}#}
+    {#{{ form_end(form) }}#}
+    <div class="alice-bg section-padding-bottom">
+        <div class="container no-gliters">
+            <div class="row no-gliters">
+                <div class="col">
+                    <div class="post-container">
+                        <div class="post-content-wrapper">
+                            {{ form_start(form, {attr: {'class': 'job-post-form','id':'job-form'} }) }}
+                                <div class="basic-info-input">
+                                    <h4><i data-feather="plus-circle"></i>Publicar un empleo</h4>
+                                    <div id="job-title" class="form-group row">
+                                        <label class="col-md-3 col-form-label">Título</label>
+                                        <div class="col-md-9">
+                                            {{ form_widget(form.title, { 'attr': {'class': 'form-control','placeholder':'Tu título de trabajo aquí'} }) }}
+                                            <span class="error text-danger">{{ form_errors(form.title) }}</span>
+                                        </div>
+                                    </div>
+                                    <div id="logo" class="form-group row">
+                                        <label class="col-md-3 col-form-label">Logo</label>
+                                        <div class="col-md-9">
+                                            {{ form_widget(form.imageFile, { 'attr': {'class': 'form-control','placeholder':'Seleccione el logo de su empresa'} }) }}
+                                            <span class="error text-danger">{{ form_errors(form.imageFile) }}</span>
+                                        </div>
+                                    </div>
+                                    <div id="job-summery" class="row">
+                                        <label class="col-md-3 col-form-label">Resumen de trabajo</label>
+                                        <div class="col-md-9">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        {{ form_widget(form.category, { 'attr': {'class': 'form-control'} }) }}
+                                                        <span class="error text-danger">{{ form_errors(form.category) }}</span>
+                                                        <i class="fa fa-caret-down"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        {{ form_widget(form.localtion, { 'attr': {'class': 'form-control','placeholder':'Ubicación de trabajo'} }) }}
+                                                        <span class="error text-danger">{{ form_errors(form.localtion) }}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        {{ form_widget(form.type, { 'attr': {'class': 'form-control'} }) }}
+                                                        <span class="error text-danger"> {{ form_errors(form.type) }}</span>
+                                                        <i class="fa fa-caret-down"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        {{ form_widget(form.experience, { 'attr': {'class': 'form-control'} }) }}
+                                                        <span class="error text-danger">{{ form_errors(form.experience) }}</span>
+                                                        <i class="fa fa-caret-down"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        {{ form_widget(form.salary_min, { 'attr': {'id': 'min','class': 'form-control','placeholder':'Salario mínimo'} }) }}
+                                                        <span class="error text-danger">{{ form_errors(form.salary_min) }}</span>
+                                                    </div>
+                                                </div><div class="col-md-3">
+                                                    <div class="form-group">
+                                                        {{ form_widget(form.salary_max, { 'attr': {'class': 'form-control','placeholder':'Salario máximo'} }) }}
+                                                        <span class="error text-danger">{{ form_errors(form.salary_max) }}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        {{ form_widget(form.qualification, { 'attr': {'class': 'form-control'} }) }}
+                                                        <span class="error text-danger">{{ form_errors(form.qualification) }}</span>
+                                                        <i class="fa fa-caret-down"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group datepicker">
+                                                        {{ form_widget(form.date, { 'attr': {'class': 'form-control'} }) }}
+                                                        <span class="error text-danger">{{ form_errors(form.date) }}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group datepicker">
+                                                        {{ form_widget(form.gender, { 'attr': {'class': 'form-control'} }) }}
+                                                        <span class="error text-danger">{{ form_errors(form.gender) }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="job-description" class="row">
+                                        <label class="col-md-3 col-form-label">Descripción del trabajo</label>
+                                        <div class="col-md-9">
+                                            <div class="form-group shadow-textarea">
+                                                <label for="exampleFormControlTextarea6"></label>
+                                                {{ form_widget(form.description, { 'attr': {'class': 'form-control z-depth-1','placeholder':'Descripción del trabajo'} }) }}
+                                                <span class="error text-danger">{{ form_errors(form.description) }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="response" class="row">
+                                        <label class="col-md-3 col-form-label">Responsabilidades</label>
+                                        <div class="col-md-9">
+                                            <div class="form-group shadow-textarea">
+                                                <label for="exampleFormControlTextarea6"></label>
+                                                {{ form_widget(form.responsabilities, { 'attr': {'class': 'form-control z-depth-1','placeholder':'Responsabilidades'} }) }}
+                                                <span class="error text-danger">{{ form_errors(form.responsabilities) }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="education" class="row">
+                                        <label class="col-md-3 col-form-label">Educación</label>
+                                        <div class="col-md-9">
+                                            <div class="form-group shadow-textarea">
+                                                <label for="exampleFormControlTextarea6"></label>
+                                                {{ form_widget(form.education, { 'attr': {'class': 'form-control z-depth-1','placeholder':'Educación'} }) }}
+                                                <span class="error text-danger">{{ form_errors(form.education) }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="others" class="row">
+                                        <label class="col-md-3 col-form-label">Otros beneficios</label>
+                                        <div class="col-md-9">
+                                            <div class="form-group shadow-textarea">
+                                                <label for="exampleFormControlTextarea6"></label>
+                                                {{ form_widget(form.others, { 'attr': {'class': 'form-control z-depth-1','placeholder':'Otros beneficios'} }) }}
+                                                <span class="error text-danger">{{ form_errors(form.others) }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="post-location" class="form-group row">
+                                        <label class="col-md-3 col-form-label">Su ubicación</label>
+                                        <div class="col-md-9">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        {{ form_widget(form.country, { 'attr': {'class': 'form-control'} }) }}
+                                                        <span class="error text-danger">{{ form_errors(form.country) }}</span>
+                                                        <i class="fa fa-caret-down"></i>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        {{ form_widget(form.city, { 'attr': {'class': 'form-control','placeholder':'Ciudad'} }) }}
+                                                        <span class="error text-danger">{{ form_errors(form.city) }}</span>
+                                                        {#<i class="fa fa-caret-down"></i>#}
+                                                    </div>
+                                                    <div class="form-group">
+                                                        {{ form_widget(form.zip_code, { 'attr': {'class': 'form-control','placeholder':'Código postal'} }) }}
+                                                        <span class="error text-danger">{{ form_errors(form.zip_code) }}</span>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        {{ form_widget(form.your_localtion, { 'attr': {'class': 'form-control','placeholder':'Su ubicación'} }) }}
+                                                        <span class="error text-danger">{{ form_errors(form.your_localtion) }}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="set-location">
+                                                        <h5>Seleccione su ubicación</h5>
+                                                        <div id="map-area" class="contact-location">
+                                                            <div class="cp-map" id="location" data-lat="40.713355" data-lng="-74.005535" data-zoom="50"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="about-company" class="row">
+                                        <label class="col-md-3 col-form-label">Acerca de la compañía</label>
+                                        <div class="col-md-9">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        {{ form_widget(form.company_name, { 'attr': {'class': 'form-control','placeholder':'Nombre de la compañía'} }) }}
+                                                        <span class="error text-danger">{{ form_errors(form.company_name) }}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        {{ form_widget(form.web_address, { 'attr': {'class': 'form-control','placeholder':'Dirección web'} }) }}
+                                                        <span class="error text-danger">{{ form_errors(form.web_address) }}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group shadow-textarea">
+                                                        {#<label for="exampleFormControlTextarea6"></label>#}
+                                                        {{ form_widget(form.campany_profile, { 'attr': {'rows':'3','class': 'form-control z-depth-1','placeholder':'Descripción del trabajo'} }) }}
+                                                        <span class="error text-danger">{{ form_errors(form.campany_profile) }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <label class="col-md-3 col-form-label">Seleccione el paquete</label>
+                                        <div class="col-md-9">
+                                            <div class="package-select">
+                                                <div class="package-select-inputs">
+                                                    <div class="form-group">
+                                                        <input class="custom-radio" type="radio" id="radio_1"
+                                                               name="my-radio" value="1" checked>
+                                                        <label for="radio_1">
+                                                            <span class="dot"></span>
+                                                            <span class="package-type">GRATIS</span>
+                                                            $0.00
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input class="custom-radio" type="radio" id="radio_2"
+                                                               name="my-radio" value="1">
+                                                        <label for="radio_2">
+                                                            <span class="dot"></span> <span
+                                                                    class="package-type">BÁSICO</span> $90.00
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input class="custom-radio" type="radio" id="radio_3"
+                                                               name="my-radio" value="1">
+                                                        <label for="radio_3">
+                                                            <span class="dot"></span> <span
+                                                                    class="package-type">PYME</span> $150.00
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input class="custom-radio" type="radio" id="radio_4"
+                                                               name="my-radio" value="1">
+                                                        <label for="radio_4">
+                                                            <span class="dot"></span> <span
+                                                                    class="package-type">PLUS</span> $300.00
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="payment-method">
+                                                    <a href="#" class="credit active"><i class="fas fa-credit-card"></i>Credit Card</a>
+                                                    <a href="#" class="paypal"><i class="fab fa-cc-paypal"></i>PayPal</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-md-9 offset-md-3">
+                                            <div class="form-group terms">
+                                                <input class="custom-radio" required type="checkbox" id="radio-4" name="termsandcondition">
+                                                <label for="radio-4">
+                                                    <span class="dot"></span> Acepta nuestros <a href="#">Términos y Condiciones</a> y <a href="#">Política de privacidad</a>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 col-form-label"></label>
+                                        <div class="col-md-9">
+                                            {{ form_widget(form.save, { 'attr': {'class': 'button'} }) }}
+                                        </div>
+                                    </div>
+
+                                </div>
+                            {{ form_rest(form) }}
+                            {{ form_end(form) }}
+                        </div>
+                        <div class="post-sidebar">
+                            <h5><i data-feather="arrow-down-circle"></i>Navegación</h5>
+                            <ul class="sidebar-menu">
+                                <li><a href="#job-title">Título del empleo</a></li>
+                                <li><a href="#job-summery">Resumen del empleo</a></li>
+                                <li><a href="#job-description">Descripción del empleo</a></li>
+                                <li><a href="#response">Responsabilidades</a></li>
+                                <li><a href="#education">Educación</a></li>
+                                <li><a href="#others">Tú ubicación</a></li>
+                                <li><a href="#post-location">Sobre la compañía</a></li>
+                                <li><a href="#package">Selección de paquete</a></li>
+                            </ul>
+                            {#<div class="signin-option">#}
+                                {#<p>Have an Account ? Before submit job you need to sign in !</p>#}
+                                {#<div class="buttons">#}
+                                    {#<a href="#" class="signin" data-toggle="modal" data-target="#exampleModalLong">Sign in</a>#}
+                                    {#<a href="#" class="register" data-toggle="modal" data-target="#exampleModalLong2">Register</a>#}
+                                {#</div>#}
+                                {#<!-- Modal -->#}
+                                {#<div class="account-entry">#}
+                                    {#<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-hidden="true">#}
+                                        {#<div class="modal-dialog" role="document">#}
+                                            {#<div class="modal-content">#}
+                                                {#<div class="modal-header">#}
+                                                    {#<h5 class="modal-title"><i data-feather="user"></i>Login</h5>#}
+                                                    {#<button type="button" class="close" data-dismiss="modal" aria-label="Close">#}
+                                                        {#<span aria-hidden="true">&times;</span>#}
+                                                    {#</button>#}
+                                                {#</div>#}
+                                                {#<div class="modal-body">#}
+                                                    {#<form action="#">#}
+                                                        {#<div class="form-group">#}
+                                                            {#<input type="email" placeholder="Email Address" class="form-control">#}
+                                                        {#</div>#}
+                                                        {#<div class="form-group">#}
+                                                            {#<input type="password" placeholder="Password" class="form-control">#}
+                                                        {#</div>#}
+                                                        {#<div class="more-option">#}
+                                                            {#<div class="form-check">#}
+                                                                {#<input class="form-check-input" type="checkbox" value="" id="defaultCheck1">#}
+                                                                {#<label class="form-check-label" for="defaultCheck1">#}
+                                                                    {#Remember Me#}
+                                                                {#</label>#}
+                                                            {#</div>#}
+                                                            {#<a href="#">Forget Password?</a>#}
+                                                        {#</div>#}
+                                                        {#<button class="button primary-bg btn-block">Login</button>#}
+                                                    {#</form>#}
+                                                    {#<div class="shortcut-login">#}
+                                                        {#<span>Or connect with</span>#}
+                                                        {#<div class="buttons">#}
+                                                            {#<a href="#" class="facebook"><i class="fab fa-facebook-f"></i>Facebook</a>#}
+                                                            {#<a href="#" class="google"><i class="fab fa-google"></i>Google</a>#}
+                                                        {#</div>#}
+                                                        {#<p>Don't have an account? <a href="#">Register</a></p>#}
+                                                    {#</div>#}
+                                                {#</div>#}
+                                            {#</div>#}
+                                        {#</div>#}
+                                    {#</div>#}
+                                    {#<div class="modal fade" id="exampleModalLong2" tabindex="-1" role="dialog" aria-hidden="true">#}
+                                        {#<div class="modal-dialog" role="document">#}
+                                            {#<div class="modal-content">#}
+                                                {#<div class="modal-header">#}
+                                                    {#<h5 class="modal-title"><i data-feather="edit"></i>Registration</h5>#}
+                                                    {#<button type="button" class="close" data-dismiss="modal" aria-label="Close">#}
+                                                        {#<span aria-hidden="true">&times;</span>#}
+                                                    {#</button>#}
+                                                {#</div>#}
+                                                {#<div class="modal-body">#}
+                                                    {#<div class="account-type">#}
+                                                        {#<a href="#" class="candidate-acc active"><i data-feather="user"></i>Candidate</a>#}
+                                                        {#<a href="#" class="employer-acc"><i data-feather="briefcase"></i>Employer</a>#}
+                                                    {#</div>#}
+                                                    {#<form action="#">#}
+                                                        {#<div class="form-group">#}
+                                                            {#<input type="text" placeholder="Username" class="form-control">#}
+                                                        {#</div>#}
+                                                        {#<div class="form-group">#}
+                                                            {#<input type="email" placeholder="Email Address" class="form-control">#}
+                                                        {#</div>#}
+                                                        {#<div class="form-group">#}
+                                                            {#<input type="password" placeholder="Password" class="form-control">#}
+                                                        {#</div>#}
+                                                        {#<div class="more-option terms">#}
+                                                            {#<div class="form-check">#}
+                                                                {#<input class="form-check-input" type="checkbox" value="" id="defaultCheck2">#}
+                                                                {#<label class="form-check-label" for="defaultCheck2">#}
+                                                                    {#I accept the <a href="#">terms & conditions</a>#}
+                                                                {#</label>#}
+                                                            {#</div>#}
+                                                        {#</div>#}
+                                                        {#<button class="button primary-bg btn-block">Register</button>#}
+                                                    {#</form>#}
+                                                    {#<div class="shortcut-login">#}
+                                                        {#<span>Or connect with</span>#}
+                                                        {#<div class="buttons">#}
+                                                            {#<a href="#" class="facebook"><i class="fab fa-facebook-f"></i>Facebook</a>#}
+                                                            {#<a href="#" class="google"><i class="fab fa-google"></i>Google</a>#}
+                                                        {#</div>#}
+                                                        {#<p>Already have an account? <a href="#">Login</a></p>#}
+                                                    {#</div>#}
+                                                {#</div>#}
+                                            {#</div>#}
+                                        {#</div>#}
+                                    {#</div>#}
+                                {#</div>#}
+                            {#</div>#}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
