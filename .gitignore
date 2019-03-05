@@ -32,8 +32,6 @@
 .idea/
 deploy/logs
 node_modules/
-symfony.lock
-
 
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
