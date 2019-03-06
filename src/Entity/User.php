@@ -8,18 +8,20 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="fos_user")
  * @Vich\Uploadable
+ * @UniqueEntity(fields={"email"}, message="La dirección de correo proporcionada ya está en uso")
+ * @UniqueEntity(fields={"username"}, message="El nombre de usuario proporcionado ya está en uso")
  */
 class User extends BaseUser
 {
@@ -112,6 +114,16 @@ class User extends BaseUser
      * @ORM\OneToOne(targetEntity="App\Entity\Resume", mappedBy="user")
      */
     private $resume;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Title")
+     */
+    private $higherLevelTitlee;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Profession")
+     */
+    private $profession;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category")
@@ -651,4 +663,37 @@ class User extends BaseUser
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getHigherLevelTitlee()
+    {
+        return $this->higherLevelTitlee;
+    }
+
+    /**
+     * @param mixed $higherLevelTitlee
+     */
+    public function setHigherLevelTitlee($higherLevelTitlee): void
+    {
+        $this->higherLevelTitlee = $higherLevelTitlee;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProfession()
+    {
+        return $this->profession;
+    }
+
+    /**
+     * @param mixed $profession
+     */
+    public function setProfession($profession): void
+    {
+        $this->profession = $profession;
+    }
+
 }

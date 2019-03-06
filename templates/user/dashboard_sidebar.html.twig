@@ -31,8 +31,8 @@
             <li class="{% if currentPath == '/dashboard/resume/edit' %}active{% endif %}"><i class="fas fa-edit"></i><a href="{{ path('dashboard_resume_edit') }}">Editar Curriculum Vitae</a></li>
             <li class="{% if currentPath == '/dashboard/bookmarked' %}active{% endif %}"><i class="fas fa-heart"></i><a href="{{ path('dashboard_bookmarked') }}">Marcados</a></li>
             <li class="{% if currentPath == '/dashboard/applied' %}active{% endif %}"><i class="fas fa-check-square"></i><a href="{{ path('dashboard_applied') }}">Aplicados</a></li>
-            <li class="{% if currentPath == '/dashboard' %}{% endif %}"><i class="fas fa-comment"></i><a href="dashboard-message.html">Mensajes</a></li>
-            <li class="{% if currentPath == '/dashboard' %}{% endif %}"><i class="fas fa-calculator"></i><a href="dashboard-pricing.html">Plan de precios</a></li>
+            {#<li class="{% if currentPath == '/dashboard' %}{% endif %}"><i class="fas fa-comment"></i><a href="dashboard-message.html">Mensajes</a></li>#}
+            {#<li class="{% if currentPath == '/dashboard' %}{% endif %}"><i class="fas fa-calculator"></i><a href="dashboard-pricing.html">Plan de precios</a></li>#}
         </ul>
         <ul class="delete">
             <li><i class="fas fa-power-off"></i><a href="/logout">Salir</a></li>

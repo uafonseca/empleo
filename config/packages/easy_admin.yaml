@@ -90,3 +90,23 @@ easy_admin:
             - user
             - company_name
             - image
+      Title:
+        class: App\Entity\Title
+        form:
+          fields:
+          - name
+          - description
+        list:
+          fields:
+          - name
+          - description
+      Profession:
+        class: App\Entity\Profession
+        form:
+          fields:
+          - name
+          - description
+        list:
+          fields:
+          - name
+          - description

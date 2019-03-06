@@ -2,37 +2,9 @@
 
 {% block title %}Log in!{% endblock %}
 {% block body %}
-{#<form id="login-form" method="post" action="{{ path("fos_user_security_check") }}">#}
-    {#{% if error %}#}
-        {#<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>#}
-    {#{% endif %}#}
-    {#<div class="form-group">#}
-        {#<input type="text" value="{{ last_username }}" name="_username" id="inputUsername" class="form-control" placeholder="Usuario o dirección de correo electrónico" required autofocus>#}
-    {#</div>#}
-    {#<div class="form-group">#}
-        {#<input type="password" name="_password" id="inputPassword" class="form-control" placeholder="Contraseña" required>#}
-        {#<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">#}
-    {#</div>#}
-    {#<div class="more-option">#}
-        {#<div class="form-check">#}
-            {#<input class="form-check-input" type="checkbox" value="" id="defaultCheck1">#}
-            {#<label class="form-check-label" for="defaultCheck1">#}
-                {#Recuérdame#}
-            {#</label>#}
-        {#</div>#}
-        {#<a href="#">¿Olvidó su contraseña?</a>#}
-    {#</div>#}
-    {#<button id="_submit" type="submit" class="button primary-bg btn-block">Entrar</button>#}
-{#</form>#}
-
-
-
-
-
-
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!------ Include the above in your HEAD tag ---------->
 
     <div class="login-reg-panel">
@@ -45,10 +17,8 @@
 
         <div class="register-info-box">
             <h2>¿Aun no tienes una cuenta?</h2>
-            {#<p>Lorem ipsum dolor sit amet</p>#}
             <a href="{{ path('fos_user_registration_register') }}">
                 <label id="label-login" for="log-login-show">Registrate</label>
-                {#<input type="radio" name="active-log-panel" id="log-login-show">#}
             </a>
 
         </div>
@@ -60,7 +30,6 @@
                 {% if error %}
                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                 {% endif %}
-
                     <input type="text" value="{{ last_username }}" name="_username" placeholder="Usuario o dirección de correo electrónico" required autofocus>
                     <input type="password" name="_password" placeholder="Contraseña" required>
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
@@ -68,17 +37,6 @@
                 <input type="submit" value="Entrar">
             </div>
             </form>
-            {#<div class="register-show">#}
-                {#<h2>REGISTER</h2>#}
-                {#{{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}#}
-                {#{{ form_widget(form) }}#}
-                {#<input type="button" value="Register">#}
-                {#{{ form_end(form) }}#}
-                {#<input type="text" placeholder="Email">#}
-                {#<input type="password" placeholder="Password">#}
-                {#<input type="password" placeholder="Confirm Password">#}
-                {#<input type="button" value="Register">#}
-            {#</div>#}
         </div>
     </div>
     <style>

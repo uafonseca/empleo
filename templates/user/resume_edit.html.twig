@@ -33,12 +33,17 @@
                         <div class="dashboard-content-wrapper">
                             <div class="download-resume dashboard-section">
                                 {{ form_start(form_files,{attr: {'action': '/dashboard/resume/edit'} } ) }}
-                                <div class="update-file">
-                                    {{ form_widget(form_files.cvFile) }}Actualizar CV <i data-feather="edit-2"></i>
-                                    {#{{ form_errors(form_files.cartFile) }}#}
+                                <div class="my-tooltip">
+                                    <span class="tooltiptext">Selecciona un archivo de tipo PDF</span>
+                                    <div id="upl" class="update-file"    >
+                                        {{ form_widget(form_files.cvFile) }}Actualizar CV <i data-feather="edit-2"></i>
+                                    </div>
                                 </div>
-                                <div class="update-file">
-                                    {{ form_widget(form_files.cartFile) }}Actualizar carta de presentación <i data-feather="edit-2"></i>
+                                <div class="my-tooltip">
+                                    <span class="tooltiptext">Selecciona un archivo de tipo PDF</span>
+                                    <div class="update-file">
+                                        {{ form_widget(form_files.cartFile) }}Actualizar carta de presentación <i data-feather="edit-2"></i>
+                                    </div>
                                 </div>
                                 <div class="update-file">
                                     <input type="submit" class="btn btn-primary" value="Guardar">Guardar <i data-feather="save"></i>

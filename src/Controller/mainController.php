@@ -22,6 +22,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use App\constants;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class mainController extends AbstractController
 {
@@ -38,9 +39,6 @@ class mainController extends AbstractController
 //
 //
 //        $mailer->send($message);
-
-        $error = $authenticationUtils->getLastAuthenticationError();
-        $lastUsername = $authenticationUtils->getLastUsername();
         $em = $this->getDoctrine()->getManager();
         $jobs = $em->getRepository(Job::class)->findAll();
         return $this->render('site/job/index.html.twig', [
@@ -88,13 +86,23 @@ class mainController extends AbstractController
 
     /**
      * @Route("/dashboard", name="dashboard")
+     * Require IS_AUTHENTICATED_FULLY for *every* controller method in this class.
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
     public function dashboard()
     {
         $notifications = $this->loadNotifications();
-        return $this->render('user/dashboard.html.twig',array(
-            'notifications'=>$notifications,
-        ));
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        if (in_array('ROLE_ADMIN', $user->getRoles())) {
+            return $this->render('user/employer/dashboard.html.twig',array(
+                'notifications'=>$notifications,
+            ));
+        }
+        else{
+            return $this->render('user/dashboard.html.twig',array(
+                'notifications'=>$notifications,
+            ));
+        }
     }
     /**
      * @Route("/dashboard/edit", name="dashboard_edit")
@@ -115,13 +123,22 @@ class mainController extends AbstractController
             $notification->setActive(true);
             $entityManager->persist($notification);
             $entityManager->flush();
+            return $this->redirectToRoute('dashboard_resume_edit');
         }
-        $notifications = $this->loadNotifications();
-        return $this->render('user/edit_profile.html.twig',
-            array(
-                'form'=>$form->createView(),
-                'notifications'=>$notifications,
-            ));
+        if(in_array('ROLE_ADMIN', $user->getRoles())){
+            return $this->render('user/employer/edit_profile.html.twig',
+                array(
+                    'form'=>$form->createView(),
+                    'notifications'=>$this->loadNotifications(),
+                ));
+        }
+        else{
+            return $this->render('user/edit_profile.html.twig',
+                array(
+                    'form'=>$form->createView(),
+                    'notifications'=>$this->loadNotifications(),
+                ));
+        }
     }
     /**
      * @Route("/ajax", name="ajax")
@@ -194,7 +211,6 @@ class mainController extends AbstractController
                 'notifications'=>$this->loadNotifications(),
                 'form_resume'=>$form->createView(),
                 'form_files'=>$formFiles->createView(),
-                'notifications'=>$this->loadNotifications(),
                 'metas'=>$metas,
             ));
     }

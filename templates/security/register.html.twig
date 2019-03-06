@@ -2,9 +2,9 @@
 
 {% block title %}Reguistrarse{% endblock %}
 {% block body %}
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <!------ Include the above in your HEAD tag ---------->
     <div class="login-reg-panel">
@@ -21,16 +21,19 @@
             <div class="login-show">
                 <h2>Registrarse</h2>
                 {{ form_widget(form.email,{'attr': {'placeholder': ' Dirección de correo'} }) }}
+                {% if form_errors(form.email) %}  <div class="alert alert-danger">{{ form_errors(form.email)}}</div>{% endif %}
                 {{ form_widget(form.username,{'attr': {'placeholder': ' Nombre de usuario'} }) }}
+                {% if form_errors(form.email) %}<div class="alert alert-danger">{{ form_errors(form.username)}}</div>{% endif %}
                 {{ form_widget(form.plainPassword,{'attr': {'placeholder': ' Dirección de correo'} }) }}
-                        {{ form_widget(form.candidate, {attr:{'type':'hidden'}}) }}
-                        {{ form_widget(form.employer, {attr:{'type':'hidden'}}) }}
+                {% if form_errors(form.email) %}<div class="alert alert-danger">{{ form_errors(form.plainPassword)}}</div>{% endif %}
+                {{ form_widget(form.candidate, {attr:{'type':'hidden'}}) }}
+                {{ form_widget(form.employer, {attr:{'type':'hidden'}}) }}
                 <div class="select">
                     <a href="#" class="select " id="employer">Empleador</a>
                     <a href="#" class="select active" id="candidate">Candidato</a>
                 </div>
                 <div>
-                    <input type="submit" required value="Reguistrarse"/>
+                    <input type="submit" required value="Registrarse"/>
                 </div>
             </div>
             {{ form_end(form) }}
@@ -247,14 +250,14 @@
         $('label.required').remove();
 
         $('#candidate').on('click',function () {
-            $('#employer').removeClass('active')
-            $('#candidate').addClass('active')
+            $('#employer').removeClass('active');
+            $('#candidate').addClass('active');
             $('#user_candidate').prop('checked', true);
             $('#user_employer').prop('checked', false);
         });
         $('#employer').on('click',function () {
-            $('#candidate').removeClass('active')
-            $('#employer').addClass('active')
+            $('#candidate').removeClass('active');
+            $('#employer').addClass('active');
             $('#user_candidate').prop('checked', false);
             $('#user_employer').prop('checked', true);
         });

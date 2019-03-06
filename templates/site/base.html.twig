@@ -95,6 +95,9 @@
             </ul>
             <ul class="navbar-nav ml-auto main-nav">
                 <li class="menu-item active"><a title="Home" href="{{ path('homepage') }}">Inicio</a></li>
+                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                    <li class="menu-item active"><a title="Home" href="/admin">Administración</a></li>
+                {% endif %}
                 <li class="menu-item dropdown">
                     <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">Empleos </a>
                     <ul  class="dropdown-menu">
@@ -115,13 +118,12 @@
                         <li class="menu-item"><a title="About" href="{{ path('job_new') }}">Publicar trabajo</a></li>
                     </ul>
                 </li>
-                {% endif %}
-                {% if is_granted('ROLE_USER') %}
+                {% elseif is_granted('ROLE_USER') %}
                 <li class="menu-item dropdown">
                     <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">Candidato</a>
                     <ul  class="dropdown-menu">
                         <li class="menu-item"><a title="About" href="{{ path('candidates') }}">Lista de candidatos</a></li>
-                        <li class="menu-item"><a title="About" href="candidate-details.html">Detalles del Candidato</a></li>
+                        <li class="menu-item"><a title="About" href="#">Detalles del Candidato</a></li>
                         <li class="menu-item"><a title="About" href="{{ path('dashboard') }}">Tablero</a></li>
                         <li class="menu-item"><a title="About" href="{{ path('dashboard_edit') }}">Editar perfil</a></li>
                         <li class="menu-item"><a title="About" href="{{ path('dashboard_resume_edit') }}">Agregar Curriculum Vitae</a></li>
@@ -129,25 +131,25 @@
                         <li class="menu-item"><a title="About" href="{{ path('dashboard_resume_edit') }}">Editar Curriculum Vitae</a></li>
                         <li class="menu-item"><a title="About" href="{{ path('dashboard_bookmarked') }}">Marcados</a></li>
                         <li class="menu-item"><a title="About" href="{{ path('dashboard_applied') }}">Aplicado</a></li>
-                        <li class="menu-item"><a title="About" href="dashboard-pricing.html">Determinación de precios</a></li>
-                        <li class="menu-item"><a title="About" href="dashboard-message.html">Mensaje</a></li>
-                        <li class="menu-item"><a title="About" href="dashboard-alert.html">Alerta</a></li>
+                        {#<li class="menu-item"><a title="About" href="#">Determinación de precios</a></li>#}
+                        {#<li class="menu-item"><a title="About" href="#">Mensaje</a></li>#}
+                        {#<li class="menu-item"><a title="About" href="#">Alerta</a></li>#}
                     </ul>
                 </li>
                 {% endif %}
                 <li class="menu-item dropdown">
                     <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">Páginas</a>
                     <ul  class="dropdown-menu">
-                        <li class="menu-item"><a title="About" href="about-us.html">Sobre Nosotros</a></li>
-                        <li class="menu-item"><a title="About" href="blog.html">Blog</a></li>
-                        <li class="menu-item"><a title="About" href="contact.html">Contáctenos</a></li>
-                        <li class="menu-item"><a title="About" href="pricing.html">Determinación de precios</a></li>
-                        <li class="menu-item"><a title="About" href="how-it-work.html">Cómo funciona</a></li>
-                        <li class="menu-item"><a title="About" href="faq.html">FAQ</a></li>
-                        <li class="menu-item"><a title="About" href="checkout.html">Realizar Pedido</a></li>
-                        <li class="menu-item"><a title="About" href="payment-complete.html">Pago Completo</a></li>
-                        <li class="menu-item"><a title="About" href="invoice.html">Factura</a></li>
-                        <li class="menu-item"><a title="About" href="terms-and-condition.html">Términos y condiciones</a></li>
+                        <li class="menu-item"><a title="About" href="#">Sobre Nosotros</a></li>
+                        <li class="menu-item"><a title="About" href="#">Blog</a></li>
+                        <li class="menu-item"><a title="About" href="#">Contáctenos</a></li>
+                        <li class="menu-item"><a title="About" href="#">Determinación de precios</a></li>
+                        <li class="menu-item"><a title="About" href="#">Cómo funciona</a></li>
+                        <li class="menu-item"><a title="About" href="#">FAQ</a></li>
+                        <li class="menu-item"><a title="About" href="#">Realizar Pedido</a></li>
+                        <li class="menu-item"><a title="About" href="#">Pago Completo</a></li>
+                        <li class="menu-item"><a title="About" href="#">Factura</a></li>
+                        <li class="menu-item"><a title="About" href="#">Términos y condiciones</a></li>
                     </ul>
                 </li>
                 {% if is_granted('IS_AUTHENTICATED_FULLY') == false %}
@@ -158,6 +160,7 @@
 
             </ul>
             <ul class="navbar-nav ml-auto account-nav">
+                {% if is_granted('IS_AUTHENTICATED_FULLY')%}
                 <li class="dropdown menu-item header-top-notification">
                     <a href="#" class="notification-button"></a>
                     <div class="notification-card">
@@ -179,6 +182,7 @@
                         </div>
                     </div>
                 </li>
+                {% endif %}
                 {% if app.user == false %}
                     <li class="menu-item login-popup"><button title="Title" type="button" data-toggle="modal" data-target="#exampleModalLong">Entrar</button></li>
                     <li class="menu-item login-popup"><a href="{{ path('app_register') }}" title="Registro" type="button" data-toggle="" data-target="#">Registrarse</a></li>
@@ -186,8 +190,9 @@
                     <li class="menu-item dropdown">
                         <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">{{ app.user.username }}</a>
                         <ul  class="dropdown-menu">
-                            <li><a href="{{ path('dashboard') }}"><span class="ti-settings"></span> Configuración</a></li>
-                            <li class="menu-item"><a title="About" href="/logout">Salir</a></li>
+                            <li><a href="{{ path('dashboard') }}"><span class="ti-user"></span> Cuenta</a></li>
+                            <li><a href="{{ path('dashboard_edit') }}"><span class="ti-settings"></span>  Configuración</a></li>
+                            <li><a href="/logout"><span class="ti-power-off"></span>  Salir</a></li>
                         </ul>
                     </li>
                 {% endif %}
@@ -343,22 +348,22 @@
                         </div>
                         <div class="key-info">
                             <ul>
-                                <li><a href="job-listing.html">Accounting / Finance<span>(233)</span></a></li>
-                                <li><a href="job-listing.html">Education<span>(46)</span></a></li>
-                                <li><a href="job-listing.html">Design &amp; Creative<span>(156)</span></a></li>
-                                <li><a href="job-listing.html">Health Care<span>(98)</span></a></li>
-                                <li><a href="job-listing.html">Engineer &amp; Architects<span>(584)</span></a></li>
-                                <li><a href="job-listing.html">Marketing &amp; Sales<span>(188)</span></a></li>
-                                <li><a href="job-listing.html">Garments / Textile<span>(124)</span></a></li>
-                                <li><a href="job-listing.html">Customer Support<span>(15)</span></a></li>
-                                <li><a href="job-listing.html">Accounting / Finance<span>(233)</span></a></li>
-                                <li><a href="job-listing.html">Education<span>(46)</span></a></li>
-                                <li><a href="job-listing.html">Design &amp; Creative<span>(156)</span></a></li>
-                                <li><a href="job-listing.html">Health Care<span>(98)</span></a></li>
-                                <li><a href="job-listing.html">Engineer &amp; Architects<span>(584)</span></a></li>
-                                <li><a href="job-listing.html">Marketing &amp; Sales<span>(188)</span></a></li>
-                                <li><a href="job-listing.html">Garments / Textile<span>(124)</span></a></li>
-                                <li><a href="job-listing.html">Customer Support<span>(15)</span></a></li>
+                                <li><a href="#">Accounting / Finance<span>(233)</span></a></li>
+                                <li><a href="#">Education<span>(46)</span></a></li>
+                                <li><a href="#">Design &amp; Creative<span>(156)</span></a></li>
+                                <li><a href="#">Health Care<span>(98)</span></a></li>
+                                <li><a href="#">Engineer &amp; Architects<span>(584)</span></a></li>
+                                <li><a href="#">Marketing &amp; Sales<span>(188)</span></a></li>
+                                <li><a href="#">Garments / Textile<span>(124)</span></a></li>
+                                <li><a href="#">Customer Support<span>(15)</span></a></li>
+                                <li><a href="#">Accounting / Finance<span>(233)</span></a></li>
+                                <li><a href="#">Education<span>(46)</span></a></li>
+                                <li><a href="#">Design &amp; Creative<span>(156)</span></a></li>
+                                <li><a href="#">Health Care<span>(98)</span></a></li>
+                                <li><a href="#">Engineer &amp; Architects<span>(584)</span></a></li>
+                                <li><a href="#">Marketing &amp; Sales<span>(188)</span></a></li>
+                                <li><a href="#">Garments / Textile<span>(124)</span></a></li>
+                                <li><a href="#">Customer Support<span>(15)</span></a></li>
                             </ul>
                         </div>
                     </div>
@@ -409,18 +414,18 @@
                         </div>
                         <div class="key-info">
                             <ul>
-                                <li><a href="job-listing.html">Digoin<span>(233)</span></a></li>
-                                <li><a href="job-listing.html">Orion Ltd.<span>(46)</span></a></li>
-                                <li><a href="job-listing.html">RealHouse<span>(156)</span></a></li>
-                                <li><a href="job-listing.html">BioPro Phrma<span>(98)</span></a></li>
-                                <li><a href="job-listing.html">Homeland<span>(584)</span></a></li>
-                                <li><a href="job-listing.html">Realouse<span>(188)</span></a></li>
-                                <li><a href="job-listing.html">Healthyete<span>(124)</span></a></li>
-                                <li><a href="job-listing.html">Theoreo<span>(15)</span></a></li>
-                                <li><a href="job-listing.html">Homeland<span>(584)</span></a></li>
-                                <li><a href="job-listing.html">Realouse<span>(188)</span></a></li>
-                                <li><a href="job-listing.html">Healthyete<span>(124)</span></a></li>
-                                <li><a href="job-listing.html">Theoreo<span>(15)</span></a></li>
+                                <li><a href="#">Digoin<span>(233)</span></a></li>
+                                <li><a href="#">Orion Ltd.<span>(46)</span></a></li>
+                                <li><a href="#">RealHouse<span>(156)</span></a></li>
+                                <li><a href="#">BioPro Phrma<span>(98)</span></a></li>
+                                <li><a href="#">Homeland<span>(584)</span></a></li>
+                                <li><a href="#">Realouse<span>(188)</span></a></li>
+                                <li><a href="#">Healthyete<span>(124)</span></a></li>
+                                <li><a href="#">Theoreo<span>(15)</span></a></li>
+                                <li><a href="#">Homeland<span>(584)</span></a></li>
+                                <li><a href="#">Realouse<span>(188)</span></a></li>
+                                <li><a href="#">Healthyete<span>(124)</span></a></li>
+                                <li><a href="#">Theoreo<span>(15)</span></a></li>
                             </ul>
                         </div>
                     </div>
@@ -753,6 +758,7 @@
 <script src="{{ asset('site/js/map.js') }}"></script>
 <script src="{{ asset('site/js/utils.js') }}"></script>
     {% block js %}{% endblock %}
+</div>
 </body>
 {% endblock %}
 </html>

@@ -1,0 +1,40 @@
+{% set currentPath = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
+<div class="dashboard-sidebar">
+    <div class="company-info">
+        <div class="thumb">
+            <img src="{{ asset('images/user/')~ app.user.image }}" class="img-fluid" alt="">
+        </div>
+        <div class="company-body">
+            <h5>{{ app.user.name }}</h5>
+            <span>@{{ app.user.username }}</span>
+        </div>
+    </div>
+    <div class="profile-progress">
+        <div class="progress-item">
+            <div class="progress-head">
+                <p class="progress-on">Perfil</p>
+            </div>
+            <div class="progress-body">
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width: 0;"></div>
+                </div>
+                <p class="progress-to">70%</p>
+            </div>
+        </div>
+    </div>
+    <div class="dashboard-menu">
+        <ul>
+            <li class="{% if currentPath == '/dashboard' %}active{% endif %}"><i class="fas fa-home"></i><a href="#">Tablero</a></li>
+            <li class="{% if currentPath == '/dashboard/edit' %}active{% endif %}"><i class="fas fa-user"></i><a href="{{ path('dashboard_edit') }}">Editar perfil</a></li>
+            <li class="{% if currentPath == '/dashboard' %}{% endif %}"><i class="fas fa-briefcase"></i><a href="#">Administrar trabajos</a></li>
+            <li class="{% if currentPath == '/dashboard' %}{% endif %}"><i class="fas fa-users"></i><a href="#">Administrar candidatos</a></li>
+            <li class="{% if currentPath == '/dashboard' %}{% endif %}"><i class="fas fa-heart"></i><a href="#">CV preseleccionados</a></li>
+            <li class="{% if currentPath == '/dashboard' %}{% endif %}"><i class="fas fa-plus-square"></i><a href="{{ path('job_new') }}">Publicar empleo</a></li>
+            {#<li><i class="fas fa-comment"></i><a href="#">Message</a></li>#}
+            {#<li><i class="fas fa-calculator"></i><a href="#">Pricing Plans</a></li>#}
+        </ul>
+        <ul class="delete">
+            <li><i class="fas fa-power-off"></i><a href="#">Logout</a></li>
+        </ul>
+    </div>
+</div>

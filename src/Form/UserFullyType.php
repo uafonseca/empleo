@@ -10,25 +10,24 @@ namespace App\Form;
 
 
 use App\Entity\Category;
+use App\Entity\Profession;
+use App\Entity\Title;
 use App\Entity\User;
-use Doctrine\DBAL\Types\IntegerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class UserFullyType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name',null,array('required'=>false))
+            ->add('name',null,array('required'=>true))
             ->add('username',null,array('required'=>true))
             ->add('email',null,array('required'=>true))
             ->add('imageFile',FileType::class,array('required'=>false))
@@ -41,6 +40,7 @@ class UserFullyType extends AbstractType
                     'Temporal' => 'temporary',
                     'Independiente' => 'freelance',
                 ],
+                'required'=>true,
             ])
             ->add('gender',ChoiceType::class,[
                 'choices' => [
@@ -48,17 +48,30 @@ class UserFullyType extends AbstractType
                     'Másculino' => 'M',
                     'Otro' => 'O',
                 ],
+                'required'=>true,
             ])
-            ->add('qualification',null,array('required'=>false))
+            ->add('higherLevelTitlee',EntityType::class, [
+                'class'=> Title::class,
+                'placeholder'=>'Título de mayor nivel',
+                'choice_label' => 'name',
+            ])
+            ->add('profession',EntityType::class, [
+                'class'=> Profession::class,
+                'placeholder'=>'Profesión',
+                'choice_label' => 'name',
+                'required'=>true,
+            ])
+            ->add('qualification',null,array('required'=>true))
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'placeholder' => 'Categoría',
                 'choice_label' => 'name',
+                'required'=>true,
             ])
-            ->add('age',\Symfony\Component\Form\Extension\Core\Type\IntegerType::class,array('required'=>false))
-            ->add('experience',\Symfony\Component\Form\Extension\Core\Type\IntegerType::class,array('required'=>false))
-            ->add('address',null,array('required'=>false))
-            ->add('about',TextareaType::class,array('required'=>false))
+            ->add('age',\Symfony\Component\Form\Extension\Core\Type\IntegerType::class,array('required'=>true))
+            ->add('experience',\Symfony\Component\Form\Extension\Core\Type\IntegerType::class,array('required'=>true))
+            ->add('address',null,array('required'=>true))
+            ->add('about',TextareaType::class,array('required'=>true))
             ->add('videoIntro',UrlType::class,array('required'=>false))
             ->add('socialFacebook',null,array('required'=>false))
             ->add('socialTwitter',null,array('required'=>false))
