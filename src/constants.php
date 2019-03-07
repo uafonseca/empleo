@@ -54,12 +54,11 @@ abstract class constants
     //----------END----------//
 
     //---------BEGIN---------//
-    //--------Payment--------//
+    //-------job_status------//
     const  JOB_STATUS_ACTIVE                 =  "job_active";
     const  JOB_STATUS_PENDING                =  "job_pending";
     const  JOB_STATUS_EXPIRED                =  "job_expired";
-
-    //--------Payment--------//
+    //--------job_status--------//
     //----------END----------//
 
 }
