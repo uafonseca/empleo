@@ -1,40 +1,104 @@
-{% set currentPath = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
-<div class="dashboard-sidebar">
-    <div class="company-info">
-        <div class="thumb">
-            <img src="{{ asset('images/user/')~ app.user.image }}" class="img-fluid" alt="">
-        </div>
-        <div class="company-body">
-            <h5>{{ app.user.name }}</h5>
-            <span>@{{ app.user.username }}</span>
-        </div>
-    </div>
-    <div class="profile-progress">
-        <div class="progress-item">
-            <div class="progress-head">
-                <p class="progress-on">Perfil</p>
-            </div>
-            <div class="progress-body">
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" aria-valuenow="{{ app.user.porcent }}" aria-valuemin="0" aria-valuemax="100" style="width: 0;"></div>
+{% extends 'site/base.html.twig' %}
+{% block title %}Tablero{% endblock %}
+{% block body %}
+<link rel="stylesheet" type="text/css" href="{{ asset('site/dashboard/css/dashboard.css') }}">
+{{  include ('site/header.html.twig',{'notifications': notifications}  )}}
+<div class="alice-bg padding-top-70 padding-bottom-70">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="breadcrumb-area">
+                    <h1>Tablero de empleador</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Tablero de empleador</li>
+                        </ol>
+                    </nav>
                 </div>
-                <p class="progress-to">{{ app.user.porcent }}%</p>
             </div>
         </div>
-    </div>
-    <div class="dashboard-menu">
-        <ul>
-            <li class="{% if currentPath == '/dashboard' %}active{% endif %}"><i class="fas fa-home"></i><a href="#">Tablero</a></li>
-            <li class="{% if currentPath == '/dashboard/edit' %}active{% endif %}"><i class="fas fa-user"></i><a href="{{ path('dashboard_edit') }}">Editar perfil</a></li>
-            <li class="{% if currentPath == '/dashboard' %}{% endif %}"><i class="fas fa-briefcase"></i><a href="#">Administrar trabajos</a></li>
-            <li class="{% if currentPath == '/dashboard' %}{% endif %}"><i class="fas fa-users"></i><a href="#">Administrar candidatos</a></li>
-            <li class="{% if currentPath == '/dashboard' %}{% endif %}"><i class="fas fa-heart"></i><a href="#">CV preseleccionados</a></li>
-            <li class="{% if currentPath == '/dashboard' %}{% endif %}"><i class="fas fa-plus-square"></i><a href="{{ path('job_new') }}">Publicar empleo</a></li>
-            {#<li><i class="fas fa-comment"></i><a href="#">Message</a></li>#}
-            {#<li><i class="fas fa-calculator"></i><a href="#">Pricing Plans</a></li>#}
-        </ul>
-        <ul class="delete">
-            <li><i class="fas fa-power-off"></i><a href="#">Logout</a></li>
-        </ul>
     </div>
 </div>
+<!-- Breadcrumb End -->
+
+<div class="alice-bg section-padding-bottom">
+    <div class="container no-gliters">
+        <div class="row no-gliters">
+            <div class="col">
+                <div class="dashboard-container">
+                    <div class="dashboard-content-wrapper">
+                        <div class="manage-job-container">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Título del empleo</th>
+                                    <th>Aplicaciones</th>
+                                    <th>Fecha tope</th>
+                                    <th>Estado</th>
+                                    <th class="action">Opciones</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for j in jobs %}
+                                <tr class="job-items">
+                                    <td class="title">
+                                        <h5><a href="#">{{ j.title }}</a></h5>
+                                        <div class="info">
+                                            <span class="office-location"><a href="#"><i data-feather="map-pin"></i>{{ j.localtion }}</a></span>
+                                            {% if j.type == 'partial' %}
+                                                <span class="job-type part-time"><a ><i data-feather="clock"></i>A tiempo parcial</a></span>
+                                            {% endif %}
+                                            {% if j.type == 'ful' %}
+                                                <span class="job-type full-time"><a><i data-feather="clock"></i>A tiempo completo</a></span>
+                                            {% endif %}
+                                            {% if j.type == 'temporary' %}
+                                                <span class="job-type temporary"><a ><i data-feather="clock"></i>Temporal</a></span>
+                                            {% endif %}
+                                            {% if j.type == 'freelance' %}
+                                                <span class="job-type freelance"><a ><i data-feather="clock"></i>Independiente</a></span>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                    <td class="application"><a href="#">6 Application(s)</a></td>
+                                    <td class="deadline">{{ j.expiredDate|date('F d, Y')}}</td>
+                                    {% if j.status == 'job_active' %}
+                                        <td class="status active">Activo</td>
+                                    {% endif %}
+                                    {% if j.status == 'job_pending' %}
+                                        <td class="status pending">Pendiente</td>
+                                    {% endif %}
+                                    {% if j.status == 'job_expired' %}
+                                        <td class="status expired">Exirado</td>
+                                    {% endif %}
+                                    <td class="action">
+                                        <a href="#" class="preview"><i data-feather="eye"></i></a>
+                                        <a href="#" class="edit"><i data-feather="edit"></i></a>
+                                        <a href="#" class="remove"><i data-feather="trash-2"></i></a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                            <div class="pagination-list text-center">
+                                <nav class="navigation pagination">
+                                    <div class="nav-links">
+                                        <a class="prev page-numbers" href="#"><i class="fas fa-angle-left"></i></a>
+                                        <a class="page-numbers" href="#">1</a>
+                                        <span aria-current="page" class="page-numbers current">2</span>
+                                        <a class="page-numbers" href="#">3</a>
+                                        <a class="page-numbers" href="#">4</a>
+                                        <a class="next page-numbers" href="#"><i class="fas fa-angle-right"></i></a>
+                                    </div>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                    {% include 'user/employer/dashboard_sidebar.html.twig' %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

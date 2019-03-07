@@ -20,7 +20,14 @@ class JobRepository extends ServiceEntityRepository
     }
     public function findAll()
     {
-        return $this->findBy(array(), array('date' => 'ASC'));
+        return $this->createQueryBuilder('j')
+            ->andWhere('j.expiredDate >= :val')
+            ->setParameter('val', new \DateTime())
+            ->orderBy('j.expiredDate', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+            ;
     }
 
      /**
@@ -39,6 +46,15 @@ class JobRepository extends ServiceEntityRepository
         ;
     }
 
+    public function finJobByUser($user){
+        return $this->createQueryBuilder('j')
+            ->andWhere('j.user = :val')
+            ->setParameter('val', $user)
+            ->orderBy('j.status', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 
 
     public function findOneBySomeField($value): ?Job

@@ -48,7 +48,7 @@
                                            onclick="applied('{{ j.id }}')" class="button">{% if j.id in app.user.applied %}Cancelar{% else %}Aplica ya!{% endif %}</a>
                                         <a onclick="bookMark('{{ j.id }}')" class="favourite {% if j.id in app.user.bookmarked %}active{% endif %} "><i data-feather="heart"></i></a>
                                     </div>
-                                    <p class="deadline">Fecha tope: {{ j.date|date('F d, Y')}}</p>
+                                    <p class="deadline">Fecha tope: {{ j.expiredDate|date('F d, Y')}}</p>
                                 </div>
                                 {% endif %}
                             </div>

@@ -179,19 +179,36 @@ class Job
      * @var File
      */
     protected $imageFile;
+
     /**
      * @ORM\ManyToOne(targetEntity="User")
      *
      */
     private $user;
+
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $gender;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $status;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $expiredDate;
+
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $applications = [];
+
     public function __construct()
     {
-//        $this->category = new ArrayCollection();
+        $this->applications = array();
     }
 
     /**
@@ -313,12 +330,12 @@ class Job
     }
 
 
-    public function getDate(): ?\DateTimeInterface
+    public function getDate(): ?\DateTime
     {
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setDate(\DateTime $date): self
     {
         $this->date = $date;
 
@@ -513,6 +530,60 @@ class Job
     public function setDateCreated($dateCreated): void
     {
         $this->dateCreated = $dateCreated;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     */
+    public function setStatus($status): void
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getApplications()
+    {
+        return $this->applications;
+    }
+
+    /**
+     * @param mixed $applications
+     */
+    public function setApplications(?string $applications): void
+    {
+        $this->applications[] = $applications;
+    }
+    public function removeApplication($applied)
+    {
+        unset($this->applications[$applied]);
+        $this->applications = array_values($this->applications);
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getExpiredDate()
+    {
+        return $this->expiredDate;
+    }
+
+    /**
+     * @param mixed $expiredDate
+     */
+    public function setExpiredDate($expiredDate): void
+    {
+        $this->expiredDate = $expiredDate;
     }
 
 }

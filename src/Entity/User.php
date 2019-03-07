@@ -695,5 +695,52 @@ class User extends BaseUser
     {
         $this->profession = $profession;
     }
+    public function getPorcent(){
+        if(in_array('ROLE_ADMIN',$this->getRoles())){
+            $null_fields =0;
+            foreach ($this as $key => $val) {
+                if(($key == 'name') && ($val == null))$null_fields ++;
+                if(($key == 'image') && ($val == null))$null_fields ++;
+                if(($key == 'companyName') && ($val == null))$null_fields ++;
+                if(($key == 'phone') && ($val == null))$null_fields ++;
+                if(($key == 'address') && ($val == null))$null_fields ++;
+                if(($key == 'about') && ($val == null))$null_fields ++;
+                if(($key == 'videoIntro') && ($val == null))$null_fields ++;
+                if(($key == 'social_facebook') && ($val == null))$null_fields ++;
+                if(($key == 'social_twitter') && ($val == null))$null_fields ++;
+                if(($key == 'social_google') && ($val == null))$null_fields ++;
+                if(($key == 'category') && ($val == null))$null_fields ++;
+                if(($key == 'username') && ($val == null))$null_fields ++;
+                if(($key == 'email') && ($val == null))$null_fields ++;
+            }
+            return round((13-$null_fields)/13*100);
+        }elseif (in_array('ROLE_USER',$this->getRoles())){
+            $null_fields =0;
+            foreach ($this as $key => $val) {
+                if(($key == 'name') && ($val == null))$null_fields ++;
+                if(($key == 'image') && ($val == null))$null_fields ++;
+                if(($key == 'phone') && ($val == null))$null_fields ++;
+                if(($key == 'address') && ($val == null))$null_fields ++;
+                if(($key == 'about') && ($val == null))$null_fields ++;
+                if(($key == 'videoIntro') && ($val == null))$null_fields ++;
+                if(($key == 'social_facebook') && ($val == null))$null_fields ++;
+                if(($key == 'social_twitter') && ($val == null))$null_fields ++;
+                if(($key == 'social_google') && ($val == null))$null_fields ++;
+                if(($key == 'category') && ($val == null))$null_fields ++;
+                if(($key == 'username') && ($val == null))$null_fields ++;
+                if(($key == 'email') && ($val == null))$null_fields ++;
+                if(($key == 'higherLevelTitlee') && ($val == null))$null_fields ++;
+                if(($key == 'profession') && ($val == null))$null_fields ++;
+                if(($key == 'status') && ($val == null))$null_fields ++;
+                if(($key == 'experience') && ($val == null))$null_fields ++;
+                if(($key == 'gender') && ($val == null))$null_fields ++;
+                if(($key == 'age') && ($val == null))$null_fields ++;
+                if(($key == 'qualification') && ($val == null))$null_fields ++;
+            }
+            return round((19-$null_fields)/19*100);
+
+        }
+        return 100;
+    }
 
 }

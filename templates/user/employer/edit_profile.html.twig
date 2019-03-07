@@ -45,8 +45,7 @@
                                         <label class="col-sm-3 col-form-label">Nombre de la compañía<span
                                                     style="color: red">*</span> </label>
                                         <div class="col-sm-9">
-                                            {#<input type="text" class="form-control" placeholder="Company Name">#}
-                                            {{ form_widget(form.companyName, { 'attr': {'class': 'form-control','placeholder':'Nombre de la compañía'} } ) }}
+                                            {{ form_widget(form.companyName, { 'attr': {'required':'required','class': 'form-control','placeholder':'Nombre de la compañía'} } ) }}
                                         </div>
                                     </div>
                                 <div class="form-group row">
@@ -63,48 +62,6 @@
                                         {{ form_widget(form.username, { 'attr': {'class': 'form-control','placeholder':'@usuario'} } ) }}
                                     </div>
                                 </div>
-                                {#<div class="form-group row">#}
-                                    {#<label class="col-sm-3 col-form-label">Género<span#}
-                                                {#style="color: red">*</span></label>#}
-                                    {#<div class="col-sm-9">#}
-                                        {#{{ form_widget(form.gender, { 'attr': {'class': 'form-control','placeholder':'Género'} } ) }}#}
-                                    {#</div>#}
-                                {#</div>#}
-                                {#<div class="form-group row">#}
-                                    {#<label class="col-sm-3 col-form-label">Título de mayor nivel<span#}
-                                                {#style="color: red">*</span></label>#}
-                                    {#<div class="col-sm-9">#}
-                                        {#{{ form_widget(form.higherLevelTitlee, { 'attr': {'class': 'form-control'} } ) }}#}
-                                    {#</div>#}
-                                {#</div>#}
-                                {#<div class="form-group row">#}
-                                    {#<label class="col-sm-3 col-form-label">Profesión/Ocupación<span#}
-                                                {#style="color: red">*</span></label>#}
-                                    {#<div class="col-sm-9">#}
-                                        {#{{ form_widget(form.profession, { 'attr': {'class': 'form-control'} } ) }}#}
-                                    {#</div>#}
-                                {#</div>#}
-
-                                {#<div class="form-group row">#}
-                                    {#<label class="col-sm-3 col-form-label">Años de experiencia<span#}
-                                                {#style="color: red">*</span></label>#}
-                                    {#<div class="col-sm-9">#}
-                                        {#{{ form_widget(form.experience, { 'attr': {'class': 'form-control','placeholder':'Años de experiencia'} } ) }}#}
-                                    {#</div>#}
-                                {#</div>#}
-                                {#<div class="form-group row">#}
-                                    {#<label class="col-sm-3 col-form-label">Edad<span style="color: red">*</span></label>#}
-                                    {#<div class="col-sm-9">#}
-                                        {#{{ form_widget(form.age, { 'attr': {'class': 'form-control','placeholder':'Edad'} } ) }}#}
-                                    {#</div>#}
-                                {#</div>#}
-                                {#<div class="form-group row">#}
-                                    {#<label class="col-sm-3 col-form-label">Estudios<span#}
-                                                {#style="color: red">*</span></label>#}
-                                    {#<div class="col-sm-9">#}
-                                        {#{{ form_widget(form.qualification, { 'attr': {'class': 'form-control','placeholder':'Universitario'} } ) }}#}
-                                    {#</div>#}
-                                {#</div>#}
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Dirección de correo<span
                                                 style="color: red">*</span></label>
@@ -119,7 +76,8 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">Dirección</label>
+                                    <label class="col-sm-3 col-form-label">Dirección<span
+                                                style="color: red">*</span></label>
                                     <div class="col-sm-9">
                                         {{ form_widget(form.address, { 'attr': {'class': 'form-control','placeholder':'Washington D.C'} } ) }}
                                     </div>
@@ -135,13 +93,6 @@
                                     <label class="col-sm-3 col-form-label">Sobre usted<span style="color: red">*</span></label>
                                     <div class="col-sm-9">
                                         {{ form_widget(form.about, { 'attr': {'class': 'form-control','placeholder':'Sobre usted'} } ) }}
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">Su disponibilidad<span
-                                                style="color: red">*</span></label>
-                                    <div class="col-sm-9">
-                                        {{ form_widget(form.status, { 'attr': {'class': 'form-control','placeholder':'Sobre usted'} } ) }}
                                     </div>
                                 </div>
                             </div>
@@ -194,7 +145,7 @@
                                 </div>
                             </div>
                             <button class="button">Guardar</button>
-                            {{ form_end(form, {'render_rest': false}) }}
+                            {#{{ form_end(form, {'render_rest': false}) }}#}
                             {{ form_end(form) }}
                         </div>
                         {% include 'user/employer/dashboard_sidebar.html.twig' %}
