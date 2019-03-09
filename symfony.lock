@@ -140,6 +140,12 @@
     "jms/metadata": {
         "version": "1.7.0"
     },
+    "knplabs/knp-components": {
+        "version": "v1.3.10"
+    },
+    "knplabs/knp-paginator-bundle": {
+        "version": "v3.0.0"
+    },
     "knplabs/knp-time-bundle": {
         "version": "1.9.0"
     },

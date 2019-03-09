@@ -26,7 +26,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/register", name="app_register")
      */
-    public function register(Request $request)
+    public function register(Request $request, \Swift_Mailer $mailer)
     {
         $user = new User();
         $user->setEnabled(true);
@@ -50,6 +50,12 @@ class SecurityController extends AbstractController
                     $url = $this->generateUrl('homepage');
                     $response = new RedirectResponse($url);
                 }
+                $message = (new \Swift_Message('Hello Email'))
+                    ->setFrom('emplearecuador@gmail.com')
+                    ->setTo($user->getEmail())
+
+                    ->setBody("adoasdjkashdjhasjkdhaskj");
+                $mailer->send($message);
                 return $response;
             }
             if (null !== $response = $event->getResponse()) {

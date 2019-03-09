@@ -30,21 +30,16 @@ class mainController extends AbstractController
     /**
      * @Route("/",name="homepage")
      */
-    public function index(AuthenticationUtils $authenticationUtils, \Swift_Mailer $mailer): Response
+    public function index(): Response
     {
-
-//        $message = (new \Swift_Message('Hello Email'))
-//            ->setFrom('uafonseca@uci.cu')
-//            ->setTo('malenaah@estudiantes.uci.cu')
-//            ->setBody("adoasdjkashdjhasjkdhaskj");
-//
-//
-//        $mailer->send($message);
         $em = $this->getDoctrine()->getManager();
         $jobs = $em->getRepository(Job::class)->findAll();
+        $locations = $em->getRepository(Job::class)->Locations();
+
         return $this->render('site/job/index.html.twig', [
             'notifications' => $this->loadNotifications(),
             'jobs' => $jobs,
+            'locations'=> $locations,
         ]);
     }
 
@@ -98,9 +93,13 @@ class mainController extends AbstractController
     {
         $notifications = $this->loadNotifications();
         $user = $this->get('security.token_storage')->getToken()->getUser();
+
         if (in_array('ROLE_ADMIN', $user->getRoles())) {
+            $em = $this->getDoctrine()->getManager();
+            $public = $em->getRepository(Job::class)->countJob($user);
             return $this->render('user/employer/dashboard.html.twig', array(
                 'notifications' => $notifications,
+                'public'=>$public,
             ));
         } else {
             return $this->render('user/dashboard.html.twig', array(
@@ -170,7 +169,7 @@ class mainController extends AbstractController
      */
     public function deleteNotification($id)
     {
-        echo json_encode($id);
+        //echo json_encode($id);
     }
 
     /**
@@ -190,9 +189,9 @@ class mainController extends AbstractController
         $metas = $em->getRepository(Metadata::class)->findBy(array("resume" => $user->getResume()));
         $cv = null;
         $cart = null;
-        if (null !== $user->getResume()->getCv())
+        if (!empty($user->getResume()->getCv()))
             $cv = $this->getParameter('app.path.user_cv') . '/' . $user->getResume()->getCv();
-        if ($user->getResume()->getCart() != null)
+        if (!empty($user->getResume()->getCart()))
             $cart = $this->getParameter('app.path.user_cv') . '/' . $user->getResume()->getCart();
         return $this->render('user/resume.html.twig',
             array(
@@ -291,12 +290,42 @@ class mainController extends AbstractController
     public function candidates(Request $request)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $candidates = $entityManager->getRepository(User::class)->findAll();
+        $users = $entityManager->getRepository(User::class)->findAll();
+        $i = 0;
+        foreach ($users as $user){
+            if(!$user->getCandidate()){
+                unset($users[$i]);
+            }
+            $i++;
+        }
+        $path = $this->getParameter('app.path.user_cv') . '/';
         return $this->render('site/candidate.html.twig',
             array(
-                'candidates' => $candidates,
+                'candidates' => $users,
                 'notifications' => $this->loadNotifications(),
-
+                'url'=>$path,
+            ));
+    }
+    /**
+     * @Route("/manage/candidates", name="manage_candidates")
+     */
+    public function manageCandidates(Request $request)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $users = $entityManager->getRepository(User::class)->findAll();
+        $i = 0;
+        foreach ($users as $user){
+            if(!$user->getCandidate()){
+                unset($users[$i]);
+            }
+            $i++;
+        }
+        $path = $this->getParameter('app.path.user_cv') . '/';
+        return $this->render('user/employer/candidate.html.twig',
+            array(
+                'candidates' => $users,
+                'notifications' => $this->loadNotifications(),
+                'url'=>$path,
             ));
     }
 

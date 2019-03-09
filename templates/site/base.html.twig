@@ -285,29 +285,24 @@
                         <p> Encuentre Empleos y Oportunidades de Carrera</p>
 
                         <div class="banner-search">
-                            <form action="#" class="search-form">
-                                <input type="text" placeholder="Ingresar palabras clave">
-                                <select class="selectpicker" id="search-location">
+                            <form action="{{ path('search') }}" method="post" class="search-form">
+                                <input name="keywords" type="search" placeholder="Ingresar palabras clave">
+                                <select name="location" class="selectpicker" id="search-location">
                                     <option value="" selected>Ubicación</option>
-                                    <option value="california">California</option>
-                                    <option value="las-vegas">Las Vegas</option>
-                                    <option value="new-work">New Work</option>
-                                    <option value="carolina">Carolina</option>
-                                    <option value="chicago">Chicago</option>
-                                    <option value="silicon-vally">Silicon Vally</option>
-                                    <option value="washington">Washington DC</option>
-                                    <option value="neveda">Neveda</option>
+                                    {% for l in locations %}
+                                        <option value="{{ l.localtion }}">{{ l.localtion }}</option>
+                                    {% endfor %}
                                 </select>
                                 <button class="button primary-bg"><i class="fas fa-search"></i>Buscar empleo</button>
                             </form>
                             <div class="trending-key">
-                                <span>Tendencias</span>
-                                <a href="#">designer</a>
-                                <a href="#">php</a>
-                                <a href="#">ios</a>
-                                <a href="#">Android</a>
-                                <a href="#">Accounting</a>
-                                <a href="#">Management</a>
+                                {#<span>Tendencias</span>#}
+                                {#<a href="#">designer</a>#}
+                                {#<a href="#">php</a>#}
+                                {#<a href="#">ios</a>#}
+                                {#<a href="#">Android</a>#}
+                                {#<a href="#">Accounting</a>#}
+                                {#<a href="#">Management</a>#}
                             </div>
                         </div>
                     </div>
@@ -655,52 +650,52 @@
                             <h4>Information</h4>
                             <div class="widget-inner">
                                 <ul>
-                                    <li><a href="#">About Us</a></li>
-                                    <li><a href="#">Contact Us</a></li>
-                                    <li><a href="#">Privacy Policy</a></li>
-                                    <li><a href="#">Terms &amp; Conditions</a></li>
+                                    <li><a href="#">Sobre nosotros</a></li>
+                                    <li><a href="#">Contáctenos</a></li>
+                                    <li><a href="#">Política de privacidad</a></li>
+                                    <li><a href="#">Términos & Condiciones</a></li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-2 col-sm-6">
                         <div class="footer-widget footer-shortcut-link">
-                            <h4>Job Seekers</h4>
+                            <h4>Candidatos</h4>
                             <div class="widget-inner">
                                 <ul>
-                                    <li><a href="#">Create Account</a></li>
-                                    <li><a href="#">Career Counseling</a></li>
-                                    <li><a href="#">My Oficiona</a></li>
-                                    <li><a href="#">FAQ</a></li>
-                                    <li><a href="#">Video Guides</a></li>
+                                    <li><a href="#">Crear una cuenta</a></li>
+                                    <li><a href="#">Orientación profesional </a></li>
+                                    <li><a href="#">Mi oficina</a></li>
+                                    <li><a href="#">Preguntas más frecuentes</a></li>
+                                    <li><a href="#">Guías de video</a></li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-2 col-sm-6">
                         <div class="footer-widget footer-shortcut-link">
-                            <h4>Employers</h4>
+                            <h4>Empleadores</h4>
                             <div class="widget-inner">
                                 <ul>
-                                    <li><a href="#">Create Account</a></li>
-                                    <li><a href="#">Products/Service</a></li>
-                                    <li><a href="#">Post a Job</a></li>
-                                    <li><a href="#">FAQ</a></li>
+                                    <li><a href="#">Crear una cuenta</a></li>
+                                    <li><a href="#">Productos / Servicios</a></li>
+                                    <li><a href="#">Publicar un trabajo</a></li>
+                                    <li><a href="#">Preguntas más frecuentes</a></li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-5 offset-lg-1 col-sm-6">
                         <div class="footer-widget footer-newsletter">
-                            <h4>Newsletter</h4>
-                            <p>Get e-mail updates about our latest news and Special offers.</p>
+                            <h4>Hoja informativa</h4>
+                            <p>Recibe actualizaciones por correo electrónico sobre nuestras últimas noticias y ofertas especiales.</p>
                             <form action="#" class="newsletter-form form-inline">
                                 <div class="form-group">
                                     <input type="text" class="form-control" placeholder="Email address...">
                                 </div>
-                                <button class="btn button primary-bg">Submit<i class="fas fa-caret-right"></i></button>
-                                <p class="newsletter-error">0 - Please enter a value</p>
-                                <p class="newsletter-success">Thank you for subscribing!</p>
+                                <button class="btn button primary-bg">Enviar<i class="fas fa-caret-right"></i></button>
+                                <p class="newsletter-error">0 - porfavor introduzca un valor</p>
+                                <p class="newsletter-success">¡Gracias por suscribirse!</p>
                             </form>
                         </div>
                     </div>
@@ -714,11 +709,11 @@
                         <div class="footer-bottom border-top">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <p class="copyright-text">Copyright <a href="#">Emplear.ec</a> 2019, All right reserved</p>
+                                    <p class="copyright-text">Copyright <a href="#">emplear.gessmac.com</a> 2019, Todos los derechos reservados</p>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="back-to-top">
-                                        <a href="#">Back to top<i class="fas fa-angle-up"></i></a>
+                                        <a href="#">Volver arriba<i class="fas fa-angle-up"></i></a>
                                     </div>
                                 </div>
                             </div>

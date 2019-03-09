@@ -2145,3 +2145,9 @@
     margin-top: 15px;
   }
 }
+.disabled {
+    pointer-events: none;
+}
+a{
+  cursor: pointer;
+}

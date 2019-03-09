@@ -52,25 +52,52 @@
                             </div>
                             <div class="candidate-filter-result">
                                 {% for candidate in candidates %}
-                                <div class="candidate">
-                                    <div class="thumb">
-                                        <a href="#">
-                                            <img src="{{ asset('images/user/') ~ candidate.image}}" class="img-fluid" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="body">
-                                        <div class="content">
-                                            <h4><a href="#">{{ candidate.name }}</a></h4>
-                                            <div class="info">
-                                                <span class="work-post"><a href=""><i data-feather="check-square"></i>{{ candidate.category }}</a></span>
-                                                <span class="location"><a href=""><i data-feather="map-pin"></i>{{ candidate.address }}</a></span>
+                                    <div class="candidate">
+                                        <div class="thumb">
+                                            <a href="#">
+                                                {% if candidate.image is not null %}
+                                                    <img src="{{ asset('images/user/') ~ candidate.image }}"
+                                                         class="img-fluid" alt="">
+                                                {% else %}
+                                                    <img src="{{ asset('images/default/not_image_user.png') }}"
+                                                         class="img-fluid" alt="">
+                                                {% endif %}
+                                            </a>
+                                        </div>
+                                        <div class="body">
+                                            <div class="content">
+                                                {% if candidate.name is not null %}
+                                                    <h4><a href="#">{{ candidate.name }}</a></h4>
+                                                {% else %}
+                                                    <h4><a href="#">No definido</a></h4>
+                                                {% endif %}
+                                                <div class="info">
+                                                    {% if candidate.category is not null %}
+                                                        <span class="work-post"><a href=""><i
+                                                                        data-feather="check-square"></i>{{ candidate.category }}</a></span>
+                                                    {% else %}
+                                                        <span class="work-post"><a href=""><i
+                                                                        data-feather="check-square"></i>No definido</a></span>
+                                                    {% endif %}
+                                                    {% if candidate.address is not null %}
+                                                        <span class="location"><a href=""><i
+                                                                        data-feather="map-pin"></i>{{ candidate.address }}</a></span>
+                                                    {% else %}
+                                                        <span class="location"><a href=""><i
+                                                                        data-feather="map-pin"></i>No definido</a></span>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="button-area">
+                                                {% if candidate.resume.cv is defined %}
+                                                    <a target="_blank" href="{{ url~candidate.resume.cv }}">Ver
+                                                        Curriculum Vitae</a>
+                                                {% else %}
+                                                    <a >CV no disponible</a>
+                                                {% endif %}
                                             </div>
                                         </div>
-                                        <div class="button-area">
-                                            <a href="#">Ver CV</a>
-                                        </div>
                                     </div>
-                                </div>
                                 {% endfor %}
                             </div>
                             <div class="pagination-list text-center">
@@ -127,10 +154,14 @@
                             <div data-id="candidate-type" class="candidate-filter candidate-type">
                                 <h4 class="option-title">Job Type</h4>
                                 <ul>
-                                    <li class="full-time"><i data-feather="clock"></i><a href="#" data-attr="Full Time">Full Time</a></li>
-                                    <li class="part-time"><i data-feather="clock"></i><a href="#" data-attr="Part Time">Part Time</a></li>
-                                    <li class="freelance"><i data-feather="clock"></i><a href="#" data-attr="Freelance">Freelance</a></li>
-                                    <li class="temporary"><i data-feather="clock"></i><a href="#" data-attr="Temporary">Temporary</a></li>
+                                    <li class="full-time"><i data-feather="clock"></i><a href="#" data-attr="Full Time">Full
+                                            Time</a></li>
+                                    <li class="part-time"><i data-feather="clock"></i><a href="#" data-attr="Part Time">Part
+                                            Time</a></li>
+                                    <li class="freelance"><i data-feather="clock"></i><a href="#" data-attr="Freelance">Freelance</a>
+                                    </li>
+                                    <li class="temporary"><i data-feather="clock"></i><a href="#" data-attr="Temporary">Temporary</a>
+                                    </li>
                                 </ul>
                             </div>
                             <div data-id="experience" class="candidate-filter experience">
@@ -149,7 +180,7 @@
                                 <h4 class="option-title">Salary Range</h4>
                                 <div class="price-range-slider">
                                     <div class="nstSlider" data-range_min="0" data-range_max="10000"
-                                         data-cur_min="0"    data-cur_max="6130">
+                                         data-cur_min="0" data-cur_max="6130">
                                         <div class="bar"></div>
                                         <div class="leftGrip"></div>
                                         <div class="rightGrip"></div>
@@ -192,28 +223,6 @@
         </div>
     </div>
     <!-- Job Listing End -->
-
-    <!-- Call to Action -->
-    <div class="call-to-action-bg padding-top-90 padding-bottom-90">
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <div class="call-to-action-2">
-                        <div class="call-to-action-content">
-                            <h2>For Find Your Dream Job or Candidate</h2>
-                            <p>Add resume or post a job. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec.</p>
-                        </div>
-                        <div class="call-to-action-button">
-                            <a href="add-resume.html" class="button">Add Resume</a>
-                            <span>Or</span>
-                            <a href="post-job.html" class="button">Post A Job</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Call to Action End -->
 
 
 {% endblock %}

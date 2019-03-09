@@ -2,7 +2,11 @@
 <div class="dashboard-sidebar">
     <div class="company-info">
         <div class="thumb">
+            {% if app.user.image is not null %}
             <img src="{{ asset('images/user/')~ app.user.image }}" class="img-fluid" alt="">
+            {% else %}
+                <img src="{{ asset('images/default/not_image_user.png')}}" class="img-fluid" alt="">
+            {% endif %}
         </div>
         <div class="company-body">
             <h5>{{ app.user.name }}</h5>
@@ -27,7 +31,7 @@
             <li class="{% if currentPath == '/dashboard' %}active{% endif %}"><i class="fas fa-home"></i><a href="{{ path('dashboard') }}">Tablero</a></li>
             <li class="{% if currentPath == '/dashboard/edit' %}active{% endif %}"><i class="fas fa-user"></i><a href="{{ path('dashboard_edit') }}">Editar perfil</a></li>
             <li class="{% if currentPath == '/job/manage/'~app.user.id~'/' %}active{% endif %}"><i class="fas fa-briefcase"></i><a href="{{ path('job_manage', {'id': app.user.id}) }}">Administrar trabajos</a></li>
-            <li class="{% if currentPath == '/dashboard' %}{% endif %}"><i class="fas fa-users"></i><a href="#">Administrar candidatos</a></li>
+            <li class="{% if currentPath == '/manage/candidates' %}active{% endif %}"><i class="fas fa-users"></i><a href="{{ path('manage_candidates') }}">Administrar candidatos</a></li>
             <li class="{% if currentPath == '/dashboard' %}{% endif %}"><i class="fas fa-heart"></i><a href="#">CV preseleccionados</a></li>
             <li class="{% if currentPath == '/dashboard' %}{% endif %}"><i class="fas fa-plus-square"></i><a href="{{ path('job_new') }}">Publicar empleo</a></li>
             {#<li><i class="fas fa-comment"></i><a href="#">Message</a></li>#}

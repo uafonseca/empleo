@@ -9,11 +9,11 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="breadcrumb-area">
-                        <h1>Job Listing</h1>
+                        <h1>Listado de empleos</h1>
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ path('homepage') }}">Inicio</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Listado de trabajos</li>
+                                <li class="breadcrumb-item active" aria-current="page">Listado de empleos</li>
                             </ol>
                         </nav>
                     </div>
@@ -40,20 +40,45 @@
                                     <div class="controller grid">
                                         <i data-feather="grid"></i>
                                     </div>
-                                    <div class="job-view-filter">
-                                        <select class="selectpicker">
-                                            <option value="" selected>Most Recent</option>
-                                            <option value="california">Top Rated</option>
-                                            <option value="las-vegas">Most Popular</option>
-                                        </select>
-                                    </div>
                                 </div>
                                 <div class="showing-number">
-                                    <span>Showing 1–12 of 28 Jobs</span>
+                                    <div class="">
+                                        Total encontrados({{ jobs.getTotalItemCount }})
+                                    </div>
+
                                 </div>
                             </div>
-                            <div class="job-filter-result">
 
+                            <div class="job-filter-result">
+                                {% if search is not defined %}
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-2"></div>
+                                        <div class="col-3">
+                                            <div class="sort">
+                                                <i class="fa fa-fw fa-sort"></i>
+                                                {% if jobs|length %}{{ knp_pagination_sortable(jobs, 'Título', 'title') }}{% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="sort">
+                                                <i class="fa fa-fw fa-sort"></i>
+                                                {% if jobs|length %}{{ knp_pagination_sortable(jobs, 'Compañía','CompanyName') }}{% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="sort">
+                                                <i class="fa fa-fw fa-sort"></i>
+                                                {% if jobs|length %}{{ knp_pagination_sortable(jobs, 'Fecha tope', 'expiredDate') }}{% endif %}
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% if jobs|length == 0 %}
+                                    <h4 style="text-align: center">Ups! No hemos encontrado nada aquí</h4>
+                                {% endif %}
                                 {% for j in jobs %}
                                     <div class="job-list">
                                         <div class="thumb">
@@ -83,12 +108,16 @@
                                             </div>
                                             <div class="more">
                                                 <div class="buttons">
-
+                                                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                                     <a id="applied-btn-{{ j.id }}"
                                                        onclick="applied('{{ j.id }}')" class="button">{% if j.id in app.user.applied %}Cancelar{% else %}Aplica ya!{% endif %}</a>
 
-
                                                     <a onclick="bookMark('{{ j.id }}')" class="favourite {% if j.id in app.user.bookmarked %}active{% endif %} "><i data-feather="heart"></i></a>
+                                                    {% else %}
+                                                        <a data-toggle="modal" data-target="#modal-login"  class="button">Aplica ya!</a>
+
+                                                        <a  class="favourite"><i data-feather="heart"></i></a>
+                                                    {% endif %}
                                                 </div>
                                                 <p class="deadline">Fecha tope: {{ j.expiredDate|date('F d, Y')}}</p>
                                             </div>
@@ -96,18 +125,34 @@
                                     </div>
                                 {% endfor %}
                             </div>
-                            <div class="pagination-list text-center">
-                                <nav class="navigation pagination">
-                                    <div class="nav-links">
-                                        <a class="prev page-numbers" href="#"><i class="fas fa-angle-left"></i></a>
-                                        <a class="page-numbers" href="#">1</a>
-                                        <span aria-current="page" class="page-numbers current">2</span>
-                                        <a class="page-numbers" href="#">3</a>
-                                        <a class="page-numbers" href="#">4</a>
-                                        <a class="next page-numbers" href="#"><i class="fas fa-angle-right"></i></a>
+                            <div class="account-entry">
+                            <div class="modal fade modal-open" id="modal-login"  tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header text-center">
+                                            <h4 class="modal-title"><i data-feather="user"></i>Debes iniciar sesión</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body mx-3">
+                                            <form class="" id="login-form" method="post" action="{{ path("fos_user_security_check") }}">
+                                                <div class="md-form mb-5">
+                                                    <input type="text" value="" name="_username" id="inputUsername" class="form-control validate" placeholder="Usuario o dirección de correo electrónico" required autofocus>
+                                                </div>
+                                                <div class="md-form mb-5">
+                                                    <input type="password" name="_password" id="inputPassword" class="form-control" placeholder="Contraseña" required>
+                                                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                                                </div>
+                                                <button id="_submit" type="submit" class="button primary-bg btn-block">Entrar</button>
+                                            </form>
+                                            <p>¿No tiene una cuenta? <a href="{{ path('app_register') }}">Registrarse </a></p>
+                                        </div>
                                     </div>
-                                </nav>
+                                </div>
                             </div>
+                            </div>
+                            {{ knp_pagination_render(jobs) }}
                         </div>
                         <div class="job-filter-wrapper">
                             <div class="selected-options">
@@ -217,25 +262,6 @@
     <!-- Job Listing End -->
 
     <!-- Call to Action -->
-    <div class="call-to-action-bg padding-top-90 padding-bottom-90">
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <div class="call-to-action-2">
-                        <div class="call-to-action-content">
-                            <h2>For Find Your Dream Job or Candidate</h2>
-                            <p>Add resume or post a job. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec.</p>
-                        </div>
-                        <div class="call-to-action-button">
-                            <a href="add-resume.html" class="button">Add Resume</a>
-                            <span>Or</span>
-                            <a href="post-job.html" class="button">Post A Job</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     {% block js %}
         <script src="{{ asset('site/js/utils.js') }}"></script>
     {% endblock %}

@@ -9,18 +9,15 @@
 namespace App\Controller;
 
 use App\constants;
-use App\Entity\Category;
 use App\Entity\Job;
 use App\Entity\Notification;
 use Symfony\Component\Form\FormError;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\JobType;
-use Symfony\Component\Validator\Constraints\Date;
 
-class JobController extends AbstractController
+class JobController extends Controller
 {
     /**
      * @Route("/job/new/", name="job_new")
@@ -34,16 +31,16 @@ class JobController extends AbstractController
             $payment = $request->get('my_radio');
             switch ($payment) {
                 case constants::PAYMENT_FREE:
-                    $post->setExpiredDate($post->getDate()->add(\DateInterval::createfromdatestring('+15 day')));
+                    $post->setExpiredDate($post->getDate()->add(\DateInterval::createfromdatestring('+'.constants::PAYMENT_FREE_DAYS.' day')));
                     break;
                 case constants::PAYMENT_BASIC:
-                    $post->setExpiredDate($post->getDate()->add(\DateInterval::createfromdatestring('+30 day')));
+                    $post->setExpiredDate($post->getDate()->add(\DateInterval::createfromdatestring('+'.constants::PAYMENT_BASIC_DAYS.' day')));
                     break;
                 case constants::PAYMENT_PYME:
-                    $post->setExpiredDate($post->getDate()->add(\DateInterval::createfromdatestring('+30 day')));
+                    $post->setExpiredDate($post->getDate()->add(\DateInterval::createfromdatestring('+'.constants::PAYMENT_PYME_DAYS.' day')));
                     break;
                 case constants::PAYMENT_PLUS:
-                    $post->setExpiredDate($post->getDate()->add(\DateInterval::createfromdatestring('+45 day')));
+                    $post->setExpiredDate($post->getDate()->add(\DateInterval::createfromdatestring('+'.constants::PAYMENT_PLUS_DAYS.' day')));
                     break;
                 default:
                     echo "FAIL";die;
@@ -72,7 +69,7 @@ class JobController extends AbstractController
             $notification->setUser($this->get('security.token_storage')->getToken()->getUser());
             $notification->setActive(true);
             $entityManager->persist($notification);
-            return $this->redirectToRoute('homepage');
+            return $this->redirectToRoute('job_manage',['id'=>$this->get('security.token_storage')->getToken()->getUser()->getId()]);
         }
         return $this->render('site/job/job.html.twig', [
             'form' => $form->createView(),
@@ -83,7 +80,6 @@ class JobController extends AbstractController
     public function loadNotifications()
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
-
         if (null != $user) {
             $em = $this->getDoctrine()->getManager();
             $notifications = $em->getRepository(Notification::class)->findBy(
@@ -99,21 +95,49 @@ class JobController extends AbstractController
         }
         return null;
     }
+    /**
+     * @Route("/search",name="search")
+     */
+    public function search(Request $request){
+        $keywords = $request->request->get('keywords');
+        $location = $request->request->get('location');
+        $em = $this->getDoctrine()->getManager();
+        $pagination  = $this->get('knp_paginator');
+        if(empty($keywords) && empty($location)){
+            $pagination->paginate(
+                $em->getRepository(Job::class)->findAllHome(),
+                $request->query->getInt('page', 1),
+                10);
+            return $this->redirectToRoute('homepage');
+        }else{
+            $pagination->paginate(
+                $em->getRepository(Job::class)->search($keywords,$location),
+                $request->query->getInt('page', 1),
+                10);
+        }
+        return $this->render('site/job/list.html.twig', array(
+            'jobs' => $pagination->paginate($em->getRepository(Job::class)->search($keywords,$location),$request->query->getInt('page', 1),10),
+            'notifications' => $this->loadNotifications(),
+            'search'=>1,
+            ));
+    }
 
     /**
      * @Route("/job/list/", name="job_list")
      */
-    public function jobList(AuthenticationUtils $authenticationUtils)
+    public function jobList(Request $request)
     {
-        $error = $authenticationUtils->getLastAuthenticationError();
-        $lastUsername = $authenticationUtils->getLastUsername();
         $em = $this->getDoctrine()->getManager();
         $jobs = $em->getRepository(Job::class)->findAll();
+        $em->getRepository(Job::class)->expired();
+        $pagination  = $this->get('knp_paginator')->paginate(
+            $jobs,
+            $request->query->getInt('page', 1),
+            10);
+        $pagination->setTemplate('site/pagination.html.twig');
         return $this->render('site/job/list.html.twig',
             [
-                'last_username' => $lastUsername,
-                'error' => $error,
-                'jobs' => $jobs,
+                'jobs' => $pagination,
                 'notifications' => $this->loadNotifications()
             ]);
     }
@@ -134,14 +158,19 @@ class JobController extends AbstractController
     /**
      * @Route("/job/manage/{id}/", name="job_manage")
      */
-    public function manage($id)
+    public function manage($id,Request $request)
     {
 
         $em = $this->getDoctrine()->getManager();
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $jobs = $em->getRepository(Job::class)->finJobByUser($user);
+        $pagination  = $this->get('knp_paginator')->paginate(
+            $jobs,
+            $request->query->getInt('page', 1),
+            5);
+        $pagination->setTemplate('site/pagination.html.twig');
         return $this->render('user/employer/manage_job.html.twig', [
-            'jobs' => $jobs,
+            'jobs' => $pagination,
             'notifications' => $this->loadNotifications()
         ]);
     }

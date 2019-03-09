@@ -45,9 +45,13 @@ abstract class constants
     //---------BEGIN---------//
     //--------Payment--------//
     const  PAYMENT_FREE                     =   "payment_free";
+    const  PAYMENT_FREE_DAYS                =   15;
     const  PAYMENT_BASIC                    =   "payment_basic";
+    const  PAYMENT_BASIC_DAYS               =   30;
     const  PAYMENT_PYME                     =   "payment_pyme";
+    const  PAYMENT_PYME_DAYS                =   30;
     const  PAYMENT_PLUS                     =   "payment_plus";
+    const  PAYMENT_PLUS_DAYS                =   45;
     const  PAYMENT_METHOD_CREDIT_CARD       =   "payment_method_credit_card";
     const  PAYMENT_METHOD_PAYPAL            =   "payment_method_paypal";
     //--------Payment--------//

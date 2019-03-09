@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -206,9 +208,15 @@ class Job
      */
     private $applications = [];
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="jobAppiled")
+     */
+    private $users;
+
     public function __construct()
     {
         $this->applications = array();
+        $this->users = new ArrayCollection();
     }
 
     /**
@@ -584,6 +592,34 @@ class Job
     public function setExpiredDate($expiredDate): void
     {
         $this->expiredDate = $expiredDate;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->addJobAppiled($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            $user->removeJobAppiled($this);
+        }
+
+        return $this;
     }
 
 }

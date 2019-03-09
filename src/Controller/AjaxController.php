@@ -13,9 +13,6 @@ use App\Entity\Job;
 use App\Entity\Metadata;
 use App\Entity\Notification;
 use App\Entity\Resume;
-use App\Entity\User;
-use phpDocumentor\Reflection\Types\Array_;
-use function PHPSTORM_META\type;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -294,15 +291,19 @@ class AjaxController extends AbstractController
         $id = $request->request->get('id');
         $new = false;
         $entityManager = $this->getDoctrine()->getManager();
+        $job = $entityManager->getRepository(Job::class)->find($id);
         if(false !== $key = array_search($id, array_values($user->getApplied()),true)) {
             $user->removeApplied($key);
+            $user->removeJobAppiled($job);
+            $job->removeUser($user);
             $job = $entityManager->getRepository(Job::class)->find($id);
             $this->notificate(constants::NOTIFICATIONS_JOB_APPLIED_CANCEL,
                 "Cancelaste tu propuesta: ".$job->getTitle(),$user);
         }else {
             $user->addApplied($id);
+            $user->addJobAppiled($job);
+            $job->addUser($user);
             $new = true;
-            //notificate
             $job = $entityManager->getRepository(Job::class)->find($id);
             $this->notificate(constants::NOTIFICATIONS_JOB_APPLIED_OK,
                 "Aplicaste al trabajo: ".$job->getTitle(),$user);

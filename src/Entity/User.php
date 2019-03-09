@@ -8,6 +8,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -181,6 +183,11 @@ class User extends BaseUser
      */
     private $applied = [];
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Job", inversedBy="users")
+     */
+    private $jobAppiled;
+
 
 
     public function __construct()
@@ -191,6 +198,7 @@ class User extends BaseUser
         $this->social_links = array();
         $this->bookmarked = array();
         $this->applied = array();
+        $this->jobAppiled = new ArrayCollection();
     }
 
     /**
@@ -742,5 +750,47 @@ class User extends BaseUser
         }
         return 100;
     }
+
+    /**
+     * @return Collection|Job[]
+     */
+    public function getJobAppiled(): Collection
+    {
+        return $this->jobAppiled;
+    }
+
+    public function addJobAppiled(Job $jobAppiled): self
+    {
+        if (!$this->jobAppiled->contains($jobAppiled)) {
+            $this->jobAppiled[] = $jobAppiled;
+        }
+
+        return $this;
+    }
+
+    public function removeJobAppiled(Job $jobAppiled): self
+    {
+        if ($this->jobAppiled->contains($jobAppiled)) {
+            $this->jobAppiled->removeElement($jobAppiled);
+        }
+
+        return $this;
+    }
+
+    public function getRoles()
+    {
+        return parent::getRoles();
+    }
+
+    public function addRole($role)
+    {
+        $role = strtoupper($role);
+        if (!in_array($role, $this->roles, true)) {
+            $this->roles[] = $role;
+        }
+
+        return $this;
+    }
+
 
 }

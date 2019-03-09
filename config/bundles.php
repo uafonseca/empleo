@@ -20,4 +20,5 @@ return [
     Debril\RssAtomBundle\DebrilRssAtomBundle::class => ['all' => true],
     Desarrolla2\Bundle\RSSClientBundle\RSSClientBundle::class => ['all' => true],
     Knp\Bundle\TimeBundle\KnpTimeBundle::class => ['all' => true],
+    Knp\Bundle\PaginatorBundle\KnpPaginatorBundle::class => ['all' => true],
 ];

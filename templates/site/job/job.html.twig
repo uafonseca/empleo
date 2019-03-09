@@ -207,7 +207,7 @@
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        {{ form_widget(form.company_name, { 'attr': {'class': 'form-control','placeholder':'Nombre de la compañía'} }) }}
+                                                        {{ form_widget(form.company_name, { 'attr': {'class': 'form-control','placeholder':'Nombre de la compañía','value': app.user.companyName } }) }}
                                                         <span class="error text-danger">{{ form_errors(form.company_name) }}</span>
                                                     </div>
                                                 </div>
