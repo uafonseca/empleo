@@ -5,8 +5,8 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'en'
-    app.path.blog_images: /images/blog/
-    app.path.user_images: /images/user/
+    app.path.blog_images: /images/blog
+    app.path.user_images: /images/user
     app.path.company_images: /site/images/upload/company
     app.path.user_cv: /site/docs/user/cv
     container.autowiring.strict_mode: true
