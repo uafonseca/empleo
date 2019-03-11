@@ -23,6 +23,7 @@ class SecurityController extends AbstractController
         $lastUsername = $authenticationUtils->getLastUsername();
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
+
     /**
      * @Route("/register", name="app_register")
      */
@@ -38,9 +39,9 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
-                if($user->getCandidate()){
+                if ($user->getCandidate()) {
                     $user->addRole("ROLE_USER");
-                }elseif($user->getEmployer()){
+                } elseif ($user->getEmployer()) {
                     $user->addRole("ROLE_ADMIN");
                 }
                 $entityManager = $this->getDoctrine()->getManager();
@@ -50,11 +51,15 @@ class SecurityController extends AbstractController
                     $url = $this->generateUrl('homepage');
                     $response = new RedirectResponse($url);
                 }
-                $message = (new \Swift_Message('Hello Email'))
+                $message = (new \Swift_Message('Bienvenido a emplear.com'))
                     ->setFrom('emplearecuador@gmail.com')
-                    ->setTo($user->getEmail())
-
-                    ->setBody("adoasdjkashdjhasjkdhaskj");
+                    ->setBody($this->renderView(
+                        'mail/register.html.twig',
+                        ['user' => $user]
+                    ),
+                        'text/html'
+                    )
+                    ->setTo($user->getEmail());
                 $mailer->send($message);
                 return $response;
             }
