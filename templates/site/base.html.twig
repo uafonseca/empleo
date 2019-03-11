@@ -69,25 +69,17 @@
                         <li class="search-by">
                             <h5>POR CATEGORÍA</h5>
                             <ul>
-                                <li><a href="#">Accounting / Finance <span>(233)</span></a></li>
-                                <li><a href="#">Education <span>(46)</span></a></li>
-                                <li><a href="#">Design & Creative <span>(156)</span></a></li>
-                                <li><a href="#">Health Care <span>(98)</span></a></li>
-                                <li><a href="#">Engineer & Architects <span>(188)</span></a></li>
-                                <li><a href="#">Marketing & Sales <span>(124)</span></a></li>
-                                <li><a href="#">Garments / Textile <span>(584)</span></a></li>
-                                <li><a href="#">Customer Support <span>(233)</span></a></li>
+                                {% for c in categorys %}
+                                    <li><a href="#">{{ c.name }}<span>({{ c.count }})</span></a></li>
+                                {% endfor %}
                             </ul>
                         </li>
                         <li class="search-by">
                             <h5>POR LOCALIZACIÓN</h5>
                             <ul>
-                                <li><a href="#">New York City <span>(508)</span></a></li>
-                                <li><a href="#">Washington, D.C <span>(96)</span></a></li>
-                                <li><a href="#">Chicago <span>(155)</span></a></li>
-                                <li><a href="#">San Francisco <span>(24)</span></a></li>
-                                <li><a href="#">Los Angeles <span>(268)</span></a></li>
-                                <li><a href="#">Boston <span>(46)</span></a></li>
+                                {% for l in locations %}
+                                    <li><a href="#">{{ l.localtion }}<span>({{ l.count }})</span></a></li>
+                                {% endfor %}
                             </ul>
                         </li>
                     </ul>
@@ -131,9 +123,6 @@
                         <li class="menu-item"><a title="About" href="{{ path('dashboard_resume_edit') }}">Editar Curriculum Vitae</a></li>
                         <li class="menu-item"><a title="About" href="{{ path('dashboard_bookmarked') }}">Marcados</a></li>
                         <li class="menu-item"><a title="About" href="{{ path('dashboard_applied') }}">Aplicado</a></li>
-                        {#<li class="menu-item"><a title="About" href="#">Determinación de precios</a></li>#}
-                        {#<li class="menu-item"><a title="About" href="#">Mensaje</a></li>#}
-                        {#<li class="menu-item"><a title="About" href="#">Alerta</a></li>#}
                     </ul>
                 </li>
                 {% endif %}
@@ -296,13 +285,6 @@
                                 <button class="button primary-bg"><i class="fas fa-search"></i>Buscar empleo</button>
                             </form>
                             <div class="trending-key">
-                                {#<span>Tendencias</span>#}
-                                {#<a href="#">designer</a>#}
-                                {#<a href="#">php</a>#}
-                                {#<a href="#">ios</a>#}
-                                {#<a href="#">Android</a>#}
-                                {#<a href="#">Accounting</a>#}
-                                {#<a href="#">Management</a>#}
                             </div>
                         </div>
                     </div>
@@ -343,22 +325,9 @@
                         </div>
                         <div class="key-info">
                             <ul>
-                                <li><a href="#">Accounting / Finance<span>(233)</span></a></li>
-                                <li><a href="#">Education<span>(46)</span></a></li>
-                                <li><a href="#">Design &amp; Creative<span>(156)</span></a></li>
-                                <li><a href="#">Health Care<span>(98)</span></a></li>
-                                <li><a href="#">Engineer &amp; Architects<span>(584)</span></a></li>
-                                <li><a href="#">Marketing &amp; Sales<span>(188)</span></a></li>
-                                <li><a href="#">Garments / Textile<span>(124)</span></a></li>
-                                <li><a href="#">Customer Support<span>(15)</span></a></li>
-                                <li><a href="#">Accounting / Finance<span>(233)</span></a></li>
-                                <li><a href="#">Education<span>(46)</span></a></li>
-                                <li><a href="#">Design &amp; Creative<span>(156)</span></a></li>
-                                <li><a href="#">Health Care<span>(98)</span></a></li>
-                                <li><a href="#">Engineer &amp; Architects<span>(584)</span></a></li>
-                                <li><a href="#">Marketing &amp; Sales<span>(188)</span></a></li>
-                                <li><a href="#">Garments / Textile<span>(124)</span></a></li>
-                                <li><a href="#">Customer Support<span>(15)</span></a></li>
+                                {% for c in categorys %}
+                                    <li><a href="#">{{ c.name }}<span>({{ c.count }})</span></a></li>
+                                {% endfor %}
                             </ul>
                         </div>
                     </div>
@@ -371,32 +340,10 @@
                         </div>
                         <div class="key-info">
                             <ul>
-                                <li><a href="job-listing.html">New York<span>(233)</span></a></li>
-                                <li><a href="job-listing.html">Los Angeles<span>(46)</span></a></li>
-                                <li><a href="job-listing.html">California<span>(156)</span></a></li>
-                                <li><a href="job-listing.html">Chicago<span>(98)</span></a></li>
-                                <li><a href="job-listing.html">Illinois<span>(584)</span></a></li>
-                                <li><a href="job-listing.html">Houston<span>(188)</span></a></li>
-                                <li><a href="job-listing.html">Phoenix<span>(124)</span></a></li>
-                                <li><a href="job-listing.html">Texas<span>(15)</span></a></li>
-                                <li><a href="job-listing.html">Arizona<span>(233)</span></a></li>
-                                <li><a href="job-listing.html">Philadelphia<span>(46)</span></a></li>
-                                <li><a href="job-listing.html">Pennsylvania<span>(156)</span></a></li>
-                                <li><a href="job-listing.html">San Antonio<span>(98)</span></a></li>
-                                <li><a href="job-listing.html">San Diego<span>(584)</span></a></li>
-                                <li><a href="job-listing.html">Dallas<span>(188)</span></a></li>
-                                <li><a href="job-listing.html">San Jose<span>(124)</span></a></li>
-                                <li><a href="job-listing.html">Austin<span>(15)</span></a></li>
-                                <li><a href="job-listing.html">Jacksonville<span>(25)</span></a></li>
-                                <li><a href="job-listing.html">Florida<span>(53)</span></a></li>
-                                <li><a href="job-listing.html">San Francisco<span>(74)</span></a></li>
-                                <li><a href="job-listing.html">Columbus<span>(26)</span></a></li>
-                                <li><a href="job-listing.html">Ohio<span>(58)</span></a></li>
-                                <li><a href="job-listing.html">Indianapolis<span>(96)</span></a></li>
-                                <li><a href="job-listing.html">Indiana<span>(123)</span></a></li>
-                                <li><a href="job-listing.html">Fort Worth<span>(42)</span></a></li>
-                                <li><a href="job-listing.html">Charlotte<span>(71)</span></a></li>
-                                <li><a href="job-listing.html">North Carolina<span>(19)</span></a></li>
+                                {#{{ dump(citys) }}#}
+                                {% for c in citys %}
+                                    <li><a href="#">{{ c.city }}<span>({{ c.count }})</span></a></li>
+                                {% endfor %}
                             </ul>
                         </div>
                     </div>
@@ -409,18 +356,9 @@
                         </div>
                         <div class="key-info">
                             <ul>
-                                <li><a href="#">Digoin<span>(233)</span></a></li>
-                                <li><a href="#">Orion Ltd.<span>(46)</span></a></li>
-                                <li><a href="#">RealHouse<span>(156)</span></a></li>
-                                <li><a href="#">BioPro Phrma<span>(98)</span></a></li>
-                                <li><a href="#">Homeland<span>(584)</span></a></li>
-                                <li><a href="#">Realouse<span>(188)</span></a></li>
-                                <li><a href="#">Healthyete<span>(124)</span></a></li>
-                                <li><a href="#">Theoreo<span>(15)</span></a></li>
-                                <li><a href="#">Homeland<span>(584)</span></a></li>
-                                <li><a href="#">Realouse<span>(188)</span></a></li>
-                                <li><a href="#">Healthyete<span>(124)</span></a></li>
-                                <li><a href="#">Theoreo<span>(15)</span></a></li>
+                                {% for c in company %}
+                                    <li><a href="#">{{ c.company_name }}<span>({{ c.count }})</span></a></li>
+                                {% endfor %}
                             </ul>
                         </div>
                     </div>

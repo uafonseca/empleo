@@ -61,7 +61,6 @@ class UserFullyType extends AbstractType
                 'choice_label' => 'name',
                 'required'=>true,
             ])
-            ->add('qualification',null,array('required'=>true))
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'placeholder' => 'Categoría',

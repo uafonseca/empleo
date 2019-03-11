@@ -39,12 +39,32 @@ class JobRepository extends ServiceEntityRepository
     }
     public function Locations(){
         return $this->createQueryBuilder('j')
-            ->select('j.localtion')
+            ->select('j.localtion , count(j) as count')
             ->distinct()
+            ->orderBy('count', 'ASC')
             ->getQuery()
             ->getResult()
             ;
     }
+    public function Cityes(){
+        return $this->createQueryBuilder('j')
+            ->select('j.city, count(j) as count')
+            ->distinct()
+            ->orderBy('count', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+    public function Company(){
+        return $this->createQueryBuilder('j')
+            ->select('j.company_name, count(j) as count')
+            ->distinct()
+            ->orderBy('count', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     public function search($keywords , $location){
         $qb = $this->createQueryBuilder('j');
         if($keywords){
