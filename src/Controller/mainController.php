@@ -194,12 +194,6 @@ class mainController extends AbstractController
 
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
-        if ($user->getResume() == null) {
-            $resume = new Resume();
-            $resume->setUser($user);
-            $em->persist($resume);
-            $em->flush();
-        }
         $metas = $em->getRepository(Metadata::class)->findBy(array("resume" => $user->getResume()));
         $cv = null;
         $cart = null;

@@ -75,10 +75,6 @@ class UserFullyType extends AbstractType
             ->add('socialFacebook',null,array('required'=>false))
             ->add('socialTwitter',null,array('required'=>false))
             ->add('socialGoogle',null,array('required'=>false));
-//            ->add('password')
-//            ->add('socialGoogle')
-//            ->add('socialGoogle')
-//            ->add('socialGoogle');
     }
     public function configureOptions(OptionsResolver $resolver)
     {

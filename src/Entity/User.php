@@ -113,7 +113,7 @@ class User extends BaseUser
     private $updatedAt;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Resume", mappedBy="user")
+     * @ORM\OneToOne(targetEntity="App\Entity\Resume", mappedBy="user",cascade={"persist"})
      */
     private $resume;
 
@@ -195,6 +195,9 @@ class User extends BaseUser
         $this->bookmarked = array();
         $this->applied = array();
         $this->jobAppiled = new ArrayCollection();
+        if($this->candidate){
+            $this->setResume(new Resume());
+        }
     }
 
     /**

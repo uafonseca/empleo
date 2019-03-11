@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Resume;
 use App\Entity\User;
 use App\Form\UserType;
 use FOS\UserBundle\Event\GetResponseUserEvent;
@@ -35,16 +36,21 @@ class SecurityController extends AbstractController
         if (null !== $event->getResponse()) {
             return $event->getResponse();
         }
+        $entityManager = $this->getDoctrine()->getManager();
         $form = $this->createForm(UserType::class, $user);
+        $form2 = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
-            if ($form->isValid()) {
+        $form2->handleRequest($request);
+        if ($form->isSubmitted() || $form2->isSubmitted()) {
+            if ($form->isValid() || $form2->isValid()) {
                 if ($user->getCandidate()) {
                     $user->addRole("ROLE_USER");
+                    $resume = new Resume();
+                    $resume->setUser($user);
+                    $user->setResume($resume);
                 } elseif ($user->getEmployer()) {
                     $user->addRole("ROLE_ADMIN");
                 }
-                $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($user);
                 $entityManager->flush();
                 if (null === $response = $event->getResponse()) {
@@ -69,6 +75,7 @@ class SecurityController extends AbstractController
         }
         return $this->render('/security/register.html.twig', array(
             'form' => $form->createView(),
+            'form2' => $form2->createView(),
         ));
     }
 }

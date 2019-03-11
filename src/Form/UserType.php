@@ -11,6 +11,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Doctrine\DBAL\Types\ArrayType;
+use function Sodium\add;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -37,7 +38,8 @@ class UserType extends AbstractType
             ->add('candidate', CheckboxType::class,[
                 'required' => false,
             ])
-            ->add('phone',HiddenType::class)
+            ->add('companyName',null, array('label'=>false))
+            ->add('phone',null, array('label'=>false))
             ->add('plainPassword', RepeatedType::class,array(
                 'type'  => PasswordType::class,
                 'invalid_message'=>'Las contraseñas deben ser iguales',
