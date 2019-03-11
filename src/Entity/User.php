@@ -152,10 +152,6 @@ class User extends BaseUser
      */
     private $age;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $qualification;
 
     /**
      * @ORM\Column(type="array", nullable=true)
@@ -520,18 +516,6 @@ class User extends BaseUser
     public function setAge(?int $age): self
     {
         $this->age = $age;
-
-        return $this;
-    }
-
-    public function getQualification(): ?string
-    {
-        return $this->qualification;
-    }
-
-    public function setQualification(?string $qualification): self
-    {
-        $this->qualification = $qualification;
 
         return $this;
     }
