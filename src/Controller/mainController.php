@@ -8,6 +8,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Entity\Job;
 use App\Entity\Metadata;
 use App\Entity\Notification;
@@ -21,25 +22,38 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use App\constants;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class mainController extends AbstractController
 {
+
+//    /**
+//     * @Route("/mail",name="mail")
+//     */
+//    public function mailView(){
+//        return $this->render('mail/register.html.twig',['user'=>$this->get('security.token_storage')->getToken()->getUser()]);
+//    }
+
     /**
      * @Route("/",name="homepage")
      */
     public function index(): Response
+
     {
         $em = $this->getDoctrine()->getManager();
         $jobs = $em->getRepository(Job::class)->findAll();
         $locations = $em->getRepository(Job::class)->Locations();
-
+        $categorys = $em->getRepository(Category::class)->categoryesCount();
+        $citys = $em->getRepository(Job::class)->Cityes();
+        $company = $em->getRepository(Job::class)->Company();
         return $this->render('site/job/index.html.twig', [
             'notifications' => $this->loadNotifications(),
             'jobs' => $jobs,
             'locations'=> $locations,
+            'categorys'=>$categorys,
+            'citys'=>$citys,
+            'company'=>$company,
         ]);
     }
 
@@ -247,7 +261,7 @@ class mainController extends AbstractController
     /**
      * @Route("/dashboard/bookmarked", name="dashboard_bookmarked")
      */
-    public function bookMarked(Request $request)
+    public function bookMarked()
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $marked = $user->getBookmarked();
@@ -267,7 +281,7 @@ class mainController extends AbstractController
     /**
      * @Route("/dashboard/applied", name="dashboard_applied")
      */
-    public function applied(Request $request)
+    public function applied()
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $marked = $user->getApplied();
@@ -287,7 +301,7 @@ class mainController extends AbstractController
     /**
      * @Route("/candidates", name="candidates")
      */
-    public function candidates(Request $request)
+    public function candidates()
     {
         $entityManager = $this->getDoctrine()->getManager();
         $users = $entityManager->getRepository(User::class)->findAll();
@@ -309,7 +323,7 @@ class mainController extends AbstractController
     /**
      * @Route("/manage/candidates", name="manage_candidates")
      */
-    public function manageCandidates(Request $request)
+    public function manageCandidates()
     {
         $entityManager = $this->getDoctrine()->getManager();
         $users = $entityManager->getRepository(User::class)->findAll();
