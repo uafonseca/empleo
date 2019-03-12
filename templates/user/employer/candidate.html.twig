@@ -73,25 +73,14 @@
                                         <td class="status"><i data-feather="check-circle"></i>Preseleccionado</td>
                                         <td class="action">
                                             <a href="#" class="download"><i data-feather="download"></i></a>
-                                            <a href="#" class="inbox"><i data-feather="mail"></i></a>
+                                            <a href="{{ path('manage_mail_write') }}" class="inbox"><i data-feather="mail"></i></a>
                                             <a href="#" class="remove"><i data-feather="trash-2"></i></a>
                                         </td>
                                     </tr>
                                     {% endfor %}
                                     </tbody>
                                 </table>
-                                <div class="pagination-list text-center">
-                                    <nav class="navigation pagination">
-                                        <div class="nav-links">
-                                            <a class="prev page-numbers" href="#"><i class="fas fa-angle-left"></i></a>
-                                            <a class="page-numbers" href="#">1</a>
-                                            <span aria-current="page" class="page-numbers current">2</span>
-                                            <a class="page-numbers" href="#">3</a>
-                                            <a class="page-numbers" href="#">4</a>
-                                            <a class="next page-numbers" href="#"><i class="fas fa-angle-right"></i></a>
-                                        </div>
-                                    </nav>
-                                </div>
+                                {{ knp_pagination_render(candidates) }}
                             </div>
                         </div>
                         {% include 'user/employer/dashboard_sidebar.html.twig' %}

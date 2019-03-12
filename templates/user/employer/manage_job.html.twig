@@ -71,16 +71,11 @@
                                     {% endif %}
                                     {% if j.status == 'job_expired' %}
                                         <td class="status expired">Exirado</td>
-                                        {#<td class="action">#}
-                                            {#<a href="#" class="preview"><i data-feather="eye"></i></a>#}
-                                            {#<a href="#" class="edit"><i data-feather="edit"></i></a>#}
-                                            {#<a href="#" class="remove"><i data-feather="trash-2"></i></a>#}
-                                        {#</td>#}
                                     {% else %}
                                     <td class="action">
-                                        <a href="#" class="preview"><i data-feather="eye"></i></a>
-                                        <a href="#" class="edit"><i data-feather="edit"></i></a>
-                                        <a href="#" class="remove"><i data-feather="trash-2"></i></a>
+                                        <a href="{{ path('job_show', {'id': j.id}) }}" class="preview"><i data-feather="eye"></i></a>
+                                        {#<a href="#" class="edit"><i data-feather="edit"></i></a>#}
+                                        <a class="remove" onclick="showModal('{{ j.id }}')"><i data-feather="trash-2"></i></a>
                                     </td>
                                     {% endif %}
                                 </tr>
@@ -90,6 +85,23 @@
                             {{ knp_pagination_render(jobs) }}
                         </div>
                     </div>
+                    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    ¿Realmente desea eliminar este elemento?
+                                </div>
+                                <div class="modal-body">
+                                    Al eliminar un oferta de trabajo ya no podra recuperar sus datos.
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    <button id="close" type="button" class="btn btn-danger btn-ok" >Delete</button>
+                                    {#<a class="btn btn-danger btn-ok">Delete</a>#}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     {% include 'user/employer/dashboard_sidebar.html.twig' %}
                 </div>
             </div>
@@ -97,4 +109,7 @@
     </div>
 </div>
 
+{% endblock %}
+{% block js %}
+    <script src="{{ asset('site/js/ajax.js') }}"></script>
 {% endblock %}
