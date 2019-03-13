@@ -3,7 +3,7 @@
 namespace Deployer;
 
 require 'recipe/symfony4.php';
-require 'recipe/slack.php';
+require __DIR__ . './../vendor/deployer/recipes/recipe/slack.php';
 
 inventory('hosts.yml');
 
@@ -20,8 +20,16 @@ set('env', [
     'APP_ENV' => 'production',
 ]);
 
+set('release_version_text', function () {
+    $release = get('branch');
+    if (input()->hasOption('tag') && !empty(input()->getOption('tag'))) {
+        $release = input()->getOption('tag');
+    }
+    return $release;
+});
+
 set('slack_webhook', 'https://hooks.slack.com/services/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');
-set('slack_text', "_{{user}}_ deploying `{{ release_version_text }}` to *{{target}}*");
+set('slack_text', "_{{user}}_ is deploying `{{ release_version_text }}` to *{{target}}*");
 set('slack_success_text', 'Deploy `{{ release_version_text }}` to *{{target}}* successful');
 set('slack_failure_text', 'Deploy `{{ release_version_text }}` to *{{target}}* failed');
 
