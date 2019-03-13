@@ -19,7 +19,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(name="fos_user")
  * @Vich\Uploadable
  * @UniqueEntity(fields={"email"}, message="La dirección de correo proporcionada ya está en uso")
@@ -127,10 +127,6 @@ class User extends BaseUser
      */
     private $profession;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Category")
-     */
-    private $category;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -184,6 +180,20 @@ class User extends BaseUser
      */
     private $jobAppiled;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Category", inversedBy="users_list")
+     */
+    private $category;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $companiesSeen;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $package;
 
 
     public function __construct()
@@ -198,6 +208,8 @@ class User extends BaseUser
         if($this->candidate){
             $this->setResume(new Resume());
         }
+        $this->category = new ArrayCollection();
+        $this->companiesSeen =0;
     }
 
     /**
@@ -463,17 +475,6 @@ class User extends BaseUser
         return $this;
     }
 
-    public function getCategory(): ?Category
-    {
-        return $this->category;
-    }
-
-    public function setCategory(?Category $category): self
-    {
-        $this->category = $category;
-
-        return $this;
-    }
 
     public function getStatus(): ?string
     {
@@ -775,6 +776,56 @@ class User extends BaseUser
         if (!in_array($role, $this->roles, true)) {
             $this->roles[] = $role;
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Category[]
+     */
+    public function getCategory(): Collection
+    {
+        return $this->category;
+    }
+
+    public function addCategory(Category $category): self
+    {
+        if (!$this->category->contains($category)) {
+            $this->category[] = $category;
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Category $category): self
+    {
+        if ($this->category->contains($category)) {
+            $this->category->removeElement($category);
+        }
+
+        return $this;
+    }
+
+    public function getCompaniesSeen(): ?int
+    {
+        return $this->companiesSeen;
+    }
+
+    public function setCompaniesSeen(?int $companiesSeen): self
+    {
+        $this->companiesSeen = $companiesSeen;
+
+        return $this;
+    }
+
+    public function getPackage(): ?string
+    {
+        return $this->package;
+    }
+
+    public function setPackage(?string $package): self
+    {
+        $this->package = $package;
 
         return $this;
     }

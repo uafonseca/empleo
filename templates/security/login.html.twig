@@ -1,49 +1,8 @@
-{#{% extends 'site/base.html.twig' %}#}
-
-{#{% block title %}Log in!{% endblock %}#}
-{#{% block body %}#}
-    {#<link href="http://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">#}
-    {#<script src="http://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>#}
-    {#<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>#}
-    {#<!------ Include the above in your HEAD tag ---------->#}
-
-    {#<div class="login-reg-panel">#}
-        {#<div class="login-info-box">#}
-            {#<h2>¿Ya tiene una cuenta?</h2>#}
-            {#<p>Lorem ipsum dolor sit amet</p>#}
-            {#<label id="label-register" for="log-reg-show">Entrar</label>#}
-            {#<input type="radio" name="active-log-panel" id="log-reg-show"  checked="checked">#}
-        {#</div>#}
-
-        {#<div class="register-info-box">#}
-            {#<h2>¿Aun no tienes una cuenta?</h2>#}
-            {#<a href="{{ path('fos_user_registration_register') }}">#}
-                {#<label id="label-login" for="log-login-show">Registrate</label>#}
-            {#</a>#}
-
-        {#</div>#}
-
-        {#<div class="white-panel">#}
-            {#<form id="login-form" method="post" action="{{ path("fos_user_security_check") }}">#}
-            {#<div class="login-show">#}
-                {#<h2>Entrar</h2>#}
-                {#{% if error %}#}
-                {#<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>#}
-                {#{% endif %}#}
-                    {#<input type="text" value="{{ last_username }}" name="_username" placeholder="Usuario o dirección de correo electrónico" required autofocus>#}
-                    {#<input type="password" name="_password" placeholder="Contraseña" required>#}
-                    {#<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">#}
-                    {#<a href="#">¿Olvidó su contraseña?</a>#}
-                {#<input type="submit" value="Entrar">#}
-            {#</div>#}
-            {#</form>#}
-        {#</div>#}
-    {#</div>#}
 <html lang="en"><head>
     <meta charset="utf-8">
     <meta name="robots" content="noindex, nofollow">
 
-    <title>Iniciar sesión|Emplear.ec</title>
+    <title>Iniciar sesión | Emplear.ec</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script type="text/javascript" async="" src="https://ssl.google-analytics.com/ga.js"></script><script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
     <link media="all" type="text/css" rel="stylesheet" href="https://bootsnipp.com/css/fullscreen.css">

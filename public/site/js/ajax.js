@@ -1,3 +1,21 @@
+function showModal(id){
+    $('#confirm-delete').modal('show')
+    $('#confirm-delete').on('click',"#close",function () {
+        $.ajax({
+            url: '/ajax/job/remove',
+            data: {'id': id},
+            type: "POST"
+        }).done(function (response) {
+            $('#confirm-delete').modal('toggle');
+            location.reload()
+        }).fail(function (data) {
+            console.log('fail')
+            console.log(data)
+        })
+
+    })
+}
+
 $("#qualification").on("submit", function (e) {
     e.preventDefault();
     let data = {};
@@ -71,6 +89,43 @@ $("#skills-form").on("submit", function (e) {
     }
 })
 
+$("#skills-form-edit").on("submit", function (e) {
+    e.preventDefault();
+    let data = {};
+    let errors = []
+    $(this).serializeArray().forEach((object) => {
+        if(!object.value){
+            errors.push("El campo "+object.name+" no puede estar en blanco")
+        }else{
+            data[object.name] = object.value;
+        }
+    });
+    if(errors.length> 0)
+    {
+        var html="";
+        for (var i = 0; i<errors.length; i++){
+            html += '<li class="list-group-item list-group-item-danger">'+errors[i]+'</li>'
+        }
+        $('#errors-list').html(html)
+        $("#modal-error").modal('show')
+    }else {
+        $.ajax({
+            url: $(this).attr('action'),
+            data: data,
+            type: "POST"
+        }).done(function (response) {
+
+            $('#modal-pro-skill-edit').modal('toggle');
+            location.reload();
+
+        }).fail(function (data) {
+            console.log('fail')
+            console.log(data)
+        })
+    }
+})
+
+
 $("#add-experience").on("submit", function (e) {
     e.preventDefault();
     let data = {};
@@ -97,26 +152,8 @@ $("#add-experience").on("submit", function (e) {
             data: data,
             type: "POST"
         }).done(function (response) {
-            var div = document.createElement("div")
-            div.classList.add("experience-section")
-            var span = document.createElement("span")
-            var span_text = document.createTextNode(data.period)
-            span.classList.add("service-year")
-            var h5 = document.createElement("h5")
-            var h5_text = document.createTextNode(data.title)
-            var p = document.createTextNode(data.description)
-            span.appendChild(span_text)
-            h5.appendChild(h5_text)
-            div.appendChild(span)
-            div.appendChild(h5)
-            div.appendChild(p)
-            $('#btn1').before(div)
             $('#modal-experience-add').modal('toggle');
-            $(':input', '#add-experience')
-                .not(':button, :submit, :reset, :hidden')
-                .val('')
-                .prop('checked', false)
-                .prop('selected', false);
+            location.reload()
         }).fail(function (data) {
             console.log('fail')
             console.log(data)
@@ -236,26 +273,7 @@ $("#form-education-add").on("submit", function (e) {
             data: data,
             type: "POST"
         }).done(function (response) {
-            var div = document.createElement("div")
-            div.classList.add("education-label")
-            var span = document.createElement("span")
-            var span_text = document.createTextNode(data.period)
-            span.classList.add("study-year")
-            var h5 = document.createElement("h5")
-            var h5_text = document.createTextNode(data.title)
-            var p = document.createTextNode(data.description)
-            span.appendChild(span_text)
-            h5.appendChild(h5_text)
-            div.appendChild(span)
-            div.appendChild(h5)
-            div.appendChild(p)
-            $('#btn').before(div)
-            $('#modal-new').modal('toggle');
-            $(':input', '#form-education-add')
-                .not(':button, :submit, :reset, :hidden')
-                .val('')
-                .prop('checked', false)
-                .prop('selected', false);
+            location.reload()
         }).fail(function (data) {
             console.log('fail')
             console.log(data)

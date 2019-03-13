@@ -18,6 +18,34 @@
                         </nav>
                     </div>
                 </div>
+                <div class="col-md-6">
+                    <div class="package breadcrumb-form ">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <h5>Tu plan es</h5>
+                                </div>
+                                <div class="col-md-3">
+                                    {% if app.user.package ==  'payment_free' %}
+                                        <button type="button" class="btn btn-secondary btn-lg btn-block">Gratis</button>
+                                    {% endif %}
+                                    {% if app.user.package ==  'payment_basic' %}
+                                        <div class="package-type">BÁSICO</div>
+                                    {% endif %}
+                                    {% if app.user.package ==  'payment_pyme' %}
+                                        <div class="package-type">PYME</div>
+                                    {% endif %}
+                                    {% if app.user.package ==  'payment_plus' %}
+                                        <div class="package-type">PLUS</div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-primary btn-lg btn-block">Cambiar plan</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -37,12 +65,12 @@
                                 </div>
                                 <div class="user-statistic">
                                     <i data-feather="file-text"></i>
-                                    <h3>123</h3>
+                                    <h3>{{ requests }}</h3>
                                     <span>Solicitud de presentación</span>
                                 </div>
                                 <div class="user-statistic">
                                     <i data-feather="users"></i>
-                                    <h3>32</h3>
+                                    <h3>-</h3>
                                     <span>Llamadas para entrevistas</span>
                                 </div>
                             </div>

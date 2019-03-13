@@ -21,6 +21,26 @@ use App\constants;
 
 class AjaxController extends AbstractController
 {
+
+    /**
+     * @Route("/ajax/job/remove", name="ajax_job_remove")
+     */
+    function removeJob(Request $request)
+    {
+        $id = $request->request->get('id');
+        $entityManager = $this->getDoctrine()->getManager();
+        $job = $entityManager->getRepository(Job::class)->find($id);
+        $entityManager->remove($job);
+        $entityManager->flush();
+        $response = new JsonResponse();
+        $response->setStatusCode(200);
+        $response->setData(array(
+            'response' => 'success',
+            'data' => 'done',
+        ));
+        return $response;
+    }
+
     /**
      * @Route("/ajax/abaut", name="ajax_about")
      */
@@ -51,7 +71,7 @@ class AjaxController extends AbstractController
         $info = array();
         for ($i = 1; $i <= $count; $i++) {
             $val = $request->request->get('skill-' . $i);
-            if($val!=null)
+            if ($val != null)
                 $info[] = $val;
         }
         $user = $this->get('security.token_storage')->getToken()->getUser();
@@ -62,7 +82,7 @@ class AjaxController extends AbstractController
         $response->setStatusCode(200);
         $response->setData(array(
             'response' => 'success',
-            'data'=>$info,
+            'data' => $info,
         ));
         return $response;
     }
@@ -70,7 +90,8 @@ class AjaxController extends AbstractController
     /**
      * @Route("/ajax/skill/remove", name="ajax_skill_remove")
      */
-    public function removeSkil(Request $request){
+    public function removeSkil(Request $request)
+    {
         $entityManager = $this->getDoctrine()->getManager();
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $item = $request->request->get('item');
@@ -80,7 +101,7 @@ class AjaxController extends AbstractController
         $response->setStatusCode(200);
         $response->setData(array(
             'response' => 'success',
-            'data'=>$item,
+            'data' => $item,
         ));
         return $response;
     }
@@ -88,7 +109,8 @@ class AjaxController extends AbstractController
     /**
      * @Route("/ajax/social", name="ajax_social")
      */
-    public function socialLinks(Request $request){
+    public function socialLinks(Request $request)
+    {
         $fb = $request->request->get('fb');
         $twitter = $request->request->get('twitter');
         $google = $request->request->get('google');
@@ -99,25 +121,26 @@ class AjaxController extends AbstractController
         $dribbble = $request->request->get('dribbble');
         $github = $request->request->get('github');
         $user = $this->get('security.token_storage')->getToken()->getUser();
-        $user->setSocialLinks($this->externalLinkFilter($fb),'fb');
-        $user->setSocialLinks($this->externalLinkFilter($twitter),'twitter');
-        $user->setSocialLinks($this->externalLinkFilter($google),'google');
-        $user->setSocialLinks($this->externalLinkFilter($linkedin),'linkedin');
-        $user->setSocialLinks($this->externalLinkFilter($printerest),'printerest');
-        $user->setSocialLinks($this->externalLinkFilter($instagram),'instagram');
-        $user->setSocialLinks($this->externalLinkFilter($behance),'behance');
-        $user->setSocialLinks($this->externalLinkFilter($dribbble),'dribbble');
-        $user->setSocialLinks($this->externalLinkFilter($github),'github');
+        $user->setSocialLinks($this->externalLinkFilter($fb), 'fb');
+        $user->setSocialLinks($this->externalLinkFilter($twitter), 'twitter');
+        $user->setSocialLinks($this->externalLinkFilter($google), 'google');
+        $user->setSocialLinks($this->externalLinkFilter($linkedin), 'linkedin');
+        $user->setSocialLinks($this->externalLinkFilter($printerest), 'printerest');
+        $user->setSocialLinks($this->externalLinkFilter($instagram), 'instagram');
+        $user->setSocialLinks($this->externalLinkFilter($behance), 'behance');
+        $user->setSocialLinks($this->externalLinkFilter($dribbble), 'dribbble');
+        $user->setSocialLinks($this->externalLinkFilter($github), 'github');
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->flush();
         $response = new JsonResponse();
         $response->setStatusCode(200);
         $response->setData(array(
             'response' => 'success',
-            'data'=>"OK",
+            'data' => "OK",
         ));
         return $response;
     }
+
     public function externalLinkFilter($url)
     {
         if (!preg_match("~^(?:f|ht)tps?://~i", $url)) {
@@ -126,15 +149,16 @@ class AjaxController extends AbstractController
 
         return $url;
     }
+
     /**
      * @Route("/ajax/metadata/save", name="ajax_metadata_save")
      */
-    public function saveMetadata(Request $request){
+    public function saveMetadata(Request $request)
+    {
         $entityManager = $this->getDoctrine()->getManager();
-        $resume  = $entityManager->getRepository(Resume::class)->findOneBy(array("id"=>$request->request->get('id')));
+        $resume = $entityManager->getRepository(Resume::class)->findOneBy(array("id" => $request->request->get('id')));
         $option = $request->request->get('option');
-        if($option == "1")
-        {
+        if ($option == "1") {
             $meta = new Metadata();
             $meta->setResume($resume);
             $meta->setType(constants::METADATA_EDUCATION_DAO);
@@ -145,25 +169,25 @@ class AjaxController extends AbstractController
             $meta->setDateCreate(new \DateTime("now"));
             $entityManager->persist($meta);
             $entityManager->flush();
-        }else{
+        } else {
             $count = $request->request->get('count');
-            for ($i = 1; $i < $count; $i++ ){
-                if(null !== $up = $entityManager->getRepository(Metadata::class)->find($request->request->get('rid-'.$i))){
-                    $up->setHeader($request->request->get('title-'.$i));
-                    $up->setContext($request->request->get('institute-'.$i));
-                    $up->setExtra($request->request->get('period-'.$i));
-                    $up->setDescription($request->request->get('description-'.$i));
+            for ($i = 1; $i < $count; $i++) {
+                if (null !== $up = $entityManager->getRepository(Metadata::class)->find($request->request->get('rid-' . $i))) {
+                    $up->setHeader($request->request->get('title-' . $i));
+                    $up->setContext($request->request->get('institute-' . $i));
+                    $up->setExtra($request->request->get('period-' . $i));
+                    $up->setDescription($request->request->get('description-' . $i));
                     $up->setDateCreate(new \DateTime("now"));
                     $entityManager->persist($up);
                     $entityManager->flush();
-                }else{
+                } else {
                     $meta = new Metadata();
                     $meta->setResume($resume);
                     $meta->setType(constants::METADATA_EDUCATION_DAO);
-                    $meta->setHeader($request->request->get('title-'.$i));
-                    $meta->setContext($request->request->get('institute-'.$i));
-                    $meta->setExtra($request->request->get('period-'.$i));
-                    $meta->setDescription($request->request->get('description-'.$i));
+                    $meta->setHeader($request->request->get('title-' . $i));
+                    $meta->setContext($request->request->get('institute-' . $i));
+                    $meta->setExtra($request->request->get('period-' . $i));
+                    $meta->setDescription($request->request->get('description-' . $i));
                     $meta->setDateCreate(new \DateTime("now"));
                     $entityManager->persist($meta);
                     $entityManager->flush();
@@ -174,14 +198,16 @@ class AjaxController extends AbstractController
         $response->setStatusCode(200);
         $response->setData(array(
             'response' => 'success',
-            'data'=>'done',
+            'data' => 'done',
         ));
         return $response;
     }
+
     /**
      * @Route("/ajax/metadata/remove", name="ajax_metadata_remove")
      */
-    function removeMetadata(Request $request){
+    function removeMetadata(Request $request)
+    {
         $id = $request->request->get('id');
         $entityManager = $this->getDoctrine()->getManager();
         $meta = $entityManager->getRepository(Metadata::class)->find($id);
@@ -191,14 +217,16 @@ class AjaxController extends AbstractController
         $response->setStatusCode(200);
         $response->setData(array(
             'response' => 'success',
-            'data'=>'done',
+            'data' => 'done',
         ));
         return $response;
     }
+
     /**
      * @Route("/ajax/metadata/expe/save", name="ajax_metadata_exp_save")
      */
-    function saveExperence(Request $request){
+    function saveExperence(Request $request)
+    {
         $entityManager = $this->getDoctrine()->getManager();
         $meta = new Metadata();
         $meta->setDateCreate(new \DateTime("now"));
@@ -207,7 +235,7 @@ class AjaxController extends AbstractController
         $meta->setContext($request->request->get('company'));
         $meta->setExtra($request->request->get('period'));
         $meta->setDescription($request->request->get('description'));
-        $resume  = $entityManager->getRepository(Resume::class)->findOneBy(array("id"=>$request->request->get('id')));
+        $resume = $entityManager->getRepository(Resume::class)->findOneBy(array("id" => $request->request->get('id')));
         $meta->setResume($resume);
         $entityManager->persist($meta);
         $entityManager->flush();
@@ -215,42 +243,62 @@ class AjaxController extends AbstractController
         $response->setStatusCode(200);
         $response->setData(array(
             'response' => 'success',
-            'data'=>'done',
+            'data' => 'done',
         ));
         return $response;
     }
+
     /**
      * @Route("/ajax/metadata/porcent/save", name="ajax_metadata_porcent_save")
      */
-    function savePorcent(Request $request){
+    function savePorcent(Request $request)
+    {
         $entityManager = $this->getDoctrine()->getManager();
-        $meta = new Metadata();
-        $meta->setDateCreate(new \DateTime("now"));
-        $meta->setType(constants::METADATA_PORCENT_DAO);
-        $meta->setHeader($request->request->get('name'));
-        $meta->setContext($request->request->get('porcent'));
-        $resume  = $entityManager->getRepository(Resume::class)->findOneBy(array("id"=>$request->request->get('id')));
-        $meta->setResume($resume);
-        $entityManager->persist($meta);
-        $entityManager->flush();
-        $response = new JsonResponse();
-        $response->setStatusCode(200);
-        $response->setData(array(
-            'response' => 'success',
-            'data'=>'done',
-        ));
-        return $response;
+        if (!empty($request->request->get('counter'))) {
+            $counter = $request->request->get('counter');
+            for($i = 1; $i<= $counter; $i++){
+                $meta = $entityManager->getRepository(Metadata::class)->find($request->request->get('meta_id-'.$i));
+                $meta->setHeader($request->request->get('name-'.$i));
+                $meta->setContext($request->request->get('porcent-'.$i));
+                $entityManager->flush();
+            }
+            $response = new JsonResponse();
+            $response->setData(array(
+                'response' => 'success',
+                'data' => 'done',
+            ));
+            return $response;
+        }else{
+            $meta = new Metadata();
+            $meta->setDateCreate(new \DateTime("now"));
+            $meta->setType(constants::METADATA_PORCENT_DAO);
+            $meta->setHeader($request->request->get('name'));
+            $meta->setContext($request->request->get('porcent'));
+            $resume = $entityManager->getRepository(Resume::class)->findOneBy(array("id" => $request->request->get('id')));
+            $meta->setResume($resume);
+            $entityManager->persist($meta);
+            $entityManager->flush();
+            $response = new JsonResponse();
+            $response->setStatusCode(200);
+            $response->setData(array(
+                'response' => 'success',
+                'data' => 'done',
+            ));
+            return $response;
+        }
     }
+
     /**
      * @Route("/ajax/metadata/qualification/save", name="ajax_metadata_qualification_save")
      */
-    function saveQualification(Request $request){
+    function saveQualification(Request $request)
+    {
         $entityManager = $this->getDoctrine()->getManager();
         $meta = new Metadata();
         $meta->setDateCreate(new \DateTime("now"));
         $meta->setType(constants::METADATA_QUALIFICATION_DAO);
         $meta->setHeader($request->request->get('name'));
-        $resume  = $entityManager->getRepository(Resume::class)->findOneBy(array("id"=>$request->request->get('id')));
+        $resume = $entityManager->getRepository(Resume::class)->findOneBy(array("id" => $request->request->get('id')));
         $meta->setResume($resume);
         $entityManager->persist($meta);
         $entityManager->flush();
@@ -258,19 +306,21 @@ class AjaxController extends AbstractController
         $response->setStatusCode(200);
         $response->setData(array(
             'response' => 'success',
-            'data'=>'done',
+            'data' => 'done',
         ));
         return $response;
     }
+
     /**
- * @Route("/ajax/bookmark", name="ajax_bookmark")
- */
-    function bookMark(Request $request){
+     * @Route("/ajax/bookmark", name="ajax_bookmark")
+     */
+    function bookMark(Request $request)
+    {
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $id = $request->request->get('id');
-        if(false !== $key = array_search($id, array_values($user->getBookmarked()),true)) {
+        if (false !== $key = array_search($id, array_values($user->getBookmarked()), true)) {
             $user->removeBookMarked($key);
-        }else {
+        } else {
             $user->addBookMarket($id);
         }
         $entityManager = $this->getDoctrine()->getManager();
@@ -279,51 +329,53 @@ class AjaxController extends AbstractController
         $response->setStatusCode(200);
         $response->setData(array(
             'response' => 'success',
-            'data'=>$request->request->get('id'),
+            'data' => $request->request->get('id'),
         ));
         return $response;
     }
+
     /**
      * @Route("/ajax/applied", name="ajax_applied")
      */
-    function applied(Request $request){
+    function applied(Request $request)
+    {
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $id = $request->request->get('id');
         $new = false;
         $entityManager = $this->getDoctrine()->getManager();
         $job = $entityManager->getRepository(Job::class)->find($id);
-        if(false !== $key = array_search($id, array_values($user->getApplied()),true)) {
+        if (false !== $key = array_search($id, array_values($user->getApplied()), true)) {
             $user->removeApplied($key);
             $user->removeJobAppiled($job);
             $job->removeUser($user);
             $job = $entityManager->getRepository(Job::class)->find($id);
             $this->notificate(constants::NOTIFICATIONS_JOB_APPLIED_CANCEL,
-                "Cancelaste tu propuesta: ".$job->getTitle(),$user);
-        }else {
+                "Cancelaste tu propuesta: " . $job->getTitle(), $user);
+        } else {
             $user->addApplied($id);
             $user->addJobAppiled($job);
             $job->addUser($user);
             $new = true;
             $job = $entityManager->getRepository(Job::class)->find($id);
             $this->notificate(constants::NOTIFICATIONS_JOB_APPLIED_OK,
-                "Aplicaste al trabajo: ".$job->getTitle(),$user);
+                "Aplicaste al trabajo: " . $job->getTitle(), $user);
             $this->notificate(constants::NOTIFICATIONS_JOB_APPLIED_ADMIN,
-                "El usuario ".$user->getUsername()." ha aplicado a su publicación:".$job->getTitle(),$job->getUser());
+                "El usuario " . $user->getUsername() . " ha aplicado a su publicación:" . $job->getTitle(), $job->getUser());
         }
-
         $entityManager->flush();
         $response = new JsonResponse();
         $response->setStatusCode(200);
         $response->setData(array(
             'response' => 'success',
-            'data'=>$new,
+            'data' => $new,
         ));
         return $response;
     }
 
-    function notificate($type,$context,$user){
+    function notificate($type, $context, $user)
+    {
         $entityManager = $this->getDoctrine()->getManager();
-        $notification =  new Notification();
+        $notification = new Notification();
         $notification->setDate(new \DateTime());
         $notification->setType($type);
         $notification->setContext($context);

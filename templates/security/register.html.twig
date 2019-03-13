@@ -2,7 +2,7 @@
     <meta charset="utf-8">
     <meta name="robots" content="noindex, nofollow">
 
-    <title>Registro|Emplear.ec</title>
+    <title>Registro | Emplear.ec</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script type="text/javascript" async="" src="https://ssl.google-analytics.com/ga.js"></script><script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
     <link media="all" type="text/css" rel="stylesheet" href="https://bootsnipp.com/css/fullscreen.css">
@@ -40,16 +40,16 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 {{ form_widget(form.username,{'attr': {'class':'form-control','placeholder': ' Nombre de usuario'} }) }}
-                                {% if form_errors(form.username) %}<p class="error">{{ form_errors(form.username)}}</p>{% endif %}
+                                {% if form_errors(form.username) %}<div class="error">{{ form_errors(form.username)}}</div>{% endif %}
                             </div>
 
                             <div class="form-group">
                                 {{ form_widget(form.email,{'attr': {'class':'form-control','placeholder': ' Dirección de correo'} }) }}
-                                {% if form_errors(form.email) %}<p class="error">{{ form_errors(form.email)}}</p>{% endif %}
+                                {% if form_errors(form.email) %}<div class="error">{{ form_errors(form.email)}}</div>{% endif %}
                             </div>
                             <div class="form-group">
                                 {{ form_widget(form.phone,{'attr': {'class':'form-control','required':'required','placeholder': 'Número de teléfono'} }) }}
-                                {% if form_errors(form.phone) %}<p class="error">{{ form_errors(form.phone)}}</p>{% endif %}
+                                {% if form_errors(form.phone) %}<div class="error">{{ form_errors(form.phone)}}</div>{% endif %}
                             </div>
                             <div class="form-group">
                                 <div class="maxl">
@@ -67,11 +67,11 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 {{ form_widget(form.plainPassword.first,{'attr': {'class':'form-control','placeholder': 'Contraseña'} }) }}
-                                {% if form_errors(form.plainPassword.first) %}<p class="error">{{ form_errors(form.plainPassword.first)}}</p>{% endif %}
+                                {% if form_errors(form.plainPassword.first) %}<div class="error">{{ form_errors(form.plainPassword.first)}}</div>{% endif %}
                             </div>
                             <div class="form-group">
                                 {{ form_widget(form.plainPassword.second,{'attr': {'class':'form-control','placeholder': 'Confirmar contraseña'} }) }}
-                                {% if form_errors(form.plainPassword.second) %}<p class="error">{{ form_errors(form.plainPassword.second)}}</p>{% endif %}
+                                {% if form_errors(form.plainPassword.second) %}<div class="error">{{ form_errors(form.plainPassword.second)}}</div>{% endif %}
                             </div>
                             <div class="form-group">
                                 <div style="visibility: hidden;">
@@ -93,29 +93,29 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 {{ form_widget(form2.username,{'attr': {'class':'form-control','placeholder': ' Nombre de usuario'} }) }}
-                                {% if form_errors(form2.username) %}<p class="error">{{ form_errors(form2.username)}}</p>{% endif %}
+                                {% if form_errors(form2.username) %}<div class="error">{{ form_errors(form2.username)}}</div>{% endif %}
                             </div>
                             <div class="form-group">
                                 {{ form_widget(form2.email,{'attr': {'class':'form-control','placeholder': ' Dirección de correo'} }) }}
-                                {% if form_errors(form2.email) %}<p class="error">{{ form_errors(form2.email)}}</p>{% endif %}
+                                {% if form_errors(form2.email) %}<div class="error">{{ form_errors(form2.email)}}</div>{% endif %}
                             </div>
                             <div class="form-group">
                                 {{ form_widget(form2.phone,{'attr': {'class':'form-control','required':'required','placeholder': 'Número de teléfono'} }) }}
-                                {% if form_errors(form2.phone) %}<p class="error">{{ form_errors(form2.phone)}}</p>{% endif %}
+                                {% if form_errors(form2.phone) %}<div class="error">{{ form_errors(form2.phone)}}</div>{% endif %}
                             </div>
                             <div class="form-group">
                                 {{ form_widget(form2.companyName,{'attr': {'class':'form-control','required':'required','placeholder': 'Nombre de la compañía'} }) }}
-                                {% if form_errors(form2.companyName) %}<p class="error">{{ form_errors(form2.companyName)}}</p>{% endif %}
+                                {% if form_errors(form2.companyName) %}<div class="error">{{ form_errors(form2.companyName)}}</div>{% endif %}
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 {{ form_widget(form2.plainPassword.first,{'attr': {'class':'form-control','placeholder': 'Contraseña'} }) }}
-                                {% if form_errors(form2.plainPassword.first) %}<p class="error">{{ form_errors(form2.plainPassword.first)}}</p>{% endif %}
+                                {% if form_errors(form2.plainPassword.first) %}<div class="error">{{ form_errors(form2.plainPassword.first)}}</div>{% endif %}
                             </div>
                             <div class="form-group">
                                 {{ form_widget(form2.plainPassword.second,{'attr': {'class':'form-control','placeholder': 'Confirmar contraseña'} }) }}
-                                {% if form_errors(form2.plainPassword.second) %}<p class="error">{{ form_errors(form2.plainPassword.second)}}</p>{% endif %}
+                                {% if form_errors(form2.plainPassword.second) %}<div class="error">{{ form_errors(form2.plainPassword.second)}}</div>{% endif %}
                             </div>
                             <div class="form-group">
                                 <div style="visibility: hidden;">

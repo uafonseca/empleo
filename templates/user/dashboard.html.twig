@@ -39,17 +39,17 @@
                             <div class="dashboard-section user-statistic-block">
                                 <div class="user-statistic">
                                     <i data-feather="pie-chart"></i>
-                                    <h3>132</h3>
+                                    <h3>{{ app.user.companiesSeen }}</h3>
                                     <span> Empresas vistas </span>
                                 </div>
                                 <div class="user-statistic">
                                     <i data-feather="briefcase"></i>
-                                    <h3>12</h3>
+                                    <h3>{{ app.user.jobAppiled|length }}</h3>
                                     <span>Trabajos Aplicados</span>
                                 </div>
                                 <div class="user-statistic">
                                     <i data-feather="heart"></i>
-                                    <h3>32</h3>
+                                    <h3>{{ app.user.bookmarked|length }}</h3>
                                     <span>Trabajos Favoritos</span>
                                 </div>
                             </div>

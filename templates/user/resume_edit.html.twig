@@ -11,7 +11,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="breadcrumb-area">
-                        <h1>Edit Resume</h1>
+                        <h1>Editar Currículum Vitae </h1>
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="#">Inicio</a></li>
@@ -744,7 +744,6 @@
                                             <div class="modal-body">
                                                 <div class="title">
                                                     <h4><i data-feather="briefcase"></i>Experiencia</h4>
-                                                    {#<a href="#" class="add-more">+ Add Experience</a>#}
                                                 </div>
                                                 <div class="content">
                                                     <form action="{{ path('ajax_metadata_save') }}"
@@ -979,7 +978,6 @@
                                                                         </div>
                                                                         <input name="name" type="text"
                                                                                class="form-control">
-                                                                        {#<input type="hidden" name="media-id" id="{{  }}">#}
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -1013,6 +1011,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="modal fade modal-pro-skill" id="modal-pro-skill-edit" tabindex="-1"
                                      role="dialog"
                                      aria-hidden="true">
@@ -1023,7 +1022,7 @@
                                                     <h4><i data-feather="feather"></i>Habilidades profesionales</h4>
                                                 </div>
                                                 <div class="content">
-                                                    <form id="skills-form-edit">
+                                                    <form id="skills-form-edit" method="post" action="{{ path('ajax_metadata_porcent_save') }}">
                                                         <div class="input-block-wrap">
                                                             {% set i = 1 %}
                                                             {% for m in metas %}
@@ -1048,7 +1047,7 @@
                                                                                     </div>
                                                                                 </div>
                                                                                 <input value="{{ m.header }}"
-                                                                                       name="name" type="text"
+                                                                                       name="name-{{ i }}" type="text"
                                                                                        class="form-control">
                                                                             </div>
                                                                         </div>
@@ -1062,10 +1061,12 @@
                                                                                     </div>
                                                                                 </div>
                                                                                 <input value="{{ m.context }}"
-                                                                                       name="porcent" type="number"
+                                                                                       name="porcent-{{ i }}" type="number"
                                                                                        class="form-control">
                                                                                 <input name="id" type="hidden"
                                                                                        value="{{ resume.id }}">
+                                                                                <input type="hidden" name="meta_id-{{ i }}" value="{{ m.id }}">
+                                                                                <input type="hidden" name="counter" value="{{ i }}">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -1118,7 +1119,6 @@
                                             <div class="modal-body">
                                                 <div class="title">
                                                     <h4><i data-feather="align-left"></i>Calificación Especial</h4>
-                                                    {#<a href="#" class="add-more">+ Add Another</a>#}
                                                 </div>
                                                 <div class="content">
                                                     <form method="post" id="qualification1" action="#">
@@ -1171,7 +1171,6 @@
                                             <div class="modal-body">
                                                 <div class="title">
                                                     <h4><i data-feather="align-left"></i>Calificación Especial</h4>
-                                                    {#<a href="#" class="add-more">+ Add Another</a>#}
                                                 </div>
                                                 <div class="content">
                                                     <form id="qualification" action="{{ path('ajax_metadata_qualification_save') }}">
@@ -1205,210 +1204,6 @@
                                     </div>
                                 </div>
                             </div>
-                            {#<div class="portfolio dashboard-section details-section">#}
-                                {#<h4><i data-feather="gift"></i>Portfolio</h4>#}
-                                {#<div class="portfolio-slider owl-carousel">#}
-                                    {#<div class="portfolio-item">#}
-                                        {#<img src="images/portfolio/thumb-3.jpg" class="img-fluid" alt="">#}
-                                        {#<div class="overlay">#}
-                                            {#<a href="#"><i data-feather="eye"></i></a>#}
-                                            {#<a href="#"><i data-feather="link"></i></a>#}
-                                        {#</div>#}
-                                    {#</div>#}
-                                    {#<div class="portfolio-item">#}
-                                        {#<img src="images/portfolio/thumb-1.jpg" class="img-fluid" alt="">#}
-                                        {#<div class="overlay">#}
-                                            {#<a href="#"><i data-feather="eye"></i></a>#}
-                                            {#<a href="#"><i data-feather="link"></i></a>#}
-                                        {#</div>#}
-                                    {#</div>#}
-                                    {#<div class="portfolio-item">#}
-                                        {#<img src="images/portfolio/thumb-2.jpg" class="img-fluid" alt="">#}
-                                        {#<div class="overlay">#}
-                                            {#<a href="#"><i data-feather="eye"></i></a>#}
-                                            {#<a href="#"><i data-feather="link"></i></a>#}
-                                        {#</div>#}
-                                    {#</div>#}
-                                    {#<div class="portfolio-item">#}
-                                        {#<img src="images/portfolio/thumb-3.jpg" class="img-fluid" alt="">#}
-                                        {#<div class="overlay">#}
-                                            {#<a href="#"><i data-feather="eye"></i></a>#}
-                                            {#<a href="#"><i data-feather="link"></i></a>#}
-                                        {#</div>#}
-                                    {#</div>#}
-                                    {#<div class="portfolio-item">#}
-                                        {#<img src="images/portfolio/thumb-2.jpg" class="img-fluid" alt="">#}
-                                        {#<div class="overlay">#}
-                                            {#<a href="#"><i data-feather="eye"></i></a>#}
-                                            {#<a href="#"><i data-feather="link"></i></a>#}
-                                        {#</div>#}
-                                    {#</div>#}
-                                {#</div>#}
-                                {#<!-- Button trigger modal -->#}
-                                {#<button type="button" class="btn btn-primary edit-resume" data-toggle="modal"#}
-                                        {#data-target="#modal-portfolio">#}
-                                    {#<i data-feather="edit-2"></i>#}
-                                {#</button>#}
-                                {#<!-- Modal -->#}
-                                {#<div class="modal fade modal-portfolio" id="modal-portfolio" tabindex="-1" role="dialog"#}
-                                     {#aria-hidden="true">#}
-                                    {#<div class="modal-dialog" role="document">#}
-                                        {#<div class="modal-content">#}
-                                            {#<div class="modal-body">#}
-                                                {#<div class="title">#}
-                                                    {#<h4><i data-feather="grid"></i>Portfolio</h4>#}
-                                                    {#<a href="#" class="add-more">+ Add Another</a>#}
-                                                {#</div>#}
-                                                {#<div class="content">#}
-                                                    {#<form action="#">#}
-                                                        {#<div class="input-block-wrap">#}
-                                                            {#<div class="form-group row">#}
-                                                                {#<label class="col-sm-3 col-form-label">Portfolio#}
-                                                                    {#01</label>#}
-                                                                {#<div class="col-sm-9">#}
-                                                                    {#<div class="input-group">#}
-                                                                        {#<div class="input-group-prepend">#}
-                                                                            {#<div class="input-group-text">Title</div>#}
-                                                                        {#</div>#}
-                                                                        {#<input type="text" class="form-control">#}
-                                                                    {#</div>#}
-                                                                {#</div>#}
-                                                            {#</div>#}
-                                                            {#<div class="form-group row">#}
-                                                                {#<div class="offset-sm-3 col-sm-9">#}
-                                                                    {#<div class="input-group">#}
-                                                                        {#<div class="input-group-prepend">#}
-                                                                            {#<div class="input-group-text">Image</div>#}
-                                                                        {#</div>#}
-                                                                        {#<div class="upload-profile-photo">#}
-                                                                            {#<div class="update-photo">#}
-                                                                                {#<img class="image"#}
-                                                                                     {#src="images/portfolio/thumb-1.jpg"#}
-                                                                                     {#alt="">#}
-                                                                            {#</div>#}
-                                                                            {#<div class="file-upload">#}
-                                                                                {#<input type="file" class="file-input">Change#}
-                                                                                {#Avatar#}
-                                                                            {#</div>#}
-                                                                        {#</div>#}
-                                                                    {#</div>#}
-                                                                {#</div>#}
-                                                            {#</div>#}
-                                                            {#<div class="form-group row">#}
-                                                                {#<div class="offset-sm-3 col-sm-9">#}
-                                                                    {#<div class="input-group">#}
-                                                                        {#<div class="input-group-prepend">#}
-                                                                            {#<div class="input-group-text">Link</div>#}
-                                                                        {#</div>#}
-                                                                        {#<input type="text" class="form-control">#}
-                                                                    {#</div>#}
-                                                                {#</div>#}
-                                                            {#</div>#}
-                                                        {#</div>#}
-                                                        {#<div class="input-block-wrap">#}
-                                                            {#<div class="form-group row">#}
-                                                                {#<label class="col-sm-3 col-form-label">Portfolio#}
-                                                                    {#02</label>#}
-                                                                {#<div class="col-sm-9">#}
-                                                                    {#<div class="input-group">#}
-                                                                        {#<div class="input-group-prepend">#}
-                                                                            {#<div class="input-group-text">Title</div>#}
-                                                                        {#</div>#}
-                                                                        {#<input type="text" class="form-control">#}
-                                                                    {#</div>#}
-                                                                {#</div>#}
-                                                            {#</div>#}
-                                                            {#<div class="form-group row">#}
-                                                                {#<div class="offset-sm-3 col-sm-9">#}
-                                                                    {#<div class="input-group">#}
-                                                                        {#<div class="input-group-prepend">#}
-                                                                            {#<div class="input-group-text">Image</div>#}
-                                                                        {#</div>#}
-                                                                        {#<div class="upload-profile-photo">#}
-                                                                            {#<div class="update-photo">#}
-                                                                                {#<img class="image"#}
-                                                                                     {#src="images/portfolio/thumb-1.jpg"#}
-                                                                                     {#alt="">#}
-                                                                            {#</div>#}
-                                                                            {#<div class="file-upload">#}
-                                                                                {#<input type="file" class="file-input">Change#}
-                                                                                {#Avatar#}
-                                                                            {#</div>#}
-                                                                        {#</div>#}
-                                                                    {#</div>#}
-                                                                {#</div>#}
-                                                            {#</div>#}
-                                                            {#<div class="form-group row">#}
-                                                                {#<div class="offset-sm-3 col-sm-9">#}
-                                                                    {#<div class="input-group">#}
-                                                                        {#<div class="input-group-prepend">#}
-                                                                            {#<div class="input-group-text">Link</div>#}
-                                                                        {#</div>#}
-                                                                        {#<input type="text" class="form-control">#}
-                                                                    {#</div>#}
-                                                                {#</div>#}
-                                                            {#</div>#}
-                                                        {#</div>#}
-                                                        {#<div class="input-block-wrap">#}
-                                                            {#<div class="form-group row">#}
-                                                                {#<label class="col-sm-3 col-form-label">Portfolio#}
-                                                                    {#03</label>#}
-                                                                {#<div class="col-sm-9">#}
-                                                                    {#<div class="input-group">#}
-                                                                        {#<div class="input-group-prepend">#}
-                                                                            {#<div class="input-group-text">Title</div>#}
-                                                                        {#</div>#}
-                                                                        {#<input type="text" class="form-control">#}
-                                                                    {#</div>#}
-                                                                {#</div>#}
-                                                            {#</div>#}
-                                                            {#<div class="form-group row">#}
-                                                                {#<div class="offset-sm-3 col-sm-9">#}
-                                                                    {#<div class="input-group">#}
-                                                                        {#<div class="input-group-prepend">#}
-                                                                            {#<div class="input-group-text">Image</div>#}
-                                                                        {#</div>#}
-                                                                        {#<div class="upload-profile-photo">#}
-                                                                            {#<div class="update-photo">#}
-                                                                                {#<img class="image"#}
-                                                                                     {#src="images/portfolio/thumb-1.jpg"#}
-                                                                                     {#alt="">#}
-                                                                            {#</div>#}
-                                                                            {#<div class="file-upload">#}
-                                                                                {#<input type="file" class="file-input">Change#}
-                                                                                {#Avatar#}
-                                                                            {#</div>#}
-                                                                        {#</div>#}
-                                                                    {#</div>#}
-                                                                {#</div>#}
-                                                            {#</div>#}
-                                                            {#<div class="form-group row">#}
-                                                                {#<div class="offset-sm-3 col-sm-9">#}
-                                                                    {#<div class="input-group">#}
-                                                                        {#<div class="input-group-prepend">#}
-                                                                            {#<div class="input-group-text">Link</div>#}
-                                                                        {#</div>#}
-                                                                        {#<input type="text" class="form-control">#}
-                                                                    {#</div>#}
-                                                                {#</div>#}
-                                                            {#</div>#}
-                                                        {#</div>#}
-                                                        {#<div class="row">#}
-                                                            {#<div class="offset-sm-3 col-sm-9">#}
-                                                                {#<div class="buttons">#}
-                                                                    {#<button class="primary-bg">Save Update</button>#}
-                                                                    {#<button class="" data-dismiss="modal">Cancel#}
-                                                                    {#</button>#}
-                                                                {#</div>#}
-                                                            {#</div>#}
-                                                        {#</div>#}
-                                                    {#</form>#}
-                                                {#</div>#}
-                                            {#</div>#}
-                                        {#</div>#}
-                                    {#</div>#}
-                                {#</div>#}
-                            {#</div>#}
                             <div class="personal-information dashboard-section last-child details-section">
                                 <h4><i data-feather="user-plus"></i>Datos personales</h4>
                                 <ul>
@@ -1417,93 +1212,6 @@
                                     <li><span>Sexo:</span> {{ app.user.gender }}</li>
                                     <li><span>Dirección:</span> {{ app.user.address }}</li>
                                 </ul>
-                                <!-- Button trigger modal -->
-                                {#<button type="button" class="btn btn-primary edit-resume" data-toggle="modal"#}
-                                        {#data-target="#modal-personal-details">#}
-                                    {#<i data-feather="edit-2"></i>#}
-                                {#</button>#}
-                                <!-- Modal -->
-                                {#<div class="modal fade" id="modal-personal-details" tabindex="-1" role="dialog"#}
-                                     {#aria-hidden="true">#}
-                                    {#<div class="modal-dialog" role="document">#}
-                                        {#<div class="modal-content">#}
-                                            {#<div class="modal-body">#}
-                                                {#<div class="title">#}
-                                                    {#<h4><i data-feather="user-plus"></i>Datos personales</h4>#}
-                                                {#</div>#}
-                                                {#<div class="content">#}
-                                                    {#<form action="#">#}
-                                                        {#<div class="form-group row">#}
-                                                            {#<label class="col-sm-3 col-form-label">Nombre</label>#}
-                                                            {#<div class="col-sm-9">#}
-                                                                {#<input type="text" class="form-control"#}
-                                                                       {#placeholder="Micheal N. Taylor">#}
-                                                            {#</div>#}
-                                                        {#</div>#}
-                                                        {#<div class="form-group row">#}
-                                                            {#<label class="col-sm-3 col-form-label">Father’s Name</label>#}
-                                                            {#<div class="col-sm-9">#}
-                                                                {#<input type="text" class="form-control"#}
-                                                                       {#placeholder="Howard Armour">#}
-                                                            {#</div>#}
-                                                        {#</div>#}
-                                                        {#<div class="form-group row">#}
-                                                            {#<label class="col-sm-3 col-form-label">Mother’s Name</label>#}
-                                                            {#<div class="col-sm-9">#}
-                                                                {#<input type="text" class="form-control"#}
-                                                                       {#placeholder="Megan Higbee">#}
-                                                            {#</div>#}
-                                                        {#</div>#}
-                                                        {#<div class="form-group row">#}
-                                                            {#<label class="col-sm-3 col-form-label">Date Of Birth</label>#}
-                                                            {#<div class="col-sm-9">#}
-                                                                {#<input type="text" class="form-control"#}
-                                                                       {#placeholder="22/08/1992">#}
-                                                            {#</div>#}
-                                                        {#</div>#}
-                                                        {#<div class="form-group row">#}
-                                                            {#<label class="col-sm-3 col-form-label">Nationality</label>#}
-                                                            {#<div class="col-sm-9">#}
-                                                                {#<input type="text" class="form-control"#}
-                                                                       {#placeholder="American">#}
-                                                            {#</div>#}
-                                                        {#</div>#}
-                                                        {#<div class="form-group row">#}
-                                                            {#<label class="col-sm-3 col-form-label">Gender</label>#}
-                                                            {#<div class="col-sm-9">#}
-                                                                {#<input type="text" class="form-control"#}
-                                                                       {#placeholder="Male">#}
-                                                            {#</div>#}
-                                                        {#</div>#}
-                                                        {#<div class="form-group row">#}
-                                                            {#<label class="col-sm-3 col-form-label">Age</label>#}
-                                                            {#<div class="col-sm-9">#}
-                                                                {#<input type="text" class="form-control"#}
-                                                                       {#placeholder="25 Years">#}
-                                                            {#</div>#}
-                                                        {#</div>#}
-                                                        {#<div class="form-group row">#}
-                                                            {#<label class="col-sm-3 col-form-label">Address</label>#}
-                                                            {#<div class="col-sm-9">#}
-                                                                {#<input type="text" class="form-control"#}
-                                                                       {#placeholder="2018 Nelm Street, Beltsville, VA 20705">#}
-                                                            {#</div>#}
-                                                        {#</div>#}
-                                                        {#<div class="row">#}
-                                                            {#<div class="offset-sm-3 col-sm-9">#}
-                                                                {#<div class="buttons">#}
-                                                                    {#<button class="primary-bg">Save Update</button>#}
-                                                                    {#<button class="" data-dismiss="modal">Cancel#}
-                                                                    {#</button>#}
-                                                                {#</div>#}
-                                                            {#</div>#}
-                                                        {#</div>#}
-                                                    {#</form>#}
-                                                {#</div>#}
-                                            {#</div>#}
-                                        {#</div>#}
-                                    {#</div>#}
-                                {#</div>#}
                             </div>
                         </div>
                         {% include 'user/dashboard_sidebar.html.twig' %}
@@ -1513,28 +1221,6 @@
         </div>
     </div>
 
-    <!-- Call to Action -->
-    {#<div class="call-to-action-bg padding-top-90 padding-bottom-90">#}
-        {#<div class="container">#}
-            {#<div class="row">#}
-                {#<div class="col">#}
-                    {#<div class="call-to-action-2">#}
-                        {#<div class="call-to-action-content">#}
-                            {#<h2>For Find Your Dream Job or Candidate</h2>#}
-                            {#<p>Add resume or post a job. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut#}
-                                {#elit tellus, luctus nec.</p>#}
-                        {#</div>#}
-                        {#<div class="call-to-action-button">#}
-                            {#<a href="add-resume.html" class="button">Add Resume</a>#}
-                            {#<span>Or</span>#}
-                            {#<a href="post-job.html" class="button">Post A Job</a>#}
-                        {#</div>#}
-                    {#</div>#}
-                {#</div>#}
-            {#</div>#}
-        {#</div>#}
-    {#</div>#}
-    <!-- Call to Action End -->
 
 
 {% endblock %}

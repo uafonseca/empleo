@@ -18,14 +18,14 @@ use App\Form\ResumeFilesType;
 use App\Form\ResumeType;
 use App\Form\UserFullyEmployerType;
 use App\Form\UserFullyType;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\constants;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
-class mainController extends AbstractController
+class mainController extends Controller
 {
 
 //    /**
@@ -114,6 +114,7 @@ class mainController extends AbstractController
             return $this->render('user/employer/dashboard.html.twig', array(
                 'notifications' => $notifications,
                 'public'=>$public,
+                'requests'=>$em->getRepository(Job::class)->requests($user),
             ));
         } else {
             return $this->render('user/dashboard.html.twig', array(
@@ -317,10 +318,10 @@ class mainController extends AbstractController
     /**
      * @Route("/manage/candidates", name="manage_candidates")
      */
-    public function manageCandidates()
+    public function manageCandidates(Request $request)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $users = $entityManager->getRepository(User::class)->findAll();
+        $users = $entityManager->getRepository(User::class)->findCandidatesList($user = $this->get('security.token_storage')->getToken()->getUser()->getId());
         $i = 0;
         foreach ($users as $user){
             if(!$user->getCandidate()){
@@ -328,13 +329,23 @@ class mainController extends AbstractController
             }
             $i++;
         }
+        $pagination  = $this->get('knp_paginator')->paginate(
+            $users,
+            $request->query->getInt('page', 1),
+            10);
+        $pagination->setTemplate('site/pagination.html.twig');
         $path = $this->getParameter('app.path.user_cv') . '/';
         return $this->render('user/employer/candidate.html.twig',
             array(
-                'candidates' => $users,
+                'candidates' => $pagination,
                 'notifications' => $this->loadNotifications(),
                 'url'=>$path,
             ));
     }
-
+    /**
+     * @Route("/manage/mail/write", name="manage_mail_write")
+     */
+    public function writeEmail(){
+        return $this->render('mail/send.html.twig');
+    }
 }

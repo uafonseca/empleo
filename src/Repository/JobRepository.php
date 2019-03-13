@@ -110,6 +110,19 @@ class JobRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+    public function requests($user){
+        $jobs =$this->createQueryBuilder('j')
+            ->andWhere('j.user = :val')
+            ->setParameter('val', $user)
+            ->orderBy('j.status', 'ASC')
+            ->getQuery()
+            ->getResult();
+        $count = 0;
+        for($i = 0;$i< count($jobs);$i++){
+            $count += count($jobs[$i]->getUsers());
+        }
+        return $count;
+    }
 
     public function finJobByUser($user){
         return $this->createQueryBuilder('j')
@@ -130,5 +143,4 @@ class JobRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
-
 }

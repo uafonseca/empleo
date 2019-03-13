@@ -26,20 +26,25 @@ class JobController extends Controller
     {
         $post = new Job();
         $form = $this->createForm(JobType::class, $post);
+        $currentUser= $this->get('security.token_storage')->getToken()->getUser();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $payment = $request->get('my_radio');
             switch ($payment) {
                 case constants::PAYMENT_FREE:
+                    $currentUser->setPackage(constants::PAYMENT_FREE);
                     $post->setExpiredDate($post->getDate()->add(\DateInterval::createfromdatestring('+'.constants::PAYMENT_FREE_DAYS.' day')));
                     break;
                 case constants::PAYMENT_BASIC:
+                    $currentUser->setPackage(constants::PAYMENT_BASIC);
                     $post->setExpiredDate($post->getDate()->add(\DateInterval::createfromdatestring('+'.constants::PAYMENT_BASIC_DAYS.' day')));
                     break;
                 case constants::PAYMENT_PYME:
+                    $currentUser->setPackage(constants::PAYMENT_PYME);
                     $post->setExpiredDate($post->getDate()->add(\DateInterval::createfromdatestring('+'.constants::PAYMENT_PYME_DAYS.' day')));
                     break;
                 case constants::PAYMENT_PLUS:
+                    $currentUser->setPackage(constants::PAYMENT_PLUS);
                     $post->setExpiredDate($post->getDate()->add(\DateInterval::createfromdatestring('+'.constants::PAYMENT_PLUS_DAYS.' day')));
                     break;
                 default:
@@ -58,7 +63,8 @@ class JobController extends Controller
                 $post->setStatus(constants::JOB_STATUS_ACTIVE);
             }
             $entityManager = $this->getDoctrine()->getManager();
-            $post->setUser($this->get('security.token_storage')->getToken()->getUser());
+            $entityManager->flush();
+            $post->setUser($currentUser);
             $post->setDateCreated(new \DateTime("now"));
             $entityManager->persist($post);
             $entityManager->flush();

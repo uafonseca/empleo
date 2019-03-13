@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -30,6 +32,17 @@ class Category
      * @ORM\Column(type="string", length=255)
      */
     private $description;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="category")
+     */
+    private $users_list;
+
+
+    public function __construct()
+    {
+        $this->users_list = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -76,5 +89,34 @@ class Category
     {
        return $this->getName();
     }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsersList(): Collection
+    {
+        return $this->users_list;
+    }
+
+    public function addUsersList(User $usersList): self
+    {
+        if (!$this->users_list->contains($usersList)) {
+            $this->users_list[] = $usersList;
+            $usersList->addCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUsersList(User $usersList): self
+    {
+        if ($this->users_list->contains($usersList)) {
+            $this->users_list->removeElement($usersList);
+            $usersList->removeCategory($this);
+        }
+
+        return $this;
+    }
+
 
 }

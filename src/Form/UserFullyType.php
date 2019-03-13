@@ -65,6 +65,7 @@ class UserFullyType extends AbstractType
                 'class' => Category::class,
                 'placeholder' => 'Categoría',
                 'choice_label' => 'name',
+                'multiple'=>true,
                 'required'=>true,
             ])
             ->add('age',\Symfony\Component\Form\Extension\Core\Type\IntegerType::class,array('required'=>true))
