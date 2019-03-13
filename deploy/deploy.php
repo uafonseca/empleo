@@ -30,8 +30,8 @@ set('release_version_text', function () {
 
 set('slack_webhook', 'https://hooks.slack.com/services/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');
 set('slack_text', "_{{user}}_ is deploying `{{ release_version_text }}` to *{{target}}*");
-set('slack_success_text', 'Deploy `{{ release_version_text }}` to *{{target}}* successful');
-set('slack_failure_text', 'Deploy `{{ release_version_text }}` to *{{target}}* failed');
+set('slack_success_text', '_{{user}}_ - Deploy `{{ release_version_text }}` to *{{target}}* successful');
+set('slack_failure_text', '_{{user}}_ - Deploy `{{ release_version_text }}` to *{{target}}* failed');
 
 
 desc('Update database schema');
