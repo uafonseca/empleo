@@ -20,6 +20,9 @@
     "deployer/phar-update": {
         "version": "v2.1.0"
     },
+    "deployer/recipes": {
+        "version": "6.2.1"
+    },
     "desarrolla2/cache": {
         "version": "1.8.3"
     },
