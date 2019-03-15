@@ -2,7 +2,7 @@
 
 namespace Deployer;
 
-require 'recipe/symfony4.php';
+require __DIR__ . './../vendor/deployer/deployer/recipe/symfony4.php';
 require __DIR__ . './../vendor/deployer/recipes/recipe/slack.php';
 
 inventory('hosts.yml');
@@ -11,6 +11,7 @@ inventory('hosts.yml');
 set('git_tty', true);
 
 set('shared_dirs', ['var/log', 'var/sessions', 'vendor']);
+set('writable_dirs', ['var', 'public/images']);
 
 set('release_name', function () {
     return date('YmdHis');
