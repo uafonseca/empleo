@@ -441,7 +441,7 @@
                                     <div class="information">
                                         <h4>Información</h4>
                                         <ul>
-                                            <li><span>Category:</span> {{ app.user.category }}</li>
+                                            <li><span>Category:</span> {% for c in app.user.category %} {{ c }}<br>{% endfor %}</li>
                                             <li><span>Ubicación:</span> {{ app.user.address }} </li>
                                             <li><span>Disponibilidad:</span> {{ app.user.status }}</li>
                                             <li><span>Experiencia:</span> {{ app.user.experience }} Años</li>

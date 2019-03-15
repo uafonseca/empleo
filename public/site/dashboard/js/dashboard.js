@@ -10,7 +10,7 @@
         labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
         datasets: [{
           label: '# of Votes',
-          data: [12, 19, 3, 5, 2, 3],
+          data: [0, 0, 0, 0, 0, 0],
           backgroundColor: [
             'rgba(36, 109, 248, .2)'
           ],

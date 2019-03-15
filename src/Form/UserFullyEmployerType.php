@@ -37,6 +37,7 @@ class UserFullyEmployerType extends AbstractType
                 'class' => Category::class,
                 'placeholder' => 'Categoría',
                 'choice_label' => 'name',
+                'multiple'=>true,
                 'required'=>true,
             ])
             ->add('address',null,array('required'=>true))
