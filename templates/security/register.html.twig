@@ -17,6 +17,15 @@
 
 <div class="container register">
     <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-9">
+            <div class="headers">
+                <h1>La manera más fácil de encontrar trabajo</h1>
+                <h4>Encuentre empleos y oportunidades de carrera</h4>
+            </div>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-md-3 register-left">
             <img src="{{ asset('images/default/logo_sm.png') }}" alt=""/>
             <h3>Bievenido</h3>
@@ -172,8 +181,16 @@
         z-index: 1;
     }
     body{
-        background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+        background: url({{ asset('site/images/cover_login.jpg') }}) no-repeat;
+        background-size:cover ;
         height: 90%;
+    }
+    .headers h1, .headers h4{
+        color: white;
+        text-align: center;
+    }
+    .headers h4{
+        margin-bottom: 30px;
     }
     .register{
         background: -webkit-linear-gradient(left, #3931af, #00c6ff);
@@ -181,6 +198,9 @@
         padding: 3%;
         border-radius: 15px;
         box-shadow: 5px 5px 20px;
+        opacity: 0.9!important;
+        margin-right: 10px;
+        margin-bottom: 10px;
     }
     .register-left{
         text-align: center;
@@ -195,7 +215,7 @@
         background: #f8f9fa;
         font-weight: bold;
         color: #383d41;
-        margin-top: 5%;
+        margin-top: 1%;
         margin-bottom: 3%;
         cursor: pointer;
     }
@@ -227,6 +247,7 @@
     .register .register-form{
         padding: 10%;
         margin-top: 10%;
+        padding-right: 0;
     }
     .btnRegister{
         float: right;
