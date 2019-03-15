@@ -32,6 +32,8 @@ class AjaxController extends AbstractController
         $job = $entityManager->getRepository(Job::class)->find($id);
         $entityManager->remove($job);
         $entityManager->flush();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+
         $response = new JsonResponse();
         $response->setStatusCode(200);
         $response->setData(array(

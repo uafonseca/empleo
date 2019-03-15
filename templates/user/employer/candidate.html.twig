@@ -57,7 +57,14 @@
                                                 {% endif %}
                                                 <div class="info">
                                                     {% if  c.category is not null %}
-                                                        <span class="designation"><a href="#"><i data-feather="check-square"></i>{{ c.category }}</a></span>
+                                                        <span class="designation"><a href="#">
+                                                                <i data-feather="check-square"></i>
+                                                                {% for cat in c.category %}
+                                                                {{ cat }}
+                                                                    <br>
+                                                                {% endfor %}
+                                                            </a>
+                                                        </span>
                                                     {% else %}
                                                         <span class="designation"><a href="#"><i data-feather="check-square"></i>No definido</a></span>
                                                     {% endif %}
