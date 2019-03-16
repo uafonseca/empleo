@@ -19,8 +19,10 @@ use App\Form\ResumeType;
 use App\Form\UserFullyEmployerType;
 use App\Form\UserFullyType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 use App\constants;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -196,12 +198,8 @@ class mainController extends Controller
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
         $metas = $em->getRepository(Metadata::class)->findBy(array("resume" => $user->getResume()));
-        $cv = null;
-        $cart = null;
-        if (!empty($user->getResume()->getCv()))
-            $cv = $this->getParameter('app.path.user_cv') . '/' . $user->getResume()->getCv();
-        if (!empty($user->getResume()->getCart()))
-            $cart = $this->getParameter('app.path.user_cv') . '/' . $user->getResume()->getCart();
+        $cv = $user->getResume()->getCv();
+        $cart = $user->getResume()->getCart();
         return $this->render('user/resume.html.twig',
             array(
                 'resume' => $user->getResume(),
@@ -345,7 +343,33 @@ class mainController extends Controller
     /**
      * @Route("/manage/mail/write", name="manage_mail_write")
      */
-    public function writeEmail(){
+    public function writeEmail()
+    {
         return $this->render('mail/send.html.twig');
+    }
+    /**
+    *@Route("/candidate/{id}/detail", name="canditate_detail")
+    */
+    public function candidateDetails($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $canditate =$em->getRepository(User::class)->find($id);
+        return $this->render('user/employer/candidate_detail.html.twig',
+            array(
+                'notifications'=>$this->loadNotifications(),
+                'candidate'=>$canditate,
+            ));
+    }
+
+    /**
+     *@Route("/dowload/cv/{name}", name="dowload_cv")
+     */
+    public function dowloadCv($name)
+    {
+        $base = $this->getParameter('kernel.project_dir') . '/public/';
+        $path = $this->getParameter('app.path.user_cv') . '/';
+        $response = new BinaryFileResponse($base.$path.$name);
+        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT,$name);
+        return $response;
     }
 }

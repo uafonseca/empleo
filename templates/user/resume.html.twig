@@ -33,11 +33,11 @@
                         <div class="dashboard-content-wrapper">
                             <div class="download-resume dashboard-section">
                                 {% if cv != null %}
-                                <a target="_blank" href="{{ cv }}">Descargar Curriculum Vitae<i
+                                <a href="{{ path('dowload_cv', {'name': cv}) }}">Descargar Curriculum Vitae<i
                                             data-feather="download"></i></a>
                                 {% endif %}
                                 {% if cart != null %}
-                                <a target="_blank" href="{{ cart }}">Descargar carta de presentación<i
+                                <a href="{{ path('dowload_cv', {'name': cart}) }}">Descargar carta de presentación<i
                                             data-feather="download"></i></a>
                                 {% endif %}
                             </div>
@@ -164,46 +164,6 @@
                                     {% endfor %}
                                 </ul>
                             </div>
-                            {#<div class="portfolio dashboard-section details-section">#}
-                                {#<h4><i data-feather="gift"></i>Portfolio</h4>#}
-                                {#<div class="portfolio-slider owl-carousel">#}
-                                    {#<div class="portfolio-item">#}
-                                        {#<img src="images/portfolio/thumb-3.jpg" class="img-fluid" alt="">#}
-                                        {#<div class="overlay">#}
-                                            {#<a href="#"><i data-feather="eye"></i></a>#}
-                                            {#<a href="#"><i data-feather="link"></i></a>#}
-                                        {#</div>#}
-                                    {#</div>#}
-                                    {#<div class="portfolio-item">#}
-                                        {#<img src="images/portfolio/thumb-1.jpg" class="img-fluid" alt="">#}
-                                        {#<div class="overlay">#}
-                                            {#<a href="#"><i data-feather="eye"></i></a>#}
-                                            {#<a href="#"><i data-feather="link"></i></a>#}
-                                        {#</div>#}
-                                    {#</div>#}
-                                    {#<div class="portfolio-item">#}
-                                        {#<img src="images/portfolio/thumb-2.jpg" class="img-fluid" alt="">#}
-                                        {#<div class="overlay">#}
-                                            {#<a href="#"><i data-feather="eye"></i></a>#}
-                                            {#<a href="#"><i data-feather="link"></i></a>#}
-                                        {#</div>#}
-                                    {#</div>#}
-                                    {#<div class="portfolio-item">#}
-                                        {#<img src="images/portfolio/thumb-3.jpg" class="img-fluid" alt="">#}
-                                        {#<div class="overlay">#}
-                                            {#<a href="#"><i data-feather="eye"></i></a>#}
-                                            {#<a href="#"><i data-feather="link"></i></a>#}
-                                        {#</div>#}
-                                    {#</div>#}
-                                    {#<div class="portfolio-item">#}
-                                        {#<img src="images/portfolio/thumb-2.jpg" class="img-fluid" alt="">#}
-                                        {#<div class="overlay">#}
-                                            {#<a href="#"><i data-feather="eye"></i></a>#}
-                                            {#<a href="#"><i data-feather="link"></i></a>#}
-                                        {#</div>#}
-                                    {#</div>#}
-                                {#</div>#}
-                            {#</div>#}
                             <div class="personal-information dashboard-section last-child details-section">
                                 <h4><i data-feather="user-plus"></i>Datos personales</h4>
                                 <ul>

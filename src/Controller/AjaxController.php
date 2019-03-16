@@ -32,8 +32,6 @@ class AjaxController extends AbstractController
         $job = $entityManager->getRepository(Job::class)->find($id);
         $entityManager->remove($job);
         $entityManager->flush();
-        $user = $this->get('security.token_storage')->getToken()->getUser();
-
         $response = new JsonResponse();
         $response->setStatusCode(200);
         $response->setData(array(
@@ -385,5 +383,42 @@ class AjaxController extends AbstractController
         $notification->setActive(true);
         $entityManager->persist($notification);
         $entityManager->flush();
+    }
+    /**
+     * @Route("/mail/sender", name="mail_sender")
+     */
+    public function sendEmail(Request $request,\Swift_Mailer $mailer)
+    {
+        try{
+            $message = (new \Swift_Message('Notificación'))
+                ->setFrom('emplearecuador@gmail.com')
+                ->setBody($this->renderView(
+                    'mail/contact.html.twig',
+                    [
+                        'remit' => $request->request->get('remit'),
+                        'body'=>$request->request->get('body'),
+                        'email'=>$request->request->get('email'),
+                    ]
+                ),
+                    'text/html'
+                )
+                ->setTo($request->request->get('destinate'));
+            $mailer->send($message);
+            $response = new JsonResponse();
+            $response->setStatusCode(200);
+            $response->setData(array(
+                'response' => 'success',
+                'data'=>'success'
+            ));
+        }catch (\Exception $exception){
+            $response = new JsonResponse();
+            $response->setStatusCode(423);
+            $response->setData(array(
+                'response' => 'error',
+                'data'=>'error'
+            ));
+        }
+
+        return $response;
     }
 }

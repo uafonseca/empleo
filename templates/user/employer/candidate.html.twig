@@ -51,7 +51,7 @@
                                             </div>
                                             <div class="body">
                                                 {% if c.name is not null %}
-                                                    <h5><a href="#">{{ c.name }}</a></h5>
+                                                    <h5><a href="{{ path('canditate_detail', {'id': c.id}) }}">{{ c.name }}</a></h5>
                                                 {% else %}
                                                     <h5><a>No definido</a></h5>
                                                 {% endif %}
@@ -79,8 +79,10 @@
                                         </td>
                                         <td class="status"><i data-feather="check-circle"></i>Preseleccionado</td>
                                         <td class="action">
-                                            <a href="#" class="download"><i data-feather="download"></i></a>
-                                            <a href="{{ path('manage_mail_write') }}" class="inbox"><i data-feather="mail"></i></a>
+                                            {% if c.resume.cv is not null %}
+                                                <a href="{{ path('dowload_cv', {'name': c.resume.cv}) }}" class="download"><i data-feather="download"></i></a>
+                                            {% endif %}
+                                            <a href="{{ path('canditate_detail', {'id': c.id}) }}" class="inbox"><i data-feather="eye"></i></a>
                                             <a href="#" class="remove"><i data-feather="trash-2"></i></a>
                                         </td>
                                     </tr>

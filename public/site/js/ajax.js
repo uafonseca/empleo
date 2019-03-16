@@ -1,3 +1,54 @@
+// $(document).ready(function() {
+//     $('#send-btn').on('click', function() {
+//         var $this = $(this);
+//         var loadingText = '<i class="fa fa-circle-o-notch fa-spin"></i> Enviando...';
+//         if ($(this).html() !== loadingText) {
+//             $this.data('original-text', $(this).html());
+//             $this.html(loadingText);
+//         }
+//         setTimeout(function() {
+//             $this.html($this.data('original-text'));
+//         }, 5000);
+//     });
+// })
+$("#send-email").on("submit", function (e) {
+    e.preventDefault();
+    let data = {};
+    let errors = []
+    $(this).serializeArray().forEach((object) => {
+        if(!object.value){
+            errors.push("El campo "+object.name+" no puede estar en blanco")
+        }else{
+            data[object.name] = object.value;
+        }
+    });
+    if(errors.length> 0)
+    {
+        var html="";
+        for (var i = 0; i<errors.length; i++){
+            html += '<li class="list-group-item list-group-item-danger">'+errors[i]+'</li>'
+        }
+        $('#errors-list').html(html)
+        $("#modal-error").modal('show')
+    }else {
+        $('#send-btn').html('<i class="fa fa-circle-o-notch fa-spin"></i> Enviando...');
+        $.ajax({
+            url: '/mail/sender',
+            data: data,
+            type: "POST"
+        }).done(function (response) {
+            $('#send-btn').html('Mensaje Enviado');
+            $('#exampleModal').modal('toggle');
+            $('#send-btn').html('Enviar');
+            console.log(response.data)
+        }).fail(function (data) {
+            console.log('fail')
+            console.log(data)
+            $('#send-btn').html('Reintentar');
+        })
+    }
+})
+
 function showModal(id){
     $('#confirm-delete').modal('show')
     $('#confirm-delete').on('click',"#close",function () {
