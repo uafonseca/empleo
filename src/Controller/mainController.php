@@ -44,18 +44,17 @@ class mainController extends Controller
 
     {
         $em = $this->getDoctrine()->getManager();
-        $jobs = $em->getRepository(Job::class)->findAll();
-        $locations = $em->getRepository(Job::class)->Locations();
-        $categorys = $em->getRepository(Category::class)->categoryesCount();
-        $citys = $em->getRepository(Job::class)->Cityes();
-        $company = $em->getRepository(Job::class)->Company();
         return $this->render('site/job/index.html.twig', [
             'notifications' => $this->loadNotifications(),
-            'jobs' => $jobs,
-            'locations'=> $locations,
-            'categorys'=>$categorys,
-            'citys'=>$citys,
-            'company'=>$company,
+            'jobs' => $em->getRepository(Job::class)->findAll(),
+            'locations'=> $em->getRepository(Job::class)->Locations(),
+            'categorys'=>$em->getRepository(Category::class)->categoryesCount(),
+            'citys'=>$em->getRepository(Job::class)->Cityes(),
+            'company'=>$em->getRepository(Job::class)->Company(),
+            'works'=>count($em->getRepository(Job::class)->jobsByStatus(constants::JOB_STATUS_ACTIVE)),
+            'candidates'=>count($em->getRepository(User::class)->findByRole(\FOS\UserBundle\Model\User::ROLE_DEFAULT)),
+            'cv'=>count($em->getRepository(Resume::class)->findAll()),
+            'entity'=>count($em->getRepository(User::class)->findByRole('ROLE_ADMIN')),
         ]);
     }
 

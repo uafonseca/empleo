@@ -143,4 +143,12 @@ class JobRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
+    public function jobsByStatus($status){
+        return $this->createQueryBuilder('j')
+            ->where('j.status = :status')
+            ->setParameter('status',$status)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }
