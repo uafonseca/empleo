@@ -36,13 +36,21 @@
                                 <div class="my-tooltip">
                                     <span class="tooltiptext">Selecciona un archivo de tipo PDF</span>
                                     <div id="upl" class="update-file"    >
-                                        {{ form_widget(form_files.cvFile) }}Actualizar CV <i data-feather="edit-2"></i>
+                                        {% if app.user.resume.cv is not null %}
+                                        {{ form_widget(form_files.cvFile) }}<i data-feather="check-square"></i> Actualizar CV <i data-feather="edit-2"></i>
+                                        {% else %}
+                                            {{ form_widget(form_files.cvFile) }}Adicionar CV <i data-feather="edit-2"></i>
+                                        {% endif %}
                                     </div>
                                 </div>
                                 <div class="my-tooltip">
                                     <span class="tooltiptext">Selecciona un archivo de tipo PDF</span>
                                     <div class="update-file">
-                                        {{ form_widget(form_files.cartFile) }}Actualizar carta de presentación <i data-feather="edit-2"></i>
+                                        {% if app.user.resume.cart is not null %}
+                                        {{ form_widget(form_files.cartFile) }}<i data-feather="check-square"></i> Actualizar carta de presentación <i data-feather="edit-2"></i>
+                                        {% else %}
+                                            {{ form_widget(form_files.cartFile) }}Adicionar CV <i data-feather="edit-2"></i>
+                                        {% endif %}
                                     </div>
                                 </div>
                                 <div class="update-file">

@@ -113,7 +113,7 @@ class User extends BaseUser
     private $updatedAt;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Resume", mappedBy="user",cascade={"remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\Resume", mappedBy="user",cascade={"persist"} )
      */
     private $resume;
 

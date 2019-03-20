@@ -25,7 +25,7 @@ class Resume
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="resume", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="resume", cascade={"persist"})
      */
     private $user;
 
