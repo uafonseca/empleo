@@ -2,9 +2,8 @@
 {% block title %}Tablero{% endblock %}
 {% block body %}
     <link rel="stylesheet" type="text/css" href="{{ asset('site/dashboard/css/dashboard.css') }}">
-    {#{% set notifications = notifications %}#}
+    <link rel="stylesheet/scss" type="text/scss" href="{{ asset('site/dashboard/css/multi.scss') }}">
     {{  include ('site/header.html.twig',{'notifications': notifications}  )}}
-    {#{% include notifications %}#}
         <!-- Breadcrumb -->
     <div class="alice-bg padding-top-70 padding-bottom-70">
         <div class="container">

@@ -2190,3 +2190,6 @@ a{
   50% { opacity: 0.4; }
   100% { opacity: 1.0; }
 }
+#user_fully_category{
+  height: auto;
+}

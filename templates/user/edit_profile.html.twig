@@ -31,7 +31,11 @@
                             {{ form_start(form, {attr: {'class': 'dashboard-form'} }) }}
                             <div class="dashboard-section upload-profile-photo">
                                 <div class="update-photo">
-                                    <img class="image" src="{{ asset('images/user/')~app.user.image }}" alt="">
+                                    {% if app.user.image is not null %}
+                                        <img class="image"  src="{{ asset('images/user/')~ app.user.image }}" class="img-fluid" alt="">
+                                    {% else %}
+                                        <img class="image"  src="{{ asset('images/default/not_image_user.png') }}" class="img-fluid" alt="">
+                                    {% endif %}
                                 </div>
                                 <div id="file_upload" class="file-upload">
                                     {{ form_widget(form.imageFile, { 'attr': {'class': 'file-input'} } ) }}
@@ -131,7 +135,7 @@
                                     <label class="col-sm-3 col-form-label">Categoría<span
                                                 style="color: red">*</span></label>
                                     <div class="col-sm-9">
-                                        {{ form_widget(form.category, { 'attr': {'class': 'form-control'} } ) }}
+                                        {{ form_widget(form.category, { 'attr': {'id':'multiselect','class': 'form-control','multiple':'multiple'} } ) }}
                                     </div>
                                 </div>
                                 <div class="form-group row">
