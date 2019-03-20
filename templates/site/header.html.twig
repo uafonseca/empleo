@@ -43,7 +43,11 @@
                             <div class="account-card">
                                 <div class="header-top-account-info">
                                     <a href="#" class="account-thumb">
-                                        <img src="{{ asset('images/user/')~ app.user.image }}" class="img-fluid" alt="">
+                                        {% if app.user.image is null %}
+                                            <img src="{{ asset('images/default/not_image_user.png') }}" class="img-fluid" alt="">
+                                        {% else %}
+                                            <img src="{{ asset('images/user/')~ app.user.image }}" class="img-fluid" alt="">
+                                        {% endif %}
                                     </a>
                                     <div class="account-body">
                                         <h5><a href="#">{{ app.user.name }}</a></h5>
