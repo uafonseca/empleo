@@ -30,19 +30,19 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 class mainController extends Controller
 {
 
-//    /**
-//     * @Route("/mail",name="mail")
-//     */
-//    public function mailView(){
-//        return $this->render('mail/register.html.twig',['user'=>$this->get('security.token_storage')->getToken()->getUser()]);
-//    }
+    /**
+     * @Route("/mail",name="mail")
+     */
+    public function mailView(){
+        return $this->render('mail/register.html.twig');
+    }
 
     /**
      * @Route("/",name="homepage")
      */
     public function index(): Response
-
     {
+
         $em = $this->getDoctrine()->getManager();
         return $this->render('site/job/index.html.twig', [
             'notifications' => $this->loadNotifications(),

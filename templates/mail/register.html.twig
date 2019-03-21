@@ -1,36 +1,32 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">
-
-    <title>Bienvenido {{ user.username }}</title>
-</head>
-<body>
-<header>
-
-</header>
-<div class="container">
-    <div class="row">
-        <div class="col-12">
-            <h3>Hola {{ user.username }} ya estas registrado, ahora puedes iniciar sesión <a href="{{ url('app_login') }}">aquí</a> para luego completar la información de tu perfil</h3>
-        </div>
-    </div>
-</div>
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-6" style="text-align: right">
-                <p>Equipo de <a href="https://emplear.gessmac.com/">https://emplear.gessmac.com/</a></p>
-            </div>
-            <div class="col-6" style="text-align: left">
-                <p>Copyright Emplear.ec 2019, All right reserved</p>
-            </div>
-        </div>
-    </div>
-</footer>
-</body>
-</html>
+{% extends 'mail/base.html.twig' %}
+ {% block content %}
+  <div class="container">
+      <h2>Hola {{ user.username }}, ya estas registrado en</h2>
+      <img src="{{ absolute_url(asset('site/images/logo.png')) }}" alt="Emplear_Logo">
+      <p>Desde ahora podrás revisar, acceder y registrar todas las ofertas laborales de la manera más fácil</p>
+      <table>
+          <caption><h2>Detalles de su cuenta</h2></caption>
+          <thead>
+            <tr>
+                <th>Tipo de cuenta</th>
+                <th>Nombre de usuario</th>
+                <th>Clave</th>
+                <th>Fecha</th>
+            </tr>
+          </thead>
+          <tbody>
+          <tr>
+              {% if user.candidate %}<td>Candidato</td>{% else %}<td>Empleador</td>{% endif %}
+              <td>{{ user.username }}</td>
+              <td>{{ plain_password }}</td>
+              <tD>{{ date('now')|date }}</tD>
+          </tr>
+          </tbody>
+      </table>
+      <p>Para completar su perfil puede ingresar</p>
+      <br>
+      <a class="button" href="{{ absolute_url('/dashboard/edit') }}">Aquí</a>
+      <br>
+      <br>
+  </div>
+ {% endblock %}

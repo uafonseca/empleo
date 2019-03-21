@@ -43,6 +43,7 @@ class SecurityController extends AbstractController
         $form2->handleRequest($request);
         if ($form->isSubmitted() || $form2->isSubmitted()) {
             if ($form->isValid() || $form2->isValid()) {
+                $plain_password = $user->getPlainPassword();
                 if ($user->getCandidate()) {
                     $user->addRole("ROLE_USER");
                     $resume = new Resume();
@@ -53,20 +54,23 @@ class SecurityController extends AbstractController
                 }
                 $entityManager->persist($user);
                 $entityManager->flush();
-                if (null === $response = $event->getResponse()) {
-                    $url = $this->generateUrl('homepage');
-                    $response = new RedirectResponse($url);
-                }
                 $message = (new \Swift_Message('Bienvenido a emplear.com'))
                     ->setFrom('emplearecuador@gmail.com')
                     ->setBody($this->renderView(
                         'mail/register.html.twig',
-                        ['user' => $user]
+                        [
+                            'user' => $user,
+                            'plain_password'=>$plain_password,
+                        ]
                     ),
                         'text/html'
                     )
                     ->setTo($user->getEmail());
                 $mailer->send($message);
+                if (null === $response = $event->getResponse()) {
+                    $url = $this->generateUrl('homepage');
+                    $response = new RedirectResponse($url);
+                }
                 return $response;
             }
             if (null !== $response = $event->getResponse()) {
