@@ -1,5 +1,7 @@
 easy_admin:
+    site_name: '<strong>PANEL DE ADMINISTRACIÓN EMPLEAR.EC</strong>'
     design:
+      brand_color: '#3B5998'
       assets:
         css:
           - '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">'
@@ -8,7 +10,7 @@ easy_admin:
           - '<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>'
           - '<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js" integrity="sha384-7aThvCh9TypR7fIc2HV4O/nFMVCBwyIUKL8XCtKE+8xgCgl/PQGuFsvShjr74PBp" crossorigin="anonymous"></script>'
     entities:
-      User:
+      Usuarios:
         class: App\Entity\User
         list:
           fields:
@@ -29,43 +31,43 @@ easy_admin:
             - lastLogin
             - { property: 'plainPassword', type: 'text', type_options: { required: false } }
             - { property: 'roles', type: 'choice', type_options: { multiple: true, choices: { 'ROLE_USER': 'ROLE_USER', 'ROLE_ADMIN': 'ROLE_ADMIN','ROLE_SUPER_ADMIN':'ROLE_SUPER_ADMIN' } } }
-      Blog:
-        class: App\Entity\Blog
-        form:
-          fields:
-            - { property: 'imageFile', type: 'file', base_path: '%app.path.blog_images%' }
-            - title
-            - user
-            - text
-            - tags
-#            - comments
-            - created
-            - updated
-        list:
-          fields:
-            - { property: 'image', type: 'image', base_path: '%app.path.blog_images%' }
-            - title
-            - user
-            - text
-            - tags
-#            - comments
-            - created
-            - updated
-      Comment:
-        class: App\Entity\Comment
-        form:
-          fields:
-            - text
-            - blog
-            - user
-            - created
-        list:
-          fields:
-            - text
-            - blog
-            - user
-            - created
-      Category:
+#      Blog:
+#        class: App\Entity\Blog
+#        form:
+#          fields:
+#            - { property: 'imageFile', type: 'file', base_path: '%app.path.blog_images%' }
+#            - title
+#            - user
+#            - text
+#            - tags
+##            - comments
+#            - created
+#            - updated
+#        list:
+#          fields:
+#            - { property: 'image', type: 'image', base_path: '%app.path.blog_images%' }
+#            - title
+#            - user
+#            - text
+#            - tags
+##            - comments
+#            - created
+#            - updated
+#      Comentarios:
+#        class: App\Entity\Comment
+#        form:
+#          fields:
+#            - text
+#            - blog
+#            - user
+#            - created
+#        list:
+#          fields:
+#            - text
+#            - blog
+#            - user
+#            - created
+      Categorias:
         class: App\Entity\Category
         form:
           fields:
@@ -77,7 +79,7 @@ easy_admin:
             - name
             - description
             - ico
-      Job:
+      Empleos:
         class: App\Entity\Job
         form:
           fields:
@@ -90,7 +92,7 @@ easy_admin:
             - user
             - company_name
             - image
-      Title:
+      Titulos:
         class: App\Entity\Title
         form:
           fields:
@@ -100,7 +102,7 @@ easy_admin:
           fields:
           - name
           - description
-      Profession:
+      Profesiones:
         class: App\Entity\Profession
         form:
           fields:
@@ -110,3 +112,27 @@ easy_admin:
           fields:
           - name
           - description
+      Politica_de_privacidad:
+        class: App\Entity\Policy
+        form:
+          fields:
+            - welcome_message
+            - privacity
+            - information
+            - security
+            - terms_header
+            - terms
+            - conditions_header
+            - conditions
+            - updated
+        list:
+          fields:
+            - welcome_message
+            - privacity
+            - information
+            - security
+            - terms_header
+            - terms
+            - conditions_header
+            - conditions
+            - updated

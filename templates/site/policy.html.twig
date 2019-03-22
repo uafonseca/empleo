@@ -1,0 +1,191 @@
+{% extends 'site/base.html.twig' %}
+{% block title %}Términos & condiciones{% endblock %}
+{% block body %}
+    {% include'site/header.html.twig' %}
+    <div class="alice-bg padding-top-70 padding-bottom-70">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="breadcrumb-area">
+                        <h1>Política de privacidad</h1>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{{ path('homepage') }}">Inicio</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Política de privacidad</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+
+    <div class="alice-bg section-padding-bottom">
+        <div class="container no-gliters">
+            <div class="row no-gliters">
+                <div class="col">
+                    <div class="terms-container">
+                        <div class="terms-content-wrapper">
+                            <div class="policy-tab">
+                                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="privacy-tab" data-toggle="tab" href="#privacy" role="tab" aria-controls="privacy" aria-selected="true">Política de privacidad</a>
+                                    </li>
+                                    {#<li class="nav-item">#}
+                                        {#<a class="nav-link" id="terms-tab" data-toggle="tab" href="#terms" role="tab" aria-controls="terms" aria-selected="false">Terms of Service</a>#}
+                                    {#</li>#}
+                                    {#<li class="nav-item">#}
+                                        {#<a class="nav-link" id="regal-tab" data-toggle="tab" href="#regal" role="tab" aria-controls="regal" aria-selected="false">Regal</a>#}
+                                    {#</li>#}
+                                </ul>
+                                <div class="tab-content" id="myTabContent">
+                                    <div class="tab-pane fade show active" id="privacy" role="tabpanel" aria-labelledby="privacy-tab">
+                                        <h4 id="welcome">Mensaje de bienvenida</h4>
+                                        <p>{{ terms.welcomeMessage }}</p>
+                                        <h5 id="termss">Nuestros términos</h5>
+                                        <p>{{ terms.termsHeader }}</p>
+                                        <ul>
+                                           {% for t in terms.terms %}
+                                               <li>{{ t }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                        <h5 id="condition">Condiciones</h5>
+                                        <p>{{ terms.conditionsHeader }}</p>
+                                        <ul>
+                                            {% for c in terms.conditions %}
+                                                <li>{{ c }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                        <h5 id="privacy-2">Privacidad</h5>
+                                        <p>{{ terms.privacity }}</p>
+                                        <h5 id="information">Información que recopilamos</h5>
+                                        <p>{{ terms.information }}</p>
+                                        <ul class="substyle">
+                                            {#<li><span>Cookies:</span> Our Website uses "Cookies" to identify the areas of our Website that you have visited. A Cookie is a small piece of data stored on your computer or mobile device by your web browser. We use Cookies to personalize the Content that you see on our Website. Most web browsers can be set to disable the use of Cookies. However, if you disable Cookies, you may not be able to access functionality on our Website correctly or at all. We never place Personally Identifiable Information in Cookies.</li>#}
+                                            {#<li><span>Geographical Information:</span> We will not share your current location with other users or partners. If you do not want us to use your location for the purposes set forth above, you should turn off the location services for the mobile application located in your account settings or in your mobile phone settings and/or within the mobile application.</li>#}
+                                            {#<li><span>Log Data:</span> Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose </li>#}
+                                        </ul>
+                                        <h5 id="security">Seguridad</h5>
+                                        {{ terms.security }}
+                                        <h5 style="margin-top: 15px!important;" id="update">Actualización de la Política de Privacidad</h5>
+                                        {{ terms.updated }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="terms-sidebar">
+                            <h5><i data-feather="arrow-down-circle"></i>Navigation</h5>
+                            <ul class="sidebar-menu">
+                                <li><a href="#welcome">Mensaje de bienvenida</a></li>
+                                <li><a href="#termss">Nuestros términos</a></li>
+                                <li><a href="#condition">Condiciones</a></li>
+                                <li><a href="#privacy-2">Tu privacidad</a></li>
+                                <li><a href="#information">Información que recopilamos</a></li>
+                                <li><a href="#security">Seguridad</a></li>
+                                <li><a href="#update">Actualización de la Política de Privacidad</a></li>
+                            </ul>
+                            {#<div class="signin-option">#}
+                                {#<p>Have an Account ? Before submit job you need to sign in !</p>#}
+                                {#<div class="buttons">#}
+                                    {#<a href="#" class="signin" data-toggle="modal" data-target="#exampleModalLong">Sign in</a>#}
+                                    {#<a href="#" class="register" data-toggle="modal" data-target="#exampleModalLong2">Register</a>#}
+                                {#</div>#}
+
+                                {#<!-- Modal -->#}
+                                {#<div class="account-entry">#}
+                                    {#<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-hidden="true">#}
+                                        {#<div class="modal-dialog" role="document">#}
+                                            {#<div class="modal-content">#}
+                                                {#<div class="modal-header">#}
+                                                    {#<h5 class="modal-title"><i data-feather="user"></i>Login</h5>#}
+                                                    {#<button type="button" class="close" data-dismiss="modal" aria-label="Close">#}
+                                                        {#<span aria-hidden="true">&times;</span>#}
+                                                    {#</button>#}
+                                                {#</div>#}
+                                                {#<div class="modal-body">#}
+                                                    {#<form action="#">#}
+                                                        {#<div class="form-group">#}
+                                                            {#<input type="email" placeholder="Email Address" class="form-control">#}
+                                                        {#</div>#}
+                                                        {#<div class="form-group">#}
+                                                            {#<input type="password" placeholder="Password" class="form-control">#}
+                                                        {#</div>#}
+                                                        {#<div class="more-option">#}
+                                                            {#<div class="form-check">#}
+                                                                {#<input class="form-check-input" type="checkbox" value="" id="defaultCheck1">#}
+                                                                {#<label class="form-check-label" for="defaultCheck1">#}
+                                                                    {#Remember Me#}
+                                                                {#</label>#}
+                                                            {#</div>#}
+                                                            {#<a href="#">Forget Password?</a>#}
+                                                        {#</div>#}
+                                                        {#<button class="button primary-bg btn-block">Login</button>#}
+                                                    {#</form>#}
+                                                    {#<div class="shortcut-login">#}
+                                                        {#<span>Or connect with</span>#}
+                                                        {#<div class="buttons">#}
+                                                            {#<a href="#" class="facebook"><i class="fab fa-facebook-f"></i>Facebook</a>#}
+                                                            {#<a href="#" class="google"><i class="fab fa-google"></i>Google</a>#}
+                                                        {#</div>#}
+                                                        {#<p>Don't have an account? <a href="#">Register</a></p>#}
+                                                    {#</div>#}
+                                                {#</div>#}
+                                            {#</div>#}
+                                        {#</div>#}
+                                    {#</div>#}
+                                    {#<div class="modal fade" id="exampleModalLong2" tabindex="-1" role="dialog" aria-hidden="true">#}
+                                        {#<div class="modal-dialog" role="document">#}
+                                            {#<div class="modal-content">#}
+                                                {#<div class="modal-header">#}
+                                                    {#<h5 class="modal-title"><i data-feather="edit"></i>Registration</h5>#}
+                                                    {#<button type="button" class="close" data-dismiss="modal" aria-label="Close">#}
+                                                        {#<span aria-hidden="true">&times;</span>#}
+                                                    {#</button>#}
+                                                {#</div>#}
+                                                {#<div class="modal-body">#}
+                                                    {#<div class="account-type">#}
+                                                        {#<a href="#" class="candidate-acc active"><i data-feather="user"></i>Candidate</a>#}
+                                                        {#<a href="#" class="employer-acc"><i data-feather="briefcase"></i>Employer</a>#}
+                                                    {#</div>#}
+                                                    {#<form action="#">#}
+                                                        {#<div class="form-group">#}
+                                                            {#<input type="text" placeholder="Username" class="form-control">#}
+                                                        {#</div>#}
+                                                        {#<div class="form-group">#}
+                                                            {#<input type="email" placeholder="Email Address" class="form-control">#}
+                                                        {#</div>#}
+                                                        {#<div class="form-group">#}
+                                                            {#<input type="password" placeholder="Password" class="form-control">#}
+                                                        {#</div>#}
+                                                        {#<div class="more-option terms">#}
+                                                            {#<div class="form-check">#}
+                                                                {#<input class="form-check-input" type="checkbox" value="" id="defaultCheck2">#}
+                                                                {#<label class="form-check-label" for="defaultCheck2">#}
+                                                                    {#I accept the <a href="#">terms & conditions</a>#}
+                                                                {#</label>#}
+                                                            {#</div>#}
+                                                        {#</div>#}
+                                                        {#<button class="button primary-bg btn-block">Register</button>#}
+                                                    {#</form>#}
+                                                    {#<div class="shortcut-login">#}
+                                                        {#<span>Or connect with</span>#}
+                                                        {#<div class="buttons">#}
+                                                            {#<a href="#" class="facebook"><i class="fab fa-facebook-f"></i>Facebook</a>#}
+                                                            {#<a href="#" class="google"><i class="fab fa-google"></i>Google</a>#}
+                                                        {#</div>#}
+                                                        {#<p>Already have an account? <a href="#">Login</a></p>#}
+                                                    {#</div>#}
+                                                {#</div>#}
+                                            {#</div>#}
+                                        {#</div>#}
+                                    {#</div>#}
+                                {#</div>#}
+                            {#</div>#}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

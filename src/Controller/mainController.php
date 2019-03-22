@@ -12,6 +12,7 @@ use App\Entity\Category;
 use App\Entity\Job;
 use App\Entity\Metadata;
 use App\Entity\Notification;
+use App\Entity\Policy;
 use App\Entity\Resume;
 use App\Entity\User;
 use App\Form\ResumeFilesType;
@@ -88,6 +89,18 @@ class mainController extends Controller
             '<html><body>about </body></html>'
         );
     }
+    /**
+     * @Route("/terms", name="site_policy")
+     */
+    public function policy()
+    {
+        $em = $this->getDoctrine()->getManager();
+        return $this->render('site/policy.html.twig', array(
+            'notifications' =>  $this->loadNotifications(),
+            'terms' => $em->getRepository(Policy::class)->findAll()[0],
+        ));
+    }
+
 
     /**
      * @Route("/contact", name="contact")
@@ -106,20 +119,19 @@ class mainController extends Controller
      */
     public function dashboard()
     {
-        $notifications = $this->loadNotifications();
         $user = $this->get('security.token_storage')->getToken()->getUser();
 
         if (in_array('ROLE_ADMIN', $user->getRoles())) {
             $em = $this->getDoctrine()->getManager();
             $public = $em->getRepository(Job::class)->countJob($user);
             return $this->render('user/employer/dashboard.html.twig', array(
-                'notifications' => $notifications,
+                'notifications' =>  $this->loadNotifications(),
                 'public'=>$public,
                 'requests'=>$em->getRepository(Job::class)->requests($user),
             ));
         } else {
             return $this->render('user/dashboard.html.twig', array(
-                'notifications' => $notifications,
+                'notifications' =>  $this->loadNotifications(),
             ));
         }
     }
