@@ -1,40 +1,12 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">
-
-    <title>Notificación</title>
-</head>
-<body>
-<header>
-
-</header>
-<div class="container">
-    <div class="row">
-        <div class="col-12">
-            <p><strong>Mensaje enviado de parte de <em> {{ remit }} </em> </strong> </p>
-            <small>Contenido del mensaje:</small>
-            <p>{{ body }}</p>
-            <br>
-            <p>responder a: <a href="mailto:{{ email }}">{{ email }}</a></p>
-        </div>
-    </div>
-</div>
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-6" style="text-align: right">
-                <p>Equipo de <a href="https://emplear.gessmac.com/">https://emplear.gessmac.com/</a></p>
-            </div>
-            <div class="col-6" style="text-align: left">
-                <p>Copyright Emplear.ec 2019, All right reserved</p>
-            </div>
-        </div>
-    </div>
-</footer>
-</body>
-</html>
+{% extends 'mail/base.html.twig' %}
+ {% block content %}
+     <div class="container">
+        <h2>Notificación de Emplear.com</h2>
+         <img id="logo" src="{{ absolute_url(asset('site/images/logo.png')) }}" alt="Emplear_Logo">
+         <hr>
+         <p>Estimado usuario el empleador Pepito ha atendido a su solicitud en la oferta de trabajo
+             <em>"Se buscan programadores en Symfony"</em> y le ha enviado el siguiente mesaje</p>
+         <br>
+         <p><em>"Hola mi nombre es Pepito me interesan sus servicios, espero poder llegar a un acuerdo con mi propuesta de trabajo"</em></p>
+     </div>
+ {% endblock %}

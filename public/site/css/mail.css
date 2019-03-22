@@ -30,3 +30,44 @@ table, th, td {
     margin: 4px 2px;
     cursor: pointer;
 }
+footer{
+    width: 100%;
+    height: auto;
+    background-color: #ededed;
+    box-shadow: 0 1px 6px 0 rgba(32,33,36,0.28);
+    margin-top: 10px;
+    display: flex;
+}
+footer div{
+    /*margin: 1px;*/
+    position: relative;
+    width: 33%;
+    /*height: 59px;*/
+    margin: 0 auto;
+    text-align: center;
+    display: -webkit-box;  /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+    display: -ms-flexbox;  /* TWEENER - IE 10 */
+    display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+    display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+    justify-content: center;
+    align-items: center;
+}
+footer div *{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.logo{
+   max-height: 60px;
+}
+.social_icon{
+    width: 40px;
+    margin: 5px;
+}
+@media (max-width: 400px) {
+    footer {
+        display: block!important;
+    }
+    #logo{
+        width: 50%!important;
+    }
+}

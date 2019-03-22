@@ -6,14 +6,15 @@ use App\Entity\Resume;
 use App\Entity\User;
 use App\Form\UserType;
 use FOS\UserBundle\Event\GetResponseUserEvent;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class SecurityController extends AbstractController
+class SecurityController extends Controller
 {
     /**
      * @Route("/login", name="app_login")
@@ -67,8 +68,11 @@ class SecurityController extends AbstractController
                     )
                     ->setTo($user->getEmail());
                 $mailer->send($message);
+                $token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
+                $this->get('security.token_storage')->setToken($token);
+                $this->get('session')->set('_security_main', serialize($token));
                 if (null === $response = $event->getResponse()) {
-                    $url = $this->generateUrl('homepage');
+                    $url = $this->generateUrl('dashboard_edit');
                     $response = new RedirectResponse($url);
                 }
                 return $response;

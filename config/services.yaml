@@ -32,3 +32,7 @@ services:
         tags:
         - { name: twig.extension }
 
+#    app.security.login_form_authenticator:
+#        class: App\Security\LoginFormAuthenticator
+#        autowire: true
+
