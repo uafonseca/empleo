@@ -95,10 +95,15 @@ class mainController extends Controller
     public function policy()
     {
         $em = $this->getDoctrine()->getManager();
-        return $this->render('site/policy.html.twig', array(
-            'notifications' =>  $this->loadNotifications(),
-            'terms' => $em->getRepository(Policy::class)->findAll()[0],
-        ));
+        try{
+            return $this->render('site/policy.html.twig', array(
+                'notifications' =>  $this->loadNotifications(),
+                'terms' => $em->getRepository(Policy::class)->findAll()[0],
+            ));
+        }catch (\Exception $exception){
+
+        }
+
     }
 
 

@@ -139,7 +139,7 @@
                         <li class="menu-item"><a title="About" href="#">Realizar Pedido</a></li>
                         <li class="menu-item"><a title="About" href="#">Pago Completo</a></li>
                         <li class="menu-item"><a title="About" href="#">Factura</a></li>
-                        <li class="menu-item"><a title="About" href="#">Términos y condiciones</a></li>
+                        <li class="menu-item"><a title="About" href="{{ path('site_policy') }}">Términos y condiciones</a></li>
                     </ul>
                 </li>
                 {% if is_granted('IS_AUTHENTICATED_FULLY') == false %}
