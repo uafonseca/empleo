@@ -45,6 +45,7 @@
 		{
 			return $this->createQueryBuilder('j')
 				->select('j.localtion as name')
+				->distinct()
 				->getQuery()
 				->getResult();
 		}
