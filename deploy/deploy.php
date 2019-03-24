@@ -17,6 +17,8 @@ set('release_name', function () {
     return date('YmdHis');
 });
 
+set('keep_releases', 3);
+
 set('env', [
     'APP_ENV' => 'production',
 ]);
