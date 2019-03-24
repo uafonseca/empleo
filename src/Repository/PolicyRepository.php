@@ -18,6 +18,13 @@ class PolicyRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Policy::class);
     }
+    public function load(){
+    	return $this->createQueryBuilder('p')
+		    ->select('p')
+		    ->setMaxResults(1)
+		    ->getQuery()
+		    ->getOneOrNullResult();
+    }
 
     // /**
     //  * @return Policy[] Returns an array of Policy objects

@@ -1,0 +1,28 @@
+<div class="col-md-6">
+    <div class="package breadcrumb-form ">
+        <div class="container">
+            <div class="row border payment-method payment-container">
+                <div class="col-md-4" style="text-align: center">
+                    <h5>Tu plan es</h5>
+                </div>
+                <div class="col-md-4">
+                    {% if app.user.package ==  'payment_free' %}
+                        <button type="button" class="disabled btn btn-secondary btn-lg btn-block">Gratis</button>
+                    {% endif %}
+                    {% if app.user.package ==  'payment_basic' %}
+                        <button type="button" class="disabled btn btn-secondary btn-lg btn-block">BÁSICO</button>
+                    {% endif %}
+                    {% if app.user.package ==  'payment_pyme' %}
+                        <button type="button" class="disabled btn btn-secondary btn-lg btn-block">PYME</button>
+                    {% endif %}
+                    {% if app.user.package ==  'payment_plus' %}
+                        <button type="button" class="disabled btn btn-secondary btn-lg btn-block">PLUS</button>
+                    {% endif %}
+                </div>
+                <div class="col-md-4">
+                    <button type="button" class="btn btn-primary btn-lg btn-block parpadea text">Cambiar plan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

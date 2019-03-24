@@ -42,14 +42,20 @@ class CategoryRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
-    public function categoryesCount(){
+    public function getCategoryesName(){
         return $this->createQueryBuilder('c')
-            ->select('c.name, count(c) as count')
-            ->distinct()
-            ->orderBy('count', 'ASC')
+            ->select('c.name as name')
             ->getQuery()
             ->getResult()
             ;
+    }
+    public function getCount($key){
+        return $this->createQueryBuilder('c')
+            ->select('count(c) as count')
+            ->where('c.name = :key')
+            ->setParameter('key',$key)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
 }

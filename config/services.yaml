@@ -18,6 +18,7 @@ services:
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        public: true
 
     App\:
         resource: '../src/*'
@@ -32,7 +33,18 @@ services:
         tags:
         - { name: twig.extension }
 
-#    app.security.login_form_authenticator:
-#        class: App\Security\LoginFormAuthenticator
-#        autowire: true
+    app.service.helper:
+        class: App\Service\Helper
+        calls:
+            - [setContainer, ['@service_container']]
+        tags:
+            - { name: controller.service_arguments }
+
+    app.service.checker:
+        class: App\Service\Checker
+        calls:
+            - [setContainer, ['@service_container']]
+        tags:
+            - { name: controller.service_arguments }
+
 

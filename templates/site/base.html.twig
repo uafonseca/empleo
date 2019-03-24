@@ -7,30 +7,30 @@
 
     <title>Emplear | {% block title %}{% endblock %}</title>
     {% block stylesheet %}
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{{ asset('site/assets/css/bootstrap.min.css') }}">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="{{ asset('site/assets/css/bootstrap.min.css') }}">
 
-    <!-- External Css -->
-    <link rel="stylesheet" href="{{ asset('site/assets/css/fontawesome-all.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('site/assets/css/themify-icons.css') }}" />
-    <link rel="stylesheet" href="{{ asset('site/assets/css/et-line.css') }}" />
-    <link rel="stylesheet" href="{{ asset('site/assets/css/bootstrap-select.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('site/assets/css/plyr.css') }}" />
-    <link rel="stylesheet" href="{{ asset('site/assets/css/flag.css') }}" />
-    <link rel="stylesheet" href="{{ asset('site/assets/css/slick.css') }}" />
-    <link rel="stylesheet" href="{{ asset('site/assets/css/owl.carousel.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('site/assets/css/jquery.nstSlider.min.css') }}" />
-            <!-- Custom Css -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('site/css/main.css') }}">
+        <!-- External Css -->
+        <link rel="stylesheet" href="{{ asset('site/assets/css/fontawesome-all.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('site/assets/css/themify-icons.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('site/assets/css/et-line.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('site/assets/css/bootstrap-select.min.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('site/assets/css/plyr.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('site/assets/css/flag.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('site/assets/css/slick.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('site/assets/css/owl.carousel.min.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('site/assets/css/jquery.nstSlider.min.css') }}"/>
+        <!-- Custom Css -->
+        <link rel="stylesheet" type="text/css" href="{{ asset('site/css/main.css') }}">
 
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600%7CRoboto:300i,400,500" rel="stylesheet">
-    {#{{ asset('site/') }}#}
-    <!-- Favicon -->
-    <link rel="icon" href="{{ asset('site/images/favicon.png') }}">
-    <link rel="apple-touch-icon" href="{{ asset('site/images/apple-touch-icon.png') }}">
-    <link rel="apple-touch-icon" sizes="72x72" href="{{ asset('site/images/icon-72x72.png') }}">
-    <link rel="apple-touch-icon" sizes="114x114" href="{{ asset('site/images/icon-114x114.png') }}">
+        <!-- Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600%7CRoboto:300i,400,500" rel="stylesheet">
+        {#{{ asset('site/') }}#}
+        <!-- Favicon -->
+        <link rel="icon" href="{{ asset('site/images/favicon.png') }}">
+        <link rel="apple-touch-icon" href="{{ asset('site/images/apple-touch-icon.png') }}">
+        <link rel="apple-touch-icon" sizes="72x72" href="{{ asset('site/images/icon-72x72.png') }}">
+        <link rel="apple-touch-icon" sizes="114x114" href="{{ asset('site/images/icon-114x114.png') }}">
         <style>
             .carousel-item {
                 height: 100vh;
@@ -43,28 +43,32 @@
             }
         </style>
         <script src="{{ asset('site/assets/js/jquery.min.js') }}"></script>
-    <!--[if lt IE 9]>
-    <script src="{{ asset('site/assets/js/html5shiv.min.js') }}"></script>
-    <script src="{{ asset('site/assets/js/respond.min.js') }}"></script>
-    <![endif]-->
+        <!--[if lt IE 9]>
+        <script src="{{ asset('site/assets/js/html5shiv.min.js') }}"></script>
+        <script src="{{ asset('site/assets/js/respond.min.js') }}"></script>
+        <![endif]-->
     {% endblock %}
 </head>
 <body>
 
 <!-- Header -->
 {% block body %}
+{#{{ dump(categorys) }}#}
 <header>
     <nav class="navbar navbar-expand-xl absolute-nav transparent-nav cp-nav navbar-light bg-light fluid-nav">
         <a class="navbar-brand" href="{{ path('homepage') }}">
             <img src="{{ asset('site/images/logo.png') }}" class="img-fluid" alt="" width="200">
         </a>
-        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto job-browse">
                 <li class="nav-item dropdown">
-                    <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Examinar empleos</a>
+                    <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">Examinar empleos</a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li class="search-by">
                             <h5>POR CATEGORÍA</h5>
@@ -78,7 +82,7 @@
                             <h5>POR LOCALIZACIÓN</h5>
                             <ul>
                                 {% for l in locations %}
-                                    <li><a href="#">{{ l.localtion }}<span>({{ l.count }})</span></a></li>
+                                    <li><a href="#">{{ l.name }}(<span>{{ l.count }})</span></a></li>
                                 {% endfor %}
                             </ul>
                         </li>
@@ -91,8 +95,9 @@
                     <li class="menu-item active"><a title="Home" href="/admin">Administración</a></li>
                 {% endif %}
                 <li class="menu-item dropdown">
-                    <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">Empleos </a>
-                    <ul  class="dropdown-menu">
+                    <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true"
+                       aria-expanded="false">Empleos </a>
+                    <ul class="dropdown-menu">
                         <li class="menu-item"><a title="About" href="{{ path('job_list') }}">Listado de Empleos</a></li>
                         {% if is_granted('ROLE_ADMIN') %}
                             <li class="menu-item"><a title="About" href="{{ path('job_new') }}">Publicar empleo</a></li>
@@ -100,36 +105,48 @@
                     </ul>
                 </li>
                 {% if is_granted('ROLE_ADMIN') %}
-                <li class="menu-item dropdown">
-                    <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">Empleador</a>
-                    <ul  class="dropdown-menu">
-                        {% if is_granted('ROLE_SUPER_ADMIN') %}
-                            <li class="menu-item"><a title="About" href="#">Listado de empleadores</a></li>
-                        {% endif %}
-                        <li class="menu-item"><a title="About" href="{{ path('candidates') }}">Lista de candidatos</a></li>
-                        <li class="menu-item"><a title="About" href="{{ path('dashboard') }}">Tablero</a></li>
-                        <li class="menu-item"><a title="About" href="{{ path('candidates') }}">Gestión de candidatos</a></li>
-                        <li class="menu-item"><a title="About" href="{{ path('job_list') }}">Gestionar trabajo</a></li>
-                        <li class="menu-item"><a title="About" href="{{ path('job_new') }}">Publicar trabajo</a></li>
-                    </ul>
-                </li>
+                    <li class="menu-item dropdown">
+                        <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true"
+                           aria-expanded="false">Empleador</a>
+                        <ul class="dropdown-menu">
+                            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                                <li class="menu-item"><a title="About" href="#">Listado de empleadores</a></li>
+                            {% endif %}
+                            <li class="menu-item"><a title="About" href="{{ path('candidates') }}">Lista de
+                                    candidatos</a></li>
+                            <li class="menu-item"><a title="About" href="{{ path('dashboard') }}">Tablero</a></li>
+                            <li class="menu-item"><a title="About" href="{{ path('candidates') }}">Gestión de
+                                    candidatos</a></li>
+                            <li class="menu-item"><a title="About" href="{{ path('job_list') }}">Gestionar trabajo</a>
+                            </li>
+                            <li class="menu-item"><a title="About" href="{{ path('job_new') }}">Publicar trabajo</a>
+                            </li>
+                        </ul>
+                    </li>
                 {% elseif is_granted('ROLE_USER') %}
-                <li class="menu-item dropdown">
-                    <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">Candidato</a>
-                    <ul  class="dropdown-menu">
-                        <li class="menu-item"><a title="About" href="{{ path('dashboard') }}">Tablero</a></li>
-                        <li class="menu-item"><a title="About" href="{{ path('dashboard_edit') }}">Editar perfil</a></li>
-                        <li class="menu-item"><a title="About" href="{{ path('dashboard_resume_edit') }}">Agregar Curriculum Vitae</a></li>
-                        <li class="menu-item"><a title="About" href="{{ path('dashboard_resume') }}">CV</a></li>
-                        <li class="menu-item"><a title="About" href="{{ path('dashboard_resume_edit') }}">Editar Curriculum Vitae</a></li>
-                        <li class="menu-item"><a title="About" href="{{ path('dashboard_bookmarked') }}">Marcados</a></li>
-                        <li class="menu-item"><a title="About" href="{{ path('dashboard_applied') }}">Aplicado</a></li>
-                    </ul>
-                </li>
+                    <li class="menu-item dropdown">
+                        <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true"
+                           aria-expanded="false">Candidato</a>
+                        <ul class="dropdown-menu">
+                            <li class="menu-item"><a title="About" href="{{ path('dashboard') }}">Tablero</a></li>
+                            <li class="menu-item"><a title="About" href="{{ path('dashboard_edit') }}">Editar perfil</a>
+                            </li>
+                            <li class="menu-item"><a title="About" href="{{ path('dashboard_resume_edit') }}">Agregar
+                                    Curriculum Vitae</a></li>
+                            <li class="menu-item"><a title="About" href="{{ path('dashboard_resume') }}">CV</a></li>
+                            <li class="menu-item"><a title="About" href="{{ path('dashboard_resume_edit') }}">Editar
+                                    Curriculum Vitae</a></li>
+                            <li class="menu-item"><a title="About"
+                                                     href="{{ path('dashboard_bookmarked') }}">Marcados</a></li>
+                            <li class="menu-item"><a title="About" href="{{ path('dashboard_applied') }}">Aplicado</a>
+                            </li>
+                        </ul>
+                    </li>
                 {% endif %}
                 <li class="menu-item dropdown">
-                    <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">Páginas</a>
-                    <ul  class="dropdown-menu">
+                    <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true"
+                       aria-expanded="false">Páginas</a>
+                    <ul class="dropdown-menu">
                         <li class="menu-item"><a title="About" href="#">Sobre Nosotros</a></li>
                         <li class="menu-item"><a title="About" href="#">Blog</a></li>
                         <li class="menu-item"><a title="About" href="#">Contáctenos</a></li>
@@ -139,50 +156,60 @@
                         <li class="menu-item"><a title="About" href="#">Realizar Pedido</a></li>
                         <li class="menu-item"><a title="About" href="#">Pago Completo</a></li>
                         <li class="menu-item"><a title="About" href="#">Factura</a></li>
-                        <li class="menu-item"><a title="About" href="{{ path('site_policy') }}">Términos y condiciones</a></li>
+                        <li class="menu-item"><a title="About" href="{{ path('site_policy') }}">Términos y
+                                condiciones</a></li>
                     </ul>
                 </li>
                 {% if is_granted('IS_AUTHENTICATED_FULLY') == false %}
-                    <li class="menu-item post-job"><a title="Title" href="{{ path('job_new') }}"><i class="fas fa-plus"></i>Publicar un trabajo</a></li>
-                {% elseif  is_granted('ROLE_ADMIN')%}
-                    <li class="menu-item post-job"><a title="Title" href="{{ path('job_new') }}"><i class="fas fa-plus"></i>Publicar un trabajo</a></li>
+                    <li class="menu-item post-job"><a title="Title" href="{{ path('job_new') }}"><i
+                                    class="fas fa-plus"></i>Publicar un trabajo</a></li>
+                {% elseif  is_granted('ROLE_ADMIN') %}
+                    <li class="menu-item post-job"><a title="Title" href="{{ path('job_new') }}"><i
+                                    class="fas fa-plus"></i>Publicar un trabajo</a></li>
                 {% endif %}
 
             </ul>
             <ul class="navbar-nav ml-auto account-nav">
-                {% if is_granted('IS_AUTHENTICATED_FULLY')%}
-                <li class="dropdown menu-item header-top-notification">
-                    <a href="#" class="notification-button"></a>
-                    <div class="notification-card">
-                        <div class="notification-head">
-                            <span>Notificaciones</span>
-                            <a href="#">Marcar todo como leído</a>
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <li class="dropdown menu-item header-top-notification">
+                        <a href="#" class="notification-button"></a>
+                        <div class="notification-card">
+                            <div class="notification-head">
+                                <span>Notificaciones</span>
+                                <a href="#">Marcar todo como leído</a>
+                            </div>
+                            <div class="notification-body">
+                                {% for n in notifications %}
+                                    <a href="#" class="notification-list">
+                                        <i class="fas fa-bolt"></i>
+                                        <p>{{ n.context }}</p>
+                                        <span class="time">{{ n.date|ago }}</span>
+                                    </a>
+                                {% endfor %}
+                            </div>
+                            <div class="notification-footer">
+                                <a href="{{ path('dashboard') }}">Ver todas las notificaciones</a>
+                            </div>
                         </div>
-                        <div class="notification-body">
-                            {% for n in notifications %}
-                                <a href="#" class="notification-list">
-                                    <i class="fas fa-bolt"></i>
-                                    <p>{{ n.context }}</p>
-                                    <span class="time">{{ n.date|ago }}</span>
-                                </a>
-                            {% endfor %}
-                        </div>
-                        <div class="notification-footer">
-                            <a href="{{ path('dashboard') }}">Ver todas las notificaciones</a>
-                        </div>
-                    </div>
-                </li>
+                    </li>
                 {% endif %}
                 {% if app.user == false %}
-                    <li class="menu-item login-popup"><button title="Title" type="button" data-toggle="modal" data-target="#exampleModalLong">Entrar</button></li>
-                    <li class="menu-item login-popup"><a href="{{ path('app_register') }}" title="Registro" type="button" data-toggle="" data-target="#">Registrarse</a></li>
+                    <li class="menu-item login-popup">
+                        <button title="Title" type="button" data-toggle="modal" data-target="#exampleModalLong">Entrar
+                        </button>
+                    </li>
+                    <li class="menu-item login-popup"><a href="{{ path('app_register') }}" title="Registro"
+                                                         type="button" data-toggle="" data-target="#">Registrarse</a>
+                    </li>
                 {% else %}
                     <li class="menu-item dropdown">
-                        <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">{{ app.user.username }}</a>
-                        <ul  class="dropdown-menu">
+                        <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true"
+                           aria-expanded="false">{{ app.user.username }}</a>
+                        <ul class="dropdown-menu">
                             <li><a href="{{ path('dashboard') }}"><span class="ti-user"></span> Cuenta</a></li>
-                            <li><a href="{{ path('dashboard_edit') }}"><span class="ti-settings"></span>  Configuración</a></li>
-                            <li><a href="/logout"><span class="ti-power-off"></span>  Salir</a></li>
+                            <li><a href="{{ path('dashboard_edit') }}"><span class="ti-settings"></span>
+                                    Configuración</a></li>
+                            <li><a href="/logout"><span class="ti-power-off"></span> Salir</a></li>
                         </ul>
                     </li>
                 {% endif %}
@@ -195,34 +222,36 @@
         <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title"><i data-feather="user"></i>Entrar</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form id="login-form" method="post" action="{{ path("fos_user_security_check") }}">
-                                <div class="form-group">
-                                    <input type="text" value="" name="_username" id="inputUsername" class="form-control" placeholder="Usuario o dirección de correo electrónico" required autofocus>
+                    <div class="modal-header">
+                        <h5 class="modal-title"><i data-feather="user"></i>Entrar</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="login-form" method="post" action="{{ path("fos_user_security_check") }}">
+                            <div class="form-group">
+                                <input type="text" value="" name="_username" id="inputUsername" class="form-control"
+                                       placeholder="Usuario o dirección de correo electrónico" required autofocus>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" name="_password" id="inputPassword" class="form-control"
+                                       placeholder="Contraseña" required>
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                            </div>
+                            <div class="more-option">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                    <label class="form-check-label" for="defaultCheck1">
+                                        Recuérdame
+                                    </label>
                                 </div>
-                                <div class="form-group">
-                                    <input type="password" name="_password" id="inputPassword" class="form-control" placeholder="Contraseña" required>
-                                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                                </div>
-                                <div class="more-option">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                        <label class="form-check-label" for="defaultCheck1">
-                                            Recuérdame
-                                        </label>
-                                    </div>
-                                    <a href="#">¿Olvidó su contraseña?</a>
-                                </div>
-                                <button id="_submit" type="submit" class="button primary-bg btn-block">Entrar</button>
-                            </form>
-                            <p>¿No tiene una cuenta? <a href="{{ path('app_register') }}">Registrarse </a></p>
-                        </div>
+                                <a href="#">¿Olvidó su contraseña?</a>
+                            </div>
+                            <button id="_submit" type="submit" class="button primary-bg btn-block">Entrar</button>
+                        </form>
+                        <p>¿No tiene una cuenta? <a href="{{ path('app_register') }}">Registrarse </a></p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -280,7 +309,7 @@
                                 <select name="location" class="selectpicker" id="search-location">
                                     <option value="" selected>Ubicación</option>
                                     {% for l in locations %}
-                                        <option value="{{ l.localtion }}">{{ l.localtion }}</option>
+                                        <option value="{{ l.name }}">{{ l.name }}</option>
                                     {% endfor %}
                                 </select>
                                 <button class="button primary-bg"><i class="fas fa-search"></i>Buscar empleo</button>
@@ -298,16 +327,18 @@
 <!-- Header End -->
 
 
-
 <header>
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner" role="listbox">
-            <div class="carousel-item active" style="background-image: url('{{ asset('site/images/bg/bg2.png') }}')"></div>
-            <div class="carousel-item" style="background-image: url('{{ asset('site/images/bg/bg1.png') }}')"></div></div>
+            <div class="carousel-item active"
+                 style="background-image: url('{{ asset('site/images/bg/bg2.png') }}')"></div>
+            <div class="carousel-item" style="background-image: url('{{ asset('site/images/bg/bg1.png') }}')"></div>
+        </div>
     </div>
 </header>
 <!-- Search and Filter -->
-<div class="searchAndFilter-wrapper"><div class="section-padding-top padding-bottom-90">
+<div class="searchAndFilter-wrapper">
+    <div class="section-padding-top padding-bottom-90">
         <div class="container">
             <div class="row">
                 <div class="col">
@@ -343,7 +374,7 @@
                             <ul>
                                 {#{{ dump(citys) }}#}
                                 {% for c in citys %}
-                                    <li><a href="#">{{ c.city }}<span>({{ c.count }})</span></a></li>
+                                    <li><a href="#">{{ c.name }}<span>({{ c.count }})</span></a></li>
                                 {% endfor %}
                             </ul>
                         </div>
@@ -358,7 +389,7 @@
                         <div class="key-info">
                             <ul>
                                 {% for c in company %}
-                                    <li><a href="#">{{ c.company_name }}<span>({{ c.count }})</span></a></li>
+                                    <li><a href="#">{{ c.name }}<span>({{ c.count }})</span></a></li>
                                 {% endfor %}
                             </ul>
                         </div>
@@ -367,56 +398,56 @@
             </div>
         </div>
     </div>
-<!-- Search and Filter End -->
-{% block jobs_list %}
+    <!-- Search and Filter End -->
+    {% block jobs_list %}
 
-{% endblock %}
-<!-- Fun Facts -->
-<div class="padding-top-90 padding-bottom-60 fact-bg">
-    <div class="container">
-        <div class="row fact-items">
-            <div class="col-md-3 col-sm-6">
-                <div class="fact">
-                    <div class="fact-icon">
-                        <i data-feather="briefcase"></i>
+    {% endblock %}
+    <!-- Fun Facts -->
+    <div class="padding-top-90 padding-bottom-60 fact-bg">
+        <div class="container">
+            <div class="row fact-items">
+                <div class="col-md-3 col-sm-6">
+                    <div class="fact">
+                        <div class="fact-icon">
+                            <i data-feather="briefcase"></i>
+                        </div>
+                        <p class="fact-number"><span class="count" data-form="0" data-to="{{ works }}"></span></p>
+                        <p class="fact-name">Trabajos en Vivo</p>
                     </div>
-                    <p class="fact-number"><span class="count" data-form="0" data-to="{{ works }}"></span></p>
-                    <p class="fact-name">Trabajos en Vivo</p>
                 </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <div class="fact">
-                    <div class="fact-icon">
-                        <i data-feather="users"></i>
+                <div class="col-md-3 col-sm-6">
+                    <div class="fact">
+                        <div class="fact-icon">
+                            <i data-feather="users"></i>
+                        </div>
+                        <p class="fact-number"><span class="count" data-form="0" data-to="{{ candidates }}"></span></p>
+                        <p class="fact-name">Candidato</p>
                     </div>
-                    <p class="fact-number"><span class="count" data-form="0" data-to="{{ candidates }}"></span></p>
-                    <p class="fact-name">Candidato</p>
                 </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <div class="fact">
-                    <div class="fact-icon">
-                        <i data-feather="file-text"></i>
+                <div class="col-md-3 col-sm-6">
+                    <div class="fact">
+                        <div class="fact-icon">
+                            <i data-feather="file-text"></i>
+                        </div>
+                        <p class="fact-number"><span class="count" data-form="0" data-to="{{ cv }}"></span></p>
+                        <p class="fact-name">Curriculum Vitae</p>
                     </div>
-                    <p class="fact-number"><span class="count" data-form="0" data-to="{{ cv }}"></span></p>
-                    <p class="fact-name">Curriculum Vitae</p>
                 </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <div class="fact">
-                    <div class="fact-icon">
-                        <i data-feather="award"></i>
+                <div class="col-md-3 col-sm-6">
+                    <div class="fact">
+                        <div class="fact-icon">
+                            <i data-feather="award"></i>
+                        </div>
+                        <p class="fact-number"><span class="count" data-form="0" data-to="{{ entity }}"></span></p>
+                        <p class="fact-name">Empresas</p>
                     </div>
-                    <p class="fact-number"><span class="count" data-form="0" data-to="{{ entity }}"></span></p>
-                    <p class="fact-name">Empresas</p>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- Fun Facts End -->
+    <!-- Fun Facts End -->
 
-<<!-- Testimonial -->
+    <<!-- Testimonial -->
     <div class="section-padding">
         <div class="container">
             <div class="row">
@@ -427,61 +458,75 @@
                         </div>
                         <div class="testimonial-for">
                             <div class="testimonial-item">
-                                <p>“On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charmsto send our denim shorts wardrob One”</p>
+                                <p>“On the other hand, we denounce with righteous indignation and dislike men who are so
+                                    beguiled and demoralized by the charmsto send our denim shorts wardrob One”</p>
                                 <h5>Maria Marlin @ Google</h5>
                             </div>
                             <div class="testimonial-item">
-                                <p>“On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charmsto send our denim shorts wardrob Two”</p>
+                                <p>“On the other hand, we denounce with righteous indignation and dislike men who are so
+                                    beguiled and demoralized by the charmsto send our denim shorts wardrob Two”</p>
                                 <h5>Laura Harper @ Amazon</h5>
                             </div>
                             <div class="testimonial-item">
-                                <p>“On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charmsto send our denim shorts wardrob Three”</p>
+                                <p>“On the other hand, we denounce with righteous indignation and dislike men who are so
+                                    beguiled and demoralized by the charmsto send our denim shorts wardrob Three”</p>
                                 <h5>John Doe @ Envato</h5>
                             </div>
                             <div class="testimonial-item">
-                                <p>“On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charmsto send our denim shorts wardrob Four”</p>
+                                <p>“On the other hand, we denounce with righteous indignation and dislike men who are so
+                                    beguiled and demoralized by the charmsto send our denim shorts wardrob Four”</p>
                                 <h5>Jenny Doe @ Dribbble</h5>
                             </div>
                             <div class="testimonial-item">
-                                <p>“On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charmsto send our denim shorts wardrob Five”</p>
+                                <p>“On the other hand, we denounce with righteous indignation and dislike men who are so
+                                    beguiled and demoralized by the charmsto send our denim shorts wardrob Five”</p>
                                 <h5>Michle Clark @ Apple</h5>
                             </div>
                             <div class="testimonial-item">
-                                <p>“On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charmsto send our denim shorts wardrob Two”</p>
+                                <p>“On the other hand, we denounce with righteous indignation and dislike men who are so
+                                    beguiled and demoralized by the charmsto send our denim shorts wardrob Two”</p>
                                 <h5>Laura Harper @ Amazon</h5>
                             </div>
                             <div class="testimonial-item">
-                                <p>“On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charmsto send our denim shorts wardrob Three”</p>
+                                <p>“On the other hand, we denounce with righteous indignation and dislike men who are so
+                                    beguiled and demoralized by the charmsto send our denim shorts wardrob Three”</p>
                                 <h5>John Doe @ Envato</h5>
                             </div>
                         </div>
                         <div class="testimonial-nav">
                             <div class="commenter-thumb">
-                                <img src="{{ asset('site/') }}images/testimonial/thumb-1.jpg" class="img-fluid commenter" alt="">
+                                <img src="{{ asset('site/') }}images/testimonial/thumb-1.jpg"
+                                     class="img-fluid commenter" alt="">
                                 <img src="{{ asset('site/') }}images/testimonial/1.png" class="comapnyLogo" alt="">
                             </div>
                             <div class="commenter-thumb">
-                                <img src="{{ asset('site/') }}images/testimonial/thumb-2.jpg" class="img-fluid commenter" alt="">
+                                <img src="{{ asset('site/') }}images/testimonial/thumb-2.jpg"
+                                     class="img-fluid commenter" alt="">
                                 <img src="{{ asset('site/') }}images/testimonial/2.png" class="comapnyLogo" alt="">
                             </div>
                             <div class="commenter-thumb">
-                                <img src="{{ asset('site/') }}images/testimonial/thumb-3.jpg" class="img-fluid commenter" alt="">
+                                <img src="{{ asset('site/') }}images/testimonial/thumb-3.jpg"
+                                     class="img-fluid commenter" alt="">
                                 <img src="{{ asset('site/') }}images/testimonial/3.png" class="comapnyLogo" alt="">
                             </div>
                             <div class="commenter-thumb">
-                                <img src="{{ asset('site/') }}images/testimonial/thumb-4.jpg" class="img-fluid commenter" alt="">
+                                <img src="{{ asset('site/') }}images/testimonial/thumb-4.jpg"
+                                     class="img-fluid commenter" alt="">
                                 <img src="{{ asset('site/') }}images/testimonial/4.png" class="comapnyLogo" alt="">
                             </div>
                             <div class="commenter-thumb">
-                                <img src="{{ asset('site/') }}images/testimonial/thumb-5.jpg" class="img-fluid commenter" alt="">
+                                <img src="{{ asset('site/') }}images/testimonial/thumb-5.jpg"
+                                     class="img-fluid commenter" alt="">
                                 <img src="{{ asset('site/') }}images/testimonial/5.png" class="comapnyLogo" alt="">
                             </div>
                             <div class="commenter-thumb">
-                                <img src="{{ asset('site/') }}images/testimonial/thumb-2.jpg" class="img-fluid commenter" alt="">
+                                <img src="{{ asset('site/') }}images/testimonial/thumb-2.jpg"
+                                     class="img-fluid commenter" alt="">
                                 <img src="{{ asset('site/') }}images/testimonial/2.png" class="comapnyLogo" alt="">
                             </div>
                             <div class="commenter-thumb">
-                                <img src="{{ asset('site/') }}images/testimonial/thumb-3.jpg" class="img-fluid commenter" alt="">
+                                <img src="{{ asset('site/') }}images/testimonial/thumb-3.jpg"
+                                     class="img-fluid commenter" alt="">
                                 <img src="{{ asset('site/') }}images/testimonial/3.png" class="comapnyLogo" alt="">
                             </div>
                         </div>
@@ -547,9 +592,9 @@
     </div>
     <!-- Career Advice End -->
 
-{% endblock %}
+    {% endblock %}
     {% block footer %}
-<!-- Footer -->
+    <!-- Footer -->
     <footer class="footer-bg">
         <div class="footer-top border-bottom section-padding-top padding-bottom-40">
             <div class="container">
@@ -627,7 +672,8 @@
                     <div class="col-lg-5 offset-lg-1 col-sm-6">
                         <div class="footer-widget footer-newsletter">
                             <h4>Hoja informativa</h4>
-                            <p>Recibe actualizaciones por correo electrónico sobre nuestras últimas noticias y ofertas especiales.</p>
+                            <p>Recibe actualizaciones por correo electrónico sobre nuestras últimas noticias y ofertas
+                                especiales.</p>
                             <form action="#" class="newsletter-form form-inline">
                                 <div class="form-group">
                                     <input type="text" class="form-control" placeholder="Email address...">
@@ -648,7 +694,8 @@
                         <div class="footer-bottom border-top">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <p class="copyright-text">Copyright <a href="#">emplear.gessmac.com</a> 2019, Todos los derechos reservados</p>
+                                    <p class="copyright-text">Copyright <a href="#">emplear.gessmac.com</a> 2019, Todos
+                                        los derechos reservados</p>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="back-to-top">
@@ -662,35 +709,35 @@
             </div>
         </div>
     </footer>
-<!-- Footer End -->
+    <!-- Footer End -->
 
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
-<script src="{{ asset('site/assets/js/popper.min.js') }}"></script>
-<script src="{{ asset('site/assets/js/bootstrap.min.js') }}"></script>
-<script src="{{ asset('site/assets/js/feather.min.js') }}"></script>
-<script src="{{ asset('site/assets/js/bootstrap-select.min.js') }}"></script>
-<script src="{{ asset('site/assets/js/jquery.nstSlider.min.js') }}"></script>
-<script src="{{ asset('site/assets/js/owl.carousel.min.js') }}"></script>
-<script src="{{ asset('site/assets/js/visible.js') }}"></script>
-<script src="{{ asset('site/assets/js/jquery.countTo.js') }}"></script>
-<script src="{{ asset('site/assets/js/chart.js') }}"></script>
-<script src="{{ asset('site/assets/js/plyr.js') }}"></script>
-<script src="{{ asset('site/assets/js/tinymce.min.js') }}"></script>
-<script src="{{ asset('site/assets/js/slick.min.js') }}"></script>
-<script src="{{ asset('site/assets/js/jquery.ajaxchimp.min.js') }}"></script>
-<script src="{{ asset('site/js/map.js') }}"></script>
-<script src="{{ asset('site/js/custom.js') }}"></script>
-<script src="{{ asset('site/js/searchMap.js') }}"></script>
+    <script src="{{ asset('site/assets/js/popper.min.js') }}"></script>
+    <script src="{{ asset('site/assets/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('site/assets/js/feather.min.js') }}"></script>
+    <script src="{{ asset('site/assets/js/bootstrap-select.min.js') }}"></script>
+    <script src="{{ asset('site/assets/js/jquery.nstSlider.min.js') }}"></script>
+    <script src="{{ asset('site/assets/js/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('site/assets/js/visible.js') }}"></script>
+    <script src="{{ asset('site/assets/js/jquery.countTo.js') }}"></script>
+    <script src="{{ asset('site/assets/js/chart.js') }}"></script>
+    <script src="{{ asset('site/assets/js/plyr.js') }}"></script>
+    <script src="{{ asset('site/assets/js/tinymce.min.js') }}"></script>
+    <script src="{{ asset('site/assets/js/slick.min.js') }}"></script>
+    <script src="{{ asset('site/assets/js/jquery.ajaxchimp.min.js') }}"></script>
+    <script src="{{ asset('site/js/map.js') }}"></script>
+    <script src="{{ asset('site/js/custom.js') }}"></script>
+    <script src="{{ asset('site/js/searchMap.js') }}"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
     <script src="{{ asset('site/js/validate.js') }}"></script>
 
-{#<script src="{{ asset('site/js/custom.js') }}"></script>#}
+    {#<script src="{{ asset('site/js/custom.js') }}"></script>#}
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC87gjXWLqrHuLKR0CTV5jNLdP4pEHMhmg"></script>
-<script src="{{ asset('site/js/map.js') }}"></script>
-<script src="{{ asset('site/js/utils.js') }}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC87gjXWLqrHuLKR0CTV5jNLdP4pEHMhmg"></script>
+    <script src="{{ asset('site/js/map.js') }}"></script>
+    <script src="{{ asset('site/js/utils.js') }}"></script>
     {% block js %}{% endblock %}
 </div>
 </body>

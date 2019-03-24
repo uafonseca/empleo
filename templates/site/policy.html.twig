@@ -42,34 +42,39 @@
                                 <div class="tab-content" id="myTabContent">
                                     <div class="tab-pane fade show active" id="privacy" role="tabpanel" aria-labelledby="privacy-tab">
                                         <h4 id="welcome">Mensaje de bienvenida</h4>
-                                        <p>{{ terms.welcomeMessage }}</p>
+                                        {% if terms.welcomeMessage is not null %}{{ terms.welcomeMessage }}{% endif %}
+                                        <p>{% if terms.welcomeMessage is not null %}{{ terms.welcomeMessage }}{% endif %}</p>
                                         <h5 id="termss">Nuestros términos</h5>
-                                        <p>{{ terms.termsHeader }}</p>
+                                        <p>{% if terms.termsHeader is not null %}{{ terms.termsHeader }}{% endif %}</p>
                                         <ul>
-                                           {% for t in terms.terms %}
-                                               <li>{{ t }}</li>
-                                            {% endfor %}
+                                            {% if terms.terms is not null %}
+                                                {% for t in terms.terms %}
+                                                    <li>{{ t }}</li>
+                                                {% endfor %}
+                                            {% endif %}
                                         </ul>
                                         <h5 id="condition">Condiciones</h5>
-                                        <p>{{ terms.conditionsHeader }}</p>
+                                        <p>{% if terms.conditionsHeader is not null %}{{ terms.conditionsHeader }}{% endif %}</p>
                                         <ul>
-                                            {% for c in terms.conditions %}
-                                                <li>{{ c }}</li>
-                                            {% endfor %}
+                                            {% if terms.conditions is not null %}
+                                                {% for c in terms.conditions %}
+                                                    <li>{{ c }}</li>
+                                                {% endfor %}
+                                            {% endif %}
                                         </ul>
                                         <h5 id="privacy-2">Privacidad</h5>
-                                        <p>{{ terms.privacity }}</p>
+                                        {% if terms.privacity is not null %}{{ terms.privacity }}{% endif %}
                                         <h5 id="information">Información que recopilamos</h5>
-                                        <p>{{ terms.information }}</p>
+                                        {% if terms.information is not null %}{{ terms.information }}{% endif %}
                                         <ul class="substyle">
                                             {#<li><span>Cookies:</span> Our Website uses "Cookies" to identify the areas of our Website that you have visited. A Cookie is a small piece of data stored on your computer or mobile device by your web browser. We use Cookies to personalize the Content that you see on our Website. Most web browsers can be set to disable the use of Cookies. However, if you disable Cookies, you may not be able to access functionality on our Website correctly or at all. We never place Personally Identifiable Information in Cookies.</li>#}
                                             {#<li><span>Geographical Information:</span> We will not share your current location with other users or partners. If you do not want us to use your location for the purposes set forth above, you should turn off the location services for the mobile application located in your account settings or in your mobile phone settings and/or within the mobile application.</li>#}
                                             {#<li><span>Log Data:</span> Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose </li>#}
                                         </ul>
                                         <h5 id="security">Seguridad</h5>
-                                        {{ terms.security }}
+                                        {% if terms.security is not null %}{{ terms.security }}{% endif %}
                                         <h5 style="margin-top: 15px!important;" id="update">Actualización de la Política de Privacidad</h5>
-                                        {{ terms.updated }}
+                                        {% if terms.updated is not null %}{{ terms.updated }}{% endif %}
                                     </div>
                                 </div>
                             </div>

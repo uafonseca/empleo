@@ -134,7 +134,7 @@ class JobController extends Controller
     public function jobList(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $jobs = $em->getRepository(Job::class)->findAll();
+        $jobs = $em->getRepository(Job::class)->jobsByStatus(constants::JOB_STATUS_ACTIVE);
         $em->getRepository(Job::class)->expired();
         $pagination  = $this->get('knp_paginator')->paginate(
             $jobs,
