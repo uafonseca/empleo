@@ -59,8 +59,16 @@
                                                     <img src="{{ asset('images/user/') ~ candidate.image }}"
                                                          class="img-fluid" alt="">
                                                 {% else %}
-                                                    <img src="{{ asset('images/default/not_image_user.png') }}"
-                                                         class="img-fluid" alt="">
+                                                    {% if candidate.gender == 'M' %}
+                                                        <img src="{{ asset('images/default/man_logo.jpg') }}"
+                                                             class="img-fluid" alt="">
+                                                    {% elseif  candidate.gender == 'F' %}
+                                                        <img src="{{ asset('images/default/woman_logo.jpg') }}"
+                                                             class="img-fluid" alt="">
+                                                    {% else %}
+                                                        <img src="{{ asset('images/default/not_image_user.png') }}"
+                                                             class="img-fluid" alt="">
+                                                    {% endif %}
                                                 {% endif %}
                                             </a>
                                         </div>
@@ -74,7 +82,8 @@
                                                 <div class="info">
                                                     {% if candidate.category is not null %}
                                                         {% for c in candidate.category %}
-                                                        <span class="work-post"><a href=""><i data-feather="check-square"></i>{{ c }}</a></span>
+                                                            <span class="work-post"><a href=""><i
+                                                                            data-feather="check-square"></i>{{ c }}</a></span>
                                                         {% endfor %}
                                                     {% else %}
                                                         <span class="work-post"><a href=""><i
@@ -94,7 +103,7 @@
                                                     <a target="_blank" href="{{ url~candidate.resume.cv }}">Ver
                                                         Curriculum Vitae</a>
                                                 {% else %}
-                                                    <a >CV no disponible</a>
+                                                    <a>CV no disponible</a>
                                                 {% endif %}
                                             </div>
                                         </div>

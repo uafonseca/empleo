@@ -32,7 +32,21 @@
                             {{ form_start(form, {attr: {'class': 'dashboard-form'} }) }}
                             <div class="dashboard-section upload-profile-photo">
                                 <div class="update-photo">
-                                    <img class="image" src="{{ asset('images/user/')~app.user.image }}" alt="">
+                                    {% if app.user.image is not null %}
+                                        <img src="{{ asset('images/user/') ~ candidate.image }}"
+                                             class="img-fluid" alt="">
+                                    {% else %}
+                                        {% if app.user.gender == 'M' %}
+                                            <img src="{{ asset('images/default/man_logo.jpg') }}"
+                                                 class="img-fluid" alt="">
+                                        {% elseif  app.user.gender == 'F' %}
+                                            <img src="{{ asset('images/default/woman_logo.jpg') }}"
+                                                 class="img-fluid" alt="">
+                                        {% else %}
+                                            <img src="{{ asset('images/default/not_image_user.png') }}"
+                                                 class="img-fluid" alt="">
+                                        {% endif %}
+                                    {% endif %}
                                 </div>
                                 <div id="file_upload" class="file-upload">
                                     {{ form_widget(form.imageFile, { 'attr': {'class': 'file-input'} } ) }}
@@ -84,10 +98,10 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">Categoría<span
+                                    <label class="col-sm-3 col-form-label">Género<span
                                                 style="color: red">*</span></label>
                                     <div class="col-sm-9">
-                                        {{ form_widget(form.category, { 'attr': {'class': 'form-control'} } ) }}
+                                        {{ form_widget(form.gender, { 'attr': {'class': 'form-control'} } ) }}
                                     </div>
                                 </div>
                                 <div class="form-group row">

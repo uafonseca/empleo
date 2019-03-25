@@ -54,6 +54,7 @@
 		{
 			return $this->createQueryBuilder('j')
 				->select('j.city as name')
+				->distinct()
 				->getQuery()
 				->getResult();
 		}
@@ -62,6 +63,7 @@
 		{
 			return $this->createQueryBuilder('j')
 				->select('j.company_name as name')
+				->distinct()
 				->getQuery()
 				->getResult();
 		}

@@ -73,13 +73,11 @@
                                     {% if j.status == 'job_expired' %}
                                         <td class="status expired">Expirado</td>
                                         <td class="action">
-                                            {#<a href="#" class="edit"><i data-feather="edit"></i></a>#}
                                             <a class="remove" onclick="showModal('{{ j.id }}')"><i data-feather="trash-2"></i></a>
                                         </td>
                                     {% else %}
                                     <td class="action">
                                         <a href="{{ path('job_show', {'id': j.id}) }}" class="preview"><i data-feather="eye"></i></a>
-                                        {#<a href="#" class="edit"><i data-feather="edit"></i></a>#}
                                         <a class="remove" onclick="showModal('{{ j.id }}')"><i data-feather="trash-2"></i></a>
                                     </td>
                                     {% endif %}

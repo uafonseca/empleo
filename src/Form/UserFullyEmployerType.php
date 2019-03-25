@@ -33,13 +33,14 @@ class UserFullyEmployerType extends AbstractType
             ->add('imageFile',FileType::class,array('required'=>false))
             ->add('companyName',null,array('required'=>false))
             ->add('phone',null,array('required'=>false))
-            ->add('category', EntityType::class, [
-                'class' => Category::class,
-                'placeholder' => 'Categoría',
-                'choice_label' => 'name',
-                'multiple'=>true,
-                'required'=>true,
-            ])
+	        ->add('gender',ChoiceType::class,[
+		        'choices' => [
+			        'Femenino' => 'F',
+			        'Másculino' => 'M',
+			        'Otro' => 'O',
+		        ],
+		        'required'=>true,
+	        ])
             ->add('address',null,array('required'=>true))
             ->add('about',TextareaType::class,array('required'=>true))
             ->add('videoIntro',UrlType::class,array('required'=>false))

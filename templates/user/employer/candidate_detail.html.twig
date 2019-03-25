@@ -11,7 +11,21 @@
                         <div class="title-and-info">
                             <div class="title">
                                 <div class="thumb">
-                                    <img src="{{ asset('images/user/') ~ candidate.image}}" class="img-fluid" alt="">
+                                    {% if candidate.image is not null %}
+                                        <img src="{{ asset('images/user/') ~ candidate.image }}"
+                                             class="img-fluid" alt="">
+                                    {% else %}
+                                        {% if candidate.gender == 'M' %}
+                                            <img src="{{ asset('images/default/man_logo.jpg') }}"
+                                                 class="img-fluid" alt="">
+                                        {% elseif  candidate.gender == 'F' %}
+                                            <img src="{{ asset('images/default/woman_logo.jpg') }}"
+                                                 class="img-fluid" alt="">
+                                        {% else %}
+                                            <img src="{{ asset('images/default/not_image_user.png') }}"
+                                                 class="img-fluid" alt="">
+                                        {% endif %}
+                                    {% endif %}
                                 </div>
                                 <div class="title-body" style="width: 100%">
                                     <h4>{{ candidate.name }}</h4>
