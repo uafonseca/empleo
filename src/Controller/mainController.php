@@ -20,6 +20,7 @@
 	use App\Form\UserFullyEmployerType;
 	use App\Form\UserFullyType;
 	use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+	use Symfony\Component\Finder\Exception\AccessDeniedException;
 	use Symfony\Component\HttpFoundation\BinaryFileResponse;
 	use Symfony\Component\HttpFoundation\Request;
 	use Symfony\Component\HttpFoundation\Response;
@@ -28,6 +29,7 @@
 	use App\constants;
 	use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 	use App\Service\Helper;
+	use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 	
 	class mainController extends Controller
 	{
@@ -37,19 +39,32 @@
 		 */
 		public function mailView()
 		{
-			return $this->render('mail/register.html.twig');
+			return $this->render('mail/code.html.twig',array('code'=>1234));
 		}
-		
+		public function verificateUser(AuthorizationCheckerInterface $authChecker){
+			if ($authChecker->isGranted('IS_AUTHENTICATED_FULLY')) {
+				if (!$this->container->get('app.service.checker')->isUserValid()) {
+					return true;
+				}
+			}
+			return false;
+		}
 		/**
 		 * @Route("/",name="homepage")
 		 */
-		public function index(): Response
-		{
+		public function index(
+			Request $request,
+			\Swift_Mailer $mailer,
+			AuthorizationCheckerInterface $authChecker
+		): Response {
+			$verificated = $this->verificateUser($authChecker);
 			$em = $this->getDoctrine()->getManager();
 			$this->container->get('app.service.checker')->checkJobs();
+			
 			return $this->render(
 				'site/job/index.html.twig',
 				[
+					'verificated_acount' => $verificated,
 					'notifications' => $this->loadNotifications(),
 					'jobs' => $em->getRepository(Job::class)->jobsByStatus(constants::JOB_STATUS_ACTIVE),
 					'locations' => $this->container->get('app.service.helper')->loadLocations(),
@@ -102,13 +117,15 @@
 		/**
 		 * @Route("/terms", name="site_policy")
 		 */
-		public function policy()
+		public function policy(AuthorizationCheckerInterface $authChecker)
 		{
-			$em = $this->getDoctrine()->getManager();
 			
+			$em = $this->getDoctrine()->getManager();
+			$verificated = $this->verificateUser($authChecker);
 			return $this->render(
 				'site/policy.html.twig',
 				array(
+					'verificated_acount' => $verificated,
 					'notifications' => $this->loadNotifications(),
 					'terms' => $em->getRepository(Policy::class)->load(),
 				)
@@ -119,8 +136,9 @@
 		/**
 		 * @Route("/contact", name="contact")
 		 */
-		public function contact()
+		public function contact(AuthorizationCheckerInterface $authChecker)
 		{
+			$verificated = $this->verificateUser($authChecker);
 			return new Response(
 				'<html><body>Contact </body></html>'
 			);
@@ -131,10 +149,10 @@
 		 * Require IS_AUTHENTICATED_FULLY for *every* controller method in this class.
 		 * @IsGranted("IS_AUTHENTICATED_FULLY")
 		 */
-		public function dashboard()
+		public function dashboard(AuthorizationCheckerInterface $authChecker)
 		{
 			$user = $this->get('security.token_storage')->getToken()->getUser();
-			
+			$verificated = $this->verificateUser($authChecker);
 			if (in_array('ROLE_ADMIN', $user->getRoles())) {
 				$em = $this->getDoctrine()->getManager();
 				$public = $em->getRepository(Job::class)->countJob($user);
@@ -151,6 +169,7 @@
 				return $this->render(
 					'user/dashboard.html.twig',
 					array(
+						'verificated_acount' => $verificated,
 						'notifications' => $this->loadNotifications(),
 					)
 				);
@@ -163,8 +182,9 @@
 		 * Require IS_AUTHENTICATED_FULLY for *every* controller method in this class.
 		 * @IsGranted("IS_AUTHENTICATED_FULLY")
 		 */
-		public function edit_profile(Request $request)
+		public function edit_profile(Request $request,AuthorizationCheckerInterface $authChecker)
 		{
+			$verificated = $this->verificateUser($authChecker);
 			$user = $this->get('security.token_storage')->getToken()->getUser();
 			$is_admin = in_array('ROLE_ADMIN', $user->getRoles());
 			if ($is_admin) {
@@ -206,6 +226,7 @@
 				return $this->render(
 					'user/employer/edit_profile.html.twig',
 					array(
+						'verificated_acount' => $verificated,
 						'form' => $form->createView(),
 						'notifications' => $this->loadNotifications(),
 					)
@@ -234,9 +255,9 @@
 		 * Require IS_AUTHENTICATED_FULLY for *every* controller method in this class.
 		 * @IsGranted("IS_AUTHENTICATED_FULLY")
 		 */
-		public function resume()
+		public function resume(AuthorizationCheckerInterface $authChecker)
 		{
-			
+			$verificated = $this->verificateUser($authChecker);
 			$user = $this->get('security.token_storage')->getToken()->getUser();
 			$em = $this->getDoctrine()->getManager();
 			$metas = $em->getRepository(Metadata::class)->findBy(array("resume" => $user->getResume()));
@@ -246,6 +267,7 @@
 			return $this->render(
 				'user/resume.html.twig',
 				array(
+					'verificated_acount' => $verificated,
 					'resume' => $user->getResume(),
 					'notifications' => $this->loadNotifications(),
 					'cv' => $cv,
@@ -260,8 +282,9 @@
 		 * Require IS_AUTHENTICATED_FULLY for *every* controller method in this class.
 		 * @IsGranted("IS_AUTHENTICATED_FULLY")
 		 */
-		public function resumeEdit(Request $request)
+		public function resumeEdit(Request $request,AuthorizationCheckerInterface $authChecker)
 		{
+			$verificated = $this->verificateUser($authChecker);
 			$user = $this->get('security.token_storage')->getToken()->getUser();
 			$entityManager = $this->getDoctrine()->getManager();
 			if ($user->getResume() == null) {
@@ -292,6 +315,7 @@
 			return $this->render(
 				'user/resume_edit.html.twig',
 				array(
+					'verificated_acount' => $verificated,
 					'resume' => $resume,
 					'notifications' => $this->loadNotifications(),
 					'form_resume' => $form->createView(),
@@ -306,8 +330,9 @@
 		 * Require IS_AUTHENTICATED_FULLY for *every* controller method in this class.
 		 * @IsGranted("IS_AUTHENTICATED_FULLY")
 		 */
-		public function bookMarked()
+		public function bookMarked(AuthorizationCheckerInterface $authChecker)
 		{
+			$verificated = $this->verificateUser($authChecker);
 			$user = $this->get('security.token_storage')->getToken()->getUser();
 			$marked = $user->getBookmarked();
 			$jobs = array();
@@ -319,6 +344,7 @@
 			return $this->render(
 				'user/mark.html.twig',
 				array(
+					'verificated_acount' => $verificated,
 					'jobs' => $jobs,
 					'notifications' => $this->loadNotifications(),
 				
@@ -331,8 +357,9 @@
 		 * Require IS_AUTHENTICATED_FULLY for *every* controller method in this class.
 		 * @IsGranted("IS_AUTHENTICATED_FULLY")
 		 */
-		public function applied()
+		public function applied(AuthorizationCheckerInterface $authChecker)
 		{
+			$verificated = $this->verificateUser($authChecker);
 			$user = $this->get('security.token_storage')->getToken()->getUser();
 			$marked = $user->getApplied();
 			$jobs = array();
@@ -344,6 +371,7 @@
 			return $this->render(
 				'user/applied.html.twig',
 				array(
+					'verificated_acount' => $verificated,
 					'jobs' => $jobs,
 					'notifications' => $this->loadNotifications(),
 				
@@ -356,8 +384,9 @@
 		 * Require IS_AUTHENTICATED_FULLY for *every* controller method in this class.
 		 * @IsGranted("IS_AUTHENTICATED_FULLY")
 		 */
-		public function candidates()
+		public function candidates(AuthorizationCheckerInterface $authChecker)
 		{
+			$verificated = $this->verificateUser($authChecker);
 			$entityManager = $this->getDoctrine()->getManager();
 			$users = $entityManager->getRepository(User::class)->findAll();
 			$i = 0;
@@ -372,6 +401,7 @@
 			return $this->render(
 				'site/candidate.html.twig',
 				array(
+					'verificated_acount' => $verificated,
 					'candidates' => $users,
 					'notifications' => $this->loadNotifications(),
 					'url' => $path,
@@ -384,8 +414,9 @@
 		 * Require IS_AUTHENTICATED_FULLY for *every* controller method in this class.
 		 * @IsGranted("IS_AUTHENTICATED_FULLY")
 		 */
-		public function manageCandidates(Request $request)
+		public function manageCandidates(Request $request,AuthorizationCheckerInterface $authChecker)
 		{
+			$verificated = $this->verificateUser($authChecker);
 			$entityManager = $this->getDoctrine()->getManager();
 			$users = $entityManager->getRepository(User::class)->findCandidatesList(
 				$user = $this->get('security.token_storage')->getToken()->getUser()->getId()
@@ -408,6 +439,7 @@
 			return $this->render(
 				'user/employer/candidate.html.twig',
 				array(
+					'verificated_acount' => $verificated,
 					'candidates' => $pagination,
 					'notifications' => $this->loadNotifications(),
 					'url' => $path,
@@ -418,14 +450,15 @@
 		/**
 		 * @Route("/candidate/{id}/detail", name="canditate_detail")
 		 */
-		public function candidateDetails($id)
+		public function candidateDetails($id,AuthorizationCheckerInterface $authChecker)
 		{
 			$em = $this->getDoctrine()->getManager();
 			$canditate = $em->getRepository(User::class)->find($id);
-			
+			$verificated = $this->verificateUser($authChecker);
 			return $this->render(
 				'user/employer/candidate_detail.html.twig',
 				array(
+					'verificated_acount' => $verificated,
 					'notifications' => $this->loadNotifications(),
 					'candidate' => $canditate,
 				)
@@ -444,5 +477,57 @@
 			$response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $name);
 			
 			return $response;
+		}
+		
+		/**
+		 * @Route("acount/verificate", name="acount_verificate")
+		 *
+		 */
+		public function verificateAcount(Request $request)
+		{
+			
+			if (null !== $request->get('code')) {
+				$currentUser = $this->get('security.token_storage')->getToken()->getUser();
+				if ($currentUser->getSecret() == $request->get('code')) {
+					$em = $this->getDoctrine()->getManager();
+					$currentUser->setVerificated(true);
+					$em->flush();
+					
+					return $this->redirectToRoute('homepage');
+				} else {
+					$this->addFlash('error', 'Código de verificación incorrecto');
+					
+					return $this->redirectToRoute('homepage');
+				}
+			}
+			
+			return $this->render('site/acount_verificate.html.twig');
+		}
+		
+		/**
+		 * @Route("send/code", name="send_code")
+		 */
+		public function sendCode(\Swift_Mailer $mailer)
+		{
+			$currentUser = $this->get('security.token_storage')->getToken()->getUser();
+			if (empty($currentUser->getSecret())) {
+				$currentUser->setSecret(rand(10000, 99999));
+			}
+			$message = (new \Swift_Message('Código de verificación'))
+				->setFrom('emplearecuador@gmail.com')
+				->setBody(
+					$this->renderView(
+						'mail/code.html.twig',
+						[
+							'code' => $currentUser->getSecret(),
+						]
+					),
+					'text/html'
+				)
+				->setTo($currentUser->getEmail());
+			$mailer->send($message);
+			$this->addFlash('success', 'Se ha enviado el código a '.$currentUser->getEmail());
+			
+			return $this->redirectToRoute('homepage');
 		}
 	}

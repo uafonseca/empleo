@@ -53,6 +53,8 @@ class SecurityController extends Controller
                 } elseif ($user->getEmployer()) {
                     $user->addRole("ROLE_ADMIN");
                 }
+                $user->setVerificated(false);
+                $user->setSecret(rand(10000, 99999));
                 $entityManager->persist($user);
                 $entityManager->flush();
                 $message = (new \Swift_Message('Bienvenido a emplear.com'))

@@ -7,15 +7,17 @@
       <table>
           <caption><h2>Detalles de su cuenta</h2></caption>
           <thead>
-            <tr>
-                <th>Tipo de cuenta</th>
-                <th>Nombre de usuario</th>
+          <tr>
+              <th>Código de verificación</th>
+              <th>Tipo de cuenta</th>
+              <th>Nombre de usuario</th>
                 <th>Clave</th>
                 <th>Fecha</th>
             </tr>
           </thead>
           <tbody>
           <tr>
+              <td class="secret">{{ user.secret }}</td>
               {% if user.candidate %}<td>Candidato</td>{% else %}<td>Empleador</td>{% endif %}
               <td>{{ user.username }}</td>
               <td>{{ plain_password }}</td>

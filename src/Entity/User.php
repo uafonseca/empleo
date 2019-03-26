@@ -194,12 +194,21 @@ class User extends BaseUser
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $package;
+    
+	/**
+	 * @ORM\Column(type="integer", nullable=true)
+	 */
+	private $secret;
+	
+	/**
+	 * @ORM\Column(type="boolean", nullable=true, options={"default" : false})
+	 */
+	private $verificated;
 
 
     public function __construct()
     {
         parent::__construct();
-        // your own logic
         $this->skils = array();
         $this->social_links = array();
         $this->bookmarked = array();
@@ -829,6 +838,46 @@ class User extends BaseUser
 
         return $this;
     }
-
+	
+	/**
+	 * @return mixed
+	 */
+	public function getSecret()
+	{
+		return $this->secret;
+	}
+	
+	/**
+	 * @param mixed $secret
+	 */
+	public function setSecret($secret): void
+	{
+		$this->secret = $secret;
+	}
+	
+	/**
+	 * @return mixed
+	 */
+	public function isVerificated()
+	{
+		return $this->verificated;
+	}
+	
+	/**
+	 * @param mixed $verificated
+	 */
+	public function setVerificated($verificated): void
+	{
+		$this->verificated = $verificated;
+	}
+	
+	/**
+	 * @return mixed
+	 */
+	public function getVerificated()
+	{
+		return $this->verificated;
+	}
+ 
 
 }

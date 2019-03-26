@@ -739,6 +739,72 @@
     <script src="{{ asset('site/js/map.js') }}"></script>
     <script src="{{ asset('site/js/utils.js') }}"></script>
     {% block js %}{% endblock %}
+    <script>
+        $(document).ready(function () {
+            {% if verificated_acount %}
+                $('#modal-code').modal('show');
+                $('#modal-code').modal({backdrop: 'static', keyboard: false})
+            {% endif %}
+        })
+    </script>
+    <style>
+        #code{
+            text-align: center;
+            width: 50%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border-radius: 3px;
+            clear: both;
+            font-size: 30px;
+            padding: 0;
+        }
+    </style>
+    <!-- Modal -->
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+    <div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal-code" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #fe9703">
+                    <h5 class="modal-title" id="exampleModalLabel">Debe verificar su cuenta</h5>
+                </div>
+                <form action="acount/verificate" class="" method="post" style="text-align: center">
+                    <div class="modal-body">
+                        <br>
+                        <h6>
+                            Hola <em>{{ app.user.username }}</em> para completar su registro introduzca el código que hemos enviado a <em>{{ app.user.email }}</em>
+                        </h6>
+                        <br>
+                        <hr>
+                        {% for label, flashes in app.session.flashbag.all %}
+                            {% for flash in flashes %}
+                                {% if ( label == 'error' ) %}
+                                    <div class="alert alert-danger alert-dismissible fade show">
+                                        {{ flash }}
+                                    </div>
+                                {% elseif ( label == 'success' ) %}
+                                    <div class="alert alert-success alert-dismissible fade show">
+                                        {{ flash }}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                        <label style="font-size: 20px" class="label" for="code">Código de verificación</label>
+                        <br>
+                        <input  id="code" name="code" required type="text">
+                        <br>
+                        <a href="send/code" class="btn btn-primary">Enviar código nuevamente</a>
+                    </div>
+                    <div class="modal-footer">
+                        {#<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>#}
+                        <button type="submit" class="btn btn-primary">Verificar mi cuenta</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endif %}
 </div>
 </body>
 {% endblock %}

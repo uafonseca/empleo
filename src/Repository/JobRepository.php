@@ -29,7 +29,15 @@
 				->getQuery()
 				->getResult();
 		}
-		
+		public function getCountCategory($key){
+			return $this->createQueryBuilder('c')
+				->select('count(c) as count')
+				->innerJoin('c.category','category')
+				->where('category.name LIKE :key')
+				->setParameter('key','%'.$key.'%')
+				->getQuery()
+				->getOneOrNullResult();
+		}
 		public function countJob($user)
 		{
 			return count(

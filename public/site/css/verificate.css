@@ -66,14 +66,17 @@ footer div *{
 .secret{
     background-color: #fe9703;
 }
-#code-number{
+input{
     text-align: center;
-    padding: 10px;
-    width: 30%;
-    margin: 30px 30px 30px 30px;
+    width: 15%;
+    padding: 12px 20px;
+    margin: 8px 0;
     box-sizing: border-box;
     border-radius: 3px;
     clear: both;
+    font-size: 25px;
+}
+label{
     font-size: 30px;
 }
 @media (max-width: 400px) {

@@ -10,7 +10,11 @@
 	
 	use App\constants;
 	use App\Entity\Job;
+	use App\Entity\User;
+	use FOS\UserBundle\Event\GetResponseUserEvent;
 	use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+	use Symfony\Component\HttpFoundation\RedirectResponse;
+	use Symfony\Component\HttpFoundation\Request;
 	
 	class Checker extends Controller
 	{
@@ -28,15 +32,12 @@
 			$jobs = $em->getRepository(Job::class)->findAll();
 			foreach ($jobs as $job) {
 				if ($job->getStatus() == constants::JOB_STATUS_ACTIVE) {
-					if($job->getExpiredDate() < new \DateTime('now'))
-					{
+					if ($job->getExpiredDate() < new \DateTime('now')) {
 						$job->setStatus(constants::JOB_STATUS_EXPIRED);
 					}
 				}
-				if($job->getStatus() == constants::JOB_STATUS_PENDING)
-				{
-					if($job->getDate() >= new \DateTime('now'))
-					{
+				if ($job->getStatus() == constants::JOB_STATUS_PENDING) {
+					if ($job->getDate() >= new \DateTime('now')) {
 						$job->setStatus(constants::JOB_STATUS_ACTIVE);
 					}
 				}
@@ -44,4 +45,12 @@
 			$em->flush();
 		}
 		
+		public function isUserValid()
+		{
+			$user = $this->get('security.token_storage')->getToken()->getUser();
+				if (!$user->isVerificated()) {
+					return false;
+				}
+				return true;
+		}
 	}
