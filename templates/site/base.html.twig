@@ -741,7 +741,7 @@
     {% block js %}{% endblock %}
     <script>
         $(document).ready(function () {
-            {% if verificated_acount %}
+            {% if verificated_acount is defined %}
                 $('#modal-code').modal('show');
                 $('#modal-code').modal({backdrop: 'static', keyboard: false})
             {% endif %}
