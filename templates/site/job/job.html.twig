@@ -2,13 +2,11 @@
 {% block title %}Crear trabajo{% endblock %}
 {% block stylesheet %}
     {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('site/dashboard/css/dashboard.css') }}">
 {% endblock %}
 
 {% block body %}
-
     {{  include ('site/header.html.twig',{'notifications': notifications}  )}}
-
-
     <!-- Breadcrumb -->
     <div class="alice-bg padding-top-70 padding-bottom-70">
         <div class="container">
@@ -22,14 +20,6 @@
                                 <li class="breadcrumb-item active" aria-current="page">Publicar empleo</li>
                             </ol>
                         </nav>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="breadcrumb-form">
-                        <form action="#">
-                            <input type="text" placeholder="Enter Keywords">
-                            <button><i data-feather="search"></i></button>
-                        </form>
                     </div>
                 </div>
             </div>
@@ -49,21 +39,29 @@
                                 <div class="basic-info-input">
                                     <h4><i data-feather="plus-circle"></i>Publicar un empleo</h4>
                                     <div id="job-title" class="form-group row">
-                                        <label class="col-md-3 col-form-label">Título</label>
+                                        <label class="col-md-3 col-form-label">Título<span style="color: red">*</span></label>
                                         <div class="col-md-9">
                                             {{ form_widget(form.title, { 'attr': {'class': 'form-control','placeholder':'Tu título de trabajo aquí'} }) }}
                                             <span class="error text-danger">{{ form_errors(form.title) }}</span>
                                         </div>
                                     </div>
                                     <div id="logo" class="form-group row">
-                                        <label class="col-md-3 col-form-label">Logo</label>
+                                        <label class="col-md-3 col-form-label">Logo<span style="color: red">*</span></label>
                                         <div class="col-md-9">
-                                            {{ form_widget(form.imageFile, { 'attr': {'class': 'form-control','placeholder':'Seleccione el logo de su empresa'} }) }}
+                                            <div class="dashboard-section upload-profile-photo">
+                                                <div class="update-photo"  style="width: 150px;">
+                                                    <img src="#" class="image" alt="">
+                                                </div>
+                                                <div id="file_upload" class="file-upload">
+                                                    {{ form_widget(form.imageFile, { 'attr': {'class': 'file-input'} } ) }}
+                                                    Logo
+                                                </div>
+                                            </div>
                                             <span class="error text-danger">{{ form_errors(form.imageFile) }}</span>
                                         </div>
                                     </div>
                                     <div id="job-summery" class="row">
-                                        <label class="col-md-3 col-form-label">Resumen de trabajo</label>
+                                        <label class="col-md-3 col-form-label">Resumen de trabajo<span style="color: red">*</span></label>
                                         <div class="col-md-9">
                                             <div class="row">
                                                 <div class="col-md-6">
@@ -127,7 +125,7 @@
                                         </div>
                                     </div>
                                     <div id="job-description" class="row">
-                                        <label class="col-md-3 col-form-label">Descripción del trabajo</label>
+                                        <label class="col-md-3 col-form-label">Descripción del trabajo<span style="color: red">*</span></label>
                                         <div class="col-md-9">
                                             <div class="form-group shadow-textarea">
                                                 <label for="exampleFormControlTextarea6"></label>
@@ -137,7 +135,7 @@
                                         </div>
                                     </div>
                                     <div id="response" class="row">
-                                        <label class="col-md-3 col-form-label">Responsabilidades</label>
+                                        <label class="col-md-3 col-form-label">Responsabilidades<span style="color: red">*</span></label>
                                         <div class="col-md-9">
                                             <div class="form-group shadow-textarea">
                                                 <label for="exampleFormControlTextarea6"></label>
@@ -147,7 +145,7 @@
                                         </div>
                                     </div>
                                     <div id="education" class="row">
-                                        <label class="col-md-3 col-form-label">Educación</label>
+                                        <label class="col-md-3 col-form-label">Educación<span style="color: red">*</span></label>
                                         <div class="col-md-9">
                                             <div class="form-group shadow-textarea">
                                                 <label for="exampleFormControlTextarea6"></label>
@@ -157,7 +155,7 @@
                                         </div>
                                     </div>
                                     <div id="others" class="row">
-                                        <label class="col-md-3 col-form-label">Otros beneficios</label>
+                                        <label class="col-md-3 col-form-label">Otros beneficios<span style="color: red">*</span></label>
                                         <div class="col-md-9">
                                             <div class="form-group shadow-textarea">
                                                 <label for="exampleFormControlTextarea6"></label>
@@ -167,7 +165,7 @@
                                         </div>
                                     </div>
                                     <div id="post-location" class="form-group row">
-                                        <label class="col-md-3 col-form-label">Su ubicación</label>
+                                        <label class="col-md-3 col-form-label">Su ubicación<span style="color: red">*</span></label>
                                         <div class="col-md-9">
                                             <div class="row">
                                                 <div class="col-md-6">
@@ -202,7 +200,7 @@
                                         </div>
                                     </div>
                                     <div id="about-company" class="row">
-                                        <label class="col-md-3 col-form-label">Acerca de la compañía</label>
+                                        <label class="col-md-3 col-form-label">Acerca de la compañía<span style="color: red">*</span></label>
                                         <div class="col-md-9">
                                             <div class="row">
                                                 <div class="col-md-6">
@@ -231,7 +229,7 @@
 
 
                                     <div class="row">
-                                        <label class="col-md-3 col-form-label">Seleccione el paquete</label>
+                                        <label class="col-md-3 col-form-label">Seleccione el paquete<span style="color: red">*</span></label>
                                         <div class="col-md-9">
                                             <div class="package-select">
                                                 <div class="package-select-inputs">
@@ -415,5 +413,11 @@
             </div>
         </div>
     </div>
-
+{% endblock %}
+{% block footer %}
+    {{ parent() }}
+    <script src="{{ asset('site/dashboard/js/dashboard.js') }}"></script>
+    <script src="{{ asset('site/dashboard/js/datePicker.js') }}"></script>
+    <script src="{{ asset('site/dashboard/js/upload-input2.js') }}"></script>
+    <script src="{{ asset('site/js/bootstrap-multiselect.js') }}"></script>
 {% endblock %}

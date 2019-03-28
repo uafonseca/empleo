@@ -4,10 +4,7 @@ function bookMark(id) {
         data: {'id':id},
         type: "POST"
     }).done(function (response) {
-        // $('#autoremove-'+id).fadeOut()
     }).fail(function (data) {
-        console.log("error")
-        console.log(data)
     })
 }
 function applied(id) {
@@ -17,17 +14,12 @@ function applied(id) {
         type: "POST"
     }).done(function (response) {
         if(response.data){
-            console.log("OK")
             $('#applied-btn-'+id).html("Cancelar")
         }
-
         else{
-            console.log("no")
             $('#applied-btn-'+id).html("Aplica ya!")
         }
 
     }).fail(function (data) {
-        console.log("error")
-        console.log(data)
     })
 }

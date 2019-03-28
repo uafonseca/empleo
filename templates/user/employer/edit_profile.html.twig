@@ -34,17 +34,17 @@
                                 <div class="update-photo">
                                     {% if app.user.image is not null %}
                                         <img src="{{ asset('images/user/') ~ candidate.image }}"
-                                             class="img-fluid" alt="">
+                                             class="image" alt="">
                                     {% else %}
                                         {% if app.user.gender == 'M' %}
                                             <img src="{{ asset('images/default/man_logo.jpg') }}"
-                                                 class="img-fluid" alt="">
+                                                 class="image" alt="">
                                         {% elseif  app.user.gender == 'F' %}
                                             <img src="{{ asset('images/default/woman_logo.jpg') }}"
-                                                 class="img-fluid" alt="">
+                                                 class="image" alt="">
                                         {% else %}
                                             <img src="{{ asset('images/default/not_image_user.png') }}"
-                                                 class="img-fluid" alt="">
+                                                 class="image" alt="">
                                         {% endif %}
                                     {% endif %}
                                 </div>

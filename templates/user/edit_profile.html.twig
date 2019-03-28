@@ -33,25 +33,24 @@
                                 <div class="update-photo">
                                     {% if app.user.image is not null %}
                                         <img src="{{ asset('images/user/') ~ app.user.image }}"
-                                             class="img-fluid" alt="">
+                                             class="image" alt="">
                                     {% else %}
                                         {% if app.user.gender == 'M' %}
                                             <img src="{{ asset('images/default/man_logo.jpg') }}"
-                                                 class="img-fluid" alt="">
+                                                 class="image" alt="">
                                         {% elseif  app.user.gender == 'F' %}
                                             <img src="{{ asset('images/default/woman_logo.jpg') }}"
-                                                 class="img-fluid" alt="">
+                                                 class="image" alt="">
                                         {% else %}
                                             <img src="{{ asset('images/default/not_image_user.png') }}"
-                                                 class="img-fluid" alt="">
+                                                 class="image" alt="">
                                         {% endif %}
                                     {% endif %}
                                 </div>
-                                <div id="file_upload" class="file-upload">
+                                <div class="file-upload">
                                     {{ form_widget(form.imageFile, { 'attr': {'class': 'file-input'} } ) }}
                                     Cambiar avatar
                                 </div>
-
                             </div>
                             <div class="dashboard-section basic-info-input">
                                 <h4><i data-feather="user-check"></i>Información básica</h4>
@@ -145,7 +144,7 @@
                                     <label class="col-sm-3 col-form-label">Categoría<span
                                                 style="color: red">*</span></label>
                                     <div class="col-sm-9">
-                                        {{ form_widget(form.category, { 'attr': {'id':'multiselect','class': 'form-control','multiple':'multiple'} } ) }}
+                                        {{ form_widget(form.category, { 'attr': {'id':'multiselect','class':'form-control selectpicker', 'data-live-search':'true','multiple':'multiple'} } ) }}
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -223,9 +222,21 @@
 
     <!-- Call to Action -->
     <!-- Call to Action End -->
-    <script src="{{ asset('site/assets/js/jquery.min.js') }}"></script>
-    <script src="{{ asset('site/assets/js/jquery.ajaxchimp.min.js') }}"></script>
+
+    {#<script src="{{ asset('site/assets/js/jquery.ajaxchimp.min.js') }}"></script>#}
+{% endblock %}
+{% block footer %}
+    {{ parent() }}
     <script src="{{ asset('site/dashboard/js/dashboard.js') }}"></script>
     <script src="{{ asset('site/dashboard/js/datePicker.js') }}"></script>
     <script src="{{ asset('site/dashboard/js/upload-input.js') }}"></script>
+    <script src="{{ asset('site/js/bootstrap-multiselect.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#multiselect').multiselect({
+                buttonWidth: '300px',
+
+            });
+        });
+    </script>
 {% endblock %}

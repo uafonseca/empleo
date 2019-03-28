@@ -53,8 +53,6 @@
 		 * @Route("/",name="homepage")
 		 */
 		public function index(
-			Request $request,
-			\Swift_Mailer $mailer,
 			AuthorizationCheckerInterface $authChecker
 		): Response {
 			$verificated = $this->verificateUser($authChecker);
@@ -71,11 +69,6 @@
 					'categorys' => $this->container->get('app.service.helper')->loadCategorys(),
 					'citys' => $this->container->get('app.service.helper')->loadCityes(),
 					'company' => $this->container->get('app.service.helper')->LoadCompany(),
-					'works' => count($em->getRepository(Job::class)->jobsByStatus(constants::JOB_STATUS_ACTIVE)),
-					'candidates' => count(
-						$em->getRepository(User::class)->findByRole(\FOS\UserBundle\Model\User::ROLE_DEFAULT)
-					),
-					'cv' => count($em->getRepository(Resume::class)->findAll()),
 					'entity' => count($em->getRepository(User::class)->findByRole('ROLE_ADMIN')),
 				]
 			);
@@ -485,14 +478,12 @@
 		 */
 		public function verificateAcount(Request $request)
 		{
-			
 			if (null !== $request->get('code')) {
 				$currentUser = $this->get('security.token_storage')->getToken()->getUser();
 				if ($currentUser->getSecret() == $request->get('code')) {
 					$em = $this->getDoctrine()->getManager();
 					$currentUser->setVerificated(true);
 					$em->flush();
-					
 					return $this->redirectToRoute('homepage');
 				} else {
 					$this->addFlash('error', 'Código de verificación incorrecto');

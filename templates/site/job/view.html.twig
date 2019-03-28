@@ -15,7 +15,11 @@
                                     <img src="{{ asset('site/images/upload/company/')~ job.image }}" class="img-fluid" alt="">
                                 </div>
                                 <div class="title-body">
-                                    <h4>{{ job.title }}</h4>
+                                    <h4>{{ job.title }}
+                                        {% if job.user.package != 'payment_basic' %}
+                                            {#<span class="span-dest">DESTACADO</span>#}
+                                        {% endif %}
+                                    </h4>
                                     <div class="info">
                                         <span class="company"><a href="#"><i data-feather="briefcase"></i>{{ job.companyName }}</a></span>
                                         <span class="office-location"><a href="#"><i data-feather="map-pin"></i>{{ job.localtion }}</a></span>
@@ -34,10 +38,14 @@
                                     </div>
                                 </div>
                             </div>
+                            {% if not is_granted('ROLE_ADMIN') %}
                             <div class="buttons">
-                                <a class="save" href="#"><i data-feather="heart"></i>Guardar Empleo</a>
-                                <a class="apply" href="#">Aplicar en línea</a>
+                                {#<a class="save" href="#"><i data-feather="heart"></i>Guardar Empleo</a>#}
+                                <a onclick="bookMark('{{ job.id }}')" class="favourite button save {% if job.id in app.user.bookmarked %}active{% endif %} "><i data-feather="heart"></i>Guardar Empleo</a>
+                                <a id="applied-btn-{{ job.id }}"
+                                  onclick="applied('{{ job.id }}')" class="apply button">{% if job.id in app.user.applied %}Cancelar{% else %}Aplica ya!{% endif %}</a>
                             </div>
+                            {% endif %}
                         </div>
                         <div class="details-information section-padding-60">
                             <div class="row">
@@ -64,16 +72,17 @@
                                         </ul>
                                     </div>
                                     <div class="job-apply-buttons">
-                                        <a href="#" class="apply">Aplicar en línea </a>
-                                        <a href="#" class="email"><i data-feather="mail"></i>Email Job</a>
+                                        {% if not is_granted('ROLE_ADMIN') %}
+                                        <a href="#" class="email"><i data-feather="mail"></i>Enviar email</a>
+                                        {% endif %}
                                     </div>
                                 </div>
                                 <div class="col-xl-4 offset-xl-1 col-lg-4">
                                     <div class="information-and-share">
                                         <div class="job-summary">
-                                            <h4>Job Summary</h4>
+                                            <h4>Resumen del empleo</h4>
                                             <ul>
-                                                <li><span>Publicado el:</span> {{ job.date|date('F d, Y') }}</li>
+                                                <li><span>Publicado el:</span> {{ job.dateCreated|date('F d, Y') }}</li>
                                                 {#<li><span>Vacancy:</span> 08</li>#}
                                                 <li><span>Estado del Empleo:
                                                 {% if job.type == 'partial' %}
@@ -92,7 +101,7 @@
                                                 <li><span>Localización del empleo:</span> {{ job.yourLocaltion }}</li>
                                                 <li><span>Salario:</span> ${{ job.salaryMin }} - ${{ job.salaryMax }}</li>
                                                 <li><span>Gender:</span> {{ job.gender }}</li>
-                                                <li><span>Fecha tope:</span>{{ job.expiredDate|date('F d, Y') }}</li>
+                                                <li><span>Expira:</span>{{ job.expiredDate|date('F d, Y') }}</li>
                                             </ul>
                                         </div>
                                         <div class="share-job-post">
@@ -100,16 +109,17 @@
                                             <a href="#"><i class="fab fa-facebook-f"></i></a>
                                             <a href="#"><i class="fab fa-twitter"></i></a>
                                             <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                            <a href="#"><i class="fab fa-google-plus-g"></i></a>
+                                            {#<a href="#"><i class="fab fa-google-plus-g"></i></a>#}
                                             <a href="#"><i class="fab fa-pinterest-p"></i></a>
-                                            <a href="#" class="add-more"><span class="ti-plus"></span></a>
+                                            {#<a href="#" class="add-more"><span class="ti-plus"></span></a>#}
                                         </div>
                                         <div class="buttons">
-                                            <a href="#" class="button print"><i data-feather="printer"></i>Print Job</a>
-                                            <a href="#" class="button report"><i data-feather="flag"></i>Report Job</a>
+                                            {% if not is_granted('ROLE_ADMIN') %}
+                                            <a href="#" class="button report"><i data-feather="flag"></i>Reortar empleo</a>
+                                            {% endif %}
                                         </div>
                                         <div class="job-location">
-                                            <h4>Job Location</h4>
+                                            <h4>Localización</h4>
                                             <div id="map-area">
                                                 <div class="cp-map" id="location" data-lat="40.713355" data-lng="-74.005535" data-zoom="10"></div>
                                             </div>

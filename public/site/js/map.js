@@ -111,7 +111,7 @@ $(document).ready(function () {
             lng: -74.005535
           },
           map: map,
-          icon: 'images/map-marker.png'
+          icon: 'images/map-.markerpng'
         });
       });
     }

@@ -3,7 +3,7 @@
     <div class="company-info">
         <div class="thumb">
             {% if app.user.image is not null %}
-                <img src="{{ asset('images/user/') ~ candidate.image }}"
+                <img src="{{ asset('images/user/') ~ app.user.image }}"
                      class="img-fluid" alt="">
             {% else %}
                 {% if app.user.gender == 'M' %}

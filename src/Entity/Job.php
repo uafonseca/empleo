@@ -86,7 +86,7 @@ class Job
      *      minMessage = "El campo descripción debe tener más de {{ limit }} caracteres",
      *      maxMessage = "El campo descripción no debe superar los {{ limit }} caracteres"
      * )
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text", length=255)
      */
     private $description;
 

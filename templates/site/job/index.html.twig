@@ -13,9 +13,9 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col">
+                <div class="col container">
                     {% for j in jobs %}
-                        <div class="job-list">
+                        <div class="job-list row">
                             <div class="thumb">
                                 <a href="{{ path('job_show', {'id': j.id}) }}">
                                     <img src="{{ asset('site/images/upload/company/')~ j.image }}" class="img-fluid" alt="{{ j.title }}">
@@ -23,7 +23,11 @@
                             </div>
                             <div class="body">
                                 <div class="content">
-                                    <h4><a href="{{ path('job_show', {'id': j.id}) }}">{{ j.title }}</a></h4>
+                                    <h4><a href="{{ path('job_show', {'id': j.id}) }}">{{ j.title }}
+                                            {% if j.user.package != 'payment_basic' %}
+                                                <span class="span-dest">DESTACADO</span>
+                                            {% endif %}
+                                        </a></h4>
                                     <div class="info">
                                         <span class="company"><a><i data-feather="briefcase"></i>{{ j.CompanyName }}</a></span>
                                         <span class="office-location"><a><i data-feather="map-pin"></i>{{ j.Localtion }}</a></span>
@@ -52,8 +56,11 @@
                                             {#<a  class="favourite"><i data-feather="heart"></i></a>#}
                                         {% endif %}
                                     </div>
-                                    <p class="deadline">Fecha tope: {{ j.expiredDate|date('F d, Y')}}</p>
+                                    <p class="deadline">{{ j.expiredDate|date('F d')}}</p>
                                 </div>
+                            </div>
+                            <div class="col-12 job-about">
+                                <p> {{ j.description| easyadmin_truncate(200)}}</p>
                             </div>
                         </div>
                     {% endfor %}

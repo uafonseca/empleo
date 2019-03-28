@@ -14,6 +14,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
@@ -85,11 +86,8 @@ class JobType extends AbstractType
                 'placeholder' => 'Género'
             ])
             ->add('zip_code')
-//            ->add('image')
-            ->add('imageFile', VichFileType::class, array(
+            ->add('imageFile', FileType::class, array(
                 'required' => true,
-                'allow_delete' => true,
-                'download_link' => true,
             ))
             ->add('your_localtion')
             ->add('company_name')

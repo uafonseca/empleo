@@ -9994,5 +9994,21 @@ label.required:before {
     text-align: center;
     line-height: 40px;
     cursor: pointer;
-    /*color: #b1b1b1;*/
+}
+.job-about{
+    /*padding: 5px;*/
+    margin: 10px;
+}
+.job-about p{
+    float: right;
+    margin-left: 88px;
+    margin-right: 88px;
+}
+.span-dest{
+    background-color: #fe9703;
+    padding: 4px;
+    margin: 5px;
+    border-radius: 3px;
+    font-size: small;
+    color: white;
 }
