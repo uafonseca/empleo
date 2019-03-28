@@ -10000,7 +10000,7 @@ label.required:before {
     margin: 10px;
 }
 .job-about p{
-    float: right;
+    float: left;
     margin-left: 88px;
     margin-right: 88px;
 }
