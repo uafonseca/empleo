@@ -56,27 +56,28 @@ class JobType extends AbstractType
                 ],
                 'placeholder' => 'Experiencia'
             ])
-            ->add('salary_max', IntegerType::class,[
-                'invalid_message' => 'You entered an invalid value, it should include %num% ',
-                'invalid_message_parameters' => array('%num%' => 'form.salary_min'),
-            ])
+//            ->add('salary_max', IntegerType::class,[
+////                'invalid_message' => 'You entered an invalid value, it should include %num% ',
+////                'invalid_message_parameters' => array('%num%' => 'form.salary_min'),
+//            ])
             ->add('salary_min', IntegerType::class)
             ->add('qualification', ChoiceType::class, [
                 'choices' => [
-                    '1' => '1',
-                    '2' => '2',
-                    '3' => '3',
-                    '4' => '4',
+                    'Urge' => 'Urge',
+                    'Inmediato' => 'Inmediato',
                 ],
-                'placeholder' => 'Calificación'
+                'placeholder' => 'Prioridad'
             ])
             ->add('date', DateType::class, ['widget' => 'single_text',])
             ->add('description', TextareaType::class)
             ->add('responsabilities', TextareaType::class)
             ->add('education', TextareaType::class)
             ->add('others', TextareaType::class)
-            ->add('country', CountryType::class)
-            ->add('city')
+	        ->add('country',null,[
+	        	'attr' => ['id' => 'country'],
+		        ])
+//            ->add('country', CountryType::class,["preferred_choices" => array('EC')])
+            ->add('city',null,['attr' => ['id' => 'city']])
             ->add('gender', ChoiceType::class, [
                 'choices' => [
                     'Femenino' => 'femenino',
@@ -85,11 +86,11 @@ class JobType extends AbstractType
                 ],
                 'placeholder' => 'Género'
             ])
-            ->add('zip_code')
+            ->add('zip_code',null,['attr' => ['id' => 'postal_code']])
             ->add('imageFile', FileType::class, array(
                 'required' => true,
             ))
-            ->add('your_localtion')
+            ->add('your_localtion',null,['attr' => ['id' => 'autocomplete']])
             ->add('company_name')
             ->add('web_address', UrlType::class)
             ->add('campany_profile', TextareaType::class)

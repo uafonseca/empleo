@@ -52,14 +52,12 @@ class Job
 
     /**
      * @Assert\Type("integer")
-     * @Assert\Expression("this.getSalaryMax() >= this.getSalaryMin()")
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $salary_max;
 
     /**
      * @Assert\Type("integer")
-     * @Assert\Expression("this.getSalaryMin() <= this.getSalaryMax()")
      * @ORM\Column(type="integer")
      */
     private $salary_min;
