@@ -40,10 +40,12 @@ class JobType extends AbstractType
             ->add('localtion')
             ->add('type', ChoiceType::class, [
                 'choices' => [
-                    'A tiempo completol' => 'ful',
-                    'A tiempo parcial' => 'partial',
+                    'Tiempo completo' => 'ful',
+                    'Por horas' => 'partial',
                     'Temporal' => 'temporary',
-                    'Independiente' => 'freelance',
+                    'Prácticas profesionales' => 'practica_profesional',
+                    'Por obra' => 'obra',
+                    'Por contrato' => 'contrato',
                 ],
                 'placeholder' => 'Tipo'
             ])

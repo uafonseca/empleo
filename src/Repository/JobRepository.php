@@ -137,6 +137,8 @@
 				$qb->orWhere('j.your_localtion LIKE :key OR j.localtion LIKE :key')
 					->setParameter('key', '%'.$keywords.'%');
 			}
+			$qb->andWhere('j.status = :status')
+				->setParameter('status',constants::JOB_STATUS_ACTIVE);
 			
 			return $qb
 				->orderBy('j.expiredDate', 'DESC')
