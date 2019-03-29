@@ -36,6 +36,7 @@
                                 <tr>
                                     <th>Título del empleo</th>
                                     <th>Aplicaciones</th>
+                                    <th>Fecha de publicación</th>
                                     <th>Fecha tope</th>
                                     <th>Estado</th>
                                     <th class="action">Opciones</th>
@@ -63,6 +64,7 @@
                                         </div>
                                     </td>
                                     <td class="application"><a href="#">{{ j.users|length }} Aplicaciones</a></td>
+                                    <td class="deadline">{{ j.dateCreated|date('F d, Y')}}</td>
                                     <td class="deadline">{{ j.expiredDate|date('F d, Y')}}</td>
                                     {% if j.status == 'job_active' %}
                                         <td class="status active">Activo</td>

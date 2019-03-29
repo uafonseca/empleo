@@ -56,7 +56,7 @@
                                             {#<a  class="favourite"><i data-feather="heart"></i></a>#}
                                         {% endif %}
                                     </div>
-                                    <p class="deadline">{{ j.expiredDate|date('F d')}}</p>
+                                    <p class="deadline">{{ j.expiredDate|localizeddate('short', 'none', 'en')}}</p>
                                 </div>
                             </div>
                             <div class="col-12 job-about">

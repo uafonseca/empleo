@@ -2254,7 +2254,7 @@ a:focus {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    padding: 30px;
+    padding: 10px;
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
@@ -2294,7 +2294,7 @@ a:focus {
     font-size: 1.8rem;
     font-weight: 500;
     color: #232630;
-    margin-bottom: 15px;
+    margin-bottom: 6px;
 }
 
 .job-list .body .content .info span {
@@ -3419,7 +3419,7 @@ a:focus {
 
 @media all and (max-width: 991px) {
     .job-list {
-        padding: 30px 20px;
+        padding: 10px 5px;
     }
 
     .job-listing-container, .candidate-container, .employer-container {
@@ -9997,7 +9997,7 @@ label.required:before {
 }
 .job-about{
     /*padding: 5px;*/
-    margin: 10px;
+    /*margin: 10px;*/
 }
 .job-about p{
     float: left;
