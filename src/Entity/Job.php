@@ -211,6 +211,11 @@ class Job
      */
     private $users;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $is_service;
+
     public function __construct()
     {
         $this->applications = array();
@@ -616,6 +621,18 @@ class Job
             $this->users->removeElement($user);
             $user->removeJobAppiled($this);
         }
+
+        return $this;
+    }
+
+    public function getIsService(): ?bool
+    {
+        return $this->is_service;
+    }
+
+    public function setIsService(bool $is_service): self
+    {
+        $this->is_service = $is_service;
 
         return $this;
     }

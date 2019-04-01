@@ -10,6 +10,7 @@
 	
 	use App\Entity\Category;
 	use App\Entity\Job;
+	use App\Entity\Notification;
 	use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 	
 	class Helper extends Controller
@@ -20,7 +21,24 @@
 		function __construct()
 		{
 		}
-		
+		public function loadNotifications()
+		{
+			$user = $this->get('security.token_storage')->getToken()->getUser();
+			if (null != $user) {
+				$em = $this->getDoctrine()->getManager();
+				$notifications = $em->getRepository(Notification::class)->findBy(
+					array(
+						'user' => $user,
+						'active' => true,
+					),
+					array(
+						'date' => 'DESC',
+					)
+				);
+				return $notifications;
+			}
+			return null;
+		}
 		public function loadCategorys()
 		{
 			$em = $this->getDoctrine()->getManager();

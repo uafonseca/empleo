@@ -25,6 +25,8 @@
 				->andWhere('j.expiredDate >= :val')
 				->setParameter('val', new \DateTime())
 				->orderBy('j.expiredDate', 'ASC')
+				->andWhere('j.is_service = false')
+				->orWhere('j.is_service is NULL')
 				->setMaxResults(10)
 				->getQuery()
 				->getResult();
@@ -141,6 +143,8 @@
 				->setParameter('status',constants::JOB_STATUS_ACTIVE);
 			
 			return $qb
+				->andWhere('j.is_service = false')
+				->orWhere('j.is_service is NULL')
 				->orderBy('j.expiredDate', 'DESC')
 				->getQuery()
 				->getResult();
@@ -214,6 +218,8 @@
 			return $this->createQueryBuilder('j')
 				->where('j.status = :status')
 				->setParameter('status', $status)
+				->andWhere('j.is_service = false')
+				->orWhere('j.is_service is NULL')
 				->getQuery()
 				->getResult();
 		}
