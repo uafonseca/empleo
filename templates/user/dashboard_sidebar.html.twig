@@ -3,7 +3,7 @@
     <div class="user-info">
         <div class="thumb">
             {% if app.user.image is not null %}
-                <img src="{{ asset('images/user/') ~ app.user.image }}"
+                <img src="{{asset('images/user/') ~'_files_'~app.user.username~'/'~ app.user.image }}"
                      class="img-fluid" alt="">
             {% else %}
                 {% if app.user.gender == 'M' %}
@@ -43,6 +43,7 @@
             <li class="{% if currentPath == '/dashboard/edit' %}active{% endif %}"><i class="fas fa-user"></i><a href="{{ path('dashboard_edit') }}">Editar perfil</a></li>
             <li class="{% if currentPath == '/dashboard/resume' %}active{% endif %}"><i class="fas fa-file-alt"></i><a href="{{ path('dashboard_resume') }}">Curriculum Vitae</a></li>
             <li class="{% if currentPath == '/dashboard/resume/edit' %}active{% endif %}"><i class="fas fa-edit"></i><a href="{{ path('dashboard_resume_edit') }}">Editar Curriculum Vitae</a></li>
+            <li class="{% if currentPath == '/service/manage' %}active{% endif %}"><i class="fas fa-edit"></i><a href="{{ path('service_manage') }}">Mis servicios</a></li>
             <li class="{% if currentPath == '/dashboard/bookmarked' %}active{% endif %}"><i class="fas fa-heart"></i><a href="{{ path('dashboard_bookmarked') }}">Marcados</a></li>
             <li class="{% if currentPath == '/dashboard/applied' %}active{% endif %}"><i class="fas fa-check-square"></i><a href="{{ path('dashboard_applied') }}">Aplicados</a></li>
             {#<li class="{% if currentPath == '/dashboard' %}{% endif %}"><i class="fas fa-comment"></i><a href="dashboard-message.html">Mensajes</a></li>#}

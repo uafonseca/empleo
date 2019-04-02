@@ -25,6 +25,8 @@
 				->andWhere('j.expiredDate >= :val')
 				->setParameter('val', new \DateTime())
 				->orderBy('j.expiredDate', 'ASC')
+				->andWhere('j.is_service = false')
+				->orWhere('j.is_service is NULL')
 				->setMaxResults(10)
 				->getQuery()
 				->getResult();
@@ -137,8 +139,12 @@
 				$qb->orWhere('j.your_localtion LIKE :key OR j.localtion LIKE :key')
 					->setParameter('key', '%'.$keywords.'%');
 			}
+			$qb->andWhere('j.status = :status')
+				->setParameter('status',constants::JOB_STATUS_ACTIVE);
 			
 			return $qb
+				->andWhere('j.is_service = false')
+				->orWhere('j.is_service is NULL')
 				->orderBy('j.expiredDate', 'DESC')
 				->getQuery()
 				->getResult();
@@ -197,6 +203,16 @@
 				->getQuery()
 				->getResult();
 		}
+		public function finServicesByUser($user)
+		{
+			return $this->createQueryBuilder('j')
+				->andWhere('j.user = :val')
+				->setParameter('val', $user)
+				->andWhere('j.is_service = true')
+				->orderBy('j.status', 'ASC')
+				->getQuery()
+				->getResult();
+		}
 		
 		public function findOneBySomeField($value): ?Job
 		{
@@ -212,6 +228,8 @@
 			return $this->createQueryBuilder('j')
 				->where('j.status = :status')
 				->setParameter('status', $status)
+				->andWhere('j.is_service = false')
+				->orWhere('j.is_service is NULL')
 				->getQuery()
 				->getResult();
 		}

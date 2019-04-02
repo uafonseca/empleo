@@ -1,0 +1,405 @@
+{% extends 'site/base.html.twig' %}
+{% block title %}Crear servicio{% endblock %}
+{% block stylesheet %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('site/dashboard/css/dashboard.css') }}">
+{% endblock %}
+
+{% block body %}
+    {{ include ('site/header.html.twig',{'notifications': notifications}  ) }}
+    <!-- Breadcrumb -->
+    <div class="alice-bg padding-top-70 padding-bottom-70">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="breadcrumb-area">
+                        <h1>Crear servicio</h1>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{{ path('homepage') }}">Inicio</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Crear servicio</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+    {#{{ form_start(form) }}#}
+    {#{{ form_widget(form) }}#}
+    {#{{ form_end(form) }}#}
+    <div class="alice-bg section-padding-bottom">
+        <div class="container no-gliters">
+            <div class="row no-gliters">
+                <div class="col">
+                    <div class="post-container">
+                        <div class="post-content-wrapper">
+                            {{ form_start(form, {attr: {'class': 'job-post-form','id':'job-form'} }) }}
+                            <div class="basic-info-input">
+                                <h4><i data-feather="plus-circle"></i>Crear servicio</h4>
+                                <div id="job-title" class="form-group row">
+                                    <label class="col-md-3 col-form-label">Título<span
+                                                style="color: red">*</span></label>
+                                    <div class="col-md-9">
+                                        {{ form_widget(form.title, { 'attr': {'class': 'form-control','placeholder':'Título'} }) }}
+                                        <span class="error text-danger">{{ form_errors(form.title) }}</span>
+                                    </div>
+                                </div>
+                                <div id="logo" class="form-group row">
+                                    <label class="col-md-3 col-form-label">Logo<span style="color: red">*</span></label>
+                                    <div class="col-md-9">
+                                        <div class="dashboard-section upload-profile-photo">
+                                            <div class="update-photo" style="width: 150px;">
+                                                <img class="image" alt="">
+                                            </div>
+                                            <div id="file_upload" class="file-upload">
+                                                {{ form_widget(form.imageFile, { 'attr': {'class': 'file-input'} } ) }}
+                                                Logo
+                                            </div>
+                                        </div>
+                                        <span class="error text-danger">{{ form_errors(form.imageFile) }}</span>
+                                    </div>
+                                </div>
+                                <div id="job-summery" class="row">
+                                    <label class="col-md-3 col-form-label">Resumen de servicio<span
+                                                style="color: red">*</span></label>
+                                    <div class="col-md-9">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    {{ form_widget(form.service, { 'attr': {'class': 'form-control'} }) }}
+                                                    <span class="error text-danger">{{ form_errors(form.service) }}</span>
+                                                    <i class="fa fa-caret-down"></i>
+                                                </div>
+                                            </div>
+                                            {#<div class="col-md-6">#}
+                                                {#<div class="form-group">#}
+                                                    {#{{ form_widget(form.localtion, { 'attr': {'class': 'form-control','placeholder':'Ubicación'} }) }}#}
+                                                    {#<span class="error text-danger">{{ form_errors(form.localtion) }}</span>#}
+                                                {#</div>#}
+                                            {#</div>#}
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    {{ form_widget(form.type, { 'attr': {'class': 'form-control'} }) }}
+                                                    <span class="error text-danger"> {{ form_errors(form.type) }}</span>
+                                                    <i class="fa fa-caret-down"></i>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    {{ form_widget(form.experience, { 'attr': {'class': 'form-control'} }) }}
+                                                    <span class="error text-danger">{{ form_errors(form.experience) }}</span>
+                                                    <i class="fa fa-caret-down"></i>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    {{ form_widget(form.salary_min, { 'attr': {'id': 'min','class': 'form-control','placeholder':'Salario'} }) }}
+                                                    <span class="error text-danger">{{ form_errors(form.salary_min) }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    {{ form_widget(form.qualification, { 'attr': {'class': 'form-control'} }) }}
+                                                    <span class="error text-danger">{{ form_errors(form.qualification) }}</span>
+                                                    <i class="fa fa-caret-down"></i>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group datepicker">
+                                                    {{ form_widget(form.date, { 'attr': {'class': 'form-control'} }) }}
+                                                    <span class="error text-danger">{{ form_errors(form.date) }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group datepicker">
+                                                    {{ form_widget(form.gender, { 'attr': {'class': 'form-control'} }) }}
+                                                    <span class="error text-danger">{{ form_errors(form.gender) }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="job-description" class="row">
+                                    <label class="col-md-3 col-form-label">Descripción del trabajo<span
+                                                style="color: red">*</span></label>
+                                    <div class="col-md-9">
+                                        <div class="form-group shadow-textarea">
+                                            <label for="exampleFormControlTextarea6"></label>
+                                            {{ form_widget(form.description, { 'attr': {'class': 'form-control z-depth-1','placeholder':'Descripción del trabajo'} }) }}
+                                            <span class="error text-danger">{{ form_errors(form.description) }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="response" class="row">
+                                    <label class="col-md-3 col-form-label">Responsabilidades<span
+                                                style="color: red">*</span></label>
+                                    <div class="col-md-9">
+                                        <div class="form-group shadow-textarea">
+                                            <label for="exampleFormControlTextarea6"></label>
+                                            {{ form_widget(form.responsabilities, { 'attr': {'class': 'form-control z-depth-1','placeholder':'Responsabilidades'} }) }}
+                                            <span class="error text-danger">{{ form_errors(form.responsabilities) }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="education" class="row">
+                                    <label class="col-md-3 col-form-label">Educación<span
+                                                style="color: red">*</span></label>
+                                    <div class="col-md-9">
+                                        <div class="form-group shadow-textarea">
+                                            <label for="exampleFormControlTextarea6"></label>
+                                            {{ form_widget(form.education, { 'attr': {'class': 'form-control z-depth-1','placeholder':'Educación'} }) }}
+                                            <span class="error text-danger">{{ form_errors(form.education) }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="others" class="row">
+                                    <label class="col-md-3 col-form-label">Otros beneficios<span
+                                                style="color: red">*</span></label>
+                                    <div class="col-md-9">
+                                        <div class="form-group shadow-textarea">
+                                            <label for="exampleFormControlTextarea6"></label>
+                                            {{ form_widget(form.others, { 'attr': {'class': 'form-control z-depth-1','placeholder':'Otros beneficios'} }) }}
+                                            <span class="error text-danger">{{ form_errors(form.others) }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="post-location" class="form-group row">
+                                    <label class="col-md-3 col-form-label">Su ubicación<span style="color: red">*</span></label>
+                                    <div class="col-md-9">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div id="locationField">
+                                                    {{ form_widget(form.your_localtion, {
+                                                        'id': 'autocomplete',
+                                                        'attr': {
+                                                            'class': 'form-control',
+                                                            'onFocus': 'geolocate()',
+                                                            'placeholder':'Su ubicación',
+                                                            'required':'required',
+                                                        } }) }}
+                                                </div>
+                                                <div class="container">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label class="label">Dirección</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <input class="field form-control" id="street_number"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <input class="field form-control" id="route"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label class="label">Ciudad</label>
+                                                            {{ form_widget(form.city, {
+                                                                'id': 'locality',
+                                                                'attr': {
+                                                                    'class': 'form-control field',
+                                                                    'required':'required',
+                                                                } }) }}
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label class="label">Estado</label>
+                                                            <input class="field form-control" placeholder=""
+                                                                   id="administrative_area_level_1"/>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label class="label">Código postal</label>
+                                                            {{ form_widget(form.zip_code, {
+                                                                'id': 'postal_code',
+                                                                'attr': {
+                                                                    'class': 'form-control field',
+                                                                    'required':'required',
+                                                                } }) }}
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label class="label">País</label>
+                                                            {{ form_widget(form.country, {
+                                                                'id':'country',
+                                                                'attr': {
+                                                                    'class': 'field form-control',
+                                                                    'required':'required',
+                                                                } }) }}
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-md-3 col-form-label">Seleccione el paquete<span
+                                                style="color: red">*</span></label>
+                                    <div class="col-md-9">
+                                        <div class="package-select">
+                                            <div class="package-select-inputs">
+                                                <div class="form-group">
+                                                    <input class="custom-radio" type="radio" id="radio_1"
+                                                           name="my_radio" value="payment_free" checked>
+                                                    <label for="radio_1">
+                                                        <span class="dot"></span>
+                                                        <span class="package-type">GRATIS</span>
+                                                        $0.00
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input class="custom-radio" type="radio" id="radio_2"
+                                                           name="my_radio" value="payment_basic">
+                                                    <label for="radio_2">
+                                                        <span class="dot"></span> <span
+                                                                class="package-type">BÁSICO</span> $90.00
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input class="custom-radio" type="radio" id="radio_3"
+                                                           name="my_radio" value="payment_pyme">
+                                                    <label for="radio_3">
+                                                        <span class="dot"></span> <span
+                                                                class="package-type">PYME</span> $150.00
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input class="custom-radio" type="radio" id="radio_4"
+                                                           name="my_radio" value="payment_plus">
+                                                    <label for="radio_4">
+                                                        <span class="dot"></span> <span
+                                                                class="package-type">PLUS</span> $300.00
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="payment-method">
+                                                <a href="#" class="credit active"><i class="fas fa-credit-card"></i>Credit
+                                                    Card</a>
+                                                <a href="#" class="paypal"><i class="fab fa-cc-paypal"></i>PayPal</a>
+                                                <input type="checkbox" hidden name="credit">
+                                                <input type="checkbox" hidden name="paypal">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-md-9 offset-md-3">
+                                        <div class="form-group terms">
+                                            <input class="custom-radio" required type="checkbox" id="radio-4"
+                                                   name="termsandcondition">
+                                            <label for="radio-4">
+                                                <span class="dot"></span> Acepta nuestros <a href="{{ path('site_policy') }}">Términos,
+                                                    Condiciones y Política de privacidad</a>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-3 col-form-label"></label>
+                                    <div class="col-md-9">
+                                        {{ form_widget(form.save, { 'attr': {'class': 'button'} }) }}
+                                    </div>
+                                </div>
+
+                            </div>
+                            {{ form_rest(form) }}
+                            {{ form_end(form) }}
+                        </div>
+                        <div class="post-sidebar">
+                            <h5><i data-feather="arrow-down-circle"></i>Navegación</h5>
+                            <ul class="sidebar-menu">
+                                <li><a href="#job-title">Título del Servicio</a></li>
+                                <li><a href="#job-summery">Resumen del servicio</a></li>
+                                <li><a href="#job-description">Descripción del servicio</a></li>
+                                <li><a href="#response">Responsabilidades</a></li>
+                                <li><a href="#education">Educación</a></li>
+                                <li><a href="#others">Tú ubicación</a></li>
+                                {#<li><a href="#post-location">Sobre la compañía</a></li>#}
+                                <li><a href="#package">Selección de paquete</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block footer %}
+    {{ parent() }}
+    <script src="{{ asset('site/dashboard/js/dashboard.js') }}"></script>
+    <script src="{{ asset('site/dashboard/js/datePicker.js') }}"></script>
+    <script src="{{ asset('site/dashboard/js/upload-input2.js') }}"></script>
+    <script src="{{ asset('site/js/bootstrap-multiselect.js') }}"></script>
+    <script>
+
+        var placeSearch, autocomplete;
+
+        var componentForm = {
+            street_number: 'short_name',
+            route: 'long_name',
+            locality: 'long_name',
+            administrative_area_level_1: 'short_name',
+            country: 'long_name',
+            postal_code: 'short_name'
+        };
+
+        function initAutocomplete() {
+            // Create the autocomplete object, restricting the search predictions to
+            // geographical location types.
+            autocomplete = new google.maps.places.Autocomplete(
+                document.getElementById('autocomplete'), {types: ['geocode']});
+
+            // Avoid paying for data that you don't need by restricting the set of
+            // place fields that are returned to just the address components.
+            autocomplete.setFields('address_components');
+
+            // When the user selects an address from the drop-down, populate the
+            // address fields in the form.
+            autocomplete.addListener('place_changed', fillInAddress);
+        }
+
+        function fillInAddress() {
+            // Get the place details from the autocomplete object.
+            var place = autocomplete.getPlace();
+
+            for (var component in componentForm) {
+                document.getElementById(component).value = '';
+                document.getElementById(component).disabled = false;
+            }
+
+            // Get each component of the address from the place details,
+            // and then fill-in the corresponding field on the form.
+            for (var i = 0; i < place.address_components.length; i++) {
+                var addressType = place.address_components[i].types[0];
+                if (componentForm[addressType]) {
+                    var val = place.address_components[i][componentForm[addressType]];
+                    document.getElementById(addressType).value = val;
+                }
+            }
+        }
+
+        // Bias the autocomplete object to the user's geographical location,
+        // as supplied by the browser's 'navigator.geolocation' object.
+        function geolocate() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    var geolocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+                    var circle = new google.maps.Circle(
+                        {center: geolocation, radius: position.coords.accuracy});
+                    autocomplete.setBounds(circle.getBounds());
+                });
+            }
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC87gjXWLqrHuLKR0CTV5jNLdP4pEHMhmg&libraries=places&callback=initAutocomplete"
+            async defer></script>
+{% endblock %}

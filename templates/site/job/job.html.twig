@@ -261,17 +261,13 @@
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="form-group shadow-textarea">
-                                                    {#<label for="exampleFormControlTextarea6"></label>#}
                                                     {{ form_widget(form.campany_profile, { 'attr': {'rows':'3','class': 'form-control z-depth-1','placeholder':'Descripción del trabajo'} }) }}
                                                     <span class="error text-danger">{{ form_errors(form.campany_profile) }}</span>
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
-
-
                                 <div class="row">
                                     <label class="col-md-3 col-form-label">Seleccione el paquete<span
                                                 style="color: red">*</span></label>
@@ -330,8 +326,8 @@
                                             <input class="custom-radio" required type="checkbox" id="radio-4"
                                                    name="termsandcondition">
                                             <label for="radio-4">
-                                                <span class="dot"></span> Acepta nuestros <a href="#">Términos y
-                                                    Condiciones</a> y <a href="#">Política de privacidad</a>
+                                                <span class="dot"></span> Acepta nuestros <a href="{{ path('site_policy') }}">Términos,
+                                                    Condiciones y Política de privacidad</a>
                                             </label>
                                         </div>
                                     </div>

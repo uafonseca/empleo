@@ -45,7 +45,7 @@
                                         <td class="title">
                                             <div class="thumb">
                                                 {% if c.image is not null %}
-                                                    <img src="{{ asset('images/user/') ~ c.image }}"
+                                                    <img src="{{ asset('images/user/') ~'_files_'~c.username~'/'~ c.image }}"
                                                          class="img-fluid" alt="">
                                                 {% else %}
                                                     {% if c.gender == 'M' %}

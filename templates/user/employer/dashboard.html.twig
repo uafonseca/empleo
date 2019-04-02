@@ -2,7 +2,7 @@
 {% block title %}Tablero{% endblock %}
 {% block body %}
     <link rel="stylesheet" type="text/css" href="{{ asset('site/dashboard/css/dashboard.css') }}">
-    <link rel="stylesheet/scss" type="text/scss" href="{{ asset('site/dashboard/css/multi.scss') }}">
+    {#<link rel="stylesheet/scss" type="text/scss" href="{{ asset('site/dashboard/css/multi.scss') }}">#}
     {{  include ('site/header.html.twig',{'notifications': notifications}  )}}
         <!-- Breadcrumb -->
     <div class="alice-bg padding-top-70 padding-bottom-70">
@@ -77,12 +77,11 @@
     </div>
 
 
-    <!-- Call to Action End -->
-    <script src="{{ asset('site/assets/js/jquery.ajaxchimp.min.js') }}"></script>
-    <script src="{{ asset('site/dashboard/js/dashboard.js') }}"></script>
-    <script src="{{ asset('site/dashboard/js/datePicker.js') }}"></script>
-    <script src="{{ asset('site/dashboard/js/upload-input.js') }}"></script>
-
     {% endblock %}
- {% block js %}
+ {% block footer %}
+     {{ parent() }}
+     <script src="{{ asset('site/assets/js/jquery.ajaxchimp.min.js') }}"></script>
+     <script src="{{ asset('site/dashboard/js/dashboard.js') }}"></script>
+     <script src="{{ asset('site/dashboard/js/datePicker.js') }}"></script>
+     <script src="{{ asset('site/dashboard/js/upload-input.js') }}"></script>
  {% endblock %}

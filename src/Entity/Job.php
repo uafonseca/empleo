@@ -34,7 +34,7 @@ class Job
     private $category;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $localtion;
 
@@ -118,7 +118,7 @@ class Job
      *      minMessage = "El campo otros debe tener más de {{ limit }} caracteres",
      *      maxMessage = "El campo otros no debe superar los {{ limit }} caracteres"
      * )
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $others;
 
@@ -137,18 +137,18 @@ class Job
     private $zip_code;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $your_localtion;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $company_name;
 
     /**
      * @Assert\Url(relativeProtocol = true)
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $web_address;
 
@@ -159,7 +159,7 @@ class Job
      *      minMessage = "El campo Acerca de la compañía debe tener más de {{ limit }} caracteres",
      *      maxMessage = "El campo Acerca de la compañía no debe superar los {{ limit }} caracteres"
      * )
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $campany_profile;
 
@@ -192,7 +192,7 @@ class Job
     private $gender;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $status;
 
@@ -210,6 +210,16 @@ class Job
      * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="jobAppiled")
      */
     private $users;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $is_service;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Service", inversedBy="jobs")
+     */
+    private $service;
 
     public function __construct()
     {
@@ -616,6 +626,30 @@ class Job
             $this->users->removeElement($user);
             $user->removeJobAppiled($this);
         }
+
+        return $this;
+    }
+
+    public function getIsService(): ?bool
+    {
+        return $this->is_service;
+    }
+
+    public function setIsService(bool $is_service): self
+    {
+        $this->is_service = $is_service;
+
+        return $this;
+    }
+
+    public function getService(): ?Service
+    {
+        return $this->service;
+    }
+
+    public function setService(?Service $service): self
+    {
+        $this->service = $service;
 
         return $this;
     }

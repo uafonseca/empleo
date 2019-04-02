@@ -12,7 +12,7 @@
                         <div class="job-title-and-info">
                             <div class="title">
                                 <div class="thumb">
-                                    <img src="{{ asset('site/images/upload/company/')~ job.image }}" class="img-fluid" alt="">
+                                    <img src="{{asset('site/images/upload/company/')~'_user_'~job.user.id~'/'~ job.image  }}" class="img-fluid" alt="">
                                 </div>
                                 <div class="title-body">
                                     <h4>{{ job.title }}

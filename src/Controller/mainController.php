@@ -20,7 +20,6 @@
 	use App\Form\UserFullyEmployerType;
 	use App\Form\UserFullyType;
 	use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-	use Symfony\Component\Finder\Exception\AccessDeniedException;
 	use Symfony\Component\HttpFoundation\BinaryFileResponse;
 	use Symfony\Component\HttpFoundation\Request;
 	use Symfony\Component\HttpFoundation\Response;
@@ -28,8 +27,9 @@
 	use Symfony\Component\Routing\Annotation\Route;
 	use App\constants;
 	use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-	use App\Service\Helper;
 	use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+	use Symfony\Component\Filesystem\Filesystem;
+	use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 	
 	class mainController extends Controller
 	{
@@ -39,22 +39,66 @@
 		 */
 		public function mailView()
 		{
-			return $this->render('mail/code.html.twig',array('code'=>1234));
+			return $this->render('mail/code.html.twig', array('code' => 1234));
 		}
-		public function verificateUser(AuthorizationCheckerInterface $authChecker){
+		
+		public function verificateUser(AuthorizationCheckerInterface $authChecker)
+		{
 			if ($authChecker->isGranted('IS_AUTHENTICATED_FULLY')) {
+				$fileSystem = new Filesystem();
+				try {
+					$base = $this->getParameter('kernel.project_dir').'/public';
+					$path = $this->getParameter('app.path.user_images');
+					$user = $this->get('security.token_storage')->getToken()->getUser();
+					$dir = $base.$path.'/_files_'.$user->getUsername();
+					if (!$fileSystem->exists($dir)) {
+						$fileSystem->mkdir($dir);
+						if ($fileSystem->exists($base.$path.'/'.$user->getImage())) {
+							$fileSystem->copy($base.$path.'/'.$user->getImage(), $dir.'/'.$user->getImage());
+							$fileSystem->remove($base.$path.'/'.$user->getImage());
+						}
+					}
+				} catch (IOExceptionInterface $exception) {
+					echo $exception->getMessage();
+//					die;
+				}
 				if (!$this->container->get('app.service.checker')->isUserValid()) {
 					return true;
 				}
 			}
+			
 			return false;
 		}
+		
+		public function updateJobsFiles()
+		{
+			$em = $this->getDoctrine()->getManager();
+			$jobs = $em->getRepository(Job::class)->findAll();
+			$base = $this->getParameter('kernel.project_dir').'/public';
+			$path = $this->getParameter('app.path.company_images');
+			$fileSystem = new Filesystem();
+			foreach ($jobs as $job) {
+				$dir = $base.$path.'/_user_'.$job->getUser()->getId();
+				try {
+					$fileSystem->mkdir($dir);
+					if ($fileSystem->exists($base.$path.'/'.$job->getImage())) {
+						$fileSystem->copy($base.$path.'/'.$job->getImage(), $dir.'/'.$job->getImage());
+						$fileSystem->remove($base.$path.'/'.$job->getImage());
+					}
+				} catch (IOExceptionInterface $exception) {
+					echo $exception->getMessage();
+					die;
+				}
+			}
+		}
+		
 		/**
 		 * @Route("/",name="homepage")
 		 */
 		public function index(
 			AuthorizationCheckerInterface $authChecker
 		): Response {
+			$this->updateJobsFiles();
 			$verificated = $this->verificateUser($authChecker);
 			$em = $this->getDoctrine()->getManager();
 			$this->container->get('app.service.checker')->checkJobs();
@@ -115,6 +159,7 @@
 			
 			$em = $this->getDoctrine()->getManager();
 			$verificated = $this->verificateUser($authChecker);
+			
 			return $this->render(
 				'site/policy.html.twig',
 				array(
@@ -132,6 +177,7 @@
 		public function contact(AuthorizationCheckerInterface $authChecker)
 		{
 			$verificated = $this->verificateUser($authChecker);
+			
 			return new Response(
 				'<html><body>Contact </body></html>'
 			);
@@ -175,7 +221,7 @@
 		 * Require IS_AUTHENTICATED_FULLY for *every* controller method in this class.
 		 * @IsGranted("IS_AUTHENTICATED_FULLY")
 		 */
-		public function edit_profile(Request $request,AuthorizationCheckerInterface $authChecker)
+		public function edit_profile(Request $request, AuthorizationCheckerInterface $authChecker)
 		{
 			$verificated = $this->verificateUser($authChecker);
 			$user = $this->get('security.token_storage')->getToken()->getUser();
@@ -275,7 +321,7 @@
 		 * Require IS_AUTHENTICATED_FULLY for *every* controller method in this class.
 		 * @IsGranted("IS_AUTHENTICATED_FULLY")
 		 */
-		public function resumeEdit(Request $request,AuthorizationCheckerInterface $authChecker)
+		public function resumeEdit(Request $request, AuthorizationCheckerInterface $authChecker)
 		{
 			$verificated = $this->verificateUser($authChecker);
 			$user = $this->get('security.token_storage')->getToken()->getUser();
@@ -407,7 +453,7 @@
 		 * Require IS_AUTHENTICATED_FULLY for *every* controller method in this class.
 		 * @IsGranted("IS_AUTHENTICATED_FULLY")
 		 */
-		public function manageCandidates(Request $request,AuthorizationCheckerInterface $authChecker)
+		public function manageCandidates(Request $request, AuthorizationCheckerInterface $authChecker)
 		{
 			$verificated = $this->verificateUser($authChecker);
 			$entityManager = $this->getDoctrine()->getManager();
@@ -443,11 +489,12 @@
 		/**
 		 * @Route("/candidate/{id}/detail", name="canditate_detail")
 		 */
-		public function candidateDetails($id,AuthorizationCheckerInterface $authChecker)
+		public function candidateDetails($id, AuthorizationCheckerInterface $authChecker)
 		{
 			$em = $this->getDoctrine()->getManager();
 			$canditate = $em->getRepository(User::class)->find($id);
 			$verificated = $this->verificateUser($authChecker);
+			
 			return $this->render(
 				'user/employer/candidate_detail.html.twig',
 				array(
@@ -484,6 +531,7 @@
 					$em = $this->getDoctrine()->getManager();
 					$currentUser->setVerificated(true);
 					$em->flush();
+					
 					return $this->redirectToRoute('homepage');
 				} else {
 					$this->addFlash('error', 'Código de verificación incorrecto');

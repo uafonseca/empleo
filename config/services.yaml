@@ -27,7 +27,10 @@ services:
     App\Controller\:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
-
+    twig.extension.intl:
+        class: Twig_Extensions_Extension_Intl
+        tags:
+        - { name: twig.extension }
     twig.extension.date:
         class: Twig_Extensions_Extension_Date
         tags:
@@ -47,4 +50,19 @@ services:
         tags:
             - { name: controller.service_arguments }
 
+    app.service.namer_directory:
+        class: App\Service\NamerDirectory
+        calls:
+            - [setContainer, ['@service_container']]
+            - [directoryName, ['@?', '@.errored..service_locator.rsKi3b0.Vich\UploaderBundle\Mapping\PropertyMapping']]
+        tags:
+            - { name: controller.service_arguments }
+
+    app.service.user_namer_directory:
+        class: App\Service\UserNamerDirectory
+        calls:
+            - [setContainer, ['@service_container']]
+            - [directoryName, ['@?', '@.errored..service_locator.rsKi3b0.Vich\UploaderBundle\Mapping\PropertyMapping']]
+        tags:
+            - { name: controller.service_arguments }
 

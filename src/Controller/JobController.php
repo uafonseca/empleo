@@ -62,6 +62,7 @@ class JobController extends Controller
             }else{
                 $post->setStatus(constants::JOB_STATUS_ACTIVE);
             }
+            $post->setIsService(false);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
             $post->setUser($currentUser);
@@ -79,7 +80,7 @@ class JobController extends Controller
         }
         return $this->render('site/job/job.html.twig', [
             'form' => $form->createView(),
-            'notifications' => $this->loadNotifications(),
+            'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
         ]);
     }
 
