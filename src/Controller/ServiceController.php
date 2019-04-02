@@ -7,7 +7,7 @@ use App\Entity\Category;
 use App\Entity\Job;
 use App\Entity\Notification;
 use App\Form\JobType;
-use App\Form\ServiceType;
+use App\Form\ServiceJobType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormError;
@@ -33,7 +33,7 @@ class ServiceController extends Controller
 	public function serviceNew(Request $request)
 	{
 		$post = new Job();
-		$form = $this->createForm(ServiceType::class, $post);
+		$form = $this->createForm(ServiceJobType::class, $post);
 		$currentUser= $this->get('security.token_storage')->getToken()->getUser();
 		$entityManager = $this->getDoctrine()->getManager();
 		$post->setCategory($entityManager->getRepository(Category::class)->findAll()[0]);

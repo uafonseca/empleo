@@ -23,7 +23,7 @@
 	use Symfony\Component\Form\FormBuilderInterface;
 	use Symfony\Component\OptionsResolver\OptionsResolver;
 	
-	class ServiceType extends AbstractType
+	class ServiceJobType extends AbstractType
 	{
 		public function buildForm(FormBuilderInterface $builder, array $options)
 		{
@@ -34,7 +34,6 @@
 					'placeholder' => 'Mi profesión',
 					'choice_label' => 'name',
 				])
-//				->add('localtion')
 				->add('type', ChoiceType::class, [
 					'choices' => [
 						'Tiempo completo' => 'ful',
@@ -85,18 +84,12 @@
 					'required' => true,
 				))
 				->add('your_localtion',null,['attr' => ['id' => 'autocomplete']])
-//				->add('company_name')
-//				->add('web_address', UrlType::class)
-//				->add('campany_profile', TextareaType::class)
 				->add('save', SubmitType::class, ['label' => 'Publicar su trabajo']);
 		}
 		public function configureOptions(OptionsResolver $resolver)
 		{
 			$resolver->setDefaults([
 				'data_class' => Job::class,
-				'error_mapping' => [
-					'.' => 'city',
-				],
 			]);
 		}
 	}
