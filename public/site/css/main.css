@@ -10012,3 +10012,8 @@ label.required:before {
     font-size: small;
     color: white;
 }
+.service{
+    background-color: #fe9703;
+    padding: 0 10px 0 10px;
+    border-radius: 5px;
+}

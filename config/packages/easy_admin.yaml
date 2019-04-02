@@ -31,42 +31,7 @@ easy_admin:
             - lastLogin
             - { property: 'plainPassword', type: 'text', type_options: { required: false } }
             - { property: 'roles', type: 'choice', type_options: { multiple: true, choices: { 'ROLE_USER': 'ROLE_USER', 'ROLE_ADMIN': 'ROLE_ADMIN','ROLE_SUPER_ADMIN':'ROLE_SUPER_ADMIN' } } }
-#      Blog:
-#        class: App\Entity\Blog
-#        form:
-#          fields:
-#            - { property: 'imageFile', type: 'file', base_path: '%app.path.blog_images%' }
-#            - title
-#            - user
-#            - text
-#            - tags
-##            - comments
-#            - created
-#            - updated
-#        list:
-#          fields:
-#            - { property: 'image', type: 'image', base_path: '%app.path.blog_images%' }
-#            - title
-#            - user
-#            - text
-#            - tags
-##            - comments
-#            - created
-#            - updated
-#      Comentarios:
-#        class: App\Entity\Comment
-#        form:
-#          fields:
-#            - text
-#            - blog
-#            - user
-#            - created
-#        list:
-#          fields:
-#            - text
-#            - blog
-#            - user
-#            - created
+
       Categorias:
         class: App\Entity\Category
         form:
@@ -136,3 +101,11 @@ easy_admin:
             - conditions_header
             - conditions
             - updated
+      Servicios:
+        class: App\Entity\Service
+        form:
+          fields:
+            - name
+        list:
+          fields:
+            - name

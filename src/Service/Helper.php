@@ -12,6 +12,8 @@
 	use App\Entity\Job;
 	use App\Entity\Notification;
 	use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+//	use Vich\UploaderBundle\Naming\DirectoryNamerInterface;
+	use Vich\UploaderBundle\Mapping\PropertyMapping;
 	
 	class Helper extends Controller
 	{
@@ -20,6 +22,10 @@
 		 */
 		function __construct()
 		{
+		}
+		public function getDirectoryNamerCompany(PropertyMapping $mapping){
+			$user = $this->get('security.token_storage')->getToken()->getUser();
+			return '_files_'.$user->getId().'/';
 		}
 		public function loadNotifications()
 		{

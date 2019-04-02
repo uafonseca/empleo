@@ -83,7 +83,7 @@
                                     <div class="job-list row">
                                         <div class="thumb">
                                             <a href="{{ path('job_show', {'id': j.id}) }}">
-                                                <img src="{{ asset('site/images/upload/company/')~ j.image }}" class="img-fluid" alt="{{ j.title }}">
+                                                <img src="{{ asset('site/images/upload/company/')~'_user_'~j.user.id~'/'~ j.image }}" class="img-fluid" alt="{{ j.title }}">
                                             </a>
                                         </div>
                                         <div class="body">

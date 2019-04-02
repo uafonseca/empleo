@@ -12,7 +12,7 @@
                             <div class="title">
                                 <div class="thumb">
                                     {% if candidate.image is not null %}
-                                        <img src="{{ asset('images/user/') ~ candidate.image }}"
+                                        <img src="{{ asset('images/user/') ~'_files_'~candidate.username~'/'~ candidate.image }}"
                                              class="img-fluid" alt="">
                                     {% else %}
                                         {% if candidate.gender == 'M' %}

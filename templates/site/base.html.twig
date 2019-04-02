@@ -87,6 +87,12 @@
                         </li>
                     </ul>
                 </li>
+                <li class="menu-item service">
+                    <a title="Servicios" href="#">
+                        <i data-feather="eye"></i>
+                        Servicios
+                    </a>
+                </li>
             </ul>
             <ul class="navbar-nav ml-auto main-nav">
                 <li class="menu-item active"><a title="Home" href="{{ path('homepage') }}">Inicio</a></li>
@@ -168,8 +174,8 @@
                     <li class="menu-item post-job"><a title="Title" href="{{ path('job_new') }}"><i
                                     class="fas fa-plus"></i>Publicar un trabajo</a></li>
                 {% elseif is_granted('ROLE_USER') %}
-                    <li class="menu-item post-job"><a title="Title" href="{{ path('job_new') }}"><i
-                                    class="fas fa-plus"></i>Brindar mis servicios</a></li>
+                    <li class="menu-item post-job"><a title="Title" href="{{ path('service_new') }}"><i
+                                    class="fas fa-plus"></i>Crear servicio</a></li>
                 {% endif %}
             </ul>
             <ul class="navbar-nav ml-auto account-nav">

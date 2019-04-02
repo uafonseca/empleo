@@ -55,6 +55,7 @@ class SecurityController extends Controller
                 }
                 $user->setVerificated(false);
                 $user->setSecret(rand(10000, 99999));
+//                $user->setImage('/_files_'.$user->getId().'/'.$user->getImage());
                 $entityManager->persist($user);
                 $entityManager->flush();
                 $message = (new \Swift_Message('Bienvenido a emplear.com'))

@@ -203,6 +203,16 @@
 				->getQuery()
 				->getResult();
 		}
+		public function finServicesByUser($user)
+		{
+			return $this->createQueryBuilder('j')
+				->andWhere('j.user = :val')
+				->setParameter('val', $user)
+				->andWhere('j.is_service = true')
+				->orderBy('j.status', 'ASC')
+				->getQuery()
+				->getResult();
+		}
 		
 		public function findOneBySomeField($value): ?Job
 		{

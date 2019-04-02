@@ -68,17 +68,17 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    {{ form_widget(form.category, { 'attr': {'class': 'form-control'} }) }}
-                                                    <span class="error text-danger">{{ form_errors(form.category) }}</span>
+                                                    {{ form_widget(form.service, { 'attr': {'class': 'form-control'} }) }}
+                                                    <span class="error text-danger">{{ form_errors(form.service) }}</span>
                                                     <i class="fa fa-caret-down"></i>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    {{ form_widget(form.localtion, { 'attr': {'class': 'form-control','placeholder':'Ubicación'} }) }}
-                                                    <span class="error text-danger">{{ form_errors(form.localtion) }}</span>
-                                                </div>
-                                            </div>
+                                            {#<div class="col-md-6">#}
+                                                {#<div class="form-group">#}
+                                                    {#{{ form_widget(form.localtion, { 'attr': {'class': 'form-control','placeholder':'Ubicación'} }) }}#}
+                                                    {#<span class="error text-danger">{{ form_errors(form.localtion) }}</span>#}
+                                                {#</div>#}
+                                            {#</div>#}
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     {{ form_widget(form.type, { 'attr': {'class': 'form-control'} }) }}
@@ -99,12 +99,6 @@
                                                     <span class="error text-danger">{{ form_errors(form.salary_min) }}</span>
                                                 </div>
                                             </div>
-                                            {#<div class="col-md-3">#}
-                                            {#<div class="form-group">#}
-                                            {#{{ form_widget(form.salary_max, { 'attr': {'class': 'form-control','placeholder':'A '} }) }}#}
-                                            {#<span class="error text-danger">{{ form_errors(form.salary_max) }}</span>#}
-                                            {#</div>#}
-                                            {#</div>#}
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     {{ form_widget(form.qualification, { 'attr': {'class': 'form-control'} }) }}
@@ -242,32 +236,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="about-company" class="row">
-                                    <label class="col-md-3 col-form-label">Acerca de la compañía<span
-                                                style="color: red">*</span></label>
-                                    <div class="col-md-9">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    {{ form_widget(form.company_name, { 'attr': {'class': 'form-control','placeholder':'Nombre de la compañía','value': app.user.companyName } }) }}
-                                                    <span class="error text-danger">{{ form_errors(form.company_name) }}</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    {{ form_widget(form.web_address, { 'attr': {'class': 'form-control','placeholder':'Dirección web'} }) }}
-                                                    <span class="error text-danger">{{ form_errors(form.web_address) }}</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group shadow-textarea">
-                                                    {{ form_widget(form.campany_profile, { 'attr': {'rows':'3','class': 'form-control z-depth-1','placeholder':'Descripción del trabajo'} }) }}
-                                                    <span class="error text-danger">{{ form_errors(form.campany_profile) }}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="row">
                                     <label class="col-md-3 col-form-label">Seleccione el paquete<span
                                                 style="color: red">*</span></label>
@@ -346,13 +314,13 @@
                         <div class="post-sidebar">
                             <h5><i data-feather="arrow-down-circle"></i>Navegación</h5>
                             <ul class="sidebar-menu">
-                                <li><a href="#job-title">Título del empleo</a></li>
-                                <li><a href="#job-summery">Resumen del empleo</a></li>
-                                <li><a href="#job-description">Descripción del empleo</a></li>
+                                <li><a href="#job-title">Título del Servicio</a></li>
+                                <li><a href="#job-summery">Resumen del servicio</a></li>
+                                <li><a href="#job-description">Descripción del servicio</a></li>
                                 <li><a href="#response">Responsabilidades</a></li>
                                 <li><a href="#education">Educación</a></li>
                                 <li><a href="#others">Tú ubicación</a></li>
-                                <li><a href="#post-location">Sobre la compañía</a></li>
+                                {#<li><a href="#post-location">Sobre la compañía</a></li>#}
                                 <li><a href="#package">Selección de paquete</a></li>
                             </ul>
                         </div>

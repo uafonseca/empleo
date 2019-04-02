@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\constants;
+use App\Entity\Category;
 use App\Entity\Job;
 use App\Entity\Notification;
 use App\Form\JobType;
+use App\Form\ServiceType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormError;
@@ -31,8 +33,10 @@ class ServiceController extends Controller
 	public function serviceNew(Request $request)
 	{
 		$post = new Job();
-		$form = $this->createForm(JobType::class, $post);
+		$form = $this->createForm(ServiceType::class, $post);
 		$currentUser= $this->get('security.token_storage')->getToken()->getUser();
+		$entityManager = $this->getDoctrine()->getManager();
+		$post->setCategory($entityManager->getRepository(Category::class)->findAll()[0]);
 		$form->handleRequest($request);
 		if ($form->isSubmitted() && $form->isValid()) {
 			$payment = $request->get('my_radio');
@@ -59,7 +63,7 @@ class ServiceController extends Controller
 			}
 			if ($form->get('date')->getData() < new \DateTime()) {
 				$form->get('date')->addError(new FormError("La fecha de debe ser mayor que la fecha acual"));
-				return $this->render('site/job/job.html.twig', [
+				return $this->render('service/new.html.twig', [
 					'form' => $form->createView(),
 					'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
 				]);
@@ -69,7 +73,6 @@ class ServiceController extends Controller
 				$post->setStatus(constants::JOB_STATUS_ACTIVE);
 			}
 			$post->setIsService(true);
-			$entityManager = $this->getDoctrine()->getManager();
 			$entityManager->flush();
 			$post->setUser($currentUser);
 			$post->setDateCreated(new \DateTime("now"));
@@ -82,11 +85,29 @@ class ServiceController extends Controller
 			$notification->setUser($this->get('security.token_storage')->getToken()->getUser());
 			$notification->setActive(true);
 			$entityManager->persist($notification);
-			return $this->redirectToRoute('job_manage',['id'=>$this->get('security.token_storage')->getToken()->getUser()->getId()]);
+			return $this->redirectToRoute('service_manage');
 		}
 		return $this->render('service/new.html.twig', [
 			'form' => $form->createView(),
 			'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
+		]);
+	}
+	/**
+	 * @Route("/service/manage", name="service_manage")
+	 */
+	public function manage(Request $request)
+	{
+		$em = $this->getDoctrine()->getManager();
+		$user = $this->get('security.token_storage')->getToken()->getUser();
+		$jobs = $em->getRepository(Job::class)->finServicesByUser($user);
+		$pagination  = $this->get('knp_paginator')->paginate(
+			$jobs,
+			$request->query->getInt('page', 1),
+			5);
+		$pagination->setTemplate('site/pagination.html.twig');
+		return $this->render('service/manage.html.twig', [
+			'jobs' => $pagination,
+			'notifications' => $this->container->get('app.service.helper')->loadNotifications()
 		]);
 	}
 }
