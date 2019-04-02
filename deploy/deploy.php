@@ -12,7 +12,7 @@ set('git_tty', true);
 
 set('shared_dirs', ['var/log', 'var/sessions', 'vendor']);
 set('writable_dirs', ['var', 'public/images', 'public/site']);
-set('writable_mode', 'chmod');
+set('writableusesudo', true);
 
 set('release_name', function () {
     return date('YmdHis');
