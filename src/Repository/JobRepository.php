@@ -141,7 +141,39 @@
 				->getQuery()
 				->getResult();
 		}
+		public function searchServices($keywords){
+			$qb = $this->createQueryBuilder('j');
+			if ($keywords) {
+				$qb->andWhere('j.title LIKE :key OR j.description LIKE :key')
+					->setParameter('key', '%'.$keywords.'%');
+				$qb->andWhere('j.status = :status')
+					->setParameter('status',constants::JOB_STATUS_ACTIVE)
+					->andWhere('j.is_service = true');
+				return $qb->orderBy('j.expiredDate', 'DESC')
+					->getQuery()
+					->getResult();
+			}
+		}
 		
+		public function searchByCategory($category){
+			$qb = $this->createQueryBuilder('j')
+				->where('j.category =:name')
+				->setParameter('name',$category)
+				->andWhere('j.is_service = false or j.is_service is null')
+				->andWhere('j.status = :status')
+				->setParameter('status',constants::JOB_STATUS_ACTIVE)
+				->orderBy('j.dateCreated','DESC');
+			return $qb->getQuery()
+				->getResult();
+		}
+		public function searchByLocation($location){
+			$qb = $this->createQueryBuilder('j');
+			$qb->where('j.localtion =:location')
+				->setParameter('location',$location)
+				->orderBy('j.dateCreated','DESC');
+			return $qb->getQuery()
+				->getResult();
+		}
 		public function search($keywords, $location)
 		{
 			$qb = $this->createQueryBuilder('j');

@@ -83,6 +83,7 @@
                         <ul class="navbar-nav">
                             <li class="menu-item active"><a title="Home" href="{{ path('homepage') }}">Inicio</a></li>
                             <li class="menu-item"><a title="Home" href="{{ path('job_list') }}">Listado de empleos</a></li>
+                            <li class="menu-item"><a title="Home" href="{{ path('service_list') }}">Listado de servicios</a></li>
                             {% if is_granted('ROLE_ADMIN') %}
                             <li class="menu-item dropdown">
                                 <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">Empleador</a>
@@ -132,8 +133,11 @@
                             </li>
                             {% if is_granted('IS_AUTHENTICATED_FULLY') == false %}
                                 <li class="menu-item post-job"><a title="Title" href="{{ path('job_new') }}"><i class="fas fa-plus"></i>Publicar un empleo</a></li>
+                                <li class="menu-item post-job" style="margin-left: 10px"><a title="Title" href="{{ path('service_new') }}"><i class="fas fa-plus"></i>Crear servicio</a></li>
                             {% elseif  is_granted('ROLE_ADMIN')%}
                                 <li class="menu-item post-job"><a title="Title" href="{{ path('job_new') }}"><i class="fas fa-plus"></i>Publicar un empleo</a></li>
+                            {% elseif is_granted('ROLE_USER') %}
+                                <li class="menu-item post-job" style=""><a title="Title" href="{{ path('service_new') }}"><i class="fas fa-plus"></i>Crear servicio</a></li>
                             {% endif %}
                         </ul>
                     </div>

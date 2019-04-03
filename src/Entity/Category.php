@@ -38,7 +38,6 @@ class Category
      */
     private $users_list;
 
-
     public function __construct()
     {
         $this->users_list = new ArrayCollection();
@@ -117,6 +116,4 @@ class Category
 
         return $this;
     }
-
-
 }

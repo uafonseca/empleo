@@ -18,6 +18,16 @@
                         </nav>
                     </div>
                 </div>
+                <div class="col-md-6">
+                    <div class="breadcrumb-form">
+                        <form action="{{ path('services_search') }}" method="post" class="search-form">
+                            <input name="keywords" type="search" placeholder="Ingresar palabras clave">
+                            <button class="button primary-bg"><i class="fas fa-search"></i></button>
+                        </form>
+                        <div class="trending-key">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -117,7 +127,7 @@
                                                        onclick="applied('{{ j.id }}')" class="button">{% if j.id in app.user.applied %}Cancelar{% else %}Contactar!{% endif %}</a>
                                                     <a onclick="bookMark('{{ j.id }}')" class="favourite {% if j.id in app.user.bookmarked %}active{% endif %} "><i data-feather="heart"></i></a>
                                                     {% else %}
-                                                        <a data-toggle="modal" data-target="#modal-login"  class="button">Aplica ya!</a>
+                                                        <a data-toggle="modal" data-target="#modal-login"  class="button">Contactar!</a>
                                                         {#<a  class="favourite"><i data-feather="heart"></i></a>#}
                                                     {% endif %}
                                                 </div>

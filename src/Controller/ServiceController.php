@@ -115,7 +115,29 @@ class ServiceController extends Controller
 		$pagination->setTemplate('site/pagination.html.twig');
 		return $this->render('service/list.html.twig', [
 			'jobs' => $pagination,
+			'locations' => $this->container->get('app.service.helper')->loadLocations(),
 			'notifications' => $this->container->get('app.service.helper')->loadNotifications()
 		]);
+	}
+	/**
+	 * @Route("/services/search",name="services_search")
+	 */
+	public function search(Request $request){
+		$keywords = $request->request->get('keywords');
+		$em = $this->getDoctrine()->getManager();
+		$pagination  = $this->get('knp_paginator');
+		if(empty($keywords)){
+			return $this->redirectToRoute('service_list');
+		}else{
+			$pagination->paginate(
+				$em->getRepository(Job::class)->searchServices($keywords),
+				$request->query->getInt('page', 1),
+				10);
+		}
+		return $this->render('service/list.html.twig', array(
+			'jobs' => $pagination->paginate($em->getRepository(Job::class)->searchServices($keywords),$request->query->getInt('page', 1),10),
+			'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
+			'search'=>1,
+		));
 	}
 }

@@ -29,7 +29,6 @@ class Job
     /**
      * @Assert\NotBlank
      * @ORM\ManyToOne(targetEntity="Category")
-     *
      */
     private $category;
 

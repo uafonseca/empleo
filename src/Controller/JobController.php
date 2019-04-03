@@ -9,6 +9,7 @@
 namespace App\Controller;
 
 use App\constants;
+use App\Entity\Category;
 use App\Entity\Job;
 use App\Entity\Notification;
 use Symfony\Component\Form\FormError;
@@ -102,6 +103,31 @@ class JobController extends Controller
         }
         return null;
     }
+	/**
+	 * @Route("/search/category/{cat}",name="search_category")
+	 */
+	public function searchByCategory(Request $request, $cat){
+		$em = $this->getDoctrine()->getManager();
+		$category = $em->getRepository(Category::class)->findOneByNameField($cat);
+		$pagination  = $this->get('knp_paginator');
+		return $this->render('site/job/list.html.twig', array(
+			'jobs' => $pagination->paginate($em->getRepository(Job::class)->searchByCategory($category),$request->query->getInt('page', 1),10),
+			'notifications' => $this->loadNotifications(),
+			'search'=>1,
+		));
+	}
+	/**
+	 * @Route("/search/location/{location}",name="search_location")
+	 */
+	public function searchByLocation(Request $request, $location){
+		$em = $this->getDoctrine()->getManager();
+		$pagination  = $this->get('knp_paginator');
+		return $this->render('site/job/list.html.twig', array(
+			'jobs' => $pagination->paginate($em->getRepository(Job::class)->searchByLocation($location),$request->query->getInt('page', 1),10),
+			'notifications' => $this->loadNotifications(),
+			'search'=>1,
+		));
+	}
     /**
      * @Route("/search",name="search")
      */
@@ -111,22 +137,14 @@ class JobController extends Controller
         $em = $this->getDoctrine()->getManager();
         $pagination  = $this->get('knp_paginator');
         if(empty($keywords) && empty($location)){
-            $pagination->paginate(
-                $em->getRepository(Job::class)->findAllHome(),
-                $request->query->getInt('page', 1),
-                10);
             return $this->redirectToRoute('homepage');
         }else{
-            $pagination->paginate(
-                $em->getRepository(Job::class)->search($keywords,$location),
-                $request->query->getInt('page', 1),
-                10);
+	        return $this->render('site/job/list.html.twig', array(
+		        'jobs' => $pagination->paginate($em->getRepository(Job::class)->search($keywords,$location),$request->query->getInt('page', 1),10),
+		        'notifications' => $this->loadNotifications(),
+		        'search'=>1,
+	        ));
         }
-        return $this->render('site/job/list.html.twig', array(
-            'jobs' => $pagination->paginate($em->getRepository(Job::class)->search($keywords,$location),$request->query->getInt('page', 1),10),
-            'notifications' => $this->loadNotifications(),
-            'search'=>1,
-            ));
     }
 
     /**
@@ -163,9 +181,9 @@ class JobController extends Controller
     }
 
     /**
-     * @Route("/job/manage/{id}/", name="job_manage")
+     * @Route("/job/manage", name="job_manage")
      */
-    public function manage($id,Request $request)
+    public function manage(Request $request)
     {
 
         $em = $this->getDoctrine()->getManager();
