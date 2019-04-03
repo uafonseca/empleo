@@ -63,7 +63,7 @@ class Job
     private $salary_min;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255,nullable=true)
      */
     private $qualification;
 
@@ -96,7 +96,7 @@ class Job
      *      maxMessage = "El campo responsabilidades no debe superar los {{ limit }} caracteres"
      * )
      * )
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255,nullable=true)
      */
     private $responsabilities;
 
@@ -107,7 +107,7 @@ class Job
      *      minMessage = "El campo educación debe tener más de {{ limit }} caracteres",
      *      maxMessage = "El campo educación no debe superar los {{ limit }} caracteres"
      * )
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255 ,nullable=true)
      */
     private $education;
 
@@ -187,7 +187,7 @@ class Job
     private $user;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255,nullable=true)
      */
     private $gender;
 

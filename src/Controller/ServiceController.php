@@ -37,6 +37,7 @@ class ServiceController extends Controller
 		$currentUser= $this->get('security.token_storage')->getToken()->getUser();
 		$entityManager = $this->getDoctrine()->getManager();
 		$post->setCategory($entityManager->getRepository(Category::class)->findAll()[0]);
+		$post->setDate(new \DateTime("now"));
 		$form->handleRequest($request);
 		if ($form->isSubmitted() && $form->isValid()) {
 			$payment = $request->get('my_radio');
@@ -61,17 +62,7 @@ class ServiceController extends Controller
 					echo "FAIL";die;
 					break;
 			}
-			if ($form->get('date')->getData() < new \DateTime()) {
-				$form->get('date')->addError(new FormError("La fecha de debe ser mayor que la fecha acual"));
-				return $this->render('service/new.html.twig', [
-					'form' => $form->createView(),
-					'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
-				]);
-			} elseif ($form->get('date')->getData() > new \DateTime()) {
-				$post->setStatus(constants::JOB_STATUS_PENDING);
-			}else{
-				$post->setStatus(constants::JOB_STATUS_ACTIVE);
-			}
+			$post->setStatus(constants::JOB_STATUS_ACTIVE);
 			$post->setIsService(true);
 			$entityManager->flush();
 			$post->setUser($currentUser);
@@ -106,6 +97,23 @@ class ServiceController extends Controller
 			5);
 		$pagination->setTemplate('site/pagination.html.twig');
 		return $this->render('service/manage.html.twig', [
+			'jobs' => $pagination,
+			'notifications' => $this->container->get('app.service.helper')->loadNotifications()
+		]);
+	}
+	/**
+	 * @Route("/service/list", name="service_list")
+	 */
+	public function serviceList(Request $request)
+	{
+		$em = $this->getDoctrine()->getManager();
+		$jobs = $em->getRepository(Job::class)->listServices();
+		$pagination  = $this->get('knp_paginator')->paginate(
+			$jobs,
+			$request->query->getInt('page', 1),
+			5);
+		$pagination->setTemplate('site/pagination.html.twig');
+		return $this->render('service/list.html.twig', [
 			'jobs' => $pagination,
 			'notifications' => $this->container->get('app.service.helper')->loadNotifications()
 		]);

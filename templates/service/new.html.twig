@@ -37,7 +37,8 @@
                         <div class="post-content-wrapper">
                             {{ form_start(form, {attr: {'class': 'job-post-form','id':'job-form'} }) }}
                             <div class="basic-info-input">
-                                <h4><i data-feather="plus-circle"></i>Crear servicio</h4>
+                                <h4><i data-feather="plus-circle"></i>Detallar
+                                    servicio</h4>
                                 <div id="job-title" class="form-group row">
                                     <label class="col-md-3 col-form-label">Título<span
                                                 style="color: red">*</span></label>
@@ -73,12 +74,6 @@
                                                     <i class="fa fa-caret-down"></i>
                                                 </div>
                                             </div>
-                                            {#<div class="col-md-6">#}
-                                                {#<div class="form-group">#}
-                                                    {#{{ form_widget(form.localtion, { 'attr': {'class': 'form-control','placeholder':'Ubicación'} }) }}#}
-                                                    {#<span class="error text-danger">{{ form_errors(form.localtion) }}</span>#}
-                                                {#</div>#}
-                                            {#</div>#}
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     {{ form_widget(form.type, { 'attr': {'class': 'form-control'} }) }}
@@ -95,27 +90,8 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    {{ form_widget(form.salary_min, { 'attr': {'id': 'min','class': 'form-control','placeholder':'Salario'} }) }}
+                                                    {{ form_widget(form.salary_min, { 'attr': {'id': 'min','class': 'form-control','placeholder':'Valor'} }) }}
                                                     <span class="error text-danger">{{ form_errors(form.salary_min) }}</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    {{ form_widget(form.qualification, { 'attr': {'class': 'form-control'} }) }}
-                                                    <span class="error text-danger">{{ form_errors(form.qualification) }}</span>
-                                                    <i class="fa fa-caret-down"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group datepicker">
-                                                    {{ form_widget(form.date, { 'attr': {'class': 'form-control'} }) }}
-                                                    <span class="error text-danger">{{ form_errors(form.date) }}</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group datepicker">
-                                                    {{ form_widget(form.gender, { 'attr': {'class': 'form-control'} }) }}
-                                                    <span class="error text-danger">{{ form_errors(form.gender) }}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -129,39 +105,6 @@
                                             <label for="exampleFormControlTextarea6"></label>
                                             {{ form_widget(form.description, { 'attr': {'class': 'form-control z-depth-1','placeholder':'Descripción del trabajo'} }) }}
                                             <span class="error text-danger">{{ form_errors(form.description) }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="response" class="row">
-                                    <label class="col-md-3 col-form-label">Responsabilidades<span
-                                                style="color: red">*</span></label>
-                                    <div class="col-md-9">
-                                        <div class="form-group shadow-textarea">
-                                            <label for="exampleFormControlTextarea6"></label>
-                                            {{ form_widget(form.responsabilities, { 'attr': {'class': 'form-control z-depth-1','placeholder':'Responsabilidades'} }) }}
-                                            <span class="error text-danger">{{ form_errors(form.responsabilities) }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="education" class="row">
-                                    <label class="col-md-3 col-form-label">Educación<span
-                                                style="color: red">*</span></label>
-                                    <div class="col-md-9">
-                                        <div class="form-group shadow-textarea">
-                                            <label for="exampleFormControlTextarea6"></label>
-                                            {{ form_widget(form.education, { 'attr': {'class': 'form-control z-depth-1','placeholder':'Educación'} }) }}
-                                            <span class="error text-danger">{{ form_errors(form.education) }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="others" class="row">
-                                    <label class="col-md-3 col-form-label">Otros beneficios<span
-                                                style="color: red">*</span></label>
-                                    <div class="col-md-9">
-                                        <div class="form-group shadow-textarea">
-                                            <label for="exampleFormControlTextarea6"></label>
-                                            {{ form_widget(form.others, { 'attr': {'class': 'form-control z-depth-1','placeholder':'Otros beneficios'} }) }}
-                                            <span class="error text-danger">{{ form_errors(form.others) }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -317,10 +260,7 @@
                                 <li><a href="#job-title">Título del Servicio</a></li>
                                 <li><a href="#job-summery">Resumen del servicio</a></li>
                                 <li><a href="#job-description">Descripción del servicio</a></li>
-                                <li><a href="#response">Responsabilidades</a></li>
-                                <li><a href="#education">Educación</a></li>
                                 <li><a href="#others">Tú ubicación</a></li>
-                                {#<li><a href="#post-location">Sobre la compañía</a></li>#}
                                 <li><a href="#package">Selección de paquete</a></li>
                             </ul>
                         </div>

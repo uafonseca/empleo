@@ -55,6 +55,8 @@
 		{
 			return $this->createQueryBuilder('j')
 				->select('j.localtion as name')
+				->where('j.is_service = false')
+				->orWhere('j.is_service is null')
 				->distinct()
 				->getQuery()
 				->getResult();
@@ -64,6 +66,8 @@
 		{
 			return $this->createQueryBuilder('j')
 				->select('j.city as name')
+				->where('j.is_service = false')
+				->orWhere('j.is_service is null')
 				->distinct()
 				->getQuery()
 				->getResult();
@@ -73,6 +77,8 @@
 		{
 			return $this->createQueryBuilder('j')
 				->select('j.company_name as name')
+				->where('j.is_service = false')
+				->orWhere('j.is_service is null')
 				->distinct()
 				->getQuery()
 				->getResult();
@@ -106,6 +112,14 @@
 				->setParameter('key', $key)
 				->getQuery()
 				->getOneOrNullResult();
+		}
+		public function listServices(){
+			return $this->createQueryBuilder('j')
+				->where('j.is_service = true')
+				->andWhere('j.status =:status')
+				->setParameter('status',constants::JOB_STATUS_ACTIVE)
+				->getQuery()
+				->getResult();
 		}
 		
 		public function Cityes()

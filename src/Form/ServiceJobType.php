@@ -55,30 +55,11 @@
 					'placeholder' => 'Experiencia'
 				])
 				->add('salary_min', IntegerType::class)
-				->add('qualification', ChoiceType::class, [
-					'choices' => [
-						'Urge' => 'Urge',
-						'Inmediato' => 'Inmediato',
-					],
-					'placeholder' => 'Prioridad'
-				])
-				->add('date', DateType::class, ['widget' => 'single_text',])
 				->add('description', TextareaType::class)
-				->add('responsabilities', TextareaType::class)
-				->add('education', TextareaType::class)
-				->add('others', TextareaType::class)
 				->add('country',null,[
 					'attr' => ['id' => 'country'],
 				])
 				->add('city',null,['attr' => ['id' => 'city']])
-				->add('gender', ChoiceType::class, [
-					'choices' => [
-						'Femenino' => 'femenino',
-						'Másculino' => 'masculino',
-						'Otro' => 'other',
-					],
-					'placeholder' => 'Género'
-				])
 				->add('zip_code',null,['attr' => ['id' => 'postal_code']])
 				->add('imageFile', FileType::class, array(
 					'required' => true,
