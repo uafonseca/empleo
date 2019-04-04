@@ -4,7 +4,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <meta name="google-site-verification" content="vNFitz6yibJRiBJtDjy97_vfeIFfs-ORViVI3_q_Pvo" />
     <title>Emplear | {% block title %}{% endblock %}</title>
     {% block stylesheet %}
         <!-- Bootstrap CSS -->
@@ -391,9 +391,15 @@
                         </div>
                         <div class="key-info">
                             <ul>
-                                {#{{ dump(citys) }}#}
                                 {% for c in citys %}
-                                    <li><a href="{{ path('search_city', {'city': c.name}) }}">{{ c.name }}<span>({{ c.count }})</span></a></li>
+                                    <li>
+                                        <a href="{{ path('search_city', {'city': c.name}) }}">
+                                            {{ c.name }}
+                                            <span>
+                                                ({{ c.count }})
+                                            </span>
+                                        </a>
+                                    </li>
                                 {% endfor %}
                             </ul>
                         </div>
