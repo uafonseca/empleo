@@ -377,7 +377,7 @@
                         <div class="key-info">
                             <ul>
                                 {% for c in categorys %}
-                                    <li><a href="#">{{ c.name }}<span>({{ c.count }})</span></a></li>
+                                    <li><a href="{{ path('search_category', {'cat': c.name}) }}">{{ c.name }}<span>({{ c.count }})</span></a></li>
                                 {% endfor %}
                             </ul>
                         </div>
@@ -393,7 +393,7 @@
                             <ul>
                                 {#{{ dump(citys) }}#}
                                 {% for c in citys %}
-                                    <li><a href="#">{{ c.name }}<span>({{ c.count }})</span></a></li>
+                                    <li><a href="{{ path('search_city', {'city': c.name}) }}">{{ c.name }}<span>({{ c.count }})</span></a></li>
                                 {% endfor %}
                             </ul>
                         </div>
@@ -408,7 +408,7 @@
                         <div class="key-info">
                             <ul>
                                 {% for c in company %}
-                                    <li><a href="#">{{ c.name }}<span>({{ c.count }})</span></a></li>
+                                    <li><a href="{{ path('search_company', {'company': c.name}) }}">{{ c.name }}<span>({{ c.count }})</span></a></li>
                                 {% endfor %}
                             </ul>
                         </div>

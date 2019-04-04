@@ -128,6 +128,30 @@ class JobController extends Controller
 			'search'=>1,
 		));
 	}
+	/**
+	 * @Route("/search/city/{city}",name="search_city")
+	 */
+	public function searchByCity(Request $request, $city){
+		$em = $this->getDoctrine()->getManager();
+		$pagination  = $this->get('knp_paginator');
+		return $this->render('site/job/list.html.twig', array(
+			'jobs' => $pagination->paginate($em->getRepository(Job::class)->searchByCity($city),$request->query->getInt('page', 1),10),
+			'notifications' => $this->loadNotifications(),
+			'search'=>1,
+		));
+	}
+	/**
+	 * @Route("/search/company/{company}",name="search_company")
+	 */
+	public function searchByCompany(Request $request, $company){
+		$em = $this->getDoctrine()->getManager();
+		$pagination  = $this->get('knp_paginator');
+		return $this->render('site/job/list.html.twig', array(
+			'jobs' => $pagination->paginate($em->getRepository(Job::class)->searchByCompany($company),$request->query->getInt('page', 1),10),
+			'notifications' => $this->loadNotifications(),
+			'search'=>1,
+		));
+	}
     /**
      * @Route("/search",name="search")
      */

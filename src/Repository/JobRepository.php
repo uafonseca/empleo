@@ -174,6 +174,22 @@
 			return $qb->getQuery()
 				->getResult();
 		}
+		public function searchByCity($city){
+			$qb = $this->createQueryBuilder('j');
+			$qb->where('j.city =:city')
+				->setParameter('city',$city)
+				->orderBy('j.dateCreated','DESC');
+			return $qb->getQuery()
+				->getResult();
+		}
+		public function searchByCompany($company){
+			$qb = $this->createQueryBuilder('j');
+			$qb->where('j.company_name =:company')
+				->setParameter('company',$company)
+				->orderBy('j.dateCreated','DESC');
+			return $qb->getQuery()
+				->getResult();
+		}
 		public function search($keywords, $location)
 		{
 			$qb = $this->createQueryBuilder('j');
