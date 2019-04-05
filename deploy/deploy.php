@@ -10,7 +10,7 @@ inventory('hosts.yml');
 // [Optional] Allocate tty for git clone. Default value is false.
 set('git_tty', true);
 
-set('shared_dirs', ['var/log', 'var/sessions', 'vendor']);
+set('shared_dirs', ['var/log', 'var/sessions', 'vendor', 'public/images', 'public/site']);
 set('writable_dirs', ['var', 'public/images', 'public/site']);
 set('writableusesudo', true);
 
