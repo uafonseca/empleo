@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ServiceJobRepository")
  */
@@ -28,9 +29,15 @@ class Service
      */
     private $jobs;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Anouncement", mappedBy="profession")
+     */
+    private $anouncements;
+
     public function __construct()
     {
         $this->jobs = new ArrayCollection();
+        $this->anouncements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -75,6 +82,37 @@ class Service
             // set the owning side to null (unless already changed)
             if ($job->getService() === $this) {
                 $job->setService(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Anouncement[]
+     */
+    public function getAnouncements(): Collection
+    {
+        return $this->anouncements;
+    }
+
+    public function addAnouncement(Anouncement $anouncement): self
+    {
+        if (!$this->anouncements->contains($anouncement)) {
+            $this->anouncements[] = $anouncement;
+            $anouncement->setProfession($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnouncement(Anouncement $anouncement): self
+    {
+        if ($this->anouncements->contains($anouncement)) {
+            $this->anouncements->removeElement($anouncement);
+            // set the owning side to null (unless already changed)
+            if ($anouncement->getProfession() === $this) {
+                $anouncement->setProfession(null);
             }
         }
 

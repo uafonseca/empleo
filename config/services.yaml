@@ -8,6 +8,7 @@ parameters:
     app.path.blog_images: /images/blog
     app.path.user_images: /images/user
     app.path.company_images: /site/images/upload/company
+    app.path.image_store: /site/images/upload/company/images_stored
     app.path.user_cv: /site/docs/user/cv
     container.autowiring.strict_mode: true
 #    mailer_host: 127.0.0.1

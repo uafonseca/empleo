@@ -8,7 +8,6 @@
 	
 	namespace App\Controller;
 	
-	use App\Entity\Category;
 	use App\Entity\Job;
 	use App\Entity\Metadata;
 	use App\Entity\Notification;

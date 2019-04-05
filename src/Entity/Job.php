@@ -220,6 +220,16 @@ class Job
      */
     private $service;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $video_link;
+
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $images = [];
+
     public function __construct()
     {
         $this->applications = array();
@@ -649,6 +659,30 @@ class Job
     public function setService(?Service $service): self
     {
         $this->service = $service;
+
+        return $this;
+    }
+
+    public function getVideoLink(): ?string
+    {
+        return $this->video_link;
+    }
+
+    public function setVideoLink(?string $video_link): self
+    {
+        $this->video_link = $video_link;
+
+        return $this;
+    }
+
+    public function getImages(): ?array
+    {
+        return $this->images;
+    }
+
+    public function setImages(?array $images): self
+    {
+        $this->images = $images;
 
         return $this;
     }

@@ -9,6 +9,8 @@
 	namespace App\Form;
 	
 	
+	use App\Entity\Anouncement;
+	use App\Entity\Image;
 	use App\Entity\Job;
 	use App\Entity\Service;
 	use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -29,48 +31,76 @@
 		{
 			$builder
 				->add('title')
-				->add('service', EntityType::class, [
-					'class' => Service::class,
-					'placeholder' => 'Mi profesión',
-					'choice_label' => 'name',
-				])
-				->add('type', ChoiceType::class, [
-					'choices' => [
-						'Tiempo completo' => 'ful',
-						'Por horas' => 'partial',
-						'Temporal' => 'temporary',
-						'Prácticas profesionales' => 'practica_profesional',
-						'Por obra' => 'obra',
-						'Por contrato' => 'contrato',
-					],
-					'placeholder' => 'Tipo'
-				])
-				->add('experience', ChoiceType::class, [
-					'choices' => [
-						'Un año' => 'Un año',
-						'De uno a 2 años' => 'De uno a 2 años',
-						'De 2 a 3 años' => 'De 2 a 3 años',
-						'Más de 3 años' => 'Más de 3 años',
-					],
-					'placeholder' => 'Experiencia'
-				])
-				->add('salary_min', IntegerType::class)
+				->add(
+					'profession',
+					EntityType::class,
+					[
+						'class' => Service::class,
+						'placeholder' => 'Mi profesión',
+						'choice_label' => 'name',
+					]
+				)
+				->add(
+					'type',
+					ChoiceType::class,
+					[
+						'choices' => [
+							'Tiempo completo' => 'ful',
+							'Por horas' => 'partial',
+							'Temporal' => 'temporary',
+							'Prácticas profesionales' => 'practica_profesional',
+							'Por obra' => 'obra',
+							'Por contrato' => 'contrato',
+						],
+						'placeholder' => 'Tipo',
+					]
+				)
+				->add(
+					'experience',
+					ChoiceType::class,
+					[
+						'choices' => [
+							'Un año' => 'Un año',
+							'De uno a 2 años' => 'De uno a 2 años',
+							'De 2 a 3 años' => 'De 2 a 3 años',
+							'Más de 3 años' => 'Más de 3 años',
+						],
+						'placeholder' => 'Experiencia',
+					]
+				)
+				->add('value', IntegerType::class)
 				->add('description', TextareaType::class)
-				->add('country',null,[
-					'attr' => ['id' => 'country'],
-				])
-				->add('city',null,['attr' => ['id' => 'city']])
-				->add('zip_code',null,['attr' => ['id' => 'postal_code']])
-				->add('imageFile', FileType::class, array(
-					'required' => true,
-				))
-				->add('your_localtion',null,['attr' => ['id' => 'autocomplete']])
+				->add('location', null, ['attr' => ['id' => 'autocomplete']])
+				->add('addres1')
+				->add('addres2')
+				->add('city', null, ['attr' => ['id' => 'city']])
+				->add('state')
+				->add('postalCode', null, ['attr' => ['id' => 'postal_code']])
+				->add(
+					'country',
+					null,
+					[
+						'attr' => ['id' => 'country'],
+					]
+				)
+				->add('videoLink')
+				->add(
+					'imageFile',
+					FileType::class,
+					[
+						'required' => true,
+					]
+				)
 				->add('save', SubmitType::class, ['label' => 'Publicar su trabajo']);
+			;
 		}
+		
 		public function configureOptions(OptionsResolver $resolver)
 		{
-			$resolver->setDefaults([
-				'data_class' => Job::class,
-			]);
+			$resolver->setDefaults(
+				[
+					'data_class' => Anouncement::class,
+				]
+			);
 		}
 	}

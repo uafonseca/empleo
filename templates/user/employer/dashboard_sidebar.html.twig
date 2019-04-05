@@ -40,7 +40,7 @@
         <ul>
             <li class="{% if currentPath == '/dashboard' %}active{% endif %}"><i class="fas fa-home"></i><a href="{{ path('dashboard') }}">Tablero</a></li>
             <li class="{% if currentPath == '/dashboard/edit' %}active{% endif %}"><i class="fas fa-user"></i><a href="{{ path('dashboard_edit') }}">Editar perfil</a></li>
-            <li class="{% if currentPath == '/job/manage/'~app.user.id~'/' %}active{% endif %}"><i class="fas fa-briefcase"></i><a href="{{ path('job_manage', {'id': app.user.id}) }}">Administrar trabajos</a></li>
+            <li class="{% if currentPath == '/job/manage'%}active{% endif %}"><i class="fas fa-briefcase"></i><a href="{{ path('job_manage') }}">Administrar trabajos</a></li>
             <li class="{% if currentPath == '/manage/candidates' %}active{% endif %}"><i class="fas fa-users"></i><a href="{{ path('manage_candidates') }}">Administrar candidatos</a></li>
             <li class="{% if currentPath == '/dashboard' %}{% endif %}"><i class="fas fa-heart"></i><a href="#">CV preseleccionados</a></li>
             <li class="{% if currentPath == '/dashboard' %}{% endif %}"><i class="fas fa-plus-square"></i><a href="{{ path('job_new') }}">Publicar empleo</a></li>
@@ -48,7 +48,7 @@
             {#<li><i class="fas fa-calculator"></i><a href="#">Pricing Plans</a></li>#}
         </ul>
         <ul class="delete">
-            <li><i class="fas fa-power-off"></i><a href="#">Logout</a></li>
+            <li><i class="fas fa-power-off"></i><a href="/logout">Logout</a></li>
         </ul>
     </div>
 </div>

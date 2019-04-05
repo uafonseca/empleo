@@ -6,10 +6,9 @@
     $(document).ready(function () {
 
         uploadImage()
-
         function uploadImage() {
             var button = $('.upload-images .pic');
-            var uploader = $('<input type="file" accept="image/*" />');
+            var uploader = $('<input type="file" name="images" accept="image/*" />');
             var images = $('.upload-images');
 
             button.on('click', function () {
@@ -30,7 +29,15 @@
             })
 
         }
-
+        function createInput() {
+            var input = $('<input/>')
+                .attr('type', "file")
+                .attr('name', "file")
+                .attr('accept', "image/*")
+                .attr('hidden', "hidden");
+            var div =  $('.upload-images')
+            div.append(input)
+        }
 
     })
 })(jQuery)

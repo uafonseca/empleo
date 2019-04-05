@@ -205,6 +205,16 @@ class User extends BaseUser
 	 */
 	private $verificated;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Anouncement", inversedBy="user")
+     */
+    private $anouncement;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Anouncement", mappedBy="User")
+     */
+    private $anouncements;
+
 
     public function __construct()
     {
@@ -219,6 +229,7 @@ class User extends BaseUser
         }
         $this->category = new ArrayCollection();
         $this->companiesSeen =0;
+        $this->anouncements = new ArrayCollection();
     }
 
     /**
@@ -843,41 +854,84 @@ class User extends BaseUser
 	 * @return mixed
 	 */
 	public function getSecret()
-	{
-		return $this->secret;
-	}
+                        	{
+                        		return $this->secret;
+                        	}
 	
 	/**
 	 * @param mixed $secret
 	 */
 	public function setSecret($secret): void
-	{
-		$this->secret = $secret;
-	}
+                        	{
+                        		$this->secret = $secret;
+                        	}
 	
 	/**
 	 * @return mixed
 	 */
 	public function isVerificated()
-	{
-		return $this->verificated;
-	}
+                        	{
+                        		return $this->verificated;
+                        	}
 	
 	/**
 	 * @param mixed $verificated
 	 */
 	public function setVerificated($verificated): void
-	{
-		$this->verificated = $verificated;
-	}
+                        	{
+                        		$this->verificated = $verificated;
+                        	}
 	
 	/**
 	 * @return mixed
 	 */
 	public function getVerificated()
-	{
-		return $this->verificated;
-	}
+                        	{
+                        		return $this->verificated;
+                        	}
+
+    public function getAnouncement(): ?Anouncement
+    {
+        return $this->anouncement;
+    }
+
+    public function setAnouncement(?Anouncement $anouncement): self
+    {
+        $this->anouncement = $anouncement;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Anouncement[]
+     */
+    public function getAnouncements(): Collection
+    {
+        return $this->anouncements;
+    }
+
+    public function addAnouncement(Anouncement $anouncement): self
+    {
+        if (!$this->anouncements->contains($anouncement)) {
+            $this->anouncements[] = $anouncement;
+            $anouncement->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnouncement(Anouncement $anouncement): self
+    {
+        if ($this->anouncements->contains($anouncement)) {
+            $this->anouncements->removeElement($anouncement);
+            // set the owning side to null (unless already changed)
+            if ($anouncement->getUser() === $this) {
+                $anouncement->setUser(null);
+            }
+        }
+
+        return $this;
+    }
  
 
 }

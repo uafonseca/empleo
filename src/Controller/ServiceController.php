@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\constants;
+use App\Entity\Anouncement;
 use App\Entity\Category;
 use App\Entity\Job;
 use App\Entity\Notification;
@@ -25,6 +26,9 @@ class ServiceController extends Controller
             'controller_name' => 'ServiceController',
         ]);
     }
+    
+ 
+ 
 	/**
 	 * @Route("/service/new", name="service_new")
 	 * Require IS_AUTHENTICATED_FULLY for *every* controller method in this class.
@@ -32,11 +36,10 @@ class ServiceController extends Controller
 	 */
 	public function serviceNew(Request $request)
 	{
-		$post = new Job();
+		$post = new Anouncement();
 		$form = $this->createForm(ServiceJobType::class, $post);
 		$currentUser= $this->get('security.token_storage')->getToken()->getUser();
 		$entityManager = $this->getDoctrine()->getManager();
-		$post->setCategory($entityManager->getRepository(Category::class)->findAll()[0]);
 		$post->setDate(new \DateTime("now"));
 		$form->handleRequest($request);
 		if ($form->isSubmitted() && $form->isValid()) {
@@ -44,29 +47,33 @@ class ServiceController extends Controller
 			switch ($payment) {
 				case constants::PAYMENT_FREE:
 					$currentUser->setPackage(constants::PAYMENT_FREE);
+					$post->setPackage(constants::PAYMENT_FREE);
 					$post->setExpiredDate($post->getDate()->add(\DateInterval::createfromdatestring('+'.constants::PAYMENT_FREE_DAYS.' day')));
 					break;
 				case constants::PAYMENT_BASIC:
 					$currentUser->setPackage(constants::PAYMENT_BASIC);
+					$post->setPackage(constants::PAYMENT_BASIC);
 					$post->setExpiredDate($post->getDate()->add(\DateInterval::createfromdatestring('+'.constants::PAYMENT_BASIC_DAYS.' day')));
 					break;
 				case constants::PAYMENT_PYME:
 					$currentUser->setPackage(constants::PAYMENT_PYME);
+					$post->setPackage(constants::PAYMENT_PYME);
 					$post->setExpiredDate($post->getDate()->add(\DateInterval::createfromdatestring('+'.constants::PAYMENT_PYME_DAYS.' day')));
 					break;
 				case constants::PAYMENT_PLUS:
 					$currentUser->setPackage(constants::PAYMENT_PLUS);
+					$post->setPackage(constants::PAYMENT_PLUS);
 					$post->setExpiredDate($post->getDate()->add(\DateInterval::createfromdatestring('+'.constants::PAYMENT_PLUS_DAYS.' day')));
 					break;
 				default:
 					echo "FAIL";die;
 					break;
 			}
+//			var_dump($request->files->get('images'));die;
 			$post->setStatus(constants::JOB_STATUS_ACTIVE);
-			$post->setIsService(true);
 			$entityManager->flush();
 			$post->setUser($currentUser);
-			$post->setDateCreated(new \DateTime("now"));
+//			$post->setDateCreated(new \DateTime("now"));
 			$entityManager->persist($post);
 			$entityManager->flush();
 			$notification = new Notification();

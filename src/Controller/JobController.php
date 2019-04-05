@@ -63,6 +63,7 @@ class JobController extends Controller
             }else{
                 $post->setStatus(constants::JOB_STATUS_ACTIVE);
             }
+            
             $post->setIsService(false);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
@@ -77,7 +78,7 @@ class JobController extends Controller
             $notification->setUser($this->get('security.token_storage')->getToken()->getUser());
             $notification->setActive(true);
             $entityManager->persist($notification);
-            return $this->redirectToRoute('job_manage',['id'=>$this->get('security.token_storage')->getToken()->getUser()->getId()]);
+            return $this->redirectToRoute('job_manage');
         }
         return $this->render('site/job/job.html.twig', [
             'form' => $form->createView(),
@@ -205,11 +206,10 @@ class JobController extends Controller
     }
 
     /**
-     * @Route("/job/manage", name="job_manage")
+     * @Route("/manage/job/", name="job_manage")
      */
     public function manage(Request $request)
     {
-
         $em = $this->getDoctrine()->getManager();
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $jobs = $em->getRepository(Job::class)->finJobByUser($user);
