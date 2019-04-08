@@ -93,10 +93,10 @@ class Anouncement
      */
     private $video_link;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $package;
+//    /**
+//     * @ORM\Column(type="string", length=255)
+//     */
+//    private $package;
 	/**
 	 * @ORM\Column(type="string", length=255)
 	 * @var string
@@ -320,17 +320,17 @@ class Anouncement
         return $this;
     }
 
-    public function getPackage(): ?string
-    {
-        return $this->package;
-    }
-
-    public function setPackage(string $package): self
-    {
-        $this->package = $package;
-
-        return $this;
-    }
+//    public function getPackage(): ?string
+//    {
+//        return $this->package;
+//    }
+//
+//    public function setPackage(string $package): self
+//    {
+//        $this->package = $package;
+//
+//        return $this;
+//    }
 
     public function getImage()
     {

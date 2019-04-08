@@ -234,58 +234,7 @@
                                 <br>
                                 <hr>
                                 <br>
-                                <div class="row">
-                                    <label class="col-md-3 col-form-label">Seleccione el paquete<span
-                                                style="color: red">*</span></label>
-                                    <div class="col-md-9">
-                                        <div class="package-select">
-                                            <div class="package-select-inputs">
-                                                <div class="form-group">
-                                                    <input class="custom-radio" type="radio" id="radio_1"
-                                                           name="my_radio" value="payment_free" checked>
-                                                    <label for="radio_1">
-                                                        <span class="dot"></span>
-                                                        <span class="package-type">GRATIS</span>
-                                                        $0.00
-                                                    </label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <input class="custom-radio" type="radio" id="radio_2"
-                                                           name="my_radio" value="payment_basic">
-                                                    <label for="radio_2">
-                                                        <span class="dot"></span> <span
-                                                                class="package-type">BÁSICO</span> $90.00
-                                                    </label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <input class="custom-radio" type="radio" id="radio_3"
-                                                           name="my_radio" value="payment_pyme">
-                                                    <label for="radio_3">
-                                                        <span class="dot"></span> <span
-                                                                class="package-type">PYME</span> $150.00
-                                                    </label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <input class="custom-radio" type="radio" id="radio_4"
-                                                           name="my_radio" value="payment_plus">
-                                                    <label for="radio_4">
-                                                        <span class="dot"></span> <span
-                                                                class="package-type">PLUS</span> $300.00
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="payment-method">
-                                                <a href="#" class="credit active"><i class="fas fa-credit-card"></i>Credit
-                                                    Card</a>
-                                                <a href="#" class="paypal"><i class="fab fa-cc-paypal"></i>PayPal</a>
-                                                <input type="checkbox" hidden name="credit">
-                                                <input type="checkbox" hidden name="paypal">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
+                                {% include 'site/job/payment.html.twig' %}
                                 <div class="row">
                                     <div class="col-md-9 offset-md-3">
                                         <div class="form-group terms">

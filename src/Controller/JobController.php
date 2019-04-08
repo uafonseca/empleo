@@ -12,60 +12,46 @@ use App\constants;
 use App\Entity\Category;
 use App\Entity\Job;
 use App\Entity\Notification;
+use App\Entity\Payment;
 use Symfony\Component\Form\FormError;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\JobType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class JobController extends Controller
 {
     /**
      * @Route("/job/new/", name="job_new")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function jobNew(Request $request)
     {
         $post = new Job();
         $form = $this->createForm(JobType::class, $post);
         $currentUser= $this->get('security.token_storage')->getToken()->getUser();
+	    $entityManager = $this->getDoctrine()->getManager();
+	    $packages = $entityManager->getRepository(Payment::class)->findBy(array('adminPayment'=>true));
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $payment = $request->get('my_radio');
-            switch ($payment) {
-                case constants::PAYMENT_FREE:
-                    $currentUser->setPackage(constants::PAYMENT_FREE);
-                    $post->setExpiredDate($post->getDate()->add(\DateInterval::createfromdatestring('+'.constants::PAYMENT_FREE_DAYS.' day')));
-                    break;
-                case constants::PAYMENT_BASIC:
-                    $currentUser->setPackage(constants::PAYMENT_BASIC);
-                    $post->setExpiredDate($post->getDate()->add(\DateInterval::createfromdatestring('+'.constants::PAYMENT_BASIC_DAYS.' day')));
-                    break;
-                case constants::PAYMENT_PYME:
-                    $currentUser->setPackage(constants::PAYMENT_PYME);
-                    $post->setExpiredDate($post->getDate()->add(\DateInterval::createfromdatestring('+'.constants::PAYMENT_PYME_DAYS.' day')));
-                    break;
-                case constants::PAYMENT_PLUS:
-                    $currentUser->setPackage(constants::PAYMENT_PLUS);
-                    $post->setExpiredDate($post->getDate()->add(\DateInterval::createfromdatestring('+'.constants::PAYMENT_PLUS_DAYS.' day')));
-                    break;
-                default:
-                    echo "FAIL";die;
-                    break;
-            }
-            if ($form->get('date')->getData() < new \DateTime()) {
+            $payment = $entityManager->getRepository(Payment::class)->find($request->get('my_radio'));
+	        $currentUser->setPackage($payment);
+	        $post->setExpiredDate($post->getDate()->add(\DateInterval::createfromdatestring('+'.$payment->getVisibleDays().' day')));
+            if ($form->get('date')->getData() < date("y-m-d", strtotime("today"))) {
                 $form->get('date')->addError(new FormError("La fecha de debe ser mayor que la fecha acual"));
                 return $this->render('site/job/job.html.twig', [
                     'form' => $form->createView(),
-                    'notifications' => $this->loadNotifications(),
+                    'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
+	                'packages'=>$packages,
                 ]);
-            } elseif ($form->get('date')->getData() > new \DateTime()) {
+            } elseif ($form->get('date')->getData() > new \DateTime("now")) {
                 $post->setStatus(constants::JOB_STATUS_PENDING);
             }else{
                 $post->setStatus(constants::JOB_STATUS_ACTIVE);
             }
             
             $post->setIsService(false);
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
             $post->setUser($currentUser);
             $post->setDateCreated(new \DateTime("now"));
@@ -83,27 +69,10 @@ class JobController extends Controller
         return $this->render('site/job/job.html.twig', [
             'form' => $form->createView(),
             'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
+	        'packages'=>$packages,
         ]);
     }
-
-    public function loadNotifications()
-    {
-        $user = $this->get('security.token_storage')->getToken()->getUser();
-        if (null != $user) {
-            $em = $this->getDoctrine()->getManager();
-            $notifications = $em->getRepository(Notification::class)->findBy(
-                array(
-                    'user' => $user,
-                    'active' => true,
-                ),
-                array(
-                    'date' => 'DESC',
-                )
-            );
-            return $notifications;
-        }
-        return null;
-    }
+    
 	/**
 	 * @Route("/search/category/{cat}",name="search_category")
 	 */
@@ -113,7 +82,7 @@ class JobController extends Controller
 		$pagination  = $this->get('knp_paginator');
 		return $this->render('site/job/list.html.twig', array(
 			'jobs' => $pagination->paginate($em->getRepository(Job::class)->searchByCategory($category),$request->query->getInt('page', 1),10),
-			'notifications' => $this->loadNotifications(),
+			'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
 			'search'=>1,
 		));
 	}
@@ -125,7 +94,7 @@ class JobController extends Controller
 		$pagination  = $this->get('knp_paginator');
 		return $this->render('site/job/list.html.twig', array(
 			'jobs' => $pagination->paginate($em->getRepository(Job::class)->searchByLocation($location),$request->query->getInt('page', 1),10),
-			'notifications' => $this->loadNotifications(),
+			'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
 			'search'=>1,
 		));
 	}
@@ -137,7 +106,7 @@ class JobController extends Controller
 		$pagination  = $this->get('knp_paginator');
 		return $this->render('site/job/list.html.twig', array(
 			'jobs' => $pagination->paginate($em->getRepository(Job::class)->searchByCity($city),$request->query->getInt('page', 1),10),
-			'notifications' => $this->loadNotifications(),
+			'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
 			'search'=>1,
 		));
 	}
@@ -149,7 +118,7 @@ class JobController extends Controller
 		$pagination  = $this->get('knp_paginator');
 		return $this->render('site/job/list.html.twig', array(
 			'jobs' => $pagination->paginate($em->getRepository(Job::class)->searchByCompany($company),$request->query->getInt('page', 1),10),
-			'notifications' => $this->loadNotifications(),
+			'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
 			'search'=>1,
 		));
 	}
@@ -166,7 +135,7 @@ class JobController extends Controller
         }else{
 	        return $this->render('site/job/list.html.twig', array(
 		        'jobs' => $pagination->paginate($em->getRepository(Job::class)->search($keywords,$location),$request->query->getInt('page', 1),10),
-		        'notifications' => $this->loadNotifications(),
+		        'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
 		        'search'=>1,
 	        ));
         }
@@ -188,7 +157,7 @@ class JobController extends Controller
         return $this->render('site/job/list.html.twig',
             [
                 'jobs' => $pagination,
-                'notifications' => $this->loadNotifications()
+                'notifications' => $this->container->get('app.service.helper')->loadNotifications()
             ]);
     }
 
@@ -201,12 +170,13 @@ class JobController extends Controller
         $job = $em->getRepository(Job::class)->find($id);
         return $this->render('site/job/view.html.twig', [
             'job' => $job,
-            'notifications' => $this->loadNotifications()
+            'notifications' => $this->container->get('app.service.helper')->loadNotifications()
         ]);
     }
 
     /**
      * @Route("/manage/job/", name="job_manage")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function manage(Request $request)
     {
@@ -220,7 +190,7 @@ class JobController extends Controller
         $pagination->setTemplate('site/pagination.html.twig');
         return $this->render('user/employer/manage_job.html.twig', [
             'jobs' => $pagination,
-            'notifications' => $this->loadNotifications()
+            'notifications' => $this->container->get('app.service.helper')->loadNotifications()
         ]);
     }
 }

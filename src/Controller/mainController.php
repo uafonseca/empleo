@@ -11,6 +11,7 @@
 	use App\Entity\Job;
 	use App\Entity\Metadata;
 	use App\Entity\Notification;
+	use App\Entity\Payment;
 	use App\Entity\Policy;
 	use App\Entity\Resume;
 	use App\Entity\User;
@@ -567,5 +568,18 @@
 			$this->addFlash('success', 'Se ha enviado el código a '.$currentUser->getEmail());
 			
 			return $this->redirectToRoute('homepage');
+		}
+		/**
+		 * @Route("admin/package", name="admin_package")
+		 */
+		public function packageIndex()
+		{
+			$em = $this->getDoctrine()->getManager();
+			$packages = $em->getRepository(Payment::class)->findAll();
+			return $this->render('admin/dashboard.html.twig',
+				array(
+					'notifications'=>$this->container->get('app.service.helper')->loadNotifications(),
+					'packages'=>$packages,
+				));
 		}
 	}

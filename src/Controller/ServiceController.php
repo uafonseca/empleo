@@ -7,6 +7,7 @@ use App\Entity\Anouncement;
 use App\Entity\Category;
 use App\Entity\Job;
 use App\Entity\Notification;
+use App\Entity\Payment;
 use App\Form\JobType;
 use App\Form\ServiceJobType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -40,40 +41,16 @@ class ServiceController extends Controller
 		$form = $this->createForm(ServiceJobType::class, $post);
 		$currentUser= $this->get('security.token_storage')->getToken()->getUser();
 		$entityManager = $this->getDoctrine()->getManager();
+		$packages = $entityManager->getRepository(Payment::class)->findBy(array('adminPayment'=>false));
 		$post->setDate(new \DateTime("now"));
 		$form->handleRequest($request);
 		if ($form->isSubmitted() && $form->isValid()) {
-			$payment = $request->get('my_radio');
-			switch ($payment) {
-				case constants::PAYMENT_FREE:
-					$currentUser->setPackage(constants::PAYMENT_FREE);
-					$post->setPackage(constants::PAYMENT_FREE);
-					$post->setExpiredDate($post->getDate()->add(\DateInterval::createfromdatestring('+'.constants::PAYMENT_FREE_DAYS.' day')));
-					break;
-				case constants::PAYMENT_BASIC:
-					$currentUser->setPackage(constants::PAYMENT_BASIC);
-					$post->setPackage(constants::PAYMENT_BASIC);
-					$post->setExpiredDate($post->getDate()->add(\DateInterval::createfromdatestring('+'.constants::PAYMENT_BASIC_DAYS.' day')));
-					break;
-				case constants::PAYMENT_PYME:
-					$currentUser->setPackage(constants::PAYMENT_PYME);
-					$post->setPackage(constants::PAYMENT_PYME);
-					$post->setExpiredDate($post->getDate()->add(\DateInterval::createfromdatestring('+'.constants::PAYMENT_PYME_DAYS.' day')));
-					break;
-				case constants::PAYMENT_PLUS:
-					$currentUser->setPackage(constants::PAYMENT_PLUS);
-					$post->setPackage(constants::PAYMENT_PLUS);
-					$post->setExpiredDate($post->getDate()->add(\DateInterval::createfromdatestring('+'.constants::PAYMENT_PLUS_DAYS.' day')));
-					break;
-				default:
-					echo "FAIL";die;
-					break;
-			}
-//			var_dump($request->files->get('images'));die;
+			$payment = $entityManager->getRepository(Payment::class)->find($request->get('my_radio'));
+			$currentUser->setPackage($payment);
+			$post->setExpiredDate($post->getDate()->add(\DateInterval::createfromdatestring('+'.$payment->getVisibleDays().' day')));
 			$post->setStatus(constants::JOB_STATUS_ACTIVE);
 			$entityManager->flush();
 			$post->setUser($currentUser);
-//			$post->setDateCreated(new \DateTime("now"));
 			$entityManager->persist($post);
 			$entityManager->flush();
 			$notification = new Notification();
@@ -88,6 +65,7 @@ class ServiceController extends Controller
 		return $this->render('service/new.html.twig', [
 			'form' => $form->createView(),
 			'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
+			'packages'=>$packages,
 		]);
 	}
 	/**
@@ -105,7 +83,7 @@ class ServiceController extends Controller
 		$pagination->setTemplate('site/pagination.html.twig');
 		return $this->render('service/manage.html.twig', [
 			'jobs' => $pagination,
-			'notifications' => $this->container->get('app.service.helper')->loadNotifications()
+			'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
 		]);
 	}
 	/**
