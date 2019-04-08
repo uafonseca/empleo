@@ -215,6 +215,11 @@
 		 */
 		private $anouncements;
 		
+		/**
+		 * @ORM\Column(type="date", nullable=true)
+		 */
+		private $date_of_purchase;
+		
 		
 		public function __construct()
 		{
@@ -824,8 +829,10 @@
 						$null_fields++;
 					}
 				}
+				
 				return round((19 - $null_fields) / 19 * 100);
 			}
+			
 			return 100;
 		}
 		
@@ -999,6 +1006,18 @@
 					$anouncement->setUser(null);
 				}
 			}
+			
+			return $this;
+		}
+		
+		public function getDateOfPurchase(): ?\DateTimeInterface
+		{
+			return $this->date_of_purchase;
+		}
+		
+		public function setDateOfPurchase(\DateTimeInterface $date_of_purchase): self
+		{
+			$this->date_of_purchase = $date_of_purchase;
 			
 			return $this;
 		}

@@ -46,8 +46,9 @@
             <li class="{% if currentPath == '/service/manage' %}active{% endif %}"><i class="fas fa-edit"></i><a href="{{ path('service_manage') }}">Mis servicios</a></li>
             <li class="{% if currentPath == '/dashboard/bookmarked' %}active{% endif %}"><i class="fas fa-heart"></i><a href="{{ path('dashboard_bookmarked') }}">Marcados</a></li>
             <li class="{% if currentPath == '/dashboard/applied' %}active{% endif %}"><i class="fas fa-check-square"></i><a href="{{ path('dashboard_applied') }}">Aplicados</a></li>
+            <li class="{% if currentPath == '/pricing' %}active{% endif %}"><i class="fas fa-calculator"></i><a href="{{ path('pricing_page') }}">Plan de precios</a></li>
+
             {#<li class="{% if currentPath == '/dashboard' %}{% endif %}"><i class="fas fa-comment"></i><a href="dashboard-message.html">Mensajes</a></li>#}
-            {#<li class="{% if currentPath == '/dashboard' %}{% endif %}"><i class="fas fa-calculator"></i><a href="dashboard-pricing.html">Plan de precios</a></li>#}
         </ul>
         <ul class="delete">
             <li><i class="fas fa-power-off"></i><a href="/logout">Salir</a></li>

@@ -70,6 +70,33 @@
 			return false;
 		}
 		
+		/**
+		 * @Route("/pricing",name="pricing_page")
+		 */
+		public function pricing(){
+			$em = $this->getDoctrine()->getManager();
+			$currentUser = $this->get('security.token_storage')->getToken()->getUser();
+			$is_admin = in_array('ROLE_ADMIN', $currentUser->getRoles());
+			$packages = $em->getRepository(Payment::class)->findBy(array('adminPayment' => $is_admin));
+			return $this->render('site/pricing.html.twig',[
+				'notifications' => $this->loadNotifications(),
+				'packages' => $packages,
+			]);
+		}
+		/**
+		 * @Route("/checkout/{packId}",name="checkout")
+		 */
+		public function checkout($packId){
+			$em = $this->getDoctrine()->getManager();
+			$currentUser = $this->get('security.token_storage')->getToken()->getUser();
+			$is_admin = in_array('ROLE_ADMIN', $currentUser->getRoles());
+			$package = $em->getRepository(Payment::class)->find($packId);
+			return $this->render('site/checkout.html.twig',[
+				'notifications' => $this->loadNotifications(),
+				'package' => $package,
+			]);
+		}
+		
 		public function updateJobsFiles()
 		{
 			$em = $this->getDoctrine()->getManager();
@@ -202,6 +229,7 @@
 						'notifications' => $this->loadNotifications(),
 						'public' => $public,
 						'requests' => $em->getRepository(Job::class)->requests($user),
+						'expired'=>$this->container->get('app.service.helper')->expired()
 					)
 				);
 			} else {
@@ -210,6 +238,7 @@
 					array(
 						'verificated_acount' => $verificated,
 						'notifications' => $this->loadNotifications(),
+						'expired'=>$this->container->get('app.service.helper')->expired()
 					)
 				);
 			}

@@ -27,6 +27,19 @@
 			$user = $this->get('security.token_storage')->getToken()->getUser();
 			return '_files_'.$user->getId().'/';
 		}
+		public function expired(){
+			$currentUser = $this->get('security.token_storage')->getToken()->getUser();
+			$expired_package = false;
+			if (null != $date_purchase = $currentUser->getDateOfPurchase()) {
+				$pack = $currentUser->getPackage();
+				if ($date_purchase->add(
+						\DateInterval::createfromdatestring('+'.$pack->getVisibleDays().' day')
+					) < new \DateTime('now')) {
+					$expired_package = true;
+				}
+			}
+			return $expired_package;
+		}
 		public function loadNotifications()
 		{
 			$user = $this->get('security.token_storage')->getToken()->getUser();

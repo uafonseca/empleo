@@ -44,6 +44,7 @@
             <li class="{% if currentPath == '/manage/candidates' %}active{% endif %}"><i class="fas fa-users"></i><a href="{{ path('manage_candidates') }}">Administrar candidatos</a></li>
             <li class="{% if currentPath == '/dashboard' %}{% endif %}"><i class="fas fa-heart"></i><a href="#">CV preseleccionados</a></li>
             <li class="{% if currentPath == '/dashboard' %}{% endif %}"><i class="fas fa-plus-square"></i><a href="{{ path('job_new') }}">Publicar empleo</a></li>
+            <li class="{% if currentPath == '/pricing' %}active{% endif %}"><i class="fas fa-calculator"></i><a href="{{ path('pricing_page') }}">Plan de precios</a></li>
             {#<li><i class="fas fa-comment"></i><a href="#">Message</a></li>#}
             {#<li><i class="fas fa-calculator"></i><a href="#">Pricing Plans</a></li>#}
         </ul>

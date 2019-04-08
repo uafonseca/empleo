@@ -1,0 +1,89 @@
+{% extends 'site/base.html.twig' %}
+{% block title %}Candidatos{% endblock %}
+{% block body %}
+    {% include'site/header.html.twig' %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('site/dashboard/css/dashboard.css') }}">
+    <div class="alice-bg padding-top-70 padding-bottom-70">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="breadcrumb-area">
+                        <h1>Tablero</h1>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{{ path('homepage') }}">Inicio</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Tablero</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+                {#<div class="col-md-6">#}
+                    {#<div class="breadcrumb-form">#}
+                        {#<form action="#">#}
+                            {#<input type="text" placeholder="Enter Keywords">#}
+                            {#<button><i data-feather="search"></i></button>#}
+                        {#</form>#}
+                    {#</div>#}
+                {#</div>#}
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+
+    <div class="alice-bg section-padding-bottom">
+        <div class="container no-gliters">
+            <div class="row no-gliters">
+                <div class="col">
+                    <div class="dashboard-container">
+                        <div class="dashboard-content-wrapper">
+                            {#<div class="row">#}
+                                {#<div class="col">#}
+                                    {#<div class="pricing-controller">#}
+                                        {#<span class="duration duration-month active">Monthly</span>#}
+                                        {#<div class="switch-wrap"><span class="switch"></span></div>#}
+                                        {#<span class="duration duration-year">Annually <span>Save 10%</span></span>#}
+                                    {#</div>#}
+                                {#</div>#}
+                            {#</div>#}
+                            <div class="row">
+                                {% for p in packages %}
+                                <div class="col-md-6">
+                                    <div class="pricing starter">
+                                        <span class="package-title">{{ p.name }}</span>
+                                        {#<p class="description">Entry you need get started without <span>compromising</span></p>#}
+                                        <div class="package-info">
+                                            <h3 class="monthly-rate"><span>${{ p.price }}</span>/{{ p.visibleDays }} Días</h3>
+                                            <h3 class="yearly-rate hidden"><span>$240</span>/year</h3>
+                                            <p class="user-number">Máximo de publicaciones {{ p.anouncementsNumberMax }}
+                                                {#<i class="fas fa-info-circle" data-toggle="tooltip" data-placement="top" title="" data-original-title="When you buy Markesia you get all you see in the demo but the images"></i>#}
+                                            </p>
+                                        </div>
+                                        <div class="features">
+                                            <h6>Caracteristicas</h6>
+                                            <ul>
+                                                <li>Currículums disponibles <strong>{{ p.cvNumberMax }}</strong></li>
+                                                {% if p.evaluationsPsicological %}
+                                                    <li>Evaluaciones psicológicas</li>
+                                                {% endif %}
+                                                <li>Anuncio destacado <strong>{{ p.daysImportants }}</strong> días</li>
+                                                {% if p.selection %}
+                                                    <li>Selección de candidatos</li>
+                                                {% endif %}
+                                            </ul>
+                                        </div>
+                                        <div class="buy-button">
+                                            <a href="{{ path('checkout', {'packId': p.id}) }}" class="button primary-bg">Comenzar</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% include 'user/dashboard_sidebar.html.twig' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
