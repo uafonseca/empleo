@@ -48,13 +48,13 @@ class ServiceController extends Controller
 			$payment = $entityManager->getRepository(Payment::class)->find($request->get('my_radio'));
 			$currentUser->setPackage($payment);
 			$post->setExpiredDate($post->getDate()->add(\DateInterval::createfromdatestring('+'.$payment->getVisibleDays().' day')));
+			$post->setDate(new \DateTime("now"));
 			$post->setStatus(constants::JOB_STATUS_ACTIVE);
 			$entityManager->flush();
 			$post->setUser($currentUser);
 			$entityManager->persist($post);
 			$entityManager->flush();
 			$notification = new Notification();
-			$notification->setDate(new \DateTime());
 			$notification->setType(constants::NOTIFICATION_JOB_CREATE);
 			$notification->setContext("Empleo creado satisfactoriamente");
 			$notification->setUser($this->get('security.token_storage')->getToken()->getUser());
@@ -75,7 +75,7 @@ class ServiceController extends Controller
 	{
 		$em = $this->getDoctrine()->getManager();
 		$user = $this->get('security.token_storage')->getToken()->getUser();
-		$jobs = $em->getRepository(Job::class)->finServicesByUser($user);
+		$jobs = $em->getRepository(Anouncement::class)->findBy(array('User'=>$user));
 		$pagination  = $this->get('knp_paginator')->paginate(
 			$jobs,
 			$request->query->getInt('page', 1),

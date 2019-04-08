@@ -47,7 +47,7 @@
                                             <td class="title">
                                                 <h5><a href="#">{{ j.title }}</a></h5>
                                                 <div class="info">
-                                                    <span class="office-location"><a href="#"><i data-feather="map-pin"></i>{{ j.yourLocaltion }}</a></span>
+                                                    <span class="office-location"><a href="#"><i data-feather="map-pin"></i>{{ j.Location }}</a></span>
                                                     {% if j.type == 'partial' %}
                                                         <span class="job-type part-time"><a ><i data-feather="clock"></i>A tiempo parcial</a></span>
                                                     {% endif %}
@@ -63,7 +63,7 @@
                                                 </div>
                                             </td>
                                             {#<td class="application"><a href="#">{{ j.users|length }} Aplicaciones</a></td>#}
-                                            <td class="deadline">{{ j.dateCreated|localizeddate('short', 'none', 'en')}}</td>
+                                            <td class="deadline">{{ j.date|localizeddate('short', 'none', 'en')}}</td>
                                             <td class="deadline">{{ j.expiredDate|localizeddate('short', 'none', 'en')}}</td>
                                             {% if j.status == 'job_active' %}
                                                 <td class="status active">Activo</td>
