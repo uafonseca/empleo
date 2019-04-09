@@ -100,6 +100,7 @@
 				[
 					'jobs' => $pagination,
 					'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
+					'expired'=>$this->container->get('app.service.helper')->expired()
 				]
 			);
 		}

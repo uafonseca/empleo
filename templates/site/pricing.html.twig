@@ -36,26 +36,15 @@
                 <div class="col">
                     <div class="dashboard-container">
                         <div class="dashboard-content-wrapper">
-                            {#<div class="row">#}
-                                {#<div class="col">#}
-                                    {#<div class="pricing-controller">#}
-                                        {#<span class="duration duration-month active">Monthly</span>#}
-                                        {#<div class="switch-wrap"><span class="switch"></span></div>#}
-                                        {#<span class="duration duration-year">Annually <span>Save 10%</span></span>#}
-                                    {#</div>#}
-                                {#</div>#}
-                            {#</div>#}
                             <div class="row">
                                 {% for p in packages %}
                                 <div class="col-md-6">
                                     <div class="pricing starter">
                                         <span class="package-title">{{ p.name }}</span>
-                                        {#<p class="description">Entry you need get started without <span>compromising</span></p>#}
                                         <div class="package-info">
                                             <h3 class="monthly-rate"><span>${{ p.price }}</span>/{{ p.visibleDays }} Días</h3>
                                             <h3 class="yearly-rate hidden"><span>$240</span>/year</h3>
-                                            <p class="user-number">Máximo de publicaciones {{ p.anouncementsNumberMax }}
-                                                {#<i class="fas fa-info-circle" data-toggle="tooltip" data-placement="top" title="" data-original-title="When you buy Markesia you get all you see in the demo but the images"></i>#}
+                                            <p class="user-number">Máximo de publicaciones <strong>{{ p.anouncementsNumberMax }}</strong>
                                             </p>
                                         </div>
                                         <div class="features">

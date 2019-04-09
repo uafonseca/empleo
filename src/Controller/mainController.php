@@ -88,8 +88,6 @@
 		 */
 		public function checkout($packId){
 			$em = $this->getDoctrine()->getManager();
-			$currentUser = $this->get('security.token_storage')->getToken()->getUser();
-			$is_admin = in_array('ROLE_ADMIN', $currentUser->getRoles());
 			$package = $em->getRepository(Payment::class)->find($packId);
 			return $this->render('site/checkout.html.twig',[
 				'notifications' => $this->loadNotifications(),
