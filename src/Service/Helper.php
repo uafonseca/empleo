@@ -29,6 +29,8 @@
 		}
 		public function expired(){
 			$currentUser = $this->get('security.token_storage')->getToken()->getUser();
+			if($currentUser->getPackage() == null)
+				return true;
 			$expired_package = false;
 			if (null != $date_purchase = $currentUser->getDateOfPurchase()) {
 				$pack = $currentUser->getPackage();

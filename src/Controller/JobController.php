@@ -70,6 +70,7 @@ class JobController extends Controller
             'form' => $form->createView(),
             'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
 	        'packages'=>$packages,
+	        'expired'=>$this->container->get('app.service.helper')->expired()
         ]);
     }
     
@@ -190,7 +191,8 @@ class JobController extends Controller
         $pagination->setTemplate('site/pagination.html.twig');
         return $this->render('user/employer/manage_job.html.twig', [
             'jobs' => $pagination,
-            'notifications' => $this->container->get('app.service.helper')->loadNotifications()
+            'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
+	        'expired'=>$this->container->get('app.service.helper')->expired()
         ]);
     }
 }

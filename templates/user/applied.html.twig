@@ -36,7 +36,7 @@
                                 <div id="autoremove-{{ job.id }}" class="job-list">
                                     <div class="thumb">
                                         <a href="{{ path('job_show', {'id': job.id}) }}">
-                                            <img src="{{ asset('site/images/upload/company/')~ job.image }}" class="img-fluid" alt="{{ job.title }}">
+                                            <img src="{{ asset('site/images/upload/company/')~'_user_'~job.user.id~'/'~ job.image }}" class="img-fluid" alt="{{ job.title }}">
                                         </a>
                                     </div>
                                     <div class="body">
