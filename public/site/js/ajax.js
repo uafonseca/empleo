@@ -1,3 +1,24 @@
+function findByFilters() {
+    let data = {};
+    data['category'] = $('#category-filter').value;
+    data['location'] = $('#location-filter').value;
+    data['gender'] = $('#auto .gender a').html();
+    $('html, body').css("cursor", "wait");
+    $.ajax({
+        url: '/ajax/filters',
+        data: data,
+        type: "POST"
+    }).done(function (response) {
+        $('div#container-jobs').empty()
+        $('div#container-jobs').append(response.response)
+        $('html, body').css("cursor", "auto");
+    }).fail(function (data) {
+        console.log(data)
+        $('html, body').css("cursor", "auto");
+    })
+}
+
+
 // $(document).ready(function() {
 //     $('#send-btn').on('click', function() {
 //         var $this = $(this);
@@ -16,21 +37,20 @@ $("#send-email").on("submit", function (e) {
     let data = {};
     let errors = []
     $(this).serializeArray().forEach((object) => {
-        if(!object.value){
-            errors.push("El campo "+object.name+" no puede estar en blanco")
-        }else{
+        if (!object.value) {
+            errors.push("El campo " + object.name + " no puede estar en blanco")
+        } else {
             data[object.name] = object.value;
         }
     });
-    if(errors.length> 0)
-    {
-        var html="";
-        for (var i = 0; i<errors.length; i++){
-            html += '<li class="list-group-item list-group-item-danger">'+errors[i]+'</li>'
+    if (errors.length > 0) {
+        var html = "";
+        for (var i = 0; i < errors.length; i++) {
+            html += '<li class="list-group-item list-group-item-danger">' + errors[i] + '</li>'
         }
         $('#errors-list').html(html)
         $("#modal-error").modal('show')
-    }else {
+    } else {
         $('#send-btn').html('<i class="fa fa-circle-o-notch fa-spin"></i> Enviando...');
         $.ajax({
             url: '/mail/sender',
@@ -49,9 +69,9 @@ $("#send-email").on("submit", function (e) {
     }
 })
 
-function showModal(id){
+function showModal(id) {
     $('#confirm-delete').modal('show')
-    $('#confirm-delete').on('click',"#close",function () {
+    $('#confirm-delete').on('click', "#close", function () {
         $.ajax({
             url: '/ajax/job/remove',
             data: {'id': id},
@@ -72,22 +92,21 @@ $("#qualification").on("submit", function (e) {
     let data = {};
     let errors = []
     $(this).serializeArray().forEach((object) => {
-        if(!object.value){
-            errors.push("El campo "+object.name+" no puede estar en blanco")
-        }else{
+        if (!object.value) {
+            errors.push("El campo " + object.name + " no puede estar en blanco")
+        } else {
             data[object.name] = object.value;
         }
 
     });
-    if(errors.length> 0)
-    {
-        var html="";
-        for (var i = 0; i<errors.length; i++){
-            html += '<li class="list-group-item list-group-item-danger">'+errors[i]+'</li>'
+    if (errors.length > 0) {
+        var html = "";
+        for (var i = 0; i < errors.length; i++) {
+            html += '<li class="list-group-item list-group-item-danger">' + errors[i] + '</li>'
         }
         $('#errors-list').html(html)
         $("#modal-error").modal('show')
-    }else {
+    } else {
         $.ajax({
             url: $(this).attr('action'),
             data: data,
@@ -108,22 +127,21 @@ $("#skills-form").on("submit", function (e) {
     let data = {};
     let errors = []
     $(this).serializeArray().forEach((object) => {
-        if(!object.value){
-            errors.push("El campo "+object.name+" no puede estar en blanco")
-        }else{
+        if (!object.value) {
+            errors.push("El campo " + object.name + " no puede estar en blanco")
+        } else {
             data[object.name] = object.value;
         }
 
     });
-    if(errors.length> 0)
-    {
-        var html="";
-        for (var i = 0; i<errors.length; i++){
-            html += '<li class="list-group-item list-group-item-danger">'+errors[i]+'</li>'
+    if (errors.length > 0) {
+        var html = "";
+        for (var i = 0; i < errors.length; i++) {
+            html += '<li class="list-group-item list-group-item-danger">' + errors[i] + '</li>'
         }
         $('#errors-list').html(html)
         $("#modal-error").modal('show')
-    }else {
+    } else {
         $.ajax({
             url: $(this).attr('action'),
             data: data,
@@ -145,21 +163,20 @@ $("#skills-form-edit").on("submit", function (e) {
     let data = {};
     let errors = []
     $(this).serializeArray().forEach((object) => {
-        if(!object.value){
-            errors.push("El campo "+object.name+" no puede estar en blanco")
-        }else{
+        if (!object.value) {
+            errors.push("El campo " + object.name + " no puede estar en blanco")
+        } else {
             data[object.name] = object.value;
         }
     });
-    if(errors.length> 0)
-    {
-        var html="";
-        for (var i = 0; i<errors.length; i++){
-            html += '<li class="list-group-item list-group-item-danger">'+errors[i]+'</li>'
+    if (errors.length > 0) {
+        var html = "";
+        for (var i = 0; i < errors.length; i++) {
+            html += '<li class="list-group-item list-group-item-danger">' + errors[i] + '</li>'
         }
         $('#errors-list').html(html)
         $("#modal-error").modal('show')
-    }else {
+    } else {
         $.ajax({
             url: $(this).attr('action'),
             data: data,
@@ -182,22 +199,21 @@ $("#add-experience").on("submit", function (e) {
     let data = {};
     let errors = []
     $(this).serializeArray().forEach((object) => {
-        if(!object.value){
-            errors.push("El campo "+object.name+" no puede estar en blanco")
-        }else{
+        if (!object.value) {
+            errors.push("El campo " + object.name + " no puede estar en blanco")
+        } else {
             data[object.name] = object.value;
         }
 
     });
-    if(errors.length> 0)
-    {
-        var html="";
-        for (var i = 0; i<errors.length; i++){
-            html += '<li class="list-group-item list-group-item-danger">'+errors[i]+'</li>'
+    if (errors.length > 0) {
+        var html = "";
+        for (var i = 0; i < errors.length; i++) {
+            html += '<li class="list-group-item list-group-item-danger">' + errors[i] + '</li>'
         }
         $('#errors-list').html(html)
         $("#modal-error").modal('show')
-    }else {
+    } else {
         $.ajax({
             url: $(this).attr('action'),
             data: data,
@@ -233,22 +249,21 @@ $("#experience-edit").on("submit", function (e) {
     let data = {};
     let errors = []
     $(this).serializeArray().forEach((object) => {
-        if(!object.value){
-            errors.push("El campo "+object.name+" no puede estar en blanco")
-        }else{
+        if (!object.value) {
+            errors.push("El campo " + object.name + " no puede estar en blanco")
+        } else {
             data[object.name] = object.value;
         }
 
     });
-    if(errors.length> 0)
-    {
-        var html="";
-        for (var i = 0; i<errors.length; i++){
-            html += '<li class="list-group-item list-group-item-danger">'+errors[i]+'</li>'
+    if (errors.length > 0) {
+        var html = "";
+        for (var i = 0; i < errors.length; i++) {
+            html += '<li class="list-group-item list-group-item-danger">' + errors[i] + '</li>'
         }
         $('#errors-list').html(html)
         $("#modal-error").modal('show')
-    }else {
+    } else {
         if (data.length > 0) {
             $.ajax({
                 url: $(this).attr('action'),

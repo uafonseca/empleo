@@ -211,6 +211,31 @@
 				->getQuery()
 				->getResult();
 		}
+		public function searchCatAndLocation($category, $location,$gender)
+		{
+			$qb = $this->createQueryBuilder('j');
+			if ($category) {
+				$qb->andWhere('j.category =: key ')
+					->setParameter('key', '%'.$category.'%');
+			}
+			if ($location) {
+				$qb->orWhere('j.your_localtion LIKE :key OR j.localtion LIKE :key')
+					->setParameter('key', '%'.$category.'%');
+			}
+			if ($gender) {
+				$qb->orWhere('j.gender LIKE :key')
+					->setParameter('key', '%'.$gender.'%');
+			}
+			$qb->andWhere('j.status = :status')
+				->setParameter('status',constants::JOB_STATUS_ACTIVE);
+			
+			return $qb
+				->andWhere('j.is_service = false')
+				->orWhere('j.is_service is NULL')
+				->orderBy('j.expiredDate', 'DESC')
+				->getQuery()
+				->getResult();
+		}
 		
 		public function expired()
 		{

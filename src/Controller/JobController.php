@@ -160,7 +160,9 @@ class JobController extends Controller
         return $this->render('site/job/list.html.twig',
             [
                 'jobs' => $pagination,
-                'notifications' => $this->container->get('app.service.helper')->loadNotifications()
+                'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
+	            'categorys' => $this->container->get('app.service.helper')->loadCategorys(),
+	            'locations' => $this->container->get('app.service.helper')->loadLocations(),
             ]);
     }
 
