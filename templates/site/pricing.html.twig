@@ -30,33 +30,45 @@
                         <div class="dashboard-content-wrapper">
                             <div class="row">
                                 {% for p in packages %}
-                                <div class="col-md-6">
-                                    <div class="pricing starter">
-                                        <span class="package-title">{{ p.name }}</span>
-                                        <div class="package-info">
-                                            <h3 class="monthly-rate"><span>${{ p.price }}</span>/{{ p.visibleDays }} Días</h3>
-                                            <h3 class="yearly-rate hidden"><span>$240</span>/year</h3>
-                                            <p class="user-number">Máximo de publicaciones <strong>{{ p.anouncementsNumberMax }}</strong>
-                                            </p>
-                                        </div>
-                                        <div class="features">
-                                            <h6>Caracteristicas</h6>
-                                            <ul>
-                                                <li>Currículums disponibles <strong>{{ p.cvNumberMax }}</strong></li>
-                                                {% if p.evaluationsPsicological %}
-                                                    <li>Evaluaciones psicológicas</li>
-                                                {% endif %}
-                                                <li>Anuncio destacado <strong>{{ p.daysImportants }}</strong> días</li>
-                                                {% if p.selection %}
-                                                    <li>Selección de candidatos</li>
-                                                {% endif %}
-                                            </ul>
-                                        </div>
-                                        <div class="buy-button">
-                                            <a href="{{ path('checkout', {'packId': p.id}) }}" class="button primary-bg">Comenzar</a>
+                                    <div class="col-md-6">
+                                        <div class="pricing starter">
+                                            <span class="package-title">{{ p.name }}</span>
+                                            <div class="package-info">
+                                                <h3 class="monthly-rate"><span>${{ p.price }}</span>/{{ p.visibleDays }}
+                                                    Días</h3>
+                                                <h3 class="yearly-rate hidden"><span>$240</span>/year</h3>
+                                                <p class="user-number">Máximo de publicaciones
+                                                    <strong>{{ p.anouncementsNumberMax }}</strong>
+                                                </p>
+                                            </div>
+                                            <div class="features">
+                                                <h6>Caracteristicas</h6>
+                                                <ul>
+                                                    <li>Currículums disponibles <strong>{{ p.cvNumberMax }}</strong>
+                                                    </li>
+                                                    {% if p.evaluationsPsicological %}
+                                                        <li>Evaluaciones psicológicas</li>
+                                                    {% endif %}
+                                                    <li>Anuncio destacado <strong>{{ p.daysImportants }}</strong> días
+                                                    </li>
+                                                    {% if p.selection %}
+                                                        <li>Selección de candidatos</li>
+                                                    {% endif %}
+                                                </ul>
+                                            </div>
+                                            {% if p.price == 0 %}
+                                                <div class="buy-button">
+                                                    <a href="{{ path('buy_package_free', {'packId': p.id}) }}"
+                                                       class="button primary-bg">Comenzar</a>
+                                                </div>
+                                            {% else %}
+                                                <div class="buy-button">
+                                                    <a href="{{ path('checkout', {'packId': p.id}) }}"
+                                                       class="button primary-bg">Comenzar</a>
+                                                </div>
+                                            {% endif %}
                                         </div>
                                     </div>
-                                </div>
                                 {% endfor %}
                             </div>
                         </div>

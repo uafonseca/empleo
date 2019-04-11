@@ -1,0 +1,7 @@
+beelab_paypal:
+    username: "%paypal_username%"
+    password: "%paypal_password%"
+    signature: "%paypal_signature%"
+    return_route: your_return_route
+    cancel_route: your_cancel_route
+    test_mode: "%kernel.debug%"

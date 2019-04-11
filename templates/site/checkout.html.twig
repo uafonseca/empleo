@@ -30,7 +30,7 @@
                         <div class="row">
                             <div class="col-lg-8">
                                 <div class="checkout-form">
-                                    <form action="">
+                                    <form action="{{ path('buy_package') }}" method="post">
                                         <div class="row">
                                             <label class="col-md-3 col-form-label">Detalles de su paquete</label>
                                             <div class="col-md-9">
@@ -109,6 +109,7 @@
                                                                 <span class="dot"></span> You accepts our <a href="#">Terms and Conditions</a> and <a href="#">Privacy Policy</a>
                                                             </label>
                                                         </div>
+                                                        <input type="hidden" value="{{ package.id }}" name="package_id">
                                                         <button class="button">Proceder al pago</button>
                                                     </div>
                                                 </div>

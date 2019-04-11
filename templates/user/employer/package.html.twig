@@ -1,27 +1,41 @@
 <div class="col-md-6">
     <div class="package breadcrumb-form ">
-        <div class="container">
-            {% if expired == 0 %}
-            <div class="row border payment-method payment-container">
-                <div class="col-md-4" style="text-align: center">
-                    <h5>Tu plan es</h5>
+        <div class="container border">
+            {% if expired is not null %}
+                <div class="row payment-method payment-container">
+                    <div class="col-md-4" style="text-align: center">
+                        <h5>Tu plan es</h5>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button"
+                                class="disabled btn btn-secondary btn-lg btn-block">{{ app.user.package.name }}</button>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" onclick="location.assign('{{ url('pricing_page') }}')"
+                                class="btn btn-primary btn-lg btn-block parpadea text">Cambiar plan
+                        </button>
+                    </div>
                 </div>
-                <div class="col-md-4">
-                    <button type="button" class="disabled btn btn-secondary btn-lg btn-block">{{ app.user.package.name }}</button>
+                <div class="row">
+                    <div class="col-md-6" style="text-align: left">
+                        <p>Su plan expia dentro de <strong>{{ expired.days }}</strong> días</p>
+                    </div>
+                    <div class="col-md-6" style="text-align: left">
+                        <p>Dispone de <strong>{{ expired.public }}</strong> publicaciones</p>
+                    </div>
                 </div>
-                <div class="col-md-4">
-                    <button type="button" class="btn btn-primary btn-lg btn-block parpadea text">Cambiar plan</button>
-                </div>
-            </div>
+
             {% else %}
-            <div class="row border payment-method payment-container">
-                <div class="col-md-7">
-                    <h6>Su plan ha expirado</h6>
+                <div class="row payment-method payment-container">
+                    <div class="col-md-7">
+                        <h6>Su plan ha expirado</h6>
+                    </div>
+                    <div class="col-md-5">
+                        <button onclick="location.assign('{{ url('pricing_page') }}')" type="button"
+                                class="btn btn-primary btn-lg btn-block parpadea text">Compra tu plan ahora!
+                        </button>
+                    </div>
                 </div>
-                <div class="col-md-5">
-                    <button onclick="location.assign('{{ url('pricing_page') }}')" type="button" class="btn btn-primary btn-lg btn-block parpadea text">Compra tu plan ahora!</button>
-                </div>
-            </div>
             {% endif %}
         </div>
     </div>

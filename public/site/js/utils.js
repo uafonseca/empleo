@@ -1,3 +1,13 @@
+$(document).ready(function () {
+    setTimeout(
+        function()
+        {
+            $('.publicity').fadeIn("slow")
+        }, Math.floor((Math.random() * 10) + 1) * 1000);
+    $('#close-footer-pub').click(function () {
+        $('.publicity').fadeOut("slow")
+    })
+})
 function bookMark(id) {
     $.ajax({
         url: '/ajax/bookmark',

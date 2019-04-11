@@ -11,6 +11,9 @@ parameters:
     app.path.image_store: /site/images/upload/company/images_stored
     app.path.user_cv: /site/docs/user/cv
     container.autowiring.strict_mode: true
+    paypal_username: 'paypal_username'
+    paypal_password: 'paypal_password'
+    paypal_signature: 'paypal_signature'
 #    mailer_host: 127.0.0.1
 #    mailer_user: "mailer_user"
 

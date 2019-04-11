@@ -36,7 +36,9 @@
 			$is_admin = in_array('ROLE_ADMIN', $user->getRoles());
 			if ($is_admin) {
 				return $this->redirectToRoute('dashboard');
-			} else {
+			} elseif(in_array('ROLE_SUPER_ADMIN', $user->getRoles())) {
+				return $this->redirectToRoute('homepage');
+			}else{
 				return $this->redirectToRoute('job_list');
 			}
 		}
@@ -70,7 +72,6 @@
 					}
 					$user->setVerificated(false);
 					$user->setSecret(rand(10000, 99999));
-//                $user->setImage('/_files_'.$user->getId().'/'.$user->getImage());
 					$entityManager->persist($user);
 					$entityManager->flush();
 					$message = (new \Swift_Message('Bienvenido a emplear.com'))

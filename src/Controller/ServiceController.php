@@ -39,7 +39,6 @@
 		 */
 		public function serviceNew(Request $request)
 		{
-			
 			$post = new Anouncement();
 			$form = $this->createForm(ServiceJobType::class, $post);
 			$currentUser = $this->get('security.token_storage')->getToken()->getUser();
@@ -65,7 +64,6 @@
 				$notification->setUser($this->get('security.token_storage')->getToken()->getUser());
 				$notification->setActive(true);
 				$entityManager->persist($notification);
-				
 				return $this->redirectToRoute('service_manage');
 			}
 			

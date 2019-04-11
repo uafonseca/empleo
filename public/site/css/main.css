@@ -10017,3 +10017,44 @@ label.required:before {
     padding: 0 10px 0 10px;
     border-radius: 5px;
 }
+div.disabled
+{
+    pointer-events: none;
+    opacity: 0.5;
+    background: #CCC;
+}
+.publicity{
+    border-radius: 3px;
+    background-color: #dee2e6;
+    margin: 0 auto 0 auto;
+    z-index: 100;
+    position: fixed;
+    bottom:0px;
+    padding: 5px;
+}
+.hidden{
+    display: none;
+}
+.text-block {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background-color: black;
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 5px;
+    opacity: 0.7;
+}
+.label-pub{
+    position: absolute;
+    background-color: #fe9703;
+    color: white;
+    border-radius: 5px;
+    opacity: 0.7;
+    left: 11px;
+    top: 26px;
+    padding: 0 5px 0 5px;
+}
+.publicity img{
+}

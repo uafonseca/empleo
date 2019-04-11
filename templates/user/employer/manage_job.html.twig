@@ -63,7 +63,7 @@
                                             {% endif %}
                                         </div>
                                     </td>
-                                    <td class="application"><a href="#">{{ j.users|length }}Aplicaciones</a></td>
+                                    <td class="application"><a href="#">{{ j.users|length }}</a></td>
                                     <td class="deadline">{{ j.dateCreated|localizeddate('short', 'none', 'en')}}</td>
                                     <td class="deadline">{{ j.expiredDate|localizeddate('short', 'none', 'en')}}</td>
                                     {% if j.status == 'job_active' %}

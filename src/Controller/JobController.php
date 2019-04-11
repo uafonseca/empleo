@@ -13,6 +13,7 @@ use App\Entity\Category;
 use App\Entity\Job;
 use App\Entity\Notification;
 use App\Entity\Payment;
+use App\Entity\User;
 use Symfony\Component\Form\FormError;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,11 +33,11 @@ class JobController extends Controller
         $form = $this->createForm(JobType::class, $post);
         $currentUser= $this->get('security.token_storage')->getToken()->getUser();
 	    $entityManager = $this->getDoctrine()->getManager();
+	    $user = $entityManager->getRepository(User::class)->find($currentUser->getId());
 	    $packages = $entityManager->getRepository(Payment::class)->findBy(array('adminPayment'=>true));
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $payment = $entityManager->getRepository(Payment::class)->find($request->get('my_radio'));
-	        $currentUser->setPackage($payment);
+            $payment = $user->getPackage();
 	        $post->setExpiredDate($post->getDate()->add(\DateInterval::createfromdatestring('+'.$payment->getVisibleDays().' day')));
             if ($form->get('date')->getData() < date("y-m-d", strtotime("today"))) {
                 $form->get('date')->addError(new FormError("La fecha de debe ser mayor que la fecha acual"));
@@ -52,8 +53,9 @@ class JobController extends Controller
             }
             
             $post->setIsService(false);
+	        $user->setNumPosts($user->getNumPosts()-1);
             $entityManager->flush();
-            $post->setUser($currentUser);
+            $post->setUser($user);
             $post->setDateCreated(new \DateTime("now"));
             $entityManager->persist($post);
             $entityManager->flush();

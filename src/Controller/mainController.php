@@ -83,6 +83,8 @@
 				'packages' => $packages,
 			]);
 		}
+		
+		
 		/**
 		 * @Route("/checkout/{packId}",name="checkout")
 		 */

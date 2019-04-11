@@ -216,9 +216,14 @@
 		private $anouncements;
 		
 		/**
-		 * @ORM\Column(type="date", nullable=true)
+		 * @ORM\Column(type="datetime", nullable=true)
 		 */
 		private $date_of_purchase;
+		
+		/**
+		 * @ORM\Column(type="integer", nullable=true)
+		 */
+		private $num_posts;
 		
 		
 		public function __construct()
@@ -1010,14 +1015,26 @@
 			return $this;
 		}
 		
-		public function getDateOfPurchase(): ?\DateTimeInterface
+		public function getDateOfPurchase()
 		{
 			return $this->date_of_purchase;
 		}
 		
-		public function setDateOfPurchase(\DateTimeInterface $date_of_purchase): self
+		public function setDateOfPurchase( $date_of_purchase): self
 		{
 			$this->date_of_purchase = $date_of_purchase;
+			
+			return $this;
+		}
+		
+		public function getNumPosts(): ?int
+		{
+			return $this->num_posts;
+		}
+		
+		public function setNumPosts(?int $num_posts): self
+		{
+			$this->num_posts = $num_posts;
 			
 			return $this;
 		}
