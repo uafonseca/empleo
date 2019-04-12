@@ -87,6 +87,8 @@ class JobController extends Controller
 			'jobs' => $pagination->paginate($em->getRepository(Job::class)->searchByCategory($category),$request->query->getInt('page', 1),10),
 			'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
 			'search'=>1,
+			'categorys' => $this->container->get('app.service.helper')->loadCategorys(),
+			'locations' => $this->container->get('app.service.helper')->loadLocations(),
 		));
 	}
 	/**
@@ -99,6 +101,8 @@ class JobController extends Controller
 			'jobs' => $pagination->paginate($em->getRepository(Job::class)->searchByLocation($location),$request->query->getInt('page', 1),10),
 			'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
 			'search'=>1,
+			'categorys' => $this->container->get('app.service.helper')->loadCategorys(),
+			'locations' => $this->container->get('app.service.helper')->loadLocations(),
 		));
 	}
 	/**
@@ -111,6 +115,8 @@ class JobController extends Controller
 			'jobs' => $pagination->paginate($em->getRepository(Job::class)->searchByCity($city),$request->query->getInt('page', 1),10),
 			'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
 			'search'=>1,
+			'categorys' => $this->container->get('app.service.helper')->loadCategorys(),
+			'locations' => $this->container->get('app.service.helper')->loadLocations(),
 		));
 	}
 	/**
@@ -123,6 +129,8 @@ class JobController extends Controller
 			'jobs' => $pagination->paginate($em->getRepository(Job::class)->searchByCompany($company),$request->query->getInt('page', 1),10),
 			'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
 			'search'=>1,
+			'categorys' => $this->container->get('app.service.helper')->loadCategorys(),
+			'locations' => $this->container->get('app.service.helper')->loadLocations(),
 		));
 	}
     /**
@@ -140,6 +148,8 @@ class JobController extends Controller
 		        'jobs' => $pagination->paginate($em->getRepository(Job::class)->search($keywords,$location),$request->query->getInt('page', 1),10),
 		        'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
 		        'search'=>1,
+		        'categorys' => $this->container->get('app.service.helper')->loadCategorys(),
+		        'locations' => $this->container->get('app.service.helper')->loadLocations(),
 	        ));
         }
     }

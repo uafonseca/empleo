@@ -28,7 +28,8 @@ class Job
     private $title;
     /**
      * @Assert\NotBlank
-     * @ORM\ManyToOne(targetEntity="Category")
+     * @ORM\ManyToOne(targetEntity="Category",cascade={"persist"})
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $category;
 
@@ -206,7 +207,8 @@ class Job
     private $applications = [];
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="jobAppiled")
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="jobAppiled",cascade={"remove"})
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $users;
 

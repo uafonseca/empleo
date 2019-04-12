@@ -32,8 +32,7 @@ class Notification
     private $date;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User")
-     *
+     * @ORM\ManyToOne(targetEntity="User",cascade={"remove"})
      */
     private $user;
     /**

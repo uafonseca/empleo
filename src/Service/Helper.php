@@ -45,10 +45,18 @@
 					return null;
 				}
 			}
-			return array(
-				'days' => $currentUser->getDateOfPurchase()->diff(new \DateTime())->format('%a'),
-				'public' => $currentUser->getNumPosts(),
-			);
+			if ($currentUser->getDateOfPurchase() != null) {
+				return array(
+					'days' => $currentUser->getDateOfPurchase()->diff(new \DateTime())->format('%a'),
+					'public' => $currentUser->getNumPosts(),
+				);
+			} else {
+				return array(
+					'days' => 0,
+					'public' => $currentUser->getNumPosts(),
+				);
+			}
+			
 		}
 		
 		public function loadNotifications()

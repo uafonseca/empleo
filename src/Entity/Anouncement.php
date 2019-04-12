@@ -134,7 +134,7 @@ class Anouncement
     private $status;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="anouncements")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="anouncements",cascade={"remove"})
      */
     private $User;
     

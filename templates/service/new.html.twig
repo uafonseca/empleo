@@ -35,7 +35,7 @@
             <div class="row no-gliters">
                 <div class="col">
                     <div class="post-container">
-                        <div class="post-content-wrapper">
+                        <div class="post-content-wrapper" style="{% if expired is null %}pointer-events: none;{% elseif expired.public == 0 %} pointer-events: none; {% endif %}">
                             {{ form_start(form, {attr: {'class': 'job-post-form','id':'job-form'} }) }}
                             <div class="basic-info-input">
                                 <h4><i data-feather="plus-circle"></i>Detallar
