@@ -4,6 +4,7 @@
 	
 	use App\constants;
 	use App\Entity\Job;
+	use function Deployer\add;
 	use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 	use Symfony\Bridge\Doctrine\RegistryInterface;
 	
@@ -31,15 +32,18 @@
 				->getQuery()
 				->getResult();
 		}
-		public function getCountCategory($key){
+		
+		public function getCountCategory($key)
+		{
 			return $this->createQueryBuilder('c')
 				->select('count(c) as count')
-				->innerJoin('c.category','category')
+				->innerJoin('c.category', 'category')
 				->where('category.name LIKE :key')
-				->setParameter('key','%'.$key.'%')
+				->setParameter('key', '%'.$key.'%')
 				->getQuery()
 				->getOneOrNullResult();
 		}
+		
 		public function countJob($user)
 		{
 			return count(
@@ -113,11 +117,13 @@
 				->getQuery()
 				->getOneOrNullResult();
 		}
-		public function listServices(){
+		
+		public function listServices()
+		{
 			return $this->createQueryBuilder('j')
 				->where('j.is_service = true')
 				->andWhere('j.status =:status')
-				->setParameter('status',constants::JOB_STATUS_ACTIVE)
+				->setParameter('status', constants::JOB_STATUS_ACTIVE)
 				->getQuery()
 				->getResult();
 		}
@@ -141,55 +147,70 @@
 				->getQuery()
 				->getResult();
 		}
-		public function searchServices($keywords){
+		
+		public function searchServices($keywords)
+		{
 			$qb = $this->createQueryBuilder('j');
 			if ($keywords) {
 				$qb->andWhere('j.title LIKE :key OR j.description LIKE :key')
 					->setParameter('key', '%'.$keywords.'%');
 				$qb->andWhere('j.status = :status')
-					->setParameter('status',constants::JOB_STATUS_ACTIVE)
+					->setParameter('status', constants::JOB_STATUS_ACTIVE)
 					->andWhere('j.is_service = true');
+				
 				return $qb->orderBy('j.expiredDate', 'DESC')
 					->getQuery()
 					->getResult();
 			}
 		}
 		
-		public function searchByCategory($category){
+		public function searchByCategory($category)
+		{
 			$qb = $this->createQueryBuilder('j')
 				->where('j.category =:name')
-				->setParameter('name',$category)
+				->setParameter('name', $category)
 				->andWhere('j.is_service = false or j.is_service is null')
 				->andWhere('j.status = :status')
-				->setParameter('status',constants::JOB_STATUS_ACTIVE)
-				->orderBy('j.dateCreated','DESC');
+				->setParameter('status', constants::JOB_STATUS_ACTIVE)
+				->orderBy('j.dateCreated', 'DESC');
+			
 			return $qb->getQuery()
 				->getResult();
 		}
-		public function searchByLocation($location){
+		
+		public function searchByLocation($location)
+		{
 			$qb = $this->createQueryBuilder('j');
 			$qb->where('j.localtion =:location')
-				->setParameter('location',$location)
-				->orderBy('j.dateCreated','DESC');
+				->setParameter('location', $location)
+				->orderBy('j.dateCreated', 'DESC');
+			
 			return $qb->getQuery()
 				->getResult();
 		}
-		public function searchByCity($city){
+		
+		public function searchByCity($city)
+		{
 			$qb = $this->createQueryBuilder('j');
 			$qb->where('j.city =:city')
-				->setParameter('city',$city)
-				->orderBy('j.dateCreated','DESC');
+				->setParameter('city', $city)
+				->orderBy('j.dateCreated', 'DESC');
+			
 			return $qb->getQuery()
 				->getResult();
 		}
-		public function searchByCompany($company){
+		
+		public function searchByCompany($company)
+		{
 			$qb = $this->createQueryBuilder('j');
 			$qb->where('j.company_name =:company')
-				->setParameter('company',$company)
-				->orderBy('j.dateCreated','DESC');
+				->setParameter('company', $company)
+				->orderBy('j.dateCreated', 'DESC');
+			
 			return $qb->getQuery()
 				->getResult();
 		}
+		
 		public function search($keywords, $location)
 		{
 			$qb = $this->createQueryBuilder('j');
@@ -202,7 +223,7 @@
 					->setParameter('key', '%'.$keywords.'%');
 			}
 			$qb->andWhere('j.status = :status')
-				->setParameter('status',constants::JOB_STATUS_ACTIVE);
+				->setParameter('status', constants::JOB_STATUS_ACTIVE);
 			
 			return $qb
 				->andWhere('j.is_service = false')
@@ -211,28 +232,38 @@
 				->getQuery()
 				->getResult();
 		}
-		public function searchCatAndLocation($category, $location,$gender)
+		
+		public function searchCatAndLocation($category, $location, $gender, $experience, $time)
 		{
 			$qb = $this->createQueryBuilder('j');
-			if ($category) {
+			if ($category != null) {
 				$qb->andWhere('j.category =: key ')
 					->setParameter('key', '%'.$category.'%');
 			}
-			if ($location) {
+			if ($location != null) {
 				$qb->orWhere('j.your_localtion LIKE :key OR j.localtion LIKE :key')
-					->setParameter('key', '%'.$category.'%');
+					->setParameter('key', '%'.$location.'%');
 			}
-			if ($gender) {
+			if ($gender != null) {
 				$qb->orWhere('j.gender LIKE :key')
 					->setParameter('key', '%'.$gender.'%');
 			}
+			if ($experience != null) {
+				$qb->orWhere('j.experience LIKE :key')
+					->setParameter('key', '%'.$experience.'%');
+			}
+//			if ($time > 0) {
+//				$newTime = date("Ymd H: m: s", strtotime('- '.$time.' hours', time()));
+//				$qb->orWhere('j.dateCreated < :key')
+//					->setParameter('key', $newTime);
+//			}
 			$qb->andWhere('j.status = :status')
-				->setParameter('status',constants::JOB_STATUS_ACTIVE);
+				->setParameter('status', constants::JOB_STATUS_ACTIVE);
 			
 			return $qb
 				->andWhere('j.is_service = false')
 				->orWhere('j.is_service is NULL')
-				->orderBy('j.expiredDate', 'DESC')
+				->orderBy('j.dateCreated', 'DESC')
 				->getQuery()
 				->getResult();
 		}
@@ -290,6 +321,7 @@
 				->getQuery()
 				->getResult();
 		}
+		
 		public function finServicesByUser($user)
 		{
 			return $this->createQueryBuilder('j')
@@ -320,7 +352,7 @@
 				->getQuery()
 				->getResult();
 		}
-		
+
 //		public function updateExpired()
 //		{
 //			$this->createQueryBuilder('j')

@@ -45,7 +45,7 @@
                                     {% for j in jobs %}
                                         <tr class="job-items">
                                             <td class="title">
-                                                <h5><a href="#">{{ j.title }}</a></h5>
+                                                <h5><a href="{{ path('service_view', {'id': j.id}) }}">{{ j.title }}</a></h5>
                                                 <div class="info">
                                                     <span class="office-location"><a href="#"><i data-feather="map-pin"></i>{{ j.Location }}</a></span>
                                                     {% if j.type == 'partial' %}

@@ -11,6 +11,8 @@
 	use App\Entity\Category;
 	use App\Entity\Job;
 	use App\Entity\Notification;
+	use App\Entity\Profession;
+	use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 	use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 //	use Vich\UploaderBundle\Naming\DirectoryNamerInterface;
 	use Vich\UploaderBundle\Mapping\PropertyMapping;
@@ -93,6 +95,11 @@
 			}
 			
 			return $ouput;
+		}
+		public function loadProfessions()
+		{
+			$em = $this->getDoctrine()->getManager();
+			return $em->getRepository(Profession::class)->findAll();
 		}
 		
 		public function loadLocations()

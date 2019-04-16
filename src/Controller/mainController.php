@@ -125,7 +125,6 @@
 		public function index(
 			AuthorizationCheckerInterface $authChecker
 		): Response {
-			$this->updateJobsFiles();
 			$verificated = $this->verificateUser($authChecker);
 			$em = $this->getDoctrine()->getManager();
 			$this->container->get('app.service.checker')->checkJobs();

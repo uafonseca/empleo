@@ -1,0 +1,132 @@
+{% extends 'site/base.html.twig' %}
+{% block title %}Servicios{% endblock %}
+{% block body %}
+    {% include 'site/header.html.twig' %}
+    <!-- Candidates Details -->
+    <div class="alice-bg padding-top-60 section-padding-bottom">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="job-listing-details">
+                        <div class="job-title-and-info">
+                            <div class="title">
+                                <div class="thumb">
+                                    <img src="{{asset('site/images/upload/company/images_stored/')~'_user_'~job.user.id~'/'~ job.image  }}" class="img-fluid" alt="">
+                                </div>
+                                <div class="title-body">
+                                    <h4>{{ job.title }}
+                                        {% if job.user.package != 'payment_basic' %}
+                                            {#<span class="span-dest">DESTACADO</span>#}
+                                        {% endif %}
+                                    </h4>
+                                    <div class="info">
+                                        <span class="company"><a href="#"><i data-feather="briefcase"></i>{{ job.profession.name }}</a></span>
+                                        <span class="office-location"><a href="#"><i data-feather="map-pin"></i>{{ job.location }}</a></span>
+                                        {% if job.type == 'partial' %}
+                                            <span class="job-type part-time"><a href="#"><i data-feather="clock"></i>A tiempo parcial</a></span>
+                                        {% endif %}
+                                        {% if job.type == 'ful' %}
+                                            <span class="job-type full-time"><a href="#"><i data-feather="clock"></i>A tiempo completo</a></span>
+                                        {% endif %}
+                                        {% if job.type == 'temporary' %}
+                                            <span class="job-type temporary"><a href="#"><i data-feather="clock"></i>Temporal</a></span>
+                                        {% endif %}
+                                        {% if job.type == 'freelance' %}
+                                            <span class="job-type freelance"><a href="#"><i data-feather="clock"></i>Independiente</a></span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% if not is_granted('ROLE_ADMIN') %}
+                                <div class="buttons">
+                                    {#<a class="save" href="#"><i data-feather="heart"></i>Guardar Empleo</a>#}
+                                    <a onclick="bookMark('{{ job.id }}')" class="favourite button save {% if job.id in app.user.bookmarked %}active{% endif %} "><i data-feather="heart"></i>Guardar Empleo</a>
+                                    <a id="applied-btn-{{ job.id }}"
+                                       onclick="applied('{{ job.id }}')" class="apply button">{% if job.id in app.user.applied %}Cancelar{% else %}Aplica ya!{% endif %}</a>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="details-information section-padding-60">
+                            <div class="row">
+                                <div class="col-xl-7 col-lg-8">
+                                    <div class="description details-section">
+                                        <h4><i data-feather="align-left"></i>Descripción del empleo</h4>
+                                        <p>{{ job.description }}</p>
+                                    </div>
+                                    <div class="job-apply-buttons">
+                                        {% if not is_granted('ROLE_ADMIN') %}
+                                            <a href="#" class="email"><i data-feather="mail"></i>Enviar email</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 offset-xl-1 col-lg-4">
+                                    <div class="information-and-share">
+                                        <div class="job-summary">
+                                            <h4>Resumen del empleo</h4>
+                                            <ul>
+                                                <li><span>Publicado el:</span> {{ job.date|date('F d, Y') }}</li>
+                                                {#<li><span>Vacancy:</span> 08</li>#}
+                                                <li><span>Estado del Empleo:
+                                                {% if job.type == 'partial' %}
+                                                    </span> A tiempo parcial</li>
+                                                {% endif %}
+                                                {% if job.type == 'ful' %}
+                                                    </span> A tiempo completo</li>
+                                                {% endif %}
+                                                {% if job.type == 'temporary' %}
+                                                    </span> Temporal</li>
+                                                {% endif %}
+                                                {% if job.type == 'freelance' %}
+                                                    </span> Independiente</li>
+                                                {% endif %}
+                                                <li><span>Experiencia:</span>{{ job.experience }}</li>
+                                                <li><span>Localización del empleo:</span> {{ job.location }}</li>
+                                                <li><span>Salario:</span> ${{ job.value }}</li>
+                                                <li><span>Expira:</span>{{ job.expiredDate|date('F d, Y') }}</li>
+                                            </ul>
+                                        </div>
+                                        <div class="share-job-post">
+                                            <span class="share"><i class="fas fa-share-alt"></i>Compartir:</span>
+                                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                            <a href="#"><i class="fab fa-twitter"></i></a>
+                                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                            {#<a href="#"><i class="fab fa-google-plus-g"></i></a>#}
+                                            <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                                            {#<a href="#" class="add-more"><span class="ti-plus"></span></a>#}
+                                        </div>
+                                        <div class="buttons">
+                                            {% if not is_granted('ROLE_ADMIN') %}
+                                                <a href="#" class="button report"><i data-feather="flag"></i>Reortar empleo</a>
+                                            {% endif %}
+                                        </div>
+                                        <div class="job-location">
+                                            <h4>Localización</h4>
+                                            <div id="map-area">
+                                                <div class="cp-map" id="location" data-lat="40.713355" data-lng="-74.005535" data-zoom="10"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {#<div class="row">#}
+                            {#<div class="col-xl-7 col-lg-8">#}
+                                {#<div class="company-information details-section">#}
+                                    {#<h4><i data-feather="briefcase"></i>Información de la compañía</h4>#}
+                                    {#<ul>#}
+                                        {#<li><span>Nombre de la compañía:</span> {{ job.companyName }}</li>#}
+                                        {#<li><span>Dirección:</span> {{ job.yourLocaltion }}</li>#}
+                                        {#<li><span>Sitio web:</span> <a href="{{ job.webAddress }}">{{ job.webAddress }}</a></li>#}
+                                        {#<li><span>Descripción:</span></li>#}
+                                        {#<li>{{ job.campanyProfile }}</li>#}
+                                    {#</ul>#}
+                                {#</div>#}
+                            {#</div>#}
+                        {#</div>#}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

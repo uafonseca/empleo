@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\constants;
 use App\Entity\Anouncement;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -18,7 +19,36 @@ class AnouncementRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Anouncement::class);
     }
-
+	public function searchByFilters($profesion,
+		$location,
+		$gender,
+		$experience){
+		$qb = $this->createQueryBuilder('j');
+		if ($profesion != null) {
+			$qb->andWhere('j.profession =: key ')
+				->setParameter('key', '%'.$profesion.'%');
+		}
+		if ($location != null) {
+			$qb->orWhere('j.Location LIKE :key')
+				->setParameter('key', '%'.$location.'%');
+		}
+		if ($gender != null) {
+			$qb->orWhere('j.gender LIKE :key')
+				->setParameter('key', '%'.$gender.'%');
+		}
+		if ($experience != null) {
+			$qb->orWhere('j.experience LIKE :key')
+				->setParameter('key', '%'.$experience.'%');
+		}
+		$qb->andWhere('j.status = :status')
+			->setParameter('status', constants::JOB_STATUS_ACTIVE);
+		
+		return $qb
+			->orderBy('j.date', 'DESC')
+			->getQuery()
+			->getResult();
+		
+	}
     // /**
     //  * @return Anouncement[] Returns an array of Anouncement objects
     //  */

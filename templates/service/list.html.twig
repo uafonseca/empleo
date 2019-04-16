@@ -1,9 +1,7 @@
 {% extends 'site/base.html.twig' %}
-{% block title %}Trabajos{% endblock %}
+{% block title %}Servicios{% endblock %}
 {% block body %}
-    {{  include ('site/header.html.twig',{'notifications': notifications}  )}}
-
-    <!-- Breadcrumb -->
+    {{ include ('site/header.html.twig',{'notifications': notifications}  ) }}
     <div class="alice-bg padding-top-70 padding-bottom-70">
         <div class="container">
             <div class="row">
@@ -31,253 +29,109 @@
             </div>
         </div>
     </div>
-    <!-- Breadcrumb End -->
-
-
-
-    <!-- Job Listing -->
     <div class="alice-bg section-padding-bottom">
         <div class="container">
             <div class="row no-gutters">
                 <div class="col container">
                     <div class="job-listing-container">
-                        <div class="filtered-job-listing-wrapper">
-                            <div class="job-view-controller-wrapper">
-                                <div class="job-view-controller">
-                                    <div class="controller list active">
-                                        <i data-feather="menu"></i>
-                                    </div>
-                                    <div class="controller grid">
-                                        <i data-feather="grid"></i>
-                                    </div>
-                                </div>
-                                <div class="showing-number">
-                                    <div class="">
-                                        Total encontrados({{ jobs.getTotalItemCount }})
-                                    </div>
-
-                                </div>
+                        <div id="container-jobs" class="filtered-job-listing-wrapper">
+                                {% include 'service/loop.html.twig' %}
                             </div>
-
-                            <div class="job-filter-result">
-                                {% if search is not defined %}
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-2"></div>
-                                        <div class="col-3">
-                                            <div class="sort">
-                                                <i class="fa fa-fw fa-sort"></i>
-                                                {% if jobs|length %}{{ knp_pagination_sortable(jobs, 'Título', 'title') }}{% endif %}
-                                            </div>
-                                        </div>
-                                        <div class="col-4">
-                                            <div class="sort">
-                                                <i class="fa fa-fw fa-sort"></i>
-                                                {% if jobs|length %}{{ knp_pagination_sortable(jobs, 'Compañía','CompanyName') }}{% endif %}
-                                            </div>
-                                        </div>
-                                        <div class="col-3">
-                                            <div class="sort">
-                                                <i class="fa fa-fw fa-sort"></i>
-                                                {% if jobs|length %}{{ knp_pagination_sortable(jobs, 'Fecha', 'expiredDate') }}{% endif %}
-                                            </div>
-
-                                        </div>
+                            <div class="job-filter-wrapper">
+                                <div class="selected-options">
+                                    <div class="selection-title">
+                                        <h4>Selección</h4>
+                                        <a href="#">Limpiar</a>
                                     </div>
+                                    <ul id="auto" class="filtered-options">
+                                    </ul>
                                 </div>
-                                {% endif %}
-                                {% if jobs|length == 0 %}
-                                    <h4 style="text-align: center">Ups! No hemos encontrado nada aquí</h4>
-                                {% endif %}
-                                {% for j in jobs %}
-                                    <div class="job-list row">
-                                        <div class="thumb">
-                                            <a href="{{ path('job_show', {'id': j.id}) }}">
-                                                <img src="{{ asset('site/images/upload/company/')~'_user_'~j.user.id~'/'~ j.image }}" class="img-fluid" alt="{{ j.title }}">
-                                            </a>
-                                        </div>
-                                        <div class="body">
-                                            <div class="content">
-                                                <h4><a href="{{ path('job_show', {'id': j.id}) }}">{{ j.title }}
-                                                        {% if j.user.package != 'payment_basic' %}
-                                                            <span class="span-dest">DESTACADO</span>
-                                                        {% endif %}
-                                                    </a></h4>
-                                                <div class="info">
-                                                    <span class="company"><a><i data-feather="briefcase"></i>{{ j.user.username }}</a></span>
-                                                    <span class="office-location"><a><i data-feather="map-pin"></i>{{ j.yourLocaltion }}</a></span>
-                                                    {% if j.type == 'partial' %}
-                                                        <span class="job-type part-time"><a ><i data-feather="clock"></i>A tiempo parcial</a></span>
-                                                    {% endif %}
-                                                    {% if j.type == 'ful' %}
-                                                        <span class="job-type full-time"><a><i data-feather="clock"></i>A tiempo completo</a></span>
-                                                    {% endif %}
-                                                    {% if j.type == 'temporary' %}
-                                                        <span class="job-type temporary"><a ><i data-feather="clock"></i>Temporal</a></span>
-                                                    {% endif %}
-                                                    {% if j.type == 'freelance' %}
-                                                        <span class="job-type freelance"><a ><i data-feather="clock"></i>Independiente</a></span>
-                                                    {% endif %}
-                                                </div>
-                                            </div>
-                                            <div class="more">
-                                                <div class="buttons">
-                                                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                                                    <a id="applied-btn-{{ j.id }}"
-                                                       onclick="applied('{{ j.id }}')" class="button">{% if j.id in app.user.applied %}Cancelar{% else %}Contactar!{% endif %}</a>
-                                                    <a onclick="bookMark('{{ j.id }}')" class="favourite {% if j.id in app.user.bookmarked %}active{% endif %} "><i data-feather="heart"></i></a>
-                                                    {% else %}
-                                                        <a data-toggle="modal" data-target="#modal-login"  class="button">Contactar!</a>
-                                                        {#<a  class="favourite"><i data-feather="heart"></i></a>#}
-                                                    {% endif %}
-                                                </div>
-                                                <p class="deadline">{{ j.dateCreated|localizeddate('short', 'none', 'en')}}</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 job-about">
-                                            <p> {{ j.description| easyadmin_truncate(200)}}</p>
-                                        </div>
-                                    </div>
-                                {% endfor %}
+                                <div class="job-filter-dropdown category">
+                                    <select id="category-filter" class="selectpicker" onchange="findByFiltersServices()">
+                                        {% for c in professions %}
+                                            <option value="{{ c.name }}">{{ c.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                {#<div class="job-filter-dropdown location" >#}
+                                    {#<select id="location-filter" class="selectpicker" onchange="findByFiltersServices()">#}
+                                        {#{% for l in locations %}#}
+                                            {#<option value="{{ l.name }}">{{ l.name }}</option>#}
+                                        {#{% endfor %}#}
+                                    {#</select>#}
+                                {#</div>#}
+
+                                <div data-id="experience" class="job-filter experience">
+                                    <h4 class="option-title">Experiencia</h4>
+                                    <ul onclick="findByFiltersServices()">
+                                        <li><a href="#" data-attr="Un año">Un año</a></li>
+                                        <li><a href="#" data-attr="De uno a 2 años">De uno a 2 años</a></li>
+                                        <li><a href="#" data-attr="De 2 a 3 años">De 2 a 3 años</a></li>
+                                        <li><a href="#" data-attr="Más de 3 años">Más de 3 años</a></li>
+                                    </ul>
+                                </div>
+                                <div data-id="post" class="job-filter post">
+                                    <h4 class="option-title">Fecha de publicación</h4>
+                                    <ul onclick="findByFiltersServices()">
+                                        <li><a href="#" data-attr="Última hora">Última hora</a></li>
+                                        <li><a href="#" data-attr="Últimas 24 horas">Últimas 24 horas</a></li>
+                                        <li><a href="#" data-attr="Últimos 7 días">Últimos 7 días</a></li>
+                                        <li><a href="#" data-attr="Últimos 14 días">Últimos 14 días</a></li>
+                                        <li><a href="#" data-attr="Últimos 30 días">Últimos 30 días</a></li>
+                                    </ul>
+                                </div>
                             </div>
                             <div class="account-entry">
-                            <div class="modal fade modal-open" id="modal-login"  tabindex="-1" role="dialog" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header text-center">
-                                            <h4 class="modal-title"><i data-feather="user"></i>Debes iniciar sesión</h4>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body mx-3">
-                                            <form class="" id="login-form" method="post" action="{{ path("fos_user_security_check") }}">
-                                                <div class="md-form mb-5">
-                                                    <input type="text" value="" name="_username" id="inputUsername" class="form-control validate" placeholder="Usuario o dirección de correo electrónico" required autofocus>
-                                                </div>
-                                                <div class="md-form mb-5">
-                                                    <input type="password" name="_password" id="inputPassword" class="form-control" placeholder="Contraseña" required>
-                                                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                                                </div>
-                                                <button id="_submit" type="submit" class="button primary-bg btn-block">Entrar</button>
-                                            </form>
-                                            <p>¿No tiene una cuenta? <a href="{{ path('app_register') }}">Registrarse </a></p>
+                                <div class="modal fade modal-open" id="modal-login" tabindex="-1" role="dialog"
+                                     aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header text-center">
+                                                <h4 class="modal-title"><i data-feather="user"></i>Debes iniciar sesión
+                                                </h4>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body mx-3">
+                                                <form class="" id="login-form" method="post"
+                                                      action="{{ path("fos_user_security_check") }}">
+                                                    <div class="md-form mb-5">
+                                                        <input type="text" value="" name="_username" id="inputUsername"
+                                                               class="form-control validate"
+                                                               placeholder="Usuario o dirección de correo electrónico"
+                                                               required autofocus>
+                                                    </div>
+                                                    <div class="md-form mb-5">
+                                                        <input type="password" name="_password" id="inputPassword"
+                                                               class="form-control" placeholder="Contraseña" required>
+                                                        <input type="hidden" name="_csrf_token"
+                                                               value="{{ csrf_token('authenticate') }}">
+                                                    </div>
+                                                    <button id="_submit" type="submit"
+                                                            class="button primary-bg btn-block">Entrar
+                                                    </button>
+                                                </form>
+                                                <p>¿No tiene una cuenta? <a href="{{ path('app_register') }}">Registrarse </a>
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                             </div>
                             {{ knp_pagination_render(jobs) }}
                         </div>
-                        {#<div class="job-filter-wrapper">#}
-                            {#<div class="selected-options">#}
-                                {#<div class="selection-title">#}
-                                    {#<h4>You Selected</h4>#}
-                                    {#<a href="#">Clear All</a>#}
-                                {#</div>#}
-                                {#<ul class="filtered-options">#}
-                                {#</ul>#}
-                            {#</div>#}
-                            {#<div class="job-filter-dropdown category">#}
-                                {#<select class="selectpicker">#}
-                                    {#<option value="" selected>Categoría</option>#}
-                                    {#<option value="california">Accounting / Finance</option>#}
-                                    {#<option value="california">Education</option>#}
-                                    {#<option value="california">Design &amp; Creative</option>#}
-                                    {#<option value="california">Health Care</option>#}
-                                    {#<option value="california">Engineer &amp; Architects</option>#}
-                                    {#<option value="california">Marketing &amp; Sales</option>#}
-                                    {#<option value="california">Garments / Textile</option>#}
-                                    {#<option value="california">Customer Support</option>#}
-                                    {#<option value="california">Digital Media</option>#}
-                                    {#<option value="california">Telecommunication</option>#}
-                                {#</select>#}
-                            {#</div>#}
-                            {#<div class="job-filter-dropdown location">#}
-                                {#<select class="selectpicker">#}
-                                    {#<option value="" selected>Ubicación</option>#}
-                                    {#<option value="california">Chicago</option>#}
-                                    {#<option value="california">New York City</option>#}
-                                    {#<option value="california">San Francisco</option>#}
-                                    {#<option value="california">Washington</option>#}
-                                    {#<option value="california">Boston</option>#}
-                                    {#<option value="california">Los Angeles</option>#}
-                                    {#<option value="california">Seattle</option>#}
-                                    {#<option value="california">Las Vegas</option>#}
-                                    {#<option value="california">San Diego</option>#}
-                                {#</select>#}
-                            {#</div>#}
-                            {#<div data-id="job-type" class="job-filter job-type">#}
-                                {#<h4 class="option-title">Tipo de empleo</h4>#}
-                                {#<ul>#}
-                                    {#<li class="full-time"><i data-feather="clock"></i><a href="#" data-attr="Full Time">Full Time</a></li>#}
-                                    {#<li class="part-time"><i data-feather="clock"></i><a href="#" data-attr="Part Time">Part Time</a></li>#}
-                                    {#<li class="freelance"><i data-feather="clock"></i><a href="#" data-attr="Freelance">Freelance</a></li>#}
-                                    {#<li class="temporary"><i data-feather="clock"></i><a href="#" data-attr="Temporary">Temporary</a></li>#}
-                                {#</ul>#}
-                            {#</div>#}
-                            {#<div data-id="experience" class="job-filter experience">#}
-                                {#<h4 class="option-title">Experiencia</h4>#}
-                                {#<ul>#}
-                                    {#<li><a href="#" data-attr="Fresh">Fresh</a></li>#}
-                                    {#<li><a href="#" data-attr="Less than 1 year">Less than 1 year</a></li>#}
-                                    {#<li><a href="#" data-attr="2 Year">2 Year</a></li>#}
-                                    {#<li><a href="#" data-attr="3 Year">3 Year</a></li>#}
-                                    {#<li><a href="#" data-attr="4 Year">4 Year</a></li>#}
-                                    {#<li><a href="#" data-attr="5 Year">5 Year</a></li>#}
-                                    {#<li><a href="#" data-attr="Avobe 5 Years">Avobe 5 Years</a></li>#}
-                                {#</ul>#}
-                            {#</div>#}
-                            {#<div class="job-filter">#}
-                                {#<h4 class="option-title">Rango de salario</h4>#}
-                                {#<div class="price-range-slider">#}
-                                    {#<div class="nstSlider" data-range_min="0" data-range_max="10000"#}
-                                         {#data-cur_min="0"    data-cur_max="6130">#}
-                                        {#<div class="bar"></div>#}
-                                        {#<div class="leftGrip"></div>#}
-                                        {#<div class="rightGrip"></div>#}
-                                        {#<div class="grip-label">#}
-                                            {#<span class="leftLabel"></span>#}
-                                            {#<span class="rightLabel"></span>#}
-                                        {#</div>#}
-                                    {#</div>#}
-                                {#</div>#}
-                            {#</div>#}
-                            {#<div data-id="post" class="job-filter post">#}
-                                {#<h4 class="option-title">Fecha</h4>#}
-                                {#<ul>#}
-                                    {#<li><a href="#" data-attr="Last hour">Last hour</a></li>#}
-                                    {#<li><a href="#" data-attr="Last 24 hour">Last 24 hour</a></li>#}
-                                    {#<li><a href="#" data-attr="Last 7 days">Last 7 days</a></li>#}
-                                    {#<li><a href="#" data-attr="Last 14 days">Last 14 days</a></li>#}
-                                    {#<li><a href="#" data-attr="Last 30 days">Last 30 days</a></li>#}
-                                {#</ul>#}
-                            {#</div>#}
-                            {#<div data-id="gender" class="job-filter gender">#}
-                                {#<h4 class="option-title">Género</h4>#}
-                                {#<ul>#}
-                                    {#<li><a href="#" data-attr="Male">Hombre</a></li>#}
-                                    {#<li><a href="#" data-attr="Female">Mujer</a></li>#}
-                                {#</ul>#}
-                            {#</div>#}
-                            {#<div data-id="qualification" class="job-filter qualification">#}
-                                {#<h4 class="option-title">Qualification</h4>#}
-                                {#<ul>#}
-                                    {#<li><a href="#" data-attr="Matriculation">Matriculation</a></li>#}
-                                    {#<li><a href="#" data-attr="Intermidiate">Intermidiate</a></li>#}
-                                    {#<li><a href="#" data-attr="Gradute">Gradute</a></li>#}
-                                {#</ul>#}
-                            {#</div>#}
-                        {#</div>#}
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    {#</div>#}
     <!-- Job Listing End -->
 
     <!-- Call to Action -->
     {% block js %}
         <script src="{{ asset('site/js/utils.js') }}"></script>
+        <script src="{{ asset('site/js/ajax.js') }}"></script>
     {% endblock %}
 {% endblock %}

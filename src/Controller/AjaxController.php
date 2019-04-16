@@ -9,11 +9,16 @@
 	namespace App\Controller;
 	
 	
+	use App\Entity\Anouncement;
 	use App\Entity\Category;
 	use App\Entity\Job;
 	use App\Entity\Metadata;
 	use App\Entity\Notification;
+	use App\Entity\Profession;
 	use App\Entity\Resume;
+	use App\Entity\Service;
+	use function Deployer\add;
+	use http\Client\Response;
 	use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 	use Symfony\Component\HttpFoundation\JsonResponse;
 	use Symfony\Component\HttpFoundation\Request;
@@ -53,11 +58,53 @@
 			$cat = $request->request->get('category');
 			$location = $request->request->get('location');
 			$gender = $request->request->get('gender');
+			$experience = $request->request->get('experience');
+			$post = $request->request->get('post');
+			$time = 0;
+			switch ($post) {
+				case "Última hora":
+					$time = 1;
+					break;
+				case "Últimas 24 horas";
+					$time = 24;
+					break;
+				case "Últimos 7 días";
+					$time = 24 * 7;
+					break;
+				case "Últimos 14 días";
+					$time = 24 * 14;
+					break;
+				case "Últimos 30 días";
+					$time = 24 * 30;
+					break;
+				default:
+					break;
+			}
+			
 			$em = $this->getDoctrine()->getManager();
 			$response = new JsonResponse();
 			$response->setStatusCode(200);
-			$category = $em->getRepository(Category::class)->findOneBy(array('name'=>$cat));
-			$jobs = $em->getRepository(Job::class)->searchCatAndLocation($category, $location,$gender);
+			$category = $em->getRepository(Category::class)->findOneBy(array('name' => $cat));
+			$jobs = $em->getRepository(Job::class)->searchCatAndLocation(
+				$category,
+				$location,
+				$gender,
+				$experience,
+				$time
+			);
+			
+			$t = new \DateTime();
+			$newTime = $t->add(\DateInterval::createFromDateString('-'.$time.' hours'));
+			if ($time > 0) {
+				$i=0;
+				foreach ($jobs as $job) {
+					if ($newTime > $job->getDateCreated()) {
+						unset($jobs[$i]);
+					}
+					$i++;
+				}
+			}
+			
 			$pagination = $this->get('knp_paginator')->paginate(
 				$jobs,
 				$request->query->getInt('page', 1),
@@ -75,6 +122,78 @@
 				)
 			);
 			
+			return $response;
+		}
+		/**
+		 * @Route("/ajax/filters/services", name="ajax_filters_services")
+		 */
+		function searchWithFiltersServices(Request $request)
+		{
+			$profesion = $request->request->get('profesion');
+			$location = $request->request->get('location');
+			$gender = $request->request->get('gender');
+			$experience = $request->request->get('experience');
+			$post = $request->request->get('post');
+			$time = 0;
+			switch ($post) {
+				case "Última hora":
+					$time = 1;
+					break;
+				case "Últimas 24 horas";
+					$time = 24;
+					break;
+				case "Últimos 7 días";
+					$time = 24 * 7;
+					break;
+				case "Últimos 14 días";
+					$time = 24 * 14;
+					break;
+				case "Últimos 30 días";
+					$time = 24 * 30;
+					break;
+				default:
+					break;
+			}
+			
+			$em = $this->getDoctrine()->getManager();
+			$response = new JsonResponse();
+			$response->setStatusCode(200);
+			$p = $em->getRepository(Profession::class)->findOneBy(array('name' => $profesion));
+			$posts = $em->getRepository(Anouncement::class)->searchByFilters(
+				$p,
+				$location,
+				$gender,
+				$experience
+			);
+			
+			$t = new \DateTime();
+			$newTime = $t->add(\DateInterval::createFromDateString('-'.$time.' hours'));
+			if ($time > 0) {
+				$i=0;
+				foreach ($posts as $job) {
+					if ($newTime > $job->getDate()) {
+						unset($posts[$i]);
+					}
+					$i++;
+				}
+			}
+			
+			$pagination = $this->get('knp_paginator')->paginate(
+				$posts,
+				$request->query->getInt('page', 1),
+				10
+			);
+			$pagination->setTemplate('site/pagination.html.twig');
+			$response->setData(
+				array(
+					'response' => $this->render(
+						'service/loop.html.twig',
+						array(
+							'jobs' => $pagination,
+						)
+					)->getContent(),
+				)
+			);
 			return $response;
 		}
 		

@@ -47,10 +47,8 @@
 			$post->setDate(new \DateTime("now"));
 			$form->handleRequest($request);
 			if ($form->isSubmitted() && $form->isValid()) {
-				$payment = $entityManager->getRepository(Payment::class)->find($request->get('my_radio'));
-				$currentUser->setPackage($payment);
 				$post->setExpiredDate(
-					$post->getDate()->add(\DateInterval::createfromdatestring('+'.$payment->getVisibleDays().' day'))
+					$post->getDate()->add(\DateInterval::createfromdatestring('+'.$currentUser->getPackage()->getVisibleDays().' day'))
 				);
 				$post->setDate(new \DateTime("now"));
 				$post->setStatus(constants::JOB_STATUS_ACTIVE);
@@ -60,7 +58,7 @@
 				$entityManager->flush();
 				$notification = new Notification();
 				$notification->setType(constants::NOTIFICATION_JOB_CREATE);
-				$notification->setContext("Empleo creado satisfactoriamente");
+				$notification->setContext("Servicio creado satisfactoriamente");
 				$notification->setUser($this->get('security.token_storage')->getToken()->getUser());
 				$notification->setActive(true);
 				$entityManager->persist($notification);
@@ -85,7 +83,7 @@
 		{
 			$em = $this->getDoctrine()->getManager();
 			$user = $this->get('security.token_storage')->getToken()->getUser();
-			$jobs = $em->getRepository(Anouncement::class)->findBy(array('User' => $user));
+			$jobs = $em->getRepository(Anouncement::class)->findBy(array('User' => $user),array('date'=>'desc'));
 			$pagination = $this->get('knp_paginator')->paginate(
 				$jobs,
 				$request->query->getInt('page', 1),
@@ -104,12 +102,25 @@
 		}
 		
 		/**
+		 * @Route("/service/view/{id}", name="service_view")
+		 */
+		public function serviceView($id){
+			$em= $this->getDoctrine()->getManager();
+			$service = $em->getRepository(Anouncement::class)->find($id);
+			return $this->render('service/view.html.twig',array(
+				'job'=>$service,
+				'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
+				'expired'=>$this->container->get('app.service.helper')->expired(),
+			));
+		}
+		
+		/**
 		 * @Route("/service/list", name="service_list")
 		 */
 		public function serviceList(Request $request)
 		{
 			$em = $this->getDoctrine()->getManager();
-			$jobs = $em->getRepository(Job::class)->listServices();
+			$jobs = $em->getRepository(Anouncement::class)->findBy(array('status'=>constants::JOB_STATUS_ACTIVE));
 			$pagination = $this->get('knp_paginator')->paginate(
 				$jobs,
 				$request->query->getInt('page', 1),
@@ -121,8 +132,8 @@
 				'service/list.html.twig',
 				[
 					'jobs' => $pagination,
-					'locations' => $this->container->get('app.service.helper')->loadLocations(),
 					'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
+					'professions' => $this->container->get('app.service.helper')->loadProfessions(),
 				]
 			);
 		}

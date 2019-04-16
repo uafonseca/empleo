@@ -3,17 +3,40 @@ function findByFilters() {
     data['category'] = $('#category-filter').value;
     data['location'] = $('#location-filter').value;
     data['gender'] = $('#auto .gender a').html();
+    data['experience'] = $('#auto .experience a').html();
+    data['post'] = $('#auto .post a').html();
     $('html, body').css("cursor", "wait");
     $.ajax({
         url: '/ajax/filters',
         data: data,
         type: "POST"
     }).done(function (response) {
-        $('div#container-jobs').empty()
-        $('div#container-jobs').append(response.response)
+        $('div#container-jobs').empty();
+        $('div#container-jobs').append(response.response);
         $('html, body').css("cursor", "auto");
     }).fail(function (data) {
-        console.log(data)
+        console.log(data);
+        $('html, body').css("cursor", "auto");
+    })
+}
+function findByFiltersServices() {
+    let data = {};
+    data['profesion'] = $('#category-filter').value;
+    data['location'] = $('#location-filter').value;
+    data['gender'] = $('#auto .gender a').html();
+    data['experience'] = $('#auto .experience a').html();
+    data['post'] = $('#auto .post a').html();
+    $('html, body').css("cursor", "wait");
+    $.ajax({
+        url: '/ajax/filters/services',
+        data: data,
+        type: "POST"
+    }).done(function (response) {
+        $('div#container-jobs').empty();
+        $('div#container-jobs').append(response.response);
+        $('html, body').css("cursor", "auto");
+    }).fail(function (data) {
+        console.log(data);
         $('html, body').css("cursor", "auto");
     })
 }
