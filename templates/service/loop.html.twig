@@ -16,6 +16,7 @@
     {% if jobs|length == 0 %}
         <h4 style="text-align: center">Ups! No hemos encontrado nada aquí</h4>
     {% endif %}
+<div class="job-filter-result">
     {% for j in jobs %}
         <div class="job-list row">
             <div class="thumb">
@@ -26,7 +27,8 @@
             <div class="body">
                 <div class="content">
                     <h4><a href="{{ path('service_view', {'id': j.id}) }}">{{ j.title }}
-                            {% if j.user.package != 'payment_basic' %}
+                            {%  set max_date = j.date|date_modify("+"~j.user.package.daysImportants~" day") %}
+                            {% if  max_date|date('Y-m-d') >= "now"|date('Y-m-d')%}
                                 <span class="span-dest">DESTACADO</span>
                             {% endif %}
                         </a></h4>
@@ -66,3 +68,4 @@
             </div>
         </div>
     {% endfor %}
+</div>

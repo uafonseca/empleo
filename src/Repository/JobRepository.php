@@ -26,8 +26,6 @@
 				->andWhere('j.expiredDate >= :val')
 				->setParameter('val', new \DateTime())
 				->orderBy('j.expiredDate', 'ASC')
-				->andWhere('j.is_service = false')
-				->orWhere('j.is_service is NULL')
 				->setMaxResults(10)
 				->getQuery()
 				->getResult();
@@ -59,8 +57,6 @@
 		{
 			return $this->createQueryBuilder('j')
 				->select('j.localtion as name')
-				->where('j.is_service = false')
-				->orWhere('j.is_service is null')
 				->distinct()
 				->getQuery()
 				->getResult();
@@ -70,8 +66,6 @@
 		{
 			return $this->createQueryBuilder('j')
 				->select('j.city as name')
-				->where('j.is_service = false')
-				->orWhere('j.is_service is null')
 				->distinct()
 				->getQuery()
 				->getResult();
@@ -81,8 +75,6 @@
 		{
 			return $this->createQueryBuilder('j')
 				->select('j.company_name as name')
-				->where('j.is_service = false')
-				->orWhere('j.is_service is null')
 				->distinct()
 				->getQuery()
 				->getResult();
@@ -121,7 +113,6 @@
 		public function listServices()
 		{
 			return $this->createQueryBuilder('j')
-				->where('j.is_service = true')
 				->andWhere('j.status =:status')
 				->setParameter('status', constants::JOB_STATUS_ACTIVE)
 				->getQuery()
@@ -148,28 +139,25 @@
 				->getResult();
 		}
 		
-		public function searchServices($keywords)
-		{
-			$qb = $this->createQueryBuilder('j');
-			if ($keywords) {
-				$qb->andWhere('j.title LIKE :key OR j.description LIKE :key')
-					->setParameter('key', '%'.$keywords.'%');
-				$qb->andWhere('j.status = :status')
-					->setParameter('status', constants::JOB_STATUS_ACTIVE)
-					->andWhere('j.is_service = true');
-				
-				return $qb->orderBy('j.expiredDate', 'DESC')
-					->getQuery()
-					->getResult();
-			}
-		}
+//		public function searchServices($keywords)
+//		{
+//			$qb = $this->createQueryBuilder('j');
+//			if ($keywords) {
+//				$qb->andWhere('j.title LIKE :key OR j.description LIKE :key')
+//					->setParameter('key', '%'.$keywords.'%');
+//				$qb->andWhere('j.status = :status')
+//					->setParameter('status', constants::JOB_STATUS_ACTIVE);
+//				return $qb->orderBy('j.expiredDate', 'DESC')
+//					->getQuery()
+//					->getResult();
+//			}
+//		}
 		
 		public function searchByCategory($category)
 		{
 			$qb = $this->createQueryBuilder('j')
 				->where('j.category =:name')
 				->setParameter('name', $category)
-				->andWhere('j.is_service = false or j.is_service is null')
 				->andWhere('j.status = :status')
 				->setParameter('status', constants::JOB_STATUS_ACTIVE)
 				->orderBy('j.dateCreated', 'DESC');
@@ -226,8 +214,6 @@
 				->setParameter('status', constants::JOB_STATUS_ACTIVE);
 			
 			return $qb
-				->andWhere('j.is_service = false')
-				->orWhere('j.is_service is NULL')
 				->orderBy('j.expiredDate', 'DESC')
 				->getQuery()
 				->getResult();
@@ -261,8 +247,6 @@
 				->setParameter('status', constants::JOB_STATUS_ACTIVE);
 			
 			return $qb
-				->andWhere('j.is_service = false')
-				->orWhere('j.is_service is NULL')
 				->orderBy('j.dateCreated', 'DESC')
 				->getQuery()
 				->getResult();
@@ -318,6 +302,7 @@
 				->andWhere('j.user = :val')
 				->setParameter('val', $user)
 				->orderBy('j.status', 'ASC')
+				->orderBy('j.dateCreated', 'DESC')
 				->getQuery()
 				->getResult();
 		}
@@ -327,7 +312,6 @@
 			return $this->createQueryBuilder('j')
 				->andWhere('j.user = :val')
 				->setParameter('val', $user)
-				->andWhere('j.is_service = true')
 				->orderBy('j.status', 'ASC')
 				->getQuery()
 				->getResult();
@@ -347,8 +331,6 @@
 			return $this->createQueryBuilder('j')
 				->where('j.status = :status')
 				->setParameter('status', $status)
-				->andWhere('j.is_service = false')
-				->orWhere('j.is_service is NULL')
 				->getQuery()
 				->getResult();
 		}

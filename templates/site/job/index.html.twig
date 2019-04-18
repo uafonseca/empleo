@@ -24,11 +24,14 @@
                             <div class="body">
                                 <div class="content">
                                     <h4><a href="{{ path('job_show', {'id': j.id}) }}">{{ j.title }}
-                                            {% if j.user.package != 'payment_basic' %}
+                                            {%  set max_date = j.dateCreated|date_modify("+"~j.user.package.daysImportants~" day") %}
+                                            {% if  max_date|date('Y-m-d') >= "now"|date('Y-m-d')%}
                                                 <span class="span-dest">DESTACADO</span>
                                             {% endif %}
                                         </a></h4>
                                     <div class="info">
+                                        {#{{ j.dateCreated|date_modify("+"~j.user.package.daysImportants~" day") |date('Y-m-d') }}#}
+                                        {#{{ j.dateCreated|date('Y-m-d') }}#}
                                         <span class="company"><a><i data-feather="briefcase"></i>{{ j.CompanyName }}</a></span>
                                         <span class="office-location"><a><i data-feather="map-pin"></i>{{ j.Localtion }}</a></span>
                                         {% if j.type == 'partial' %}

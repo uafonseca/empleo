@@ -110,7 +110,8 @@
 			foreach ($all as $value) {
 				$name = $value['name'];
 				if (!empty($count = $em->getRepository(Job::class)->getCount($name))) {
-					$ouput[] = array('name' => $name, 'count' => $count['count']);
+					if($name!="")
+						$ouput[] = array('name' => $name, 'count' => $count['count']);
 				}
 			}
 			
@@ -140,6 +141,7 @@
 			foreach ($all as $value) {
 				$name = $value['name'];
 				if (!empty($count = $em->getRepository(Job::class)->getCompanyCount($name))) {
+					if($name!="")
 					$ouput[] = array('name' => $name, 'count' => $count['count']);
 				}
 			}

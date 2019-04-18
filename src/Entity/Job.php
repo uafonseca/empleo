@@ -212,10 +212,10 @@ class Job
      */
     private $users;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $is_service;
+//    /**
+////     * @ORM\Column(type="boolean", nullable=true)
+////     */
+////    private $is_service;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Service", inversedBy="jobs")
@@ -641,17 +641,17 @@ class Job
         return $this;
     }
 
-    public function getIsService(): ?bool
-    {
-        return $this->is_service;
-    }
-
-    public function setIsService(bool $is_service): self
-    {
-        $this->is_service = $is_service;
-
-        return $this;
-    }
+//    public function getIsService(): ?bool
+//    {
+//        return $this->is_service;
+//    }
+//
+//    public function setIsService(bool $is_service): self
+//    {
+//        $this->is_service = $is_service;
+//
+//        return $this;
+//    }
 
     public function getService(): ?Service
     {

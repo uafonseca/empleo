@@ -33,7 +33,7 @@
 			$jobs = $em->getRepository(Job::class)->findAll();
 			foreach ($jobs as $job) {
 				if ($job->getStatus() == constants::JOB_STATUS_ACTIVE) {
-					if ($job->getExpiredDate() > new \DateTime('now')) {
+					if ($job->getExpiredDate() < new \DateTime('now')) {
 						$job->setStatus(constants::JOB_STATUS_EXPIRED);
 					}
 				}

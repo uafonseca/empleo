@@ -4,15 +4,12 @@
 	
 	use App\constants;
 	use App\Entity\Anouncement;
-	use App\Entity\Category;
 	use App\Entity\Job;
 	use App\Entity\Notification;
 	use App\Entity\Payment;
-	use App\Form\JobType;
 	use App\Form\ServiceJobType;
 	use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 	use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-	use Symfony\Component\Form\FormError;
 	use Symfony\Component\HttpFoundation\Request;
 	use Symfony\Component\Routing\Annotation\Route;
 	
@@ -35,7 +32,7 @@
 		/**
 		 * @Route("/service/new", name="service_new")
 		 * Require IS_AUTHENTICATED_FULLY for *every* controller method in this class.
-		 * @IsGranted("ROLE_USER")
+		 * @IsGranted("IS_AUTHENTICATED_FULLY")
 		 */
 		public function serviceNew(Request $request)
 		{
@@ -53,6 +50,7 @@
 				$post->setDate(new \DateTime("now"));
 				$post->setStatus(constants::JOB_STATUS_ACTIVE);
 				$entityManager->flush();
+				$currentUser->setNumPosts($currentUser->getNumPosts() - 1);
 				$post->setUser($currentUser);
 				$entityManager->persist($post);
 				$entityManager->flush();
@@ -64,14 +62,19 @@
 				$entityManager->persist($notification);
 				return $this->redirectToRoute('service_manage');
 			}
-			
+			$expired = $this->container->get('app.service.helper')->expired();
+			if (null == $expired) {
+				return $this->redirectToRoute('pricing_page');
+			} elseif ( $expired['days'] == 0 || $expired['public'] == 0 ) {
+				return $this->redirectToRoute('pricing_page');
+			}
 			return $this->render(
 				'service/new.html.twig',
 				[
 					'form' => $form->createView(),
 					'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
 					'packages' => $packages,
-					'expired'=>$this->container->get('app.service.helper')->expired(),
+					'expired'=>$expired,
 				]
 			);
 		}

@@ -135,9 +135,10 @@
                                 <li class="menu-item post-job"><a title="Title" href="{{ path('job_new') }}"><i class="fas fa-plus"></i>Publicar un empleo</a></li>
                                 <li class="menu-item post-job" style="margin-left: 10px"><a title="Title" href="{{ path('service_new') }}"><i class="fas fa-plus"></i>Crear servicio</a></li>
                             {% elseif  is_granted('ROLE_ADMIN')%}
-                                <li class="menu-item post-job"><a title="Title" href="{{ path('job_new') }}"><i class="fas fa-plus"></i>Publicar un empleo</a></li>
+                                <li class="menu-item post-job" ><a title="Title" href="{{ path('service_new') }}"><i class="fas fa-plus"></i>Crear servicio</a></li>
+                                <li class="menu-item post-job" style="margin-left: 5px"><a title="Title" href="{{ path('job_new') }}"><i class="fas fa-plus"></i>Publicar un empleo</a></li>
                             {% elseif is_granted('ROLE_USER') %}
-                                <li class="menu-item post-job" style=""><a title="Title" href="{{ path('service_new') }}"><i class="fas fa-plus"></i>Crear servicio</a></li>
+                                <li class="menu-item post-job"><a title="Title" href="{{ path('service_new') }}"><i class="fas fa-plus"></i>Crear servicio</a></li>
                             {% endif %}
                         </ul>
                     </div>
