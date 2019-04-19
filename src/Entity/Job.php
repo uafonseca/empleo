@@ -28,7 +28,8 @@ class Job
     private $title;
     /**
      * @Assert\NotBlank
-     * @ORM\ManyToOne(targetEntity="Category")
+     * @ORM\ManyToOne(targetEntity="Category",cascade={"persist"})
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $category;
 
@@ -90,7 +91,7 @@ class Job
     /**
      *  @Assert\Length(
      *      min = 10,
-     *      max = 250,
+     *      max = 900,
      *      minMessage = "El campo responsabilidades debe tener más de {{ limit }} caracteres",
      *      maxMessage = "El campo responsabilidades no debe superar los {{ limit }} caracteres"
      * )
@@ -102,7 +103,7 @@ class Job
     /**
      *  @Assert\Length(
      *      min = 10,
-     *      max = 250,
+     *      max = 900,
      *      minMessage = "El campo educación debe tener más de {{ limit }} caracteres",
      *      maxMessage = "El campo educación no debe superar los {{ limit }} caracteres"
      * )
@@ -113,7 +114,7 @@ class Job
     /**
      *  @Assert\Length(
      *      min = 10,
-     *      max = 250,
+     *      max = 900,
      *      minMessage = "El campo otros debe tener más de {{ limit }} caracteres",
      *      maxMessage = "El campo otros no debe superar los {{ limit }} caracteres"
      * )
@@ -206,14 +207,15 @@ class Job
     private $applications = [];
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="jobAppiled")
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="jobAppiled",cascade={"remove"})
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $users;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $is_service;
+//    /**
+////     * @ORM\Column(type="boolean", nullable=true)
+////     */
+////    private $is_service;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Service", inversedBy="jobs")
@@ -639,17 +641,17 @@ class Job
         return $this;
     }
 
-    public function getIsService(): ?bool
-    {
-        return $this->is_service;
-    }
-
-    public function setIsService(bool $is_service): self
-    {
-        $this->is_service = $is_service;
-
-        return $this;
-    }
+//    public function getIsService(): ?bool
+//    {
+//        return $this->is_service;
+//    }
+//
+//    public function setIsService(bool $is_service): self
+//    {
+//        $this->is_service = $is_service;
+//
+//        return $this;
+//    }
 
     public function getService(): ?Service
     {

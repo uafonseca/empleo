@@ -92,17 +92,15 @@
 					$this->get('security.token_storage')->setToken($token);
 					$this->get('session')->set('_security_main', serialize($token));
 					if (null === $response = $event->getResponse()) {
-						$url = $this->generateUrl('dashboard_edit');
+						$url = $this->generateUrl('homepage');
 						$response = new RedirectResponse($url);
 					}
-					
 					return $response;
 				}
 				if (null !== $response = $event->getResponse()) {
 					return $response;
 				}
 			}
-			
 			return $this->render(
 				'/security/register.html.twig',
 				array(

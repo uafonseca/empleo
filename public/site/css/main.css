@@ -10058,3 +10058,8 @@ div.disabled
 }
 .publicity img{
 }
+.span-info{
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: large;
+}

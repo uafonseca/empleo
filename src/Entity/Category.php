@@ -34,7 +34,7 @@ class Category
     private $description;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="category")
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="category",cascade={"persist"})
      */
     private $users_list;
 

@@ -125,17 +125,17 @@
 		public function index(
 			AuthorizationCheckerInterface $authChecker
 		): Response {
-			$this->updateJobsFiles();
 			$verificated = $this->verificateUser($authChecker);
 			$em = $this->getDoctrine()->getManager();
 			$this->container->get('app.service.checker')->checkJobs();
-			
+//			var_dump($this->container->get('app.service.helper')->loadLocations());die;
 			return $this->render(
 				'site/job/index.html.twig',
 				[
 					'verificated_acount' => $verificated,
 					'notifications' => $this->loadNotifications(),
-					'jobs' => $em->getRepository(Job::class)->jobsByStatus(constants::JOB_STATUS_ACTIVE),
+//					'jobs' => $em->getRepository(Job::class)->jobsByStatus(constants::JOB_STATUS_ACTIVE),
+					'jobs' => $em->getRepository(Job::class)->findBy(array('status'=>constants::JOB_STATUS_ACTIVE),array('dateCreated'=>'DESC'),10),
 					'locations' => $this->container->get('app.service.helper')->loadLocations(),
 					'categorys' => $this->container->get('app.service.helper')->loadCategorys(),
 					'citys' => $this->container->get('app.service.helper')->loadCityes(),

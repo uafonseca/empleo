@@ -5,6 +5,7 @@
     {{  include ('site/header.html.twig',{'notifications': notifications}  )}}
     <div class="alice-bg padding-top-70 padding-bottom-70">
         <div class="container">
+            {{ include('user/employer/info.html.twig') }}
             <div class="row">
                 <div class="col-md-6">
                     <div class="breadcrumb-area">
@@ -45,7 +46,7 @@
                                     {% for j in jobs %}
                                         <tr class="job-items">
                                             <td class="title">
-                                                <h5><a href="#">{{ j.title }}</a></h5>
+                                                <h5><a href="{{ path('service_view', {'id': j.id}) }}">{{ j.title }}</a></h5>
                                                 <div class="info">
                                                     <span class="office-location"><a href="#"><i data-feather="map-pin"></i>{{ j.Location }}</a></span>
                                                     {% if j.type == 'partial' %}
@@ -78,7 +79,7 @@
                                                 </td>
                                             {% else %}
                                                 <td class="action">
-                                                    <a href="{{ path('job_show', {'id': j.id}) }}" class="preview"><i data-feather="eye"></i></a>
+                                                    <a href="{{ path('service_view', {'id': j.id}) }}" class="preview"><i data-feather="eye"></i></a>
                                                     <a class="remove" onclick="showModal('{{ j.id }}')"><i data-feather="trash-2"></i></a>
                                                 </td>
                                             {% endif %}

@@ -11,6 +11,8 @@
 	use App\Entity\Category;
 	use App\Entity\Job;
 	use App\Entity\Notification;
+	use App\Entity\Profession;
+	use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 	use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 //	use Vich\UploaderBundle\Naming\DirectoryNamerInterface;
 	use Vich\UploaderBundle\Mapping\PropertyMapping;
@@ -45,10 +47,18 @@
 					return null;
 				}
 			}
-			return array(
-				'days' => $currentUser->getDateOfPurchase()->diff(new \DateTime())->format('%a'),
-				'public' => $currentUser->getNumPosts(),
-			);
+			if ($currentUser->getDateOfPurchase() != null) {
+				return array(
+					'days' => $currentUser->getDateOfPurchase()->diff(new \DateTime())->format('%a'),
+					'public' => $currentUser->getNumPosts(),
+				);
+			} else {
+				return array(
+					'days' => 0,
+					'public' => $currentUser->getNumPosts(),
+				);
+			}
+			
 		}
 		
 		public function loadNotifications()
@@ -86,6 +96,11 @@
 			
 			return $ouput;
 		}
+		public function loadProfessions()
+		{
+			$em = $this->getDoctrine()->getManager();
+			return $em->getRepository(Profession::class)->findAll();
+		}
 		
 		public function loadLocations()
 		{
@@ -95,7 +110,8 @@
 			foreach ($all as $value) {
 				$name = $value['name'];
 				if (!empty($count = $em->getRepository(Job::class)->getCount($name))) {
-					$ouput[] = array('name' => $name, 'count' => $count['count']);
+					if($name!="")
+						$ouput[] = array('name' => $name, 'count' => $count['count']);
 				}
 			}
 			
@@ -125,6 +141,7 @@
 			foreach ($all as $value) {
 				$name = $value['name'];
 				if (!empty($count = $em->getRepository(Job::class)->getCompanyCount($name))) {
+					if($name!="")
 					$ouput[] = array('name' => $name, 'count' => $count['count']);
 				}
 			}

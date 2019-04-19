@@ -1,109 +1,84 @@
-
-    <div class="job-view-controller-wrapper">
-        <div class="job-view-controller">
-            <div class="controller list active">
-                <i data-feather="menu"></i>
-            </div>
-            <div class="controller grid">
-                <i data-feather="grid"></i>
-            </div>
+<div class="job-view-controller-wrapper">
+    <div class="job-view-controller">
+        <div class="controller list active">
+            <i data-feather="menu"></i>
         </div>
-        <div class="showing-number">
-            <div class="">
-                Total encontrados({{ jobs.getTotalItemCount }})
-            </div>
-
+        <div class="controller grid">
+            <i data-feather="grid"></i>
         </div>
     </div>
+    <div class="showing-number">
+        <div class="">
+            Total encontrados({{ jobs.getTotalItemCount }})
+        </div>
 
-    <div class="job-filter-result">
-        {% if search is not defined %}
-            {#<div class="container">#}
-                {#<div class="row">#}
-                    {#<div class="col-2"></div>#}
-                    {#<div class="col-3">#}
-                        {#<div class="sort">#}
-                            {#<i class="fa fa-fw fa-sort"></i>#}
-                            {#{% if jobs|length %}{{ knp_pagination_sortable(jobs, 'Título', 'title') }}{% endif %}#}
-                        {#</div>#}
-                    {#</div>#}
-                    {#<div class="col-4">#}
-                        {#<div class="sort">#}
-                            {#<i class="fa fa-fw fa-sort"></i>#}
-                            {#{% if jobs|length %}{{ knp_pagination_sortable(jobs, 'Compañía','CompanyName') }}{% endif %}#}
-                        {#</div>#}
-                    {#</div>#}
-                    {#<div class="col-3">#}
-                        {#<div class="sort">#}
-                            {#<i class="fa fa-fw fa-sort"></i>#}
-                            {#{% if jobs|length %}{{ knp_pagination_sortable(jobs, 'Fecha', 'expiredDate') }}{% endif %}#}
-                        {#</div>#}
+    </div>
+</div>
 
-                    {#</div>#}
-                {#</div>#}
-            {#</div>#}
-        {% endif %}
-        {% if jobs|length == 0 %}
-            <h4 style="text-align: center">Ups! No hemos encontrado nada aquí</h4>
-        {% endif %}
-        {% for j in jobs %}
-            <div class="job-list row">
-                <div class="thumb">
-                    <a href="{{ path('job_show', {'id': j.id}) }}">
-                        <img src="{{ asset('site/images/upload/company/')~'_user_'~j.user.id~'/'~ j.image }}"
-                             class="img-fluid" alt="{{ j.title }}">
-                    </a>
-                </div>
-                <div class="body">
-                    <div class="content">
-                        <h4><a href="{{ path('job_show', {'id': j.id}) }}">{{ j.title }}
-                                {% if j.user.package != 'payment_basic' %}
-                                    <span class="span-dest">DESTACADO</span>
-                                {% endif %}
-                            </a></h4>
-                        <div class="info">
+<div class="job-filter-result">
+    {% if jobs|length == 0 %}
+    <div class="job-list ">
+        <h4 style="text-align: center">Ups! No hemos encontrado nada aquí</h4>
+    </div>
+    {% endif %}
+    {% for j in jobs %}
+        <div class="job-list row">
+            <div class="thumb">
+                <a href="{{ path('job_show', {'id': j.id}) }}">
+                    <img src="{{ asset('site/images/upload/company/')~'_user_'~j.user.id~'/'~ j.image }}"
+                         class="img-fluid" alt="{{ j.title }}">
+                </a>
+            </div>
+            <div class="body">
+                <div class="content">
+                    <h4><a href="{{ path('job_show', {'id': j.id}) }}">{{ j.title }}
+                            {% set max_date = j.dateCreated|date_modify("+"~j.user.package.daysImportants~" day") %}
+                            {% if  max_date|date('Y-m-d') >= "now"|date('Y-m-d') %}
+                                <span class="span-dest">DESTACADO</span>
+                            {% endif %}
+                        </a></h4>
+                    <div class="info">
                                                     <span class="company"><a><i
                                                                     data-feather="briefcase"></i>{{ j.CompanyName }}</a></span>
-                            <span class="office-location"><a><i
-                                            data-feather="map-pin"></i>{{ j.Localtion }}</a></span>
-                            {% if j.type == 'partial' %}
-                                <span class="job-type part-time"><a><i data-feather="clock"></i>A tiempo parcial</a></span>
-                            {% endif %}
-                            {% if j.type == 'ful' %}
-                                <span class="job-type full-time"><a><i data-feather="clock"></i>A tiempo completo</a></span>
-                            {% endif %}
-                            {% if j.type == 'temporary' %}
-                                <span class="job-type temporary"><a><i data-feather="clock"></i>Temporal</a></span>
-                            {% endif %}
-                            {% if j.type == 'freelance' %}
-                                <span class="job-type freelance"><a><i data-feather="clock"></i>Independiente</a></span>
-                            {% endif %}
-                        </div>
-                    </div>
-                    <div class="more">
-                        <div class="buttons">
-                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                                <a id="applied-btn-{{ j.id }}"
-                                   onclick="applied('{{ j.id }}')"
-                                   class="button">{% if j.id in app.user.applied %}Cancelar{% else %}Aplica ya!{% endif %}</a>
-                                <a onclick="bookMark('{{ j.id }}')"
-                                   class="favourite {% if j.id in app.user.bookmarked %}active{% endif %} "><i
-                                            data-feather="heart"></i></a>
-                            {% else %}
-                                <a data-toggle="modal" data-target="#modal-login"
-                                   class="button">Aplica ya!</a>
-                                {#<a  class="favourite"><i data-feather="heart"></i></a>#}
-                            {% endif %}
-                        </div>
-                        <p class="deadline">{{ j.dateCreated|localizeddate('short', 'none', 'en') }}</p>
+                        <span class="office-location"><a><i
+                                        data-feather="map-pin"></i>{{ j.Localtion }}</a></span>
+                        {% if j.type == 'partial' %}
+                            <span class="job-type part-time"><a><i data-feather="clock"></i>A tiempo parcial</a></span>
+                        {% endif %}
+                        {% if j.type == 'ful' %}
+                            <span class="job-type full-time"><a><i data-feather="clock"></i>A tiempo completo</a></span>
+                        {% endif %}
+                        {% if j.type == 'temporary' %}
+                            <span class="job-type temporary"><a><i data-feather="clock"></i>Temporal</a></span>
+                        {% endif %}
+                        {% if j.type == 'freelance' %}
+                            <span class="job-type freelance"><a><i data-feather="clock"></i>Independiente</a></span>
+                        {% endif %}
                     </div>
                 </div>
-                <div class="col-12 job-about">
-                    <p> {{ j.description| easyadmin_truncate(200) }}</p>
+                <div class="more">
+                    <div class="buttons">
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            <a id="applied-btn-{{ j.id }}"
+                               onclick="applied('{{ j.id }}')"
+                               class="button">{% if j.id in app.user.applied %}Cancelar{% else %}Aplica ya!{% endif %}</a>
+                            <a onclick="bookMark('{{ j.id }}')"
+                               class="favourite {% if j.id in app.user.bookmarked %}active{% endif %} "><i
+                                        data-feather="heart"></i></a>
+                        {% else %}
+                            <a data-toggle="modal" data-target="#modal-login"
+                               class="button">Aplica ya!</a>
+                            {#<a  class="favourite"><i data-feather="heart"></i></a>#}
+                        {% endif %}
+                    </div>
+                    <p class="deadline">{{ j.dateCreated|localizeddate('short', 'none', 'en') }}</p>
                 </div>
             </div>
-        {% endfor %}
-    </div>
+            <div class="col-12 job-about">
+                <p> {{ j.description| easyadmin_truncate(200) }}</p>
+            </div>
+        </div>
+    {% endfor %}
     <div class="account-entry">
         <div class="modal fade modal-open" id="modal-login" tabindex="-1" role="dialog"
              aria-hidden="true">
@@ -143,4 +118,6 @@
             </div>
         </div>
     </div>
-    {{ knp_pagination_render(jobs) }}
+</div>
+
+{{ knp_pagination_render(jobs) }}

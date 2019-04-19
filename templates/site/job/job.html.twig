@@ -10,6 +10,7 @@
     <!-- Breadcrumb -->
     <div class="alice-bg padding-top-70 padding-bottom-70">
         <div class="container">
+            {{ include('user/employer/info.html.twig') }}
             <div class="row">
                 <div class="col-md-6">
                     <div class="breadcrumb-area">
@@ -35,7 +36,7 @@
             <div class="row no-gliters">
                 <div class="col">
                     <div class="post-container">
-                        <div class="post-content-wrapper {% if expired is null %}disabled{% elseif expired.public == 0 %} disabled {% endif %}">
+                        <div class="post-content-wrapper">
                             {{ form_start(form, {attr: {'class': 'job-post-form','id':'job-form'} }) }}
                             <div class="basic-info-input">
                                 <h4><i data-feather="plus-circle"></i>Publicar un empleo</h4>

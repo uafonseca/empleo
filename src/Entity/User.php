@@ -176,12 +176,14 @@
 		private $applied = [];
 		
 		/**
-		 * @ORM\ManyToMany(targetEntity="App\Entity\Job", inversedBy="users")
+		 * @ORM\ManyToMany(targetEntity="App\Entity\Job", inversedBy="users",cascade={"remove"})
+		 * @ORM\JoinColumn(onDelete="CASCADE")
+		 *
 		 */
 		private $jobAppiled;
 		
 		/**
-		 * @ORM\ManyToMany(targetEntity="App\Entity\Category", inversedBy="users_list")
+		 * @ORM\ManyToMany(targetEntity="App\Entity\Category", inversedBy="users_list",cascade={"persist"})
 		 */
 		private $category;
 		
@@ -206,15 +208,22 @@
 		private $verificated;
 		
 		/**
-		 * @ORM\ManyToOne(targetEntity="App\Entity\Anouncement", inversedBy="user")
+		 * @ORM\ManyToOne(targetEntity="App\Entity\Anouncement", inversedBy="user",cascade={"remove"})
+		 * @ORM\JoinColumn(onDelete="CASCADE")
 		 */
 		private $anouncement;
 		
 		/**
-		 * @ORM\OneToMany(targetEntity="App\Entity\Anouncement", mappedBy="User")
+		 * @ORM\OneToMany(targetEntity="App\Entity\Anouncement", mappedBy="User",cascade={"remove"})
+		 * @ORM\JoinColumn(onDelete="CASCADE")
 		 */
 		private $anouncements;
 		
+		/**
+		 * @ORM\OneToMany(targetEntity="App\Entity\Notification", mappedBy="user",cascade={"remove"})
+		 * @ORM\JoinColumn(onDelete="CASCADE")
+		 */
+		private $notifications;
 		/**
 		 * @ORM\Column(type="datetime", nullable=true)
 		 */

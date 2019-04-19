@@ -2,8 +2,6 @@
 {% block title %}Trabajos{% endblock %}
 {% block body %}
     {{ include ('site/header.html.twig',{'notifications': notifications}  ) }}
-
-    <!-- Breadcrumb -->
     <div class="alice-bg padding-top-70 padding-bottom-70">
         <div class="container">
             <div class="row">
@@ -21,14 +19,10 @@
             </div>
         </div>
     </div>
-    <!-- Breadcrumb End -->
-
-
-    <!-- Job Listing -->
     <div class="alice-bg section-padding-bottom">
         <div class="container">
             <div class="row no-gutters">
-                <div class="col container">
+                <div class="col">
                     <div class="job-listing-container">
                         <div id="container-jobs" class="filtered-job-listing-wrapper">
                             {% include 'site/job/loop.html.twig' %}
@@ -66,6 +60,25 @@
                                 </ul>
                             </div>
 
+                            <div data-id="experience" class="job-filter experience">
+                                <h4 class="option-title">Experiencia</h4>
+                                <ul onclick="findByFilters()">
+                                    <li><a href="#" data-attr="Un año">Un año</a></li>
+                                    <li><a href="#" data-attr="De uno a 2 años">De uno a 2 años</a></li>
+                                    <li><a href="#" data-attr="De 2 a 3 años">De 2 a 3 años</a></li>
+                                    <li><a href="#" data-attr="Más de 3 años">Más de 3 años</a></li>
+                                </ul>
+                            </div>
+                            <div data-id="post" class="job-filter post">
+                                <h4 class="option-title">Publicación</h4>
+                                <ul onclick="findByFilters()">
+                                    <li><a href="#" data-attr="Última hora">Última hora</a></li>
+                                    <li><a href="#" data-attr="Últimas 24 horas">Últimas 24 horas</a></li>
+                                    <li><a href="#" data-attr="Últimos 7 días">Últimos 7 días</a></li>
+                                    <li><a href="#" data-attr="Últimos 14 días">Últimos 14 días</a></li>
+                                    <li><a href="#" data-attr="Últimos 30 días">Últimos 30 días</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -77,6 +90,6 @@
     <!-- Call to Action -->
     {% block js %}
         <script src="{{ asset('site/js/utils.js') }}"></script>
-        <script src="{{ asset('site/js/ajax.js') }}"></script>
+            <script src="{{ asset('site/js/ajax.js') }}"></script>
     {% endblock %}
 {% endblock %}

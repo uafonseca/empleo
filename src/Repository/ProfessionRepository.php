@@ -18,7 +18,7 @@ class ProfessionRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Profession::class);
     }
-
+    
     // /**
     //  * @return Profession[] Returns an array of Profession objects
     //  */

@@ -196,6 +196,8 @@
                     <li class="menu-item post-job"><a title="Title" href="{{ path('service_new') }}"><i
                                     class="fas fa-plus"></i>Brindar mis servicios</a></li>
                 {% elseif  is_granted('ROLE_ADMIN') %}
+                    <li class="menu-item post-job"><a title="Title" href="{{ path('service_new') }}"><i
+                                    class="fas fa-plus"></i>Crear servicio</a></li>
                     <li class="menu-item post-job"><a title="Title" href="{{ path('job_new') }}"><i
                                     class="fas fa-plus"></i>Publicar un trabajo</a></li>
                 {% elseif is_granted('ROLE_USER') %}
@@ -369,7 +371,69 @@
             <div class="carousel-item" style="background-image: url('{{ asset('site/images/bg/bg1.png') }}')"></div>
         </div>
     </div>
+
 </header>
+<!-- Top Companies -->
+<div class="section-padding-top padding-bottom-90">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="company-carousel owl-carousel">
+                    <div class="company-wrap">
+                        <div class="thumb">
+                            <a href="#">
+                                <img src="{{ asset('images/default/company_img (1).gif') }}" class="img-fluid" alt="">
+                            </a>
+                        </div>
+                        <div class="body">
+                            <h4><a href="#">Compañía X</a></h4>
+                            <span>Quito, Ecuador</span>
+                            <a href="#" class="button">Ver ofertas</a>
+                        </div>
+                    </div>
+                    <div class="company-wrap">
+                        <div class="thumb">
+                            <a href="#">
+                                <img src="{{ asset('images/default/company_img (1).jpg') }}" class="img-fluid" alt="">
+                            </a>
+                        </div>
+                        <div class="body">
+                            <h4><a href="#">Compañía X</a></h4>
+                            <span>Quito, Ecuador</span>
+                            <a href="#" class="button">Ver ofertas</a>
+                        </div>
+                    </div>
+                    <div class="company-wrap">
+                        <div class="thumb">
+                            <a href="#">
+                                <img src="{{ asset('images/default/company_img (2).gif') }}" class="img-fluid" alt="">
+                            </a>
+                        </div>
+                        <div class="body">
+                            <h4><a href="#">Compañía X</a></h4>
+                            <span>Quito, Ecuador</span>
+                            <a href="#" class="button">Ver ofertas</a>
+                        </div>
+                    </div>
+                    <div class="company-wrap">
+                        <div class="thumb">
+                            <a href="#">
+                                <img src="{{ asset('images/default/company_img (3).gif') }}" class="img-fluid" alt="">
+                            </a>
+                        </div>
+                        <div class="body">
+                            <h4><a href="#">Compañía X</a></h4>
+                            <span>Quito, Ecuador</span>
+                            <a href="#" class="button">Ver ofertas</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Top Companies End -->
 <!-- Search and Filter -->
 <div class="searchAndFilter-wrapper">
     <div class="section-padding-top padding-bottom-90">
@@ -660,19 +724,19 @@
             </div>
         </div>
     {% endif %}
-    <div class="publicity home-publicity hidden">
-        <div class="publicity-header">
-            <button id="close-footer-pub" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <img class="img-fluid img-thumbnail" src="{{ asset('images/test.jpg') }}" alt="">
-        <span class="label-pub">Publicidad auspiciada</span>
-        <div class="text-block">
-            <h4>Mi publicidad</h4>
-            <p>Contenido de prueba..... asdsa dsaas dasd sad asd asd sad asdasda</p>
-        </div>
-    </div>
+    {#<div class="publicity home-publicity hidden">#}
+        {#<div class="publicity-header">#}
+            {#<button id="close-footer-pub" type="button" class="close" data-dismiss="modal" aria-label="Close">#}
+                {#<span aria-hidden="true">&times;</span>#}
+            {#</button>#}
+        {#</div>#}
+        {#<img class="img-fluid img-thumbnail" src="{{ asset('images/test.jpg') }}" alt="">#}
+        {#<span class="label-pub">Publicidad auspiciada</span>#}
+        {#<div class="text-block">#}
+            {#<h4>Mi publicidad</h4>#}
+            {#<p>Contenido de prueba..... asdsa dsaas dasd sad asd asd sad asdasda</p>#}
+        {#</div>#}
+    {#</div>#}
 </div>
 </body>
 {% endblock %}
