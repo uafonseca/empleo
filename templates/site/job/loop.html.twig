@@ -22,7 +22,7 @@
     </div>
     {% endif %}
     {% for j in jobs %}
-        <div class="job-list ">
+        <div class="job-list row">
             <div class="thumb">
                 <a href="{{ path('job_show', {'id': j.id}) }}">
                     <img src="{{ asset('site/images/upload/company/')~'_user_'~j.user.id~'/'~ j.image }}"
