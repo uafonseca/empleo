@@ -2029,7 +2029,7 @@ a:focus {
 }
 
 .job-listing-container .job-filter-wrapper, .candidate-container .job-filter-wrapper, .employer-container .job-filter-wrapper, .job-listing-container .candidate-filter-wrapper, .candidate-container .candidate-filter-wrapper, .employer-container .candidate-filter-wrapper, .job-listing-container .employer-filter-wrapper, .candidate-container .employer-filter-wrapper, .employer-container .employer-filter-wrapper {
-    min-width: 240px;
+    width: 240px;
 }
 
 .job-listing-container .filtered-job-listing-wrapper, .candidate-container .filtered-job-listing-wrapper, .employer-container .filtered-job-listing-wrapper, .job-listing-container .filtered-candidate-wrapper, .candidate-container .filtered-candidate-wrapper, .employer-container .filtered-candidate-wrapper, .job-listing-container .filtered-employer-wrapper, .candidate-container .filtered-employer-wrapper, .employer-container .filtered-employer-wrapper {

@@ -91,7 +91,7 @@ class Job
     /**
      *  @Assert\Length(
      *      min = 10,
-     *      max = 250,
+     *      max = 900,
      *      minMessage = "El campo responsabilidades debe tener más de {{ limit }} caracteres",
      *      maxMessage = "El campo responsabilidades no debe superar los {{ limit }} caracteres"
      * )
@@ -103,7 +103,7 @@ class Job
     /**
      *  @Assert\Length(
      *      min = 10,
-     *      max = 250,
+     *      max = 900,
      *      minMessage = "El campo educación debe tener más de {{ limit }} caracteres",
      *      maxMessage = "El campo educación no debe superar los {{ limit }} caracteres"
      * )
@@ -114,7 +114,7 @@ class Job
     /**
      *  @Assert\Length(
      *      min = 10,
-     *      max = 250,
+     *      max = 900,
      *      minMessage = "El campo otros debe tener más de {{ limit }} caracteres",
      *      maxMessage = "El campo otros no debe superar los {{ limit }} caracteres"
      * )
