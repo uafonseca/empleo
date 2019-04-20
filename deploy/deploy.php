@@ -8,11 +8,11 @@ require __DIR__ . './../vendor/deployer/recipes/recipe/slack.php';
 inventory('hosts.yml');
 
 // [Optional] Allocate tty for git clone. Default value is false.
-set('git_tty', true);
+set('git_tty', false);
 
-set('shared_dirs', ['var/log', 'var/sessions', 'vendor', 'public/images', 'public/site']);
+set('shared_dirs', ['var/log', 'var/sessions', 'vendor', 'public/images', 'public/site/images', 'public/site/docs']);
 set('writable_dirs', ['var', 'public/images', 'public/site']);
-set('writableusesudo', true);
+set('writable_mode', 'chmod');
 
 set('release_name', function () {
     return date('YmdHis');
