@@ -12,9 +12,12 @@
 	use App\Entity\Metadata;
 	use App\Entity\Notification;
 	use App\Entity\Payment;
+	use App\Entity\PaymentForJobs;
+	use App\Entity\PaymentForServices;
 	use App\Entity\Policy;
 	use App\Entity\Resume;
 	use App\Entity\User;
+	use App\Form\PaymentForJobsType;
 	use App\Form\ResumeFilesType;
 	use App\Form\ResumeType;
 	use App\Form\UserFullyEmployerType;
@@ -76,24 +79,31 @@
 		public function pricing(){
 			$em = $this->getDoctrine()->getManager();
 			$currentUser = $this->get('security.token_storage')->getToken()->getUser();
-			$is_admin = in_array('ROLE_ADMIN', $currentUser->getRoles());
-			$packages = $em->getRepository(Payment::class)->findBy(array('adminPayment' => $is_admin));
+			$packagesJobs = $em->getRepository(PaymentForJobs::class)->findAll();
+			$packagesServices = $em->getRepository(PaymentForServices::class)->findAll();
 			return $this->render('site/pricing.html.twig',[
 				'notifications' => $this->loadNotifications(),
-				'packages' => $packages,
+				'packagesJobs' => $packagesJobs,
+				'packagesServices' => $packagesServices,
 			]);
 		}
 		
 		
 		/**
-		 * @Route("/checkout/{packId}",name="checkout")
+		 * @Route("/checkout/{packId}/{type}",name="checkout")
 		 */
-		public function checkout($packId){
+		public function checkout($packId,$type){
 			$em = $this->getDoctrine()->getManager();
-			$package = $em->getRepository(Payment::class)->find($packId);
+			$package = null;
+			if($type == 'job')
+				$em->getRepository(PaymentForJobs::class)->find($packId);
+			else{
+				$em->getRepository(PaymentForServices::class)->find($packId);
+			}
 			return $this->render('site/checkout.html.twig',[
 				'notifications' => $this->loadNotifications(),
 				'package' => $package,
+				'type'=>$type
 			]);
 		}
 		
@@ -128,13 +138,11 @@
 			$verificated = $this->verificateUser($authChecker);
 			$em = $this->getDoctrine()->getManager();
 			$this->container->get('app.service.checker')->checkJobs();
-//			var_dump($this->container->get('app.service.helper')->loadLocations());die;
 			return $this->render(
 				'site/job/index.html.twig',
 				[
 					'verificated_acount' => $verificated,
 					'notifications' => $this->loadNotifications(),
-//					'jobs' => $em->getRepository(Job::class)->jobsByStatus(constants::JOB_STATUS_ACTIVE),
 					'jobs' => $em->getRepository(Job::class)->findBy(array('status'=>constants::JOB_STATUS_ACTIVE),array('dateCreated'=>'DESC'),10),
 					'locations' => $this->container->get('app.service.helper')->loadLocations(),
 					'categorys' => $this->container->get('app.service.helper')->loadCategorys(),

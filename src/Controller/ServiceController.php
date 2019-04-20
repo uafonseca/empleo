@@ -7,6 +7,8 @@
 	use App\Entity\Job;
 	use App\Entity\Notification;
 	use App\Entity\Payment;
+	use App\Entity\PaymentForJobs;
+	use App\Entity\PaymentForServices;
 	use App\Form\ServiceJobType;
 	use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 	use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -40,17 +42,16 @@
 			$form = $this->createForm(ServiceJobType::class, $post);
 			$currentUser = $this->get('security.token_storage')->getToken()->getUser();
 			$entityManager = $this->getDoctrine()->getManager();
-			$packages = $entityManager->getRepository(Payment::class)->findBy(array('adminPayment' => false));
 			$post->setDate(new \DateTime("now"));
 			$form->handleRequest($request);
 			if ($form->isSubmitted() && $form->isValid()) {
 				$post->setExpiredDate(
-					$post->getDate()->add(\DateInterval::createfromdatestring('+'.$currentUser->getPackage()->getVisibleDays().' day'))
+					$post->getDate()->add(\DateInterval::createfromdatestring('+'.$currentUser->getPackageServices()->getVisibleDays().' day'))
 				);
 				$post->setDate(new \DateTime("now"));
 				$post->setStatus(constants::JOB_STATUS_ACTIVE);
 				$entityManager->flush();
-				$currentUser->setNumPosts($currentUser->getNumPosts() - 1);
+				$currentUser->setNumPostsServices($currentUser->getNumPostsServices() - 1);
 				$post->setUser($currentUser);
 				$entityManager->persist($post);
 				$entityManager->flush();
@@ -65,15 +66,18 @@
 			$expired = $this->container->get('app.service.helper')->expired();
 			if (null == $expired) {
 				return $this->redirectToRoute('pricing_page');
-			} elseif ( $expired['days'] == 0 || $expired['public'] == 0 ) {
+			} elseif ( $expired['daysService'] == -1 || $expired['publicService'] == 0 ) {
 				return $this->redirectToRoute('pricing_page');
 			}
+//			$packagesJobs = $entityManager->getRepository(PaymentForJobs::class)->findAll();
+//			$packagesServices = $entityManager->getRepository(PaymentForServices::class)->findAll();
 			return $this->render(
 				'service/new.html.twig',
 				[
 					'form' => $form->createView(),
 					'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
-					'packages' => $packages,
+//					'packagesJobs' => $packagesJobs,
+//					'packagesServices' => $packagesServices,
 					'expired'=>$expired,
 				]
 			);

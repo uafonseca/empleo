@@ -32,45 +32,37 @@
                     <div class="dashboard-container">
                         <div class="dashboard-content-wrapper" style="width: 85%">
                             <div class="dashboard-section dashboard-recent-activity">
-                                <h4 class="title">Paquetes ofertados <a class="btn btn-primary" href="{{ path('payment_new') }}">Nuevo paquete</a> </h4>
+                                <h4 class="title">Paquetes ofertados <a class="btn btn-primary" href="{{ path('payment_for_services_new') }}">Nuevo paquete</a> </h4>
                                 <table class="table table-striped table-bordered">
                                     <tbody>
                                     <tr>
                                         <th>Nombre</th>
-                                        <td>{{ payment.name }}</td>
+                                        <td>{{ payment_for_service.name }}</td>
                                     </tr>
                                     <tr>
                                         <th>Precio</th>
-                                        <td>{{ payment.price }}</td>
+                                        <td>{{ payment_for_service.price }}</td>
                                     </tr>
                                     <tr>
-                                        <th>Número máximo de anuncios</th>
-                                        <td>{{ payment.anouncementsNumberMax }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Número maximo de CV</th>
-                                        <td>{{ payment.cvNumberMax }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Evaluaciones psicológicas</th>
-                                        <td>{{ payment.evaluationsPsicological ? 'Yes' : 'No' }}</td>
+                                        <th>Máximo de anuncios</th>
+                                        <td>{{ payment_for_service.anouncementsNumberMax }}</td>
                                     </tr>
                                     <tr>
                                         <th>Días visible</th>
-                                        <td>{{ payment.visibleDays }}</td>
+                                        <td>{{ payment_for_service.visibleDays }}</td>
                                     </tr>
                                     <tr>
                                         <th>Días destacado</th>
-                                        <td>{{ payment.daysImportants }}</td>
+                                        <td>{{ payment_for_service.daysImportants }}</td>
                                     </tr>
-                                    </tbody>
+                             </tbody>
                                 </table>
 
                                 <a class="btn btn-primary" href="{{ path('payment_index') }}"><< Regresar</a>
 
-                                <a class="btn btn-warning" href="{{ path('payment_edit', {'id': payment.id}) }}">Editar</a>
+                                <a class="btn btn-warning" href="{{ path('payment_for_services_edit', {'id': payment_for_service.id}) }}">Editar</a>
 
-                                {{ include('payment/_delete_form.html.twig') }}
+                                {{ include('payment_for_services/_delete_form.html.twig') }}
                             </div>
                         </div>
                         {% include 'admin/dashboard_sidebar.html.twig' %}

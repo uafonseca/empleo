@@ -4,18 +4,10 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\PaymentRepository")
- */
-class Payment
+/** @ORM\MappedSuperclass() */
+abstract class Payment
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
-
+	
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -35,21 +27,7 @@ class Payment
      * @ORM\Column(type="integer")
      */
     private $anouncements_number_max;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $cv_number_max;
-	
-	/**
-	 * @ORM\Column(type="boolean")
-	 */
-	private $adminPayment;
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $evaluations_psicological;
-
+    
     /**
      * @ORM\Column(type="integer")
      */
@@ -59,16 +37,6 @@ class Payment
      * @ORM\Column(type="integer")
      */
     private $days_importants;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $selection;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getName(): ?string
     {
@@ -118,30 +86,6 @@ class Payment
         return $this;
     }
 
-    public function getCvNumberMax(): ?int
-    {
-        return $this->cv_number_max;
-    }
-
-    public function setCvNumberMax(int $cv_number_max): self
-    {
-        $this->cv_number_max = $cv_number_max;
-
-        return $this;
-    }
-
-    public function getEvaluationsPsicological(): ?bool
-    {
-        return $this->evaluations_psicological;
-    }
-
-    public function setEvaluationsPsicological(bool $evaluations_psicological): self
-    {
-        $this->evaluations_psicological = $evaluations_psicological;
-
-        return $this;
-    }
-
     public function getVisibleDays(): ?int
     {
         return $this->visible_days;
@@ -165,33 +109,4 @@ class Payment
 
         return $this;
     }
-
-    public function getSelection(): ?bool
-    {
-        return $this->selection;
-    }
-
-    public function setSelection(bool $selection): self
-    {
-        $this->selection = $selection;
-
-        return $this;
-    }
-	
-	/**
-	 * @return mixed
-	 */
-	public function getAdminPayment()
-	{
-		return $this->adminPayment;
-	}
-	
-	/**
-	 * @param mixed $adminPayment
-	 */
-	public function setAdminPayment($adminPayment): void
-	{
-		$this->adminPayment = $adminPayment;
-	}
- 
 }

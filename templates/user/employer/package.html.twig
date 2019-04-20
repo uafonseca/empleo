@@ -1,38 +1,120 @@
 <div class="col-md-6">
     <div class="package breadcrumb-form ">
         <div class="container border">
-            {% if expired is not null %}
+            {% if is_granted('ROLE_ADMIN') %}
+                {% if app.user.package is not null %}
+                    <div class="row payment-method payment-container">
+                        <div class="col-md-4" style="text-align: center">
+                            <h5>EMPLEOS</h5>
+                        </div>
+                        {% if expired.days < 0 %}
+                            <div class="col-md-4">
+                                <button type="button" class="disabled btn btn-danger btn-lg btn-block">No disponible
+                                </button>
+                            </div>
+                            <div class="col-md-4">
+                                <button type="button" onclick="location.assign('{{ url('pricing_page') }}')"
+                                        class="btn btn-primary btn-lg btn-block parpadea text">Cambiar plan
+                                </button>
+                            </div>
+                        {% else %}
+                            <div class="col-md-4">
+                                <button type="button"
+                                        class="disabled btn btn-secondary btn-lg btn-block">{{ app.user.package.name }}</button>
+                            </div>
+                            <div class="col-md-4">
+                                <button type="button" onclick="location.assign('{{ url('pricing_page') }}')"
+                                        class="btn btn-primary btn-lg btn-block parpadea text">Cambiar plan
+                                </button>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="row">
+                        {% if expired.days > 0 %}
+                            <div class="col-md-6" style="text-align: left">
+                                <span style="font-size: small;">Su plan expia dentro de <span
+                                            style="margin: 5px; font-size: medium"
+                                            class="badge badge-danger"> {{ expired.days }}</span>días</span>
+                            </div>
+                            <div class="col-md-6" style="text-align: left">
+                                <span style="font-size: small;">Publicaciones disponibles<span
+                                            style="margin-left: 5px;font-size: medium"
+                                            class="badge badge-danger"> {{ expired.public }}</span></span>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <div class="row payment-method payment-container">
+                        <div class="col-md-4" style="text-align: center">
+                            <h5>EMPLEOS</h5>
+                        </div>
+                        <div class="col-md-4">
+                            <button type="button" class="disabled btn btn-danger btn-lg btn-block">No disponible
+                            </button>
+                        </div>
+                        <div class="col-md-4">
+                            <button type="button" onclick="location.assign('{{ url('pricing_page') }}')"
+                                    class="btn btn-primary btn-lg btn-block parpadea text">Cambiar plan
+                            </button>
+                        </div>
+                    </div>
+                    <hr>
+                {% endif %}
+            {% endif %}
+            {% if app.user.packageServices is not null %}
+
                 <div class="row payment-method payment-container">
                     <div class="col-md-4" style="text-align: center">
-                        <h5>Tu plan es</h5>
+                        <h5>SERVICIOS</h5>
+                    </div>
+                    {% if expired.daysService < 0 %}
+                        <div class="col-md-4">
+                            <button type="button"
+                                    class="disabled btn btn-danger btn-lg btn-block">No disponible
+                            </button>
+                        </div>
+                        <div class="col-md-4">
+                            <button type="button" onclick="location.assign('{{ url('pricing_page') }}')"
+                                    class="btn btn-primary btn-lg btn-block parpadea text">Cambiar plan
+                            </button>
+                        </div>
+                    {% else %}
+                        <div class="col-md-4">
+                            <button type="button"
+                                    class="disabled btn btn-secondary btn-lg btn-block">{{ app.user.packageServices.name }}</button>
+                        </div>
+                        <div class="col-md-4">
+                            <button type="button" onclick="location.assign('{{ url('pricing_page') }}')"
+                                    class="btn btn-primary btn-lg btn-block parpadea text">Cambiar plan
+                            </button>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="row">
+                    {% if expired.daysService > 0 %}
+                        <div class="col-md-6" style="text-align: left">
+                            <span style="font-size: small;">Su plan expia dentro de <span
+                                        style="margin: 5px; font-size: medium"
+                                        class="badge badge-danger"> {{ expired.daysService }}</span>días</span>
+                        </div>
+                        <div class="col-md-6" style="text-align: left">
+                            <span style="font-size: small;">Publicaciones disponibles<span
+                                        style="margin-left: 5px;font-size: medium"
+                                        class="badge badge-danger"> {{ expired.publicService }}</span></span>
+                        </div>
+                    {% endif %}
+                </div>
+            {% else %}
+                <div class="row payment-method payment-container">
+                    <div class="col-md-4" style="text-align: center">
+                        <h5>SERVICIOS</h5>
                     </div>
                     <div class="col-md-4">
-                        <button type="button"
-                                class="disabled btn btn-secondary btn-lg btn-block">{{ app.user.package.name }}</button>
+                        <button type="button" class="disabled btn btn-danger btn-lg btn-block">No disponible</button>
                     </div>
                     <div class="col-md-4">
                         <button type="button" onclick="location.assign('{{ url('pricing_page') }}')"
                                 class="btn btn-primary btn-lg btn-block parpadea text">Cambiar plan
-                        </button>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6" style="text-align: left">
-                        <span style="font-size: small;">Su plan expia dentro de <span style="margin: 5px; font-size: medium" class="badge badge-danger"> {{ expired.days }}</span>días</span>
-                    </div>
-                    <div class="col-md-6" style="text-align: left">
-                        <span style="font-size: small;">Publicaciones disponibles<span style="margin-left: 5px;font-size: medium" class="badge badge-danger"> {{ expired.public }}</span></span>
-                    </div>
-                </div>
-
-            {% else %}
-                <div class="row payment-method payment-container">
-                    <div class="col-md-7">
-                        <h6>Su plan ha expirado</h6>
-                    </div>
-                    <div class="col-md-5">
-                        <button onclick="location.assign('{{ url('pricing_page') }}')" type="button"
-                                class="btn btn-primary btn-lg btn-block parpadea text">Compra tu plan ahora!
                         </button>
                     </div>
                 </div>

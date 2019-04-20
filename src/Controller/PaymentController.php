@@ -3,8 +3,12 @@
 	namespace App\Controller;
 	
 	use App\Entity\Payment;
+	use App\Entity\PaymentForJobs;
 	use App\Entity\User;
+	use App\Form\PaymentForJobsType;
 	use App\Form\PaymentType;
+	use App\Repository\PaymentForJobsRepository;
+	use App\Repository\PaymentForServicesRepository;
 	use App\Repository\PaymentRepository;
 	use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 	use Symfony\Component\HttpFoundation\Request;
@@ -21,48 +25,49 @@
 		/**
 		 * @Route("/", name="payment_index", methods={"GET"})
 		 */
-		public function index(PaymentRepository $paymentRepository): Response
+		public function index(PaymentForJobsRepository $paymentForJobsRepository, PaymentForServicesRepository $paymentForServicesRepository): Response
 		{
 			return $this->render(
 				'payment/index.html.twig',
 				array(
 					'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
-					'payments' => $paymentRepository->findAll(),
+					'payments' => $paymentForJobsRepository->findAll(),
+					'services' =>$paymentForServicesRepository->findAll(),
 				)
 			);
 		}
 		
-		/**
-		 * @Route("/new", name="payment_new", methods={"GET","POST"})
-		 */
-		public function new(Request $request): Response
-		{
-			$payment = new Payment();
-			$form = $this->createForm(PaymentType::class, $payment);
-			$form->handleRequest($request);
-			
-			if ($form->isSubmitted() && $form->isValid()) {
-				$entityManager = $this->getDoctrine()->getManager();
-				$entityManager->persist($payment);
-				$entityManager->flush();
-				
-				return $this->redirectToRoute('payment_index');
-			}
-			
-			return $this->render(
-				'payment/new.html.twig',
-				[
-					'payment' => $payment,
-					'form' => $form->createView(),
-					'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
-				]
-			);
-		}
+//		/**
+//		 * @Route("/new", name="payment_new", methods={"GET","POST"})
+//		 */
+//		public function new(Request $request): Response
+//		{
+//			$payment = new Payment();
+//			$form = $this->createForm(Payment::class, $payment);
+//			$form->handleRequest($request);
+//
+//			if ($form->isSubmitted() && $form->isValid()) {
+//				$entityManager = $this->getDoctrine()->getManager();
+//				$entityManager->persist($payment);
+//				$entityManager->flush();
+//
+//				return $this->redirectToRoute('payment_index');
+//			}
+//
+//			return $this->render(
+//				'payment/new.html.twig',
+//				[
+//					'payment' => $payment,
+//					'form' => $form->createView(),
+//					'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
+//				]
+//			);
+//		}
 		
 		/**
 		 * @Route("/{id}", name="payment_show", methods={"GET"})
 		 */
-		public function show(Payment $payment): Response
+		public function show(PaymentForJobs $payment): Response
 		{
 			return $this->render(
 				'payment/show.html.twig',
@@ -76,9 +81,9 @@
 		/**
 		 * @Route("/{id}/edit", name="payment_edit", methods={"GET","POST"})
 		 */
-		public function edit(Request $request, Payment $payment): Response
+		public function edit(Request $request, PaymentForJobs $payment): Response
 		{
-			$form = $this->createForm(PaymentType::class, $payment);
+			$form = $this->createForm(PaymentForJobsType::class, $payment);
 			$form->handleRequest($request);
 			
 			if ($form->isSubmitted() && $form->isValid()) {

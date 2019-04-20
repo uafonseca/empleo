@@ -2270,7 +2270,7 @@ a:focus {
 }
 
 .job-list .thumb img {
-    max-width: 35px;
+    max-width: 75px;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -10006,6 +10006,14 @@ label.required:before {
 }
 .span-dest{
     background-color: #fe9703;
+    padding: 4px;
+    margin: 5px;
+    border-radius: 3px;
+    font-size: small;
+    color: white;
+}
+.span-empleo{
+    background-color:#218838;
     padding: 4px;
     margin: 5px;
     border-radius: 3px;

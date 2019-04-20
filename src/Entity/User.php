@@ -193,9 +193,13 @@
 		private $companiesSeen;
 		
 		/**
-		 * @ORM\ManyToOne(targetEntity="App\Entity\Payment")
+		 * @ORM\ManyToOne(targetEntity="App\Entity\PaymentForJobs")
 		 */
 		private $package;
+		/**
+		 * @ORM\ManyToOne(targetEntity="App\Entity\PaymentForServices")
+		 */
+		private $packageServices;
 		
 		/**
 		 * @ORM\Column(type="integer", nullable=true)
@@ -230,9 +234,17 @@
 		private $date_of_purchase;
 		
 		/**
+		 * @ORM\Column(type="datetime", nullable=true)
+		 */
+		private $date_of_purchase_service;
+		/**
 		 * @ORM\Column(type="integer", nullable=true)
 		 */
 		private $num_posts;
+		/**
+		 * @ORM\Column(type="integer", nullable=true)
+		 */
+		private $num_posts_services;
 		
 		
 		public function __construct()
@@ -944,6 +956,22 @@
 		/**
 		 * @return mixed
 		 */
+		public function getPackageServices()
+		{
+			return $this->packageServices;
+		}
+		
+		/**
+		 * @param mixed $packageServices
+		 */
+		public function setPackageServices($packageServices): void
+		{
+			$this->packageServices = $packageServices;
+		}
+		
+		/**
+		 * @return mixed
+		 */
 		public function getSecret()
 		{
 			return $this->secret;
@@ -1046,6 +1074,38 @@
 			$this->num_posts = $num_posts;
 			
 			return $this;
+		}
+		
+		/**
+		 * @return mixed
+		 */
+		public function getDateOfPurchaseService()
+		{
+			return $this->date_of_purchase_service;
+		}
+		
+		/**
+		 * @param mixed $date_of_purchase_service
+		 */
+		public function setDateOfPurchaseService($date_of_purchase_service): void
+		{
+			$this->date_of_purchase_service = $date_of_purchase_service;
+		}
+		
+		/**
+		 * @return mixed
+		 */
+		public function getNumPostsServices()
+		{
+			return $this->num_posts_services;
+		}
+		
+		/**
+		 * @param mixed $num_posts_services
+		 */
+		public function setNumPostsServices($num_posts_services): void
+		{
+			$this->num_posts_services = $num_posts_services;
 		}
 		
 		

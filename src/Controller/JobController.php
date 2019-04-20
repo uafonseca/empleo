@@ -13,6 +13,8 @@
 	use App\Entity\Job;
 	use App\Entity\Notification;
 	use App\Entity\Payment;
+	use App\Entity\PaymentForJobs;
+	use App\Entity\PaymentForServices;
 	use App\Entity\User;
 	use Symfony\Component\Form\FormError;
 	use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -34,7 +36,6 @@
 			$currentUser = $this->get('security.token_storage')->getToken()->getUser();
 			$entityManager = $this->getDoctrine()->getManager();
 			$user = $entityManager->getRepository(User::class)->find($currentUser->getId());
-			$packages = $entityManager->getRepository(Payment::class)->findBy(array('adminPayment' => true));
 			$form->handleRequest($request);
 			if ($form->isSubmitted() && $form->isValid()) {
 				$payment = $user->getPackage();
@@ -49,7 +50,7 @@
 						[
 							'form' => $form->createView(),
 							'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
-							'packages' => $packages,
+							'expired' => $this->container->get('app.service.helper')->expired(),
 						]
 					);
 				} elseif ($form->get('date')->getData() > new \DateTime("now")) {
@@ -75,7 +76,7 @@
 			if (null == $this->container->get('app.service.helper')->expired()) {
 				return $this->redirectToRoute('pricing_page');
 			} elseif (
-				$this->container->get('app.service.helper')->expired()['days'] == 0
+				$this->container->get('app.service.helper')->expired()['days'] == -1
 				|| $this->container->get('app.service.helper')->expired()['public'] == 0
 			) {
 				return $this->redirectToRoute('pricing_page');
@@ -85,7 +86,6 @@
 				[
 					'form' => $form->createView(),
 					'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
-					'packages' => $packages,
 					'expired' => $this->container->get('app.service.helper')->expired(),
 				]
 			);

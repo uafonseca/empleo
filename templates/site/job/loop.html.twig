@@ -8,16 +8,13 @@
         </div>
     </div>
     <div class="showing-number">
-        <div class="">
-            Total encontrados({{ jobs.getTotalItemCount }})
-        </div>
-
+        <span>Total encontrados({{ jobs.getTotalItemCount }})</span>
     </div>
 </div>
 
 <div class="job-filter-result">
     {% if jobs|length == 0 %}
-    <div class="job-list ">
+    <div class="job-list row">
         <h4 style="text-align: center">Ups! No hemos encontrado nada aquí</h4>
     </div>
     {% endif %}
@@ -38,10 +35,8 @@
                             {% endif %}
                         </a></h4>
                     <div class="info">
-                                                    <span class="company"><a><i
-                                                                    data-feather="briefcase"></i>{{ j.CompanyName }}</a></span>
-                        <span class="office-location"><a><i
-                                        data-feather="map-pin"></i>{{ j.Localtion }}</a></span>
+                        <span class="company"><a><i data-feather="briefcase"></i>{{ j.CompanyName }}</a></span>
+                        <span class="office-location"><a><i data-feather="map-pin"></i>{{ j.Localtion }}</a></span>
                         {% if j.type == 'partial' %}
                             <span class="job-type part-time"><a><i data-feather="clock"></i>A tiempo parcial</a></span>
                         {% endif %}
@@ -59,15 +54,10 @@
                 <div class="more">
                     <div class="buttons">
                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                            <a id="applied-btn-{{ j.id }}"
-                               onclick="applied('{{ j.id }}')"
-                               class="button">{% if j.id in app.user.applied %}Cancelar{% else %}Aplica ya!{% endif %}</a>
-                            <a onclick="bookMark('{{ j.id }}')"
-                               class="favourite {% if j.id in app.user.bookmarked %}active{% endif %} "><i
-                                        data-feather="heart"></i></a>
+                            <a id="applied-btn-{{ j.id }}" onclick="applied('{{ j.id }}')" class="button">{% if j.id in app.user.applied %}Cancelar{% else %}Aplica ya!{% endif %}</a>
+                            <a onclick="bookMark('{{ j.id }}')" class="favourite {% if j.id in app.user.bookmarked %}active{% endif %} "><i data-feather="heart"></i></a>
                         {% else %}
-                            <a data-toggle="modal" data-target="#modal-login"
-                               class="button">Aplica ya!</a>
+                            <a data-toggle="modal" data-target="#modal-login" class="button">Aplica ya!</a>
                             {#<a  class="favourite"><i data-feather="heart"></i></a>#}
                         {% endif %}
                     </div>
@@ -79,45 +69,6 @@
             </div>
         </div>
     {% endfor %}
-    <div class="account-entry">
-        <div class="modal fade modal-open" id="modal-login" tabindex="-1" role="dialog"
-             aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header text-center">
-                        <h4 class="modal-title"><i data-feather="user"></i>Debes iniciar sesión
-                        </h4>
-                        <button type="button" class="close" data-dismiss="modal"
-                                aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body mx-3">
-                        <form class="" id="login-form" method="post"
-                              action="{{ path("fos_user_security_check") }}">
-                            <div class="md-form mb-5">
-                                <input type="text" value="" name="_username" id="inputUsername"
-                                       class="form-control validate"
-                                       placeholder="Usuario o dirección de correo electrónico"
-                                       required autofocus>
-                            </div>
-                            <div class="md-form mb-5">
-                                <input type="password" name="_password" id="inputPassword"
-                                       class="form-control" placeholder="Contraseña" required>
-                                <input type="hidden" name="_csrf_token"
-                                       value="{{ csrf_token('authenticate') }}">
-                            </div>
-                            <button id="_submit" type="submit"
-                                    class="button primary-bg btn-block">Entrar
-                            </button>
-                        </form>
-                        <p>¿No tiene una cuenta? <a href="{{ path('app_register') }}">Registrarse </a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
 {{ knp_pagination_render(jobs) }}

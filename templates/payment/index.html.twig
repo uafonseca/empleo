@@ -3,7 +3,7 @@
 {% block body %}
     <link rel="stylesheet" type="text/css" href="{{ asset('site/dashboard/css/dashboard.css') }}">
     {#<link rel="stylesheet/scss" type="text/scss" href="{{ asset('site/dashboard/css/multi.scss') }}">#}
-    {{  include ('site/header.html.twig',{'notifications': notifications}  )}}
+    {{ include ('site/header.html.twig',{'notifications': notifications}  ) }}
     <!-- Breadcrumb -->
     <div class="alice-bg padding-top-70 padding-bottom-70">
         <div class="container">
@@ -32,8 +32,7 @@
                     <div class="dashboard-container">
                         <div class="dashboard-content-wrapper" style="width: 85%">
                             <div class="dashboard-section dashboard-recent-activity">
-                                <a class="btn btn-primary" href="{{ path('payment_new') }}">Nuevo paquete</a>
-                                <h4 class="title">Paquetes de empleadores</h4>
+                                <h4 class="title">Paquetes de Empleos <a class="btn btn-primary" href="{{ path('payment_for_jobs_new') }}">Nuevo paquete</a> </h4>
                                 <table class="table table-striped table-bordered">
                                     <thead>
                                     <tr style="font-size: small">
@@ -51,7 +50,6 @@
                                     <tbody>
                                     {% set find = false %}
                                     {% for payment in payments %}
-                                        {% if payment.adminPayment == true %}
                                         <tr>
                                             <td>{{ payment.name }}</td>
                                             <td>{{ payment.price }}</td>
@@ -62,54 +60,48 @@
                                             <td>{{ payment.daysImportants }}</td>
                                             <td>{{ payment.selection ? 'Yes' : 'No' }}</td>
                                             <td>
-                                                <a class="btn btn-info" href="{{ path('payment_show', {'id': payment.id}) }}">Ver</a>
-                                                <a class="btn btn-warning" href="{{ path('payment_edit', {'id': payment.id}) }}">Editar</a>
+                                                <a class="btn btn-info"
+                                                   href="{{ path('payment_show', {'id': payment.id}) }}">Ver</a>
+                                                <a class="btn btn-warning"
+                                                   href="{{ path('payment_edit', {'id': payment.id}) }}">Editar</a>
                                             </td>
                                         </tr>
-                                        {% elseif find == false %}
-                                            {% set find = true %}
-                                            <tr>
-                                                <td colspan="9">
-                                                    <h4 class="title">
-                                                        Paquetes de candidatos
-                                                    </h4>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>{{ payment.name }}</td>
-                                                <td>{{ payment.price }}</td>
-                                                <td>{{ payment.anouncementsNumberMax }}</td>
-                                                <td>{{ payment.cvNumberMax }}</td>
-                                                <td>{{ payment.evaluationsPsicological ? 'Yes' : 'No' }}</td>
-                                                <td>{{ payment.visibleDays }}</td>
-                                                <td>{{ payment.daysImportants }}</td>
-                                                <td>{{ payment.selection ? 'Yes' : 'No' }}</td>
-                                                <td>
-                                                    <a class="btn btn-info" href="{{ path('payment_show', {'id': payment.id}) }}">Ver</a>
-                                                    <a class="btn btn-warning" href="{{ path('payment_edit', {'id': payment.id}) }}">Editar</a>
-                                                </td>
-                                            </tr>
-                                        {% else %}
-                                            <tr>
-                                                <td>{{ payment.name }}</td>
-                                                <td>{{ payment.price }}</td>
-                                                <td>{{ payment.anouncementsNumberMax }}</td>
-                                                <td>{{ payment.cvNumberMax }}</td>
-                                                <td>{{ payment.evaluationsPsicological ? 'Yes' : 'No' }}</td>
-                                                <td>{{ payment.visibleDays }}</td>
-                                                <td>{{ payment.daysImportants }}</td>
-                                                <td>{{ payment.selection ? 'Yes' : 'No' }}</td>
-                                                <td>
-                                                    <a class="btn btn-info" href="{{ path('payment_show', {'id': payment.id}) }}">Ver</a>
-                                                    <a class="btn btn-warning" href="{{ path('payment_edit', {'id': payment.id}) }}">Editar</a>
-                                                </td>
-                                            </tr>
-                                        {% endif %}
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                <h4 class="title">Paquetes de Servicios <a class="btn btn-primary" href="{{ path('payment_for_services_new') }}">Nuevo paquete</a> </h4>
+                                <table class="table table-striped table-bordered">
+                                    <thead>
+                                    <tr style="font-size: small">
+                                        <th scope="col">Nombre</th>
+                                        <th scope="col">Precio</th>
+                                        <th scope="col">Límite de anuncios</th>
+                                        <th scope="col">Días visible</th>
+                                        <th scope="col">Días destacado</th>
+                                        <th scope="col">Opciones</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% set find = false %}
+                                    {% for payment in services %}
+                                        <tr>
+                                            <td>{{ payment.name }}</td>
+                                            <td>{{ payment.price }}</td>
+                                            <td>{{ payment.anouncementsNumberMax }}</td>
+                                            <td>{{ payment.visibleDays }}</td>
+                                            <td>{{ payment.daysImportants }}</td>
+                                            <td>
+                                                <a class="btn btn-info"
+                                                   href="{{ path('payment_for_services_show', {'id': payment.id}) }}">Ver</a>
+                                                <a class="btn btn-warning"
+                                                   href="{{ path('payment_for_services_edit', {'id': payment.id}) }}">Editar</a>
+                                            </td>
+                                        </tr>
                                     {% endfor %}
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
+                           </div>
                         {% include 'admin/dashboard_sidebar.html.twig' %}
                     </div>
                 </div>

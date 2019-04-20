@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PaymentForServices index{% endblock %}
+
+{% block body %}
+    <h1>PaymentForServices index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Aux</th>
+                <th>Anouncements_number_max</th>
+                <th>Visible_days</th>
+                <th>Days_importants</th>
+                <th>Id</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for payment_for_service in payment_for_services %}
+            <tr>
+                <td>{{ payment_for_service.name }}</td>
+                <td>{{ payment_for_service.price }}</td>
+                <td>{{ payment_for_service.aux }}</td>
+                <td>{{ payment_for_service.anouncementsNumberMax }}</td>
+                <td>{{ payment_for_service.visibleDays }}</td>
+                <td>{{ payment_for_service.daysImportants }}</td>
+                <td>{{ payment_for_service.id }}</td>
+                <td>
+                    <a href="{{ path('payment_for_services_show', {'id': payment_for_service.id}) }}">show</a>
+                    <a href="{{ path('payment_for_services_edit', {'id': payment_for_service.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('payment_for_services_new') }}">Create new</a>
+{% endblock %}

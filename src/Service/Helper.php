@@ -36,29 +36,31 @@
 		public function expired()
 		{
 			$currentUser = $this->get('security.token_storage')->getToken()->getUser();
-			if ($currentUser->getPackage() == null) {
-				return null;
-			}
-			if (null != $date_purchase = $currentUser->getDateOfPurchase()) {
+			$days = 0;
+			$daysService = 0;
+			if ($currentUser->getDateOfPurchase() != null && $currentUser->getPackage()!=null) {
 				$pack = $currentUser->getPackage();
-				if ($date_purchase->add(
-						\DateInterval::createfromdatestring('+'.$pack->getVisibleDays().' day')
-					) < new \DateTime('now')) {
-					return null;
+				$date_purchase = $currentUser->getDateOfPurchase();
+				$days = $currentUser->getDateOfPurchase()->add(\DateInterval::createfromdatestring('+'.$pack->getVisibleDays().' day'))->diff(new \DateTime())->format('%a');
+				if($date_purchase->add(\DateInterval::createfromdatestring('+'.$pack->getVisibleDays().' day'))< new \DateTime('now')){
+					$days = -1;
 				}
 			}
-			if ($currentUser->getDateOfPurchase() != null) {
-				return array(
-					'days' => $currentUser->getDateOfPurchase()->diff(new \DateTime())->format('%a'),
-					'public' => $currentUser->getNumPosts(),
-				);
-			} else {
-				return array(
-					'days' => 0,
-					'public' => $currentUser->getNumPosts(),
-				);
+			if ($currentUser->getDateOfPurchaseService() != null &&  $currentUser->getPackageServices() !=null) {
+				$pack = $currentUser->getPackageServices();
+				$date_purchase = $currentUser->getDateOfPurchaseService();
+				$daysService = $currentUser->getDateOfPurchaseService()->add(\DateInterval::createfromdatestring('+'.$pack->getVisibleDays().' day'))->diff(new \DateTime())->format('%a');
+				if($date_purchase->add(\DateInterval::createfromdatestring('+'.$pack->getVisibleDays().' day'))< new \DateTime('now')){
+					$daysService = -1;
+				}
+				
 			}
-			
+			return array(
+				'days' => $days,
+				'public' => $currentUser->getNumPosts(),
+				'daysService' => $daysService,
+				'publicService' => $currentUser->getNumPostsServices(),
+			);
 		}
 		
 		public function loadNotifications()
@@ -96,9 +98,11 @@
 			
 			return $ouput;
 		}
+		
 		public function loadProfessions()
 		{
 			$em = $this->getDoctrine()->getManager();
+			
 			return $em->getRepository(Profession::class)->findAll();
 		}
 		
@@ -110,8 +114,9 @@
 			foreach ($all as $value) {
 				$name = $value['name'];
 				if (!empty($count = $em->getRepository(Job::class)->getCount($name))) {
-					if($name!="")
+					if ($name != "") {
 						$ouput[] = array('name' => $name, 'count' => $count['count']);
+					}
 				}
 			}
 			
@@ -141,8 +146,9 @@
 			foreach ($all as $value) {
 				$name = $value['name'];
 				if (!empty($count = $em->getRepository(Job::class)->getCompanyCount($name))) {
-					if($name!="")
-					$ouput[] = array('name' => $name, 'count' => $count['count']);
+					if ($name != "") {
+						$ouput[] = array('name' => $name, 'count' => $count['count']);
+					}
 				}
 			}
 			

@@ -85,6 +85,45 @@
             </div>
         </div>
     </div>
+    <div class="account-entry">
+        <div class="modal fade modal-open" id="modal-login" tabindex="-1" role="dialog"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h4 class="modal-title"><i data-feather="user"></i>Debes iniciar sesión
+                        </h4>
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body mx-3">
+                        <form class="" id="login-form" method="post"
+                              action="{{ path("fos_user_security_check") }}">
+                            <div class="md-form mb-5">
+                                <input type="text" value="" name="_username" id="inputUsername"
+                                       class="form-control validate"
+                                       placeholder="Usuario o dirección de correo electrónico"
+                                       required autofocus>
+                            </div>
+                            <div class="md-form mb-5">
+                                <input type="password" name="_password" id="inputPassword"
+                                       class="form-control" placeholder="Contraseña" required>
+                                <input type="hidden" name="_csrf_token"
+                                       value="{{ csrf_token('authenticate') }}">
+                            </div>
+                            <button id="_submit" type="submit"
+                                    class="button primary-bg btn-block">Entrar
+                            </button>
+                        </form>
+                        <p>¿No tiene una cuenta? <a href="{{ path('app_register') }}">Registrarse </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Job Listing End -->
 
     <!-- Call to Action -->

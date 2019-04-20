@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PaymentForJobs index{% endblock %}
+
+{% block body %}
+    <h1>PaymentForJobs index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Aux</th>
+                <th>Anouncements_number_max</th>
+                <th>Visible_days</th>
+                <th>Days_importants</th>
+                <th>Cv_number_max</th>
+                <th>Evaluations_psicological</th>
+                <th>Selection</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for payment_for_job in payment_for_jobs %}
+            <tr>
+                <td>{{ payment_for_job.id }}</td>
+                <td>{{ payment_for_job.name }}</td>
+                <td>{{ payment_for_job.price }}</td>
+                <td>{{ payment_for_job.aux }}</td>
+                <td>{{ payment_for_job.anouncementsNumberMax }}</td>
+                <td>{{ payment_for_job.visibleDays }}</td>
+                <td>{{ payment_for_job.daysImportants }}</td>
+                <td>{{ payment_for_job.cvNumberMax }}</td>
+                <td>{{ payment_for_job.evaluationsPsicological ? 'Yes' : 'No' }}</td>
+                <td>{{ payment_for_job.selection ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('payment_for_jobs_show', {'id': payment_for_job.id}) }}">show</a>
+                    <a href="{{ path('payment_for_jobs_edit', {'id': payment_for_job.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('payment_for_jobs_new') }}">Create new</a>
+{% endblock %}

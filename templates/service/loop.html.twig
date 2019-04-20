@@ -27,7 +27,7 @@
             <div class="body">
                 <div class="content">
                     <h4><a href="{{ path('service_view', {'id': j.id}) }}">{{ j.title }}
-                            {%  set max_date = j.date|date_modify("+"~j.user.package.daysImportants~" day") %}
+                            {%  set max_date = j.date|date_modify("+"~j.user.packageServices.daysImportants~" day") %}
                             {% if  max_date|date('Y-m-d') >= "now"|date('Y-m-d')%}
                                 <span class="span-dest">DESTACADO</span>
                             {% endif %}

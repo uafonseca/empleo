@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PaymentForJobs{% endblock %}
+
+{% block body %}
+    <h1>PaymentForJobs</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ payment_for_job.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ payment_for_job.name }}</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>{{ payment_for_job.price }}</td>
+            </tr>
+            <tr>
+                <th>Aux</th>
+                <td>{{ payment_for_job.aux }}</td>
+            </tr>
+            <tr>
+                <th>Anouncements_number_max</th>
+                <td>{{ payment_for_job.anouncementsNumberMax }}</td>
+            </tr>
+            <tr>
+                <th>Visible_days</th>
+                <td>{{ payment_for_job.visibleDays }}</td>
+            </tr>
+            <tr>
+                <th>Days_importants</th>
+                <td>{{ payment_for_job.daysImportants }}</td>
+            </tr>
+            <tr>
+                <th>Cv_number_max</th>
+                <td>{{ payment_for_job.cvNumberMax }}</td>
+            </tr>
+            <tr>
+                <th>Evaluations_psicological</th>
+                <td>{{ payment_for_job.evaluationsPsicological ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Selection</th>
+                <td>{{ payment_for_job.selection ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('payment_for_jobs_index') }}">back to list</a>
+
+    <a href="{{ path('payment_for_jobs_edit', {'id': payment_for_job.id}) }}">edit</a>
+
+    {{ include('payment_for_jobs/_delete_form.html.twig') }}
+{% endblock %}
