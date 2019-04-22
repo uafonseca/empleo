@@ -95,9 +95,9 @@
 			$em = $this->getDoctrine()->getManager();
 			$package = null;
 			if($type == 'job')
-				$em->getRepository(PaymentForJobs::class)->find($packId);
+				$package = 	$em->getRepository(PaymentForJobs::class)->find($packId);
 			else{
-				$em->getRepository(PaymentForServices::class)->find($packId);
+				$package = $em->getRepository(PaymentForServices::class)->find($packId);
 			}
 			return $this->render('site/checkout.html.twig',[
 				'notifications' => $this->loadNotifications(),
