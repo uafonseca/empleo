@@ -63,7 +63,6 @@
 					}
 				} catch (IOExceptionInterface $exception) {
 					echo $exception->getMessage();
-//					die;
 				}
 				if (!$this->container->get('app.service.checker')->isUserValid()) {
 					return true;

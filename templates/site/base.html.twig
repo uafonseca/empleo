@@ -659,10 +659,14 @@
     <script>
         $(document).ready(function () {
             {% if verificated_acount is defined %}
-            {% if verificated_acount  == true %}
-            $('#modal-code').modal('show');
-            $('#modal-code').modal({backdrop: 'static', keyboard: false});
-            {% endif %}
+                {% if verificated_acount  == true %}
+                    {% if is_granted('ROLE_SUPER_ADMIN')%}
+                         console.log('>>>>>>ROLE_SUPER_ADMIN=>VERIFICATION_SKIP<<<<<<<');
+                    {% else %}
+                        $('#modal-code').modal('show');
+                        $('#modal-code').modal({backdrop: 'static', keyboard: false});
+                    {% endif %}
+                {% endif %}
             {% endif %}
         })
     </script>
@@ -740,5 +744,4 @@
 </div>
 </body>
 {% endblock %}
-
 </html>

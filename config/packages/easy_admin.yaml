@@ -109,13 +109,3 @@ easy_admin:
         list:
           fields:
             - name
-      Paquetes_de_pago:
-        class: App\Entity\Payment
-        form:
-          fields:
-            - name
-            - price
-        list:
-          fields:
-            - name
-            - price
