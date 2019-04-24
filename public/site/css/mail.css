@@ -76,6 +76,29 @@ footer div *{
     clear: both;
     font-size: 30px;
 }
+.button {
+    border: 1px solid transparent;
+    outline: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border-radius: 3px;
+    cursor: pointer;
+    -webkit-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+}
+.btn-success {
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745;
+    margin: 20px!important;
+}
+a, a:hover, a:focus {
+    text-decoration: none;
+    display: inline-block;
+    color: inherit;
+    outline: none;
+}
 @media (max-width: 400px) {
     footer {
         display: block!important;

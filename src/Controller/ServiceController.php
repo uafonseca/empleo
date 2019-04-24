@@ -69,15 +69,11 @@
 			} elseif ( $expired['daysService'] == -1 || $expired['publicService'] == 0 ) {
 				return $this->redirectToRoute('pricing_page');
 			}
-//			$packagesJobs = $entityManager->getRepository(PaymentForJobs::class)->findAll();
-//			$packagesServices = $entityManager->getRepository(PaymentForServices::class)->findAll();
 			return $this->render(
 				'service/new.html.twig',
 				[
 					'form' => $form->createView(),
 					'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
-//					'packagesJobs' => $packagesJobs,
-//					'packagesServices' => $packagesServices,
 					'expired'=>$expired,
 				]
 			);
@@ -117,7 +113,7 @@
 			return $this->render('service/view.html.twig',array(
 				'job'=>$service,
 				'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
-				'expired'=>$this->container->get('app.service.helper')->expired(),
+//				'expired'=>$this->container->get('app.service.helper')->expired(),
 			));
 		}
 		

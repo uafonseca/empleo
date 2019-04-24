@@ -42,7 +42,7 @@
 		 */
 		public function mailView()
 		{
-			return $this->render('mail/code.html.twig', array('code' => 1234));
+			return $this->render('mail/contrata.html.twig');
 		}
 		
 		public function verificateUser(AuthorizationCheckerInterface $authChecker)

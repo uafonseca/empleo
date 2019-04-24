@@ -12,6 +12,7 @@
 	use Doctrine\Common\Collections\Collection;
 	use FOS\UserBundle\Model\User as BaseUser;
 	use Doctrine\ORM\Mapping as ORM;
+	use phpDocumentor\Reflection\Types\Array_;
 	use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 	use Symfony\Component\HttpFoundation\File\File;
 	use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -246,6 +247,11 @@
 		 */
 		private $num_posts_services;
 		
+		/**
+		 * @ORM\Column(type="array", nullable=true)
+		 */
+		private $servicesRequest = [];
+		
 		
 		public function __construct()
 		{
@@ -255,6 +261,7 @@
 			$this->bookmarked = array();
 			$this->applied = array();
 			$this->jobAppiled = new ArrayCollection();
+			$this->servicesRequest = array();
 			if ($this->candidate) {
 				$this->setResume(new Resume());
 			}
@@ -1057,7 +1064,7 @@
 			return $this->date_of_purchase;
 		}
 		
-		public function setDateOfPurchase( $date_of_purchase): self
+		public function setDateOfPurchase($date_of_purchase): self
 		{
 			$this->date_of_purchase = $date_of_purchase;
 			
@@ -1108,5 +1115,33 @@
 			$this->num_posts_services = $num_posts_services;
 		}
 		
+		public function getServicesRequest(): ?array
+		{
+			return $this->servicesRequest;
+		}
 		
+		public function setServicesRequest(?array $servicesRequest): self
+		{
+			$this->servicesRequest = $servicesRequest;
+			
+			return $this;
+		}
+		
+		public function addServiceRequest($service)
+		{
+			if($this->servicesRequest == null){
+				$this->servicesRequest = array();
+			}
+			if(!in_array($service,$this->servicesRequest))
+			{
+				$this->servicesRequest[] = $service;
+			}
+		}
+		
+		public function removeServiceRequest($serice)
+		{
+			if (in_array($serice,$this->servicesRequest) ){
+				unset($this->servicesRequest[$serice]);
+			}
+		}
 	}

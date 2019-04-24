@@ -10071,3 +10071,59 @@ div.disabled
     margin-bottom: 10px;
     font-size: large;
 }
+.splass-success{
+    background-color: #01d13d;
+    border: 1px solid #3cff08;
+}
+.splass-error{
+    background-color: rgba(189,23,3,0.89);
+    border: 1px solid rgba(174,23,3,0.92);
+}
+.splass{
+    position: fixed;
+    border-radius: 5px;
+    right: 10px;
+    width: 280px;
+    z-index: 100;
+}
+.splass-success .splass-header{
+    background-color: rgba(43,189,13,0.89);
+    padding: 5px;
+}
+.splass-error .splass-header{
+    background-color:rgba(160,23,3,0.92);
+    padding: 5px;
+    color: white;
+}
+.splass-body p{
+    margin: 5px;
+}
+.splass-error .splass-body p{
+    color: white;
+}
+
+.ajax {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .8 )
+    url('http://i.stack.imgur.com/FhHRx.gif')
+    50% 50%
+    no-repeat;
+}
+
+/* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+body.loading .ajax {
+    overflow: hidden;
+}
+
+/* Anytime the body has the loading class, our
+   modal element will be visible */
+body.loading .ajax {
+    display: block;
+}

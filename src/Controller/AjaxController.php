@@ -96,7 +96,7 @@
 			$t = new \DateTime();
 			$newTime = $t->add(\DateInterval::createFromDateString('-'.$time.' hours'));
 			if ($time > 0) {
-				$i=0;
+				$i = 0;
 				foreach ($jobs as $job) {
 					if ($newTime > $job->getDateCreated()) {
 						unset($jobs[$i]);
@@ -124,6 +124,7 @@
 			
 			return $response;
 		}
+		
 		/**
 		 * @Route("/ajax/filters/services", name="ajax_filters_services")
 		 */
@@ -169,7 +170,7 @@
 			$t = new \DateTime();
 			$newTime = $t->add(\DateInterval::createFromDateString('-'.$time.' hours'));
 			if ($time > 0) {
-				$i=0;
+				$i = 0;
 				foreach ($posts as $job) {
 					if ($newTime > $job->getDate()) {
 						unset($posts[$i]);
@@ -194,6 +195,7 @@
 					)->getContent(),
 				)
 			);
+			
 			return $response;
 		}
 		
@@ -640,5 +642,77 @@
 			}
 			
 			return $response;
+		}
+		
+		/**
+		 * @Route("/ajax/contrata", name="ajax_contrata")
+		 */
+		public function contrataAction(Request $request, \Swift_Mailer $mailer)
+		{
+			$id = $request->request->get('id');
+			$em = $this->getDoctrine()->getManager();
+			$service = $em->getRepository(Anouncement::class)->find($id);
+			$serviceCreator = $service->getUser();
+			$serviceCandidate = $this->get('security.token_storage')->getToken()->getUser();
+			if ($serviceCandidate->getServicesRequest()!= null && in_array($service->getId(), $serviceCandidate->getServicesRequest()) ){
+				$response = new JsonResponse();
+				$response->setStatusCode(423);
+				$response->setData(
+					array(
+						'response' => 'error',
+						'data' => 'error',
+					)
+				);
+				return $response;
+			}
+			try {
+				$message = (new \Swift_Message('Notificación'))
+					->setFrom('emplearecuador@gmail.com')
+					->setBody(
+						$this->renderView(
+							'mail/contrata.html.twig',
+							[
+								'serviceCreator' => $serviceCreator,
+								'serviceCandidate' => $serviceCandidate,
+							]
+						),
+						'text/html'
+					)
+					->setTo($serviceCreator->getEmail());
+				$mailer->send($message);
+				$this->notificate(
+					constants::NOTIFICATIONS_JOB_APPLIED_OK,
+					"Aplicaste al servicio: ".$service->getTitle(),
+					$serviceCandidate
+				);
+				$this->notificate(
+					constants::NOTIFICATIONS_JOB_APPLIED_ADMIN,
+					"El usuario ".$serviceCandidate->getUsername()." ha aplicado a su publicación:".$service->getTitle(),
+					$service->getUser()
+				);
+				$serviceCandidate->addServiceRequest($service->getId());
+				$response = new JsonResponse();
+				$response->setStatusCode(200);
+				$response->setData(
+					array(
+						'response' => 'success',
+						'data' => 'success',
+					)
+				);
+				$em->flush();
+				return $response;
+			} catch (\Exception $exception) {
+				$response = new JsonResponse();
+				$response->setStatusCode(423);
+				$response->setData(
+					array(
+						'response' => 'error',
+						'data' => 'error',
+					)
+				);
+				
+				return $response;
+			}
+			
 		}
 	}

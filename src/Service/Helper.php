@@ -53,7 +53,6 @@
 				if($date_purchase->add(\DateInterval::createfromdatestring('+'.$pack->getVisibleDays().' day'))< new \DateTime('now')){
 					$daysService = -1;
 				}
-				
 			}
 			return array(
 				'days' => $days,
