@@ -10,20 +10,18 @@
     <meta name="keywords" content="empleo, trabajo, oferta, servicios, ecuador, laboral, personal, currículun vitae"/>
     <title>Emplear | {% block title %}{% endblock %}</title>
     {% block stylesheet %}
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="{{ asset('site/assets/css/bootstrap.min.css') }}">
-        <!-- External Css -->
-        <link rel="stylesheet" href="{{ asset('site/assets/css/fontawesome-all.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('site/assets/css/themify-icons.css') }}"/>
-        <link rel="stylesheet" href="{{ asset('site/assets/css/et-line.css') }}"/>
-        <link rel="stylesheet" href="{{ asset('site/assets/css/bootstrap-select.min.css') }}"/>
-        <link rel="stylesheet" href="{{ asset('site/assets/css/plyr.css') }}"/>
-        <link rel="stylesheet" href="{{ asset('site/assets/css/flag.css') }}"/>
-        <link rel="stylesheet" href="{{ asset('site/assets/css/slick.css') }}"/>
-        <link rel="stylesheet" href="{{ asset('site/assets/css/owl.carousel.min.css') }}"/>
-        <link rel="stylesheet" href="{{ asset('site/assets/css/jquery.nstSlider.min.css') }}"/>
-        <!-- Custom Css -->
-        <link rel="stylesheet" type="text/css" href="{{ asset('site/css/main.css') }}">
+        {#<link rel="stylesheet" href="{{ asset('site/assets/css/bootstrap.min.css') }}">#}
+        {#<link rel="stylesheet" href="{{ asset('site/assets/css/fontawesome-all.min.css') }}">#}
+        {#<link rel="stylesheet" href="{{ asset('site/assets/css/themify-icons.css') }}"/>#}
+        {#<link rel="stylesheet" href="{{ asset('site/assets/css/et-line.css') }}"/>#}
+        {#<link rel="stylesheet" href="{{ asset('site/assets/css/bootstrap-select.min.css') }}"/>#}
+        {#<link rel="stylesheet" href="{{ asset('site/assets/css/plyr.css') }}"/>#}
+        {#<link rel="stylesheet" href="{{ asset('site/assets/css/flag.css') }}"/>#}
+        {#<link rel="stylesheet" href="{{ asset('site/assets/css/slick.css') }}"/>#}
+        {#<link rel="stylesheet" href="{{ asset('site/assets/css/jquery.nstSlider.min.css') }}"/>#}
+        {#<link rel="stylesheet" type="text/css" href="{{ asset('site/css/main.css') }}">#}
+        {{ encore_entry_link_tags('app') }}
+        {#<link rel="stylesheet" href="{{ asset('site/assets/css/owl.carousel.min.css') }}"/>#}
         {#<link rel="stylesheet" type="text/css" href="{{ asset('site/css/bootstrap-multiselect.css') }}">#}
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600%7CRoboto:300i,400,500" rel="stylesheet">
@@ -348,7 +346,7 @@
                                         <option value="{{ l.name }}">{{ l.name }}</option>
                                     {% endfor %}
                                 </select>
-                                <button class="button primary-bg"><i class="fas fa-search"></i>Buscar empleo</button>
+                                <button class="button primary-bg"><i class="fas fa-search"></i>Buscar</button>
                             </form>
                             <div class="trending-key">
                             </div>
@@ -729,19 +727,19 @@
             </div>
         </div>
     {% endif %}
-    {#<div class="publicity home-publicity hidden">#}
-        {#<div class="publicity-header">#}
-            {#<button id="close-footer-pub" type="button" class="close" data-dismiss="modal" aria-label="Close">#}
-    {#<span aria-hidden="true">&times;</span>#}
-    {#</button>#}
-        {#</div>#}
-        {#<img class="img-fluid img-thumbnail" src="{{ asset('images/test.jpg') }}" alt="">#}
-        {#<span class="label-pub">Publicidad auspiciada</span>#}
-        {#<div class="text-block">#}
-            {#<h4>Mi publicidad</h4>#}
-            {#<p>Contenido de prueba..... asdsa dsaas dasd sad asd asd sad asdasda</p>#}
-        {#</div>#}
-    {#</div>#}
+    <div class="publicity home-publicity hidden">
+        <div class="publicity-header">
+            <button id="close-footer-pub" type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+    </button>
+        </div>
+        <img class="img-fluid img-thumbnail" src="{{ asset('images/test.jpg') }}" alt="">
+        <span class="label-pub">Publicidad auspiciada</span>
+        <div class="text-block">
+            <h4>Mi publicidad</h4>
+            <p>Contenido de prueba..... asdsa dsaas dasd sad asd asd sad asdasda</p>
+        </div>
+    </div>
 </div>
 </body>
 {% endblock %}

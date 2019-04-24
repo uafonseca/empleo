@@ -23,4 +23,5 @@ return [
     Knp\Bundle\PaginatorBundle\KnpPaginatorBundle::class => ['all' => true],
     Hampe\Bundle\ZurbInkBundle\HampeZurbInkBundle::class => ['all' => true],
     Beelab\PaypalBundle\BeelabPaypalBundle::class => ['all' => true],
+    Symfony\WebpackEncoreBundle\WebpackEncoreBundle::class => ['all' => true],
 ];

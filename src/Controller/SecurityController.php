@@ -32,15 +32,16 @@
 		 */
 		public function afterLogin()
 		{
-			$user = $this->get('security.token_storage')->getToken()->getUser();
-			$is_admin = in_array('ROLE_ADMIN', $user->getRoles());
-			if ($is_admin) {
-				return $this->redirectToRoute('dashboard');
-			} elseif(in_array('ROLE_SUPER_ADMIN', $user->getRoles())) {
-				return $this->redirectToRoute('homepage');
-			}else{
-				return $this->redirectToRoute('job_list');
-			}
+			return $this->redirectToRoute('homepage');
+//			$user = $this->get('security.token_storage')->getToken()->getUser();
+//			$is_admin = in_array('ROLE_ADMIN', $user->getRoles());
+//			if ($is_admin) {
+//				return $this->redirectToRoute('dashboard');
+//			} elseif(in_array('ROLE_SUPER_ADMIN', $user->getRoles())) {
+//				return $this->redirectToRoute('homepage');
+//			}else{
+//				return $this->redirectToRoute('job_list');
+//			}
 		}
 		
 		/**
