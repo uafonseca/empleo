@@ -41,6 +41,8 @@
 				} else {
 					if ($user->getNumPosts() > 0) {
 						$user->setNumPosts($user->getNumPosts() + $pack->getAnouncementsNumberMax());
+					}else{
+						$user->setNumPosts($pack->getAnouncementsNumberMax());
 					}
 				}
 				$user->setPackage($pack);
@@ -49,10 +51,12 @@
 				$pack = $em->getRepository(PaymentForServices::class)->find($request->request->get('package_id'));
 				if ($user->getPackageServices() == null) {
 					$user->setNumPostsServices($pack->getAnouncementsNumberMax());
-					
 				} else {
-					if ($user->getNumPosts() > 0) {
-						$user->setNumPosts($user->getNumPosts() + $pack->getAnouncementsNumberMax());
+					if ($user->getNumPostsServices() > 0) {
+						echo $pack->getAnouncementsNumberMax();
+						$user->setNumPostsServices($user->getNumPostsServices() + $pack->getAnouncementsNumberMax());
+					}else{
+						$user->setNumPostsServices($pack->getAnouncementsNumberMax());
 					}
 				}
 				$user->setPackageServices($pack);

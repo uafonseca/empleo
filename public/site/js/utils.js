@@ -4,7 +4,17 @@ $(document).on({
     ajaxStart: function() { $body.addClass("loading");    },
     ajaxStop: function() { $body.removeClass("loading"); }
 });
-
+function showNotification(type,header,body){
+    if(type =='success' ){
+        $('#splass-s .splass-header #type-success').html(header)
+        $('#splass-s .splass-body p').html(body)
+        $('#splass-s').fadeIn('slow')
+    }else if (type == 'error'){
+        $('#splass-e .splass-header #type-error').html(header)
+        $('#splass-e .splass-body p').html(body)
+        $('#splass-e').fadeIn('slow')
+    }
+}
 $(document).ready(function () {
     setTimeout(
         function()
@@ -48,15 +58,11 @@ function contrata(id,parent) {
         type:'POST'
     }).done(function (response) {
         if(response.data == 'success'){
+            showNotification('success','Notificación','Se ha enviado una solicitud');
             $('#'+parent.id).html('Solicitado')
-            $('#splass').fadeIn("slow")
-            $('.splass-body p').html('Se ha enviado la solicitud al propietario')
         }
     }).fail(function (error) {
         $('#'+parent.id).html('Solicitado')
-        $('#splass').removeClass('splass-success');
-        $('#splass').addClass('splass-error');
-        $('.splass-body p').html('Ya ha seleccionado esta oferta, se ha enviado un email al propietario de la misma')
-        $('#splass').fadeIn("slow")
+        showNotification('error','Error','Ya ha solicitado este servicio');
     })
 }

@@ -37,32 +37,6 @@
 			);
 		}
 		
-//		/**
-//		 * @Route("/new", name="payment_new", methods={"GET","POST"})
-//		 */
-//		public function new(Request $request): Response
-//		{
-//			$payment = new Payment();
-//			$form = $this->createForm(Payment::class, $payment);
-//			$form->handleRequest($request);
-//
-//			if ($form->isSubmitted() && $form->isValid()) {
-//				$entityManager = $this->getDoctrine()->getManager();
-//				$entityManager->persist($payment);
-//				$entityManager->flush();
-//
-//				return $this->redirectToRoute('payment_index');
-//			}
-//
-//			return $this->render(
-//				'payment/new.html.twig',
-//				[
-//					'payment' => $payment,
-//					'form' => $form->createView(),
-//					'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
-//				]
-//			);
-//		}
 		
 		/**
 		 * @Route("/{id}", name="payment_show", methods={"GET"})

@@ -66,7 +66,7 @@
 			$expired = $this->container->get('app.service.helper')->expired();
 			if (null == $expired) {
 				return $this->redirectToRoute('pricing_page');
-			} elseif ( $expired['daysService'] == -1 || $expired['publicService'] == 0 ) {
+			} elseif ( $expired['daysService'] == -1|| $expired['daysService'] == 0 || $expired['publicService'] == 0 ) {
 				return $this->redirectToRoute('pricing_page');
 			}
 			return $this->render(

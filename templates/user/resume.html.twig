@@ -35,12 +35,11 @@
                             <div class="download-resume dashboard-section">
 
                                 {% if cv != null %}
-                                <a href="{{ path('dowload_cv', {'name': cv}) }}">Descargar Curriculum Vitae<i
-                                            data-feather="download"></i></a>
+                                <a href="{{ path('dowload_cv', {'name': cv,'username': app.user.username}) }}">Descargar Curriculum Vitae<i data-feather="download"></i>
+                                </a>
                                 {% endif %}
                                 {% if cart != null %}
-                                <a href="{{ path('dowload_cv', {'name': cart}) }}">Descargar carta de presentación<i
-                                            data-feather="download"></i></a>
+                                <a href="{{ path('dowload_cv', {'name': cart,'username': app.user.username}) }}">Descargar carta de presentación<i data-feather="download"></i></a>
                                 {% endif %}
                             </div>
                             <div class="skill-and-profile dashboard-section">

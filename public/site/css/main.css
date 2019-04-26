@@ -10082,9 +10082,10 @@ div.disabled
 .splass{
     position: fixed;
     border-radius: 5px;
+    top: 300px;
     right: 10px;
     width: 280px;
-    z-index: 100;
+    z-index: 9999;
 }
 .splass-success .splass-header{
     background-color: rgba(43,189,13,0.89);
@@ -10105,7 +10106,7 @@ div.disabled
 .ajax {
     display:    none;
     position:   fixed;
-    z-index:    1000;
+    z-index:    1060;
     top:        0;
     left:       0;
     height:     100%;

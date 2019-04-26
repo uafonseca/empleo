@@ -168,6 +168,8 @@
                                                      href="{{ path('dashboard_bookmarked') }}">Marcados</a></li>
                             <li class="menu-item"><a title="About" href="{{ path('dashboard_applied') }}">Aplicado</a>
                             </li>
+                            <li class="menu-item"><a title="About" href="{{ path('candidates') }}">Lista de
+                                    candidatos</a></li>
                         </ul>
                     </li>
                 {% endif %}
@@ -727,19 +729,41 @@
             </div>
         </div>
     {% endif %}
-    <div class="publicity home-publicity hidden">
-        <div class="publicity-header">
-            <button id="close-footer-pub" type="button" class="close" data-dismiss="modal" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-    </button>
+    <div id="splass-s" class="splass splass-success hidden">
+        <div class="splass-header">
+            <button id="close-footer-pub" onclick="$('#splass-s').fadeOut('slow')" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <span id="type-success"> </span>
         </div>
-        <img class="img-fluid img-thumbnail" src="{{ asset('images/test.jpg') }}" alt="">
-        <span class="label-pub">Publicidad auspiciada</span>
-        <div class="text-block">
-            <h4>Mi publicidad</h4>
-            <p>Contenido de prueba..... asdsa dsaas dasd sad asd asd sad asdasda</p>
+        <div class="splass-body">
+            <p></p>
         </div>
     </div>
+    <div id="splass-e" class="splass splass-error hidden">
+        <div class="splass-header">
+            <button id="close-footer-pub" onclick="$('#splass-e').fadeOut('slow')" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <span id="type-error"> </span>
+        </div>
+        <div class="splass-body">
+            <p></p>
+        </div>
+    </div>
+    {#<div class="publicity home-publicity hidden">#}
+        {#<div class="publicity-header">#}
+            {#<button id="close-footer-pub" type="button" class="close" data-dismiss="modal" aria-label="Close">#}
+    {#<span aria-hidden="true">&times;</span>#}
+    {#</button>#}
+        {#</div>#}
+        {#<img class="img-fluid img-thumbnail" src="{{ asset('images/test.jpg') }}" alt="">#}
+        {#<span class="label-pub">Publicidad auspiciada</span>#}
+        {#<div class="text-block">#}
+            {#<h4>Mi publicidad</h4>#}
+            {#<p>Contenido de prueba..... asdsa dsaas dasd sad asd asd sad asdasda</p>#}
+        {#</div>#}
+    {#</div>#}
 </div>
 </body>
 {% endblock %}

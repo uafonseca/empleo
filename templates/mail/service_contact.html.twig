@@ -1,0 +1,11 @@
+{% extends 'mail/base.html.twig' %}
+ {% block content %}
+     <div class="container">
+        <h2>Notificación de Emplear.com</h2>
+         <img id="logo" src="{{ absolute_url(asset('site/images/logo.png')) }}" alt="Emplear_Logo">
+         <hr>
+         <p>Estimado usuario, {{ remit.username }} ha atendido a su solicitud en la oferta de su servicio y le ha enviado el siguiente mesaje</p>
+         <br>
+         <p><em>{{ body }}</em></p>
+     </div>
+ {% endblock %}

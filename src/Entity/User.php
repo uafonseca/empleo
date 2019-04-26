@@ -252,6 +252,11 @@
 		 */
 		private $servicesRequest = [];
 		
+		/**
+		 * @ORM\Column(type="array", nullable=true)
+		 */
+		private $candidates = [];
+		
 		
 		public function __construct()
 		{
@@ -262,6 +267,7 @@
 			$this->applied = array();
 			$this->jobAppiled = new ArrayCollection();
 			$this->servicesRequest = array();
+			$this->candidates = array();
 			if ($this->candidate) {
 				$this->setResume(new Resume());
 			}
@@ -1129,19 +1135,51 @@
 		
 		public function addServiceRequest($service)
 		{
-			if($this->servicesRequest == null){
+			if ($this->servicesRequest == null) {
 				$this->servicesRequest = array();
 			}
-			if(!in_array($service,$this->servicesRequest))
-			{
+			if (!in_array($service, $this->servicesRequest)) {
 				$this->servicesRequest[] = $service;
 			}
 		}
 		
 		public function removeServiceRequest($serice)
 		{
-			if (in_array($serice,$this->servicesRequest) ){
+			if (in_array($serice, $this->servicesRequest)) {
 				unset($this->servicesRequest[$serice]);
 			}
+		}
+		
+		public function addCandidate($candidate)
+		{
+			if ($this->candidates == null) {
+				$this->candidates = array();
+			}
+			if (!in_array($candidate, $this->candidates)) {
+				$this->candidates[] = $candidate;
+			}
+		}
+		
+		public function removeCandidate($candidate)
+		{
+			if (in_array($candidate, $this->candidates)) {
+				unset($this->candidates[$candidate]);
+			}
+		}
+		
+		public function getCandidates(): ?array
+		{
+			if ($this->candidates == null) {
+				$this->candidates = array();
+			}
+			
+			return $this->candidates;
+		}
+		
+		public function setCandidates(?array $candidates): self
+		{
+			$this->candidates = $candidates;
+			
+			return $this;
 		}
 	}

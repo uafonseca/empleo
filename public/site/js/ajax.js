@@ -1,3 +1,29 @@
+$("#send-email-candidate").on("submit", function (e) {
+    e.preventDefault();
+    let data = {};
+    $(this).serializeArray().forEach((object) => {
+            data[object.name] = object.value;
+    });
+        $.ajax({
+            url: $(this).attr('action'),
+            data: data,
+            type: "POST"
+        }).done(function (response) {
+            if(response.data == 'success'){
+                var id =$('#id').val();
+                $('#modal-'+id).modal('toggle')
+                showNotification('success','Mensaje enviado','Se ha enviado un mensaje al usuaro seleccionado.');
+                $('#send-email-candidate').find('input:text textarea').val('')
+            }else {
+                var id =$('#id').val();
+                $('#modal-'+id).modal('toggle')
+                showNotification('error','Error','Ha ocurrido un error al enviar el mensaje, intentelo más tarde.');
+            }
+        }).fail(function (data) {
+            console.log('fail');
+            console.log(data)
+        })
+})
 function findByFilters() {
     let data = {};
     data['category'] = $('#category-filter').value;
@@ -41,20 +67,6 @@ function findByFiltersServices() {
     })
 }
 
-
-// $(document).ready(function() {
-//     $('#send-btn').on('click', function() {
-//         var $this = $(this);
-//         var loadingText = '<i class="fa fa-circle-o-notch fa-spin"></i> Enviando...';
-//         if ($(this).html() !== loadingText) {
-//             $this.data('original-text', $(this).html());
-//             $this.html(loadingText);
-//         }
-//         setTimeout(function() {
-//             $this.html($this.data('original-text'));
-//         }, 5000);
-//     });
-// })
 $("#send-email").on("submit", function (e) {
     e.preventDefault();
     let data = {};

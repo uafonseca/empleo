@@ -39,7 +39,7 @@
                                         <th>Fecha de publicación</th>
                                         <th>Fecha tope</th>
                                         <th>Estado</th>
-                                        <th class="action">Opciones</th>
+                                        {#<th class="action">Opciones</th>#}
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -74,14 +74,14 @@
                                             {% endif %}
                                             {% if j.status == 'job_expired' %}
                                                 <td class="status expired">Expirado</td>
-                                                <td class="action">
-                                                    <a class="remove" onclick="showModal('{{ j.id }}')"><i data-feather="trash-2"></i></a>
-                                                </td>
+                                                {#<td class="action">#}
+                                                    {#<a class="remove" onclick="showModal('{{ j.id }}')"><i data-feather="trash-2"></i></a>#}
+                                                {#</td>#}
                                             {% else %}
-                                                <td class="action">
-                                                    <a href="{{ path('service_view', {'id': j.id}) }}" class="preview"><i data-feather="eye"></i></a>
-                                                    <a class="remove" onclick="showModal('{{ j.id }}')"><i data-feather="trash-2"></i></a>
-                                                </td>
+                                                {#<td class="action">#}
+                                                    {#<a href="{{ path('service_view', {'id': j.id}) }}" class="preview"><i data-feather="eye"></i></a>#}
+                                                    {#<a class="remove" onclick="showModal('{{ j.id }}')"><i data-feather="trash-2"></i></a>#}
+                                                {#</td>#}
                                             {% endif %}
                                         </tr>
                                     {% endfor %}

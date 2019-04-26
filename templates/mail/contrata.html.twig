@@ -13,7 +13,7 @@
                 <hr>
                 <h2>Notificación servicio</h2>
                 <p>El usuario {{ serviceCandidate.username }} se muestra interesado por su anuncio</p>
-                <a class="button btn-success" href="#">Ver detalles</a>
+                <a class="button btn-success" href="{{ absolute_url('resume_view', {'id': candidate.id}) }}">Ver detalles</a>
             </div>
          </div>
      </div>

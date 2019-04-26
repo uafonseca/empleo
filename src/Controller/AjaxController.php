@@ -680,6 +680,7 @@
 					)
 					->setTo($serviceCreator->getEmail());
 				$mailer->send($message);
+				
 				$this->notificate(
 					constants::NOTIFICATIONS_JOB_APPLIED_OK,
 					"Aplicaste al servicio: ".$service->getTitle(),
@@ -691,6 +692,7 @@
 					$service->getUser()
 				);
 				$serviceCandidate->addServiceRequest($service->getId());
+				$serviceCreator->addCandidate($serviceCandidate->getId());
 				$response = new JsonResponse();
 				$response->setStatusCode(200);
 				$response->setData(
@@ -714,5 +716,51 @@
 				return $response;
 			}
 			
+		}
+		
+		/**
+		 * @Route("/ajax/send/email/candidate", name="ajax_send_email_candidate")
+		 */
+		public function sendEmailTocandidate(Request $request, \Swift_Mailer $mailer){
+			$subject = $request->request->get('email_subject');
+			$body = $request->request->get('email_body');
+			$email = $request->request->get('email');
+			$user = $this->get('security.token_storage')->getToken()->getUser();
+			try {
+				$message = (new \Swift_Message('Notificación: '.$subject))
+				->setFrom('emplearecuador@gmail.com')
+					->setBody(
+						$this->renderView(
+							'mail/service_contact.html.twig',
+							[
+								'remit' => $user,
+								'body' => $body,
+							]
+						),
+						'text/html'
+					)
+					->setTo($email);
+				$mailer->send($message);
+				$response = new JsonResponse();
+				$response->setStatusCode(200);
+				$response->setData(
+					array(
+						'response' => 'success',
+						'data' => 'success',
+					)
+				);
+				return $response;
+				
+			}catch (\Exception $exception){
+				$response = new JsonResponse();
+				$response->setStatusCode(423);
+				$response->setData(
+					array(
+						'response' => 'error',
+						'data' => 'error',
+					)
+				);
+				return $response;
+			}
 		}
 	}

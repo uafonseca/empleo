@@ -24,6 +24,7 @@
 	use App\Form\UserFullyType;
 	use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 	use Symfony\Component\HttpFoundation\BinaryFileResponse;
+	use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 	use Symfony\Component\HttpFoundation\Request;
 	use Symfony\Component\HttpFoundation\Response;
 	use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -75,35 +76,45 @@
 		/**
 		 * @Route("/pricing",name="pricing_page")
 		 */
-		public function pricing(){
+		public function pricing()
+		{
 			$em = $this->getDoctrine()->getManager();
 			$currentUser = $this->get('security.token_storage')->getToken()->getUser();
 			$packagesJobs = $em->getRepository(PaymentForJobs::class)->findAll();
 			$packagesServices = $em->getRepository(PaymentForServices::class)->findAll();
-			return $this->render('site/pricing.html.twig',[
-				'notifications' => $this->loadNotifications(),
-				'packagesJobs' => $packagesJobs,
-				'packagesServices' => $packagesServices,
-			]);
+			
+			return $this->render(
+				'site/pricing.html.twig',
+				[
+					'notifications' => $this->loadNotifications(),
+					'packagesJobs' => $packagesJobs,
+					'packagesServices' => $packagesServices,
+				]
+			);
 		}
 		
 		
 		/**
 		 * @Route("/checkout/{packId}/{type}",name="checkout")
 		 */
-		public function checkout($packId,$type){
+		public function checkout($packId, $type)
+		{
 			$em = $this->getDoctrine()->getManager();
 			$package = null;
-			if($type == 'job')
-				$package = 	$em->getRepository(PaymentForJobs::class)->find($packId);
-			else{
+			if ($type == 'job') {
+				$package = $em->getRepository(PaymentForJobs::class)->find($packId);
+			} else {
 				$package = $em->getRepository(PaymentForServices::class)->find($packId);
 			}
-			return $this->render('site/checkout.html.twig',[
-				'notifications' => $this->loadNotifications(),
-				'package' => $package,
-				'type'=>$type
-			]);
+			
+			return $this->render(
+				'site/checkout.html.twig',
+				[
+					'notifications' => $this->loadNotifications(),
+					'package' => $package,
+					'type' => $type,
+				]
+			);
 		}
 		
 		public function updateJobsFiles()
@@ -137,12 +148,17 @@
 			$verificated = $this->verificateUser($authChecker);
 			$em = $this->getDoctrine()->getManager();
 			$this->container->get('app.service.checker')->checkJobs();
+			
 			return $this->render(
 				'site/job/index.html.twig',
 				[
 					'verificated_acount' => $verificated,
 					'notifications' => $this->loadNotifications(),
-					'jobs' => $em->getRepository(Job::class)->findBy(array('status'=>constants::JOB_STATUS_ACTIVE),array('dateCreated'=>'DESC'),10),
+					'jobs' => $em->getRepository(Job::class)->findBy(
+						array('status' => constants::JOB_STATUS_ACTIVE),
+						array('dateCreated' => 'DESC'),
+						10
+					),
 					'locations' => $this->container->get('app.service.helper')->loadLocations(),
 					'categorys' => $this->container->get('app.service.helper')->loadCategorys(),
 					'citys' => $this->container->get('app.service.helper')->loadCityes(),
@@ -236,7 +252,7 @@
 						'notifications' => $this->loadNotifications(),
 						'public' => $public,
 						'requests' => $em->getRepository(Job::class)->requests($user),
-						'expired'=>$this->container->get('app.service.helper')->expired()
+						'expired' => $this->container->get('app.service.helper')->expired(),
 					)
 				);
 			} else {
@@ -245,7 +261,7 @@
 					array(
 						'verificated_acount' => $verificated,
 						'notifications' => $this->loadNotifications(),
-						'expired'=>$this->container->get('app.service.helper')->expired()
+						'expired' => $this->container->get('app.service.helper')->expired(),
 					)
 				);
 			}
@@ -304,7 +320,7 @@
 						'verificated_acount' => $verificated,
 						'form' => $form->createView(),
 						'notifications' => $this->loadNotifications(),
-						'expired'=>$this->container->get('app.service.helper')->expired()
+						'expired' => $this->container->get('app.service.helper')->expired(),
 					)
 				);
 			} else {
@@ -313,7 +329,7 @@
 					array(
 						'form' => $form->createView(),
 						'notifications' => $this->loadNotifications(),
-						'expired'=>$this->container->get('app.service.helper')->expired()
+						'expired' => $this->container->get('app.service.helper')->expired(),
 					)
 				);
 			}
@@ -464,24 +480,23 @@
 		public function candidates(AuthorizationCheckerInterface $authChecker)
 		{
 			$verificated = $this->verificateUser($authChecker);
+			$user = $this->get('security.token_storage')->getToken()->getUser();
+			$canditatesID = $user->getCandidates();
+			$users = array();
 			$entityManager = $this->getDoctrine()->getManager();
-			$users = $entityManager->getRepository(User::class)->findAll();
-			$i = 0;
-			foreach ($users as $user) {
-				if (!$user->getCandidate()) {
-					unset($users[$i]);
-				}
-				$i++;
-			}
-			$path = $this->getParameter('app.path.user_cv').'/';
 			
+				foreach ($canditatesID as $item) {
+					if ($user->getId() != $item) {
+						array_push($users, $entityManager->getRepository(User::class)->find($item));
+					}
+				}
 			return $this->render(
 				'site/candidate.html.twig',
-				array(
+				array
+				(
 					'verificated_acount' => $verificated,
 					'candidates' => $users,
 					'notifications' => $this->loadNotifications(),
-					'url' => $path,
 				)
 			);
 		}
@@ -520,7 +535,7 @@
 					'candidates' => $pagination,
 					'notifications' => $this->loadNotifications(),
 					'url' => $path,
-					'expired'=>$this->container->get('app.service.helper')->expired()
+					'expired' => $this->container->get('app.service.helper')->expired(),
 				)
 			);
 		}
@@ -543,19 +558,36 @@
 				)
 			);
 		}
+		/**
+		 * @Route("/resume/view/{id}", name="resume_view")
+		 */
+		public function resumeView($id){
+			$em =$this->getDoctrine()->getManager();
+			$user = $em->getRepository(User::class)->find($id);
+			return $this->render(
+				'user/resumeView.html.twig',
+				array(
+					'user' => $user,
+					'notifications' => $this->loadNotifications(),
+				)
+			);
+		}
 		
 		/**
-		 * @Route("/dowload/cv/{name}", name="dowload_cv")
-		 *
+		 * @Route("/dowload/cv/{name}/{username}", name="dowload_cv")
 		 */
-		public function dowloadCv($name)
+		public function dowloadCv($name,$username)
 		{
-			$base = $this->getParameter('kernel.project_dir').'/public/';
-			$path = $this->getParameter('app.path.user_cv').'/';
-			$response = new BinaryFileResponse($base.$path.$name);
-			$response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $name);
-			
-			return $response;
+			try{
+				$base = $this->getParameter('kernel.project_dir').'/public/';
+				$path = $this->getParameter('app.path.user_cv').'/';
+				$response = new BinaryFileResponse($base.$path.$name);
+				$response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $username.'_'.$name);
+				return $response;
+			}catch (FileNotFoundException $exception)
+			{
+				return new Response('File not found');
+			}
 		}
 		
 		/**
@@ -608,6 +640,7 @@
 			
 			return $this->redirectToRoute('homepage');
 		}
+		
 		/**
 		 * @Route("admin/package", name="admin_package")
 		 */
@@ -615,10 +648,13 @@
 		{
 			$em = $this->getDoctrine()->getManager();
 			$packages = $em->getRepository(Payment::class)->findAll();
-			return $this->render('admin/dashboard.html.twig',
+			
+			return $this->render(
+				'admin/dashboard.html.twig',
 				array(
-					'notifications'=>$this->container->get('app.service.helper')->loadNotifications(),
-					'packages'=>$packages,
-				));
+					'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
+					'packages' => $packages,
+				)
+			);
 		}
 	}
