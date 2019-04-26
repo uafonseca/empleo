@@ -4,6 +4,7 @@ namespace Deployer;
 
 require __DIR__ . './../vendor/deployer/deployer/recipe/symfony4.php';
 require __DIR__ . './../vendor/deployer/recipes/recipe/slack.php';
+require __DIR__ . './../vendor/deployer/recipes/recipe/yarn.php';
 
 inventory('hosts.yml');
 
@@ -32,6 +33,8 @@ set('release_version_text', function () {
     return $release;
 });
 
+task('yarn:build', 'cd {{ deploy_path }}/current && yarn run build');
+
 set('slack_webhook', 'https://hooks.slack.com/services/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');
 set('slack_text', "_{{user}}_ is deploying `{{ release_version_text }}` to *{{target}}*");
 set('slack_success_text', '_{{user}}_ - Deploy `{{ release_version_text }}` to *{{target}}* successful');
@@ -41,6 +44,8 @@ set('slack_failure_text', '_{{user}}_ - Deploy `{{ release_version_text }}` to *
 desc('Update database schema');
 task('deploy:schema:update', '{{bin/console}} doctrine:schema:update --force');
 
+before('success', 'yarn:install');
+after('success', 'yarn:build');
 before('success', 'deploy:schema:update');
 after('deploy:failed', 'deploy:unlock');
 
