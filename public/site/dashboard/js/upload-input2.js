@@ -1,14 +1,11 @@
-
-
-// https://codepen.io/gapgag55/pen/ZBENwJ/?editors=0010
-
 (function ($) {
     $(document).ready(function () {
 
         uploadImage()
+
         function uploadImage() {
             var button = $('.upload-images .pic');
-            var uploader = $('<input type="file" name="images" accept="image/*" />');
+            var uploader = $('#service_job_images_images');
             var images = $('.upload-images');
 
             button.on('click', function () {
@@ -17,6 +14,7 @@
 
             uploader.on('change', function () {
                 var reader = new FileReader();
+                // var value = uploader.value();
                 reader.onload = function(event) {
                     images.prepend('<div class="img" style="background-image: url(\'' + event.target.result + '\');" rel="'+ event.target.result  +'"><span class="ti-close"></span></div>')
                 };
@@ -28,15 +26,6 @@
                 $(this).remove()
             })
 
-        }
-        function createInput() {
-            var input = $('<input/>')
-                .attr('type', "file")
-                .attr('name', "file")
-                .attr('accept', "image/*")
-                .attr('hidden', "hidden");
-            var div =  $('.upload-images')
-            div.append(input)
         }
 
     })

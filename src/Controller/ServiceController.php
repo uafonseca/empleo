@@ -4,12 +4,14 @@
 	
 	use App\constants;
 	use App\Entity\Anouncement;
+	use App\Entity\Image;
 	use App\Entity\Job;
 	use App\Entity\Notification;
 	use App\Entity\Payment;
 	use App\Entity\PaymentForJobs;
 	use App\Entity\PaymentForServices;
 	use App\Form\ServiceJobType;
+	use function PHPSTORM_META\type;
 	use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 	use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 	use Symfony\Component\HttpFoundation\Request;
@@ -30,6 +32,18 @@
 			);
 		}
 		
+		public function setMultipleUpload($data, Anouncement $post)
+		{
+			$em = $this->getDoctrine()->getManager();
+			foreach ($data as $item) {
+				$image = new Image();
+				$image->setImageFile($item);
+				$image->setUpdateAt(new \DateTime());
+				$em->persist($image);
+				$post->addImage($image);
+			}
+			$em->flush();
+		}
 		
 		/**
 		 * @Route("/service/new", name="service_new")
@@ -46,11 +60,28 @@
 			$form->handleRequest($request);
 			if ($form->isSubmitted() && $form->isValid()) {
 				$post->setExpiredDate(
-					$post->getDate()->add(\DateInterval::createfromdatestring('+'.$currentUser->getPackageServices()->getVisibleDays().' day'))
+					$post->getDate()->add(
+						\DateInterval::createfromdatestring(
+							'+'.$currentUser->getPackageServices()->getVisibleDays().' day'
+						)
+					)
 				);
+				
+				$files = $post->getImages();
+				$array = &$files->getValues()[0];
+				$post->getImages()->clear();
+				if (count($array) > 0) {
+					foreach ($array as $item) {
+						$image = new Image();
+						$image->setImageFile($item);
+						$image->setUpdateAt(new \DateTime());
+						$entityManager->persist($image);
+						$post->addImage($image);
+					}
+				}
 				$post->setDate(new \DateTime("now"));
 				$post->setStatus(constants::JOB_STATUS_ACTIVE);
-				$entityManager->flush();
+//				$entityManager->flush();
 				$currentUser->setNumPostsServices($currentUser->getNumPostsServices() - 1);
 				$post->setUser($currentUser);
 				$entityManager->persist($post);
@@ -61,20 +92,22 @@
 				$notification->setUser($this->get('security.token_storage')->getToken()->getUser());
 				$notification->setActive(true);
 				$entityManager->persist($notification);
+				
 				return $this->redirectToRoute('service_manage');
 			}
 			$expired = $this->container->get('app.service.helper')->expired();
 			if (null == $expired) {
 				return $this->redirectToRoute('pricing_page');
-			} elseif ( $expired['daysService'] == -1|| $expired['daysService'] == 0 || $expired['publicService'] == 0 ) {
+			} elseif ($expired['daysService'] == -1 || $expired['daysService'] == 0 || $expired['publicService'] == 0) {
 				return $this->redirectToRoute('pricing_page');
 			}
+			
 			return $this->render(
 				'service/new.html.twig',
 				[
 					'form' => $form->createView(),
 					'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
-					'expired'=>$expired,
+					'expired' => $expired,
 				]
 			);
 		}
@@ -86,7 +119,7 @@
 		{
 			$em = $this->getDoctrine()->getManager();
 			$user = $this->get('security.token_storage')->getToken()->getUser();
-			$jobs = $em->getRepository(Anouncement::class)->findBy(array('User' => $user),array('date'=>'desc'));
+			$jobs = $em->getRepository(Anouncement::class)->findBy(array('User' => $user), array('date' => 'desc'));
 			$pagination = $this->get('knp_paginator')->paginate(
 				$jobs,
 				$request->query->getInt('page', 1),
@@ -99,7 +132,7 @@
 				[
 					'jobs' => $pagination,
 					'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
-					'expired'=>$this->container->get('app.service.helper')->expired()
+					'expired' => $this->container->get('app.service.helper')->expired(),
 				]
 			);
 		}
@@ -107,14 +140,19 @@
 		/**
 		 * @Route("/service/view/{id}", name="service_view")
 		 */
-		public function serviceView($id){
-			$em= $this->getDoctrine()->getManager();
+		public function serviceView($id)
+		{
+			$em = $this->getDoctrine()->getManager();
 			$service = $em->getRepository(Anouncement::class)->find($id);
-			return $this->render('service/view.html.twig',array(
-				'job'=>$service,
-				'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
+			
+			return $this->render(
+				'service/view.html.twig',
+				array(
+					'job' => $service,
+					'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
 //				'expired'=>$this->container->get('app.service.helper')->expired(),
-			));
+				)
+			);
 		}
 		
 		/**
@@ -123,7 +161,7 @@
 		public function serviceList(Request $request)
 		{
 			$em = $this->getDoctrine()->getManager();
-			$jobs = $em->getRepository(Anouncement::class)->findBy(array('status'=>constants::JOB_STATUS_ACTIVE));
+			$jobs = $em->getRepository(Anouncement::class)->findBy(array('status' => constants::JOB_STATUS_ACTIVE));
 			$pagination = $this->get('knp_paginator')->paginate(
 				$jobs,
 				$request->query->getInt('page', 1),

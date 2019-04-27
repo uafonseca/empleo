@@ -16,6 +16,8 @@ parameters:
     paypal_signature: 'paypal_signature'
 #    mailer_host: 127.0.0.1
 #    mailer_user: "mailer_user"
+# Twig Configuration
+
 
 services:
     # default configuration for services in *this* file

@@ -58,10 +58,6 @@ class JobType extends AbstractType
                 ],
                 'placeholder' => 'Experiencia'
             ])
-//            ->add('salary_max', IntegerType::class,[
-////                'invalid_message' => 'You entered an invalid value, it should include %num% ',
-////                'invalid_message_parameters' => array('%num%' => 'form.salary_min'),
-//            ])
             ->add('salary_min', IntegerType::class)
             ->add('qualification', ChoiceType::class, [
                 'choices' => [
@@ -78,7 +74,6 @@ class JobType extends AbstractType
 	        ->add('country',null,[
 	        	'attr' => ['id' => 'country'],
 		        ])
-//            ->add('country', CountryType::class,["preferred_choices" => array('EC')])
             ->add('city',null,['attr' => ['id' => 'city']])
             ->add('gender', ChoiceType::class, [
                 'choices' => [

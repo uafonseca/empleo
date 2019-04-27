@@ -91,6 +91,7 @@
 						'required' => true,
 					]
 				)
+				->add('images',ImageType::class)
 				->add('save', SubmitType::class, ['label' => 'Publicar su trabajo']);
 			;
 		}

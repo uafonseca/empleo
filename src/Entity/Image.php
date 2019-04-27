@@ -2,7 +2,10 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use GuzzleHttp\Psr7\UploadedFile;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -41,11 +44,10 @@ class Image
     private $updateAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Anouncement", inversedBy="galery")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Anouncement", inversedBy="images")
      */
-    private $anouncement;
-
+    private $ManyToOne;
+    
     public function __construct()
     {
     
@@ -68,18 +70,18 @@ class Image
         return $this;
     }
 
-    public function getImageFile(): ?string
+    public function getImageFile():?File
     {
         return $this->imageFile;
     }
 
-    public function setImageFile(string $imageFile): self
+    public function setImageFile(File $imageFile): self
     {
-        $this->imageFile = $imageFile;
-	    if ($imageFile) {
-		    $this->updateAt = new \DateTime('now');
+	    $this->imageFile = $imageFile;
+	    if ($imageFile instanceof UploadedFile) {
+		    $this->setUpdateAt(new \DateTime());
 	    }
-        return $this;
+	    return $this;
     }
 
     public function getUpdateAt(): ?\DateTimeInterface
@@ -94,14 +96,14 @@ class Image
         return $this;
     }
 
-    public function getAnouncement(): ?Anouncement
+    public function getManyToOne(): ?Anouncement
     {
-        return $this->anouncement;
+        return $this->ManyToOne;
     }
 
-    public function setAnouncement(?Anouncement $anouncement): self
+    public function setManyToOne(?Anouncement $ManyToOne): self
     {
-        $this->anouncement = $anouncement;
+        $this->ManyToOne = $ManyToOne;
 
         return $this;
     }
