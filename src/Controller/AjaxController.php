@@ -659,7 +659,7 @@
 				$response->setStatusCode(423);
 				$response->setData(
 					array(
-						'response' => 'error',
+						'response' => 'Servicio solicitado previamente',
 						'data' => 'error',
 					)
 				);
@@ -708,7 +708,7 @@
 				$response->setStatusCode(423);
 				$response->setData(
 					array(
-						'response' => 'error',
+						'response' => $exception->getMessage(),
 						'data' => 'error',
 					)
 				);

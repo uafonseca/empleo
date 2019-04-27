@@ -9,6 +9,7 @@ $("#send-email-candidate").on("submit", function (e) {
             data: data,
             type: "POST"
         }).done(function (response) {
+            console.log(response.data)
             if(response.data == 'success'){
                 var id =$('#id').val();
                 $('#modal-'+id).modal('toggle')

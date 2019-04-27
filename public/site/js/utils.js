@@ -62,6 +62,7 @@ function contrata(id,parent) {
             $('#'+parent.id).html('Solicitado')
         }
     }).fail(function (error) {
+        // console.log(error)
         $('#'+parent.id).html('Solicitado')
         showNotification('error','Error','Ya ha solicitado este servicio');
     })
