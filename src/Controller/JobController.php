@@ -90,14 +90,17 @@
 				]
 			);
 		}
-		
-		/**
-		 * @Route("/search/category/{cat}",name="search_category")
-		 */
+
+        /**
+         * @Route("/search/category/{cat}",name="search_category")
+         * @param Request $request
+         * @param $cat
+         * @return mixed
+         */
 		public function searchByCategory(Request $request, $cat)
 		{
 			$em = $this->getDoctrine()->getManager();
-			$category = $em->getRepository(Category::class)->findOneByNameField($cat);
+			$category = $em->getRepository(Category::class)->find($cat);
 			$pagination = $this->get('knp_paginator');
 			
 			return $this->render(

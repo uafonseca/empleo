@@ -22,7 +22,8 @@
 	use App\Form\ResumeType;
 	use App\Form\UserFullyEmployerType;
 	use App\Form\UserFullyType;
-	use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+    use App\Service\CategoryService;
+    use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 	use Symfony\Component\HttpFoundation\BinaryFileResponse;
 	use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 	use Symfony\Component\HttpFoundation\Request;
@@ -34,11 +35,31 @@
 	use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 	use Symfony\Component\Filesystem\Filesystem;
 	use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
-	
+
+
+
+    /**
+     * Class mainController
+     * @package App\Controller
+     */
 	class mainController extends Controller
 	{
-		
-		/**
+
+	    /** @var CategoryService  */
+	    private $categoryService;
+
+        /**
+         * mainController constructor.
+         * @param $categoryService
+         */
+        public function __construct(CategoryService $categoryService)
+        {
+            $this->categoryService = $categoryService;
+            $this->categoryService = $categoryService;
+        }
+
+
+        /**
 		 * @Route("/mail",name="mail")
 		 */
 		public function mailView()
@@ -138,13 +159,13 @@
 				}
 			}
 		}
-		
-		/**
-		 * @Route("/",name="homepage")
-		 */
-		public function index(
-			AuthorizationCheckerInterface $authChecker
-		): Response {
+
+        /**
+         * @Route("/",name="homepage")
+         * @param AuthorizationCheckerInterface $authChecker
+         * @return Response
+         */
+		public function index(AuthorizationCheckerInterface $authChecker): Response {
 			$verificated = $this->verificateUser($authChecker);
 			$em = $this->getDoctrine()->getManager();
 			$this->container->get('app.service.checker')->checkJobs();
@@ -160,7 +181,7 @@
 						10
 					),
 					'locations' => $this->container->get('app.service.helper')->loadLocations(),
-					'categorys' => $this->container->get('app.service.helper')->loadCategorys(),
+					'categorys' => $this->categoryService->findAll(),
 					'citys' => $this->container->get('app.service.helper')->loadCityes(),
 					'company' => $this->container->get('app.service.helper')->LoadCompany(),
 					'entity' => count($em->getRepository(User::class)->findByRole('ROLE_ADMIN')),

@@ -73,8 +73,8 @@
                             <ul>
                                 {% for c in categorys %}
                                     <li>
-                                        <a href="{{ path('search_category', {'cat': c.name}) }}">{{ c.name }}
-                                            <span>({{ c.count }})</span></a>
+                                        <a href="{{ path('search_category', {'cat': c.id}) }}">{{ c.name }}
+                                            <span>({{ categorys|length }})</span></a>
                                     </li>
                                 {% endfor %}
                             </ul>
@@ -456,8 +456,10 @@
                         <div class="key-info">
                             <ul>
                                 {% for c in categorys %}
-                                    <li><a href="{{ path('search_category', {'cat': c.name}) }}">{{ c.name }}
-                                            <span>({{ c.count }})</span></a></li>
+                                    <li>
+                                        <a href="{{ path('search_category', {'cat': c.id}) }}">{{ c.name }}
+                                            <span>({{ categorys|length }})</span></a>
+                                    </li>
                                 {% endfor %}
                             </ul>
                         </div>

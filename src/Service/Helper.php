@@ -91,7 +91,7 @@
 			foreach ($all as $value) {
 				$name = $value['name'];
 				if (!empty($count = $em->getRepository(Job::class)->getCountCategory($name))) {
-					$ouput[] = array('name' => $name, 'count' => $count['count']);
+					$ouput[] = array('name' => $name, 'count' => $count['count'],'id' => $value['id']);
 				}
 			}
 			

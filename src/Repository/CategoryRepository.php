@@ -44,7 +44,7 @@ class CategoryRepository extends ServiceEntityRepository
     }
     public function getCategoryesName(){
         return $this->createQueryBuilder('c')
-            ->select('c.name as name')
+            ->select('c.name as name, c.id as id')
             ->getQuery()
             ->getResult()
             ;

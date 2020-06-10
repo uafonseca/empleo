@@ -16,9 +16,6 @@
 	use App\Entity\Notification;
 	use App\Entity\Profession;
 	use App\Entity\Resume;
-	use App\Entity\Service;
-	use function Deployer\add;
-	use http\Client\Response;
 	use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 	use Symfony\Component\HttpFoundation\JsonResponse;
 	use Symfony\Component\HttpFoundation\Request;
