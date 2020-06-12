@@ -43,6 +43,7 @@
 		}
 
 		public function getCounter(){
+            $ouput = [];
             foreach ($this->categories() as $key => $category) {
             $ouput[] = [
                 [
