@@ -1,0 +1,12 @@
+{% extends 'backend/base.html.twig' %}
+{% import 'backend/macros.html.twig' as macro %}
+
+{% block title %}Administración{% endblock %}
+
+{% block context %}
+    <div class="row">
+        {{ macro.show_card('Categorías (general)', categories|length ,'fas fa-calculator','border-left-success','text-success' ) }}
+        {{ macro.show_card('Publicaciones (Trabajos)', jobs|length ,'fa-calendar','border-left-primary','text-primary' ) }}
+    </div>
+{% endblock %}
+

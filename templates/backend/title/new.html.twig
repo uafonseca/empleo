@@ -1,0 +1,11 @@
+{% extends 'backend/base.html.twig' %}
+
+{% block title %}New Title{% endblock %}
+
+{% block context %}
+    <h1>Nuevo título</h1>
+
+    {{ include('backend/title/_form.html.twig') }}
+
+    <a class="btn btn-link" href="{{ path('title_index') }}"><i class="fa fa-arrow-left"></i> Regresar</a>
+{% endblock %}

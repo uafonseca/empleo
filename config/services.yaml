@@ -72,3 +72,11 @@ services:
         tags:
             - { name: controller.service_arguments }
 
+
+    Sg\DatatablesBundle\Datatable\DatatableFactory:
+        alias: sg_datatables.factory
+    Sg\DatatablesBundle\Response\DatatableResponse:
+        alias: sg_datatables.response
+    Knp\Bundle\TimeBundle\Templating\Helper\TimeHelper:
+        alias: time.templating.helper.time
+

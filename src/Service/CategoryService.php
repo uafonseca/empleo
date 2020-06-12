@@ -38,4 +38,8 @@ class CategoryService
     public function findAll(){
         return $this->repository->findAll();
     }
+
+    public function findAndCount(){
+        return $this->repository->counter();
+    }
 }

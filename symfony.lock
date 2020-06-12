@@ -131,6 +131,18 @@
     "fig/link-util": {
         "version": "1.0.0"
     },
+    "friendsofsymfony/jsrouting-bundle": {
+        "version": "2.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "2.3",
+            "ref": "a9f2e49180f75cdc71ae279a929c4b2e0638de84"
+        },
+        "files": [
+            "config/routes/fos_js_routing.yaml"
+        ]
+    },
     "friendsofsymfony/user-bundle": {
         "version": "v2.1.2"
     },
@@ -200,6 +212,9 @@
     "paquettg/string-encode": {
         "version": "0.1.1"
     },
+    "php": {
+        "version": "7.4"
+    },
     "php-http/discovery": {
         "version": "1.6.1"
     },
@@ -262,6 +277,18 @@
             "version": "5.2",
             "ref": "fb7e19da7f013d0d422fa9bce16f5c510e27609b"
         }
+    },
+    "sg/datatablesbundle": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "a8e5ae79a1eceec929a7393143c85ddf0ae0b4ff"
+        },
+        "files": [
+            "config/routes/sg_datatables_bundle.yaml"
+        ]
     },
     "swiftmailer/swiftmailer": {
         "version": "v6.1.3"
@@ -592,6 +619,9 @@
     },
     "webmozart/assert": {
         "version": "1.4.0"
+    },
+    "willdurand/jsonp-callback-validator": {
+        "version": "v1.1.0"
     },
     "zendframework/zend-code": {
         "version": "3.3.1"

@@ -1,0 +1,13 @@
+{% extends 'backend/base.html.twig' %}
+
+{% block title %}Editar Title{% endblock %}
+
+{% block context %}
+    <h1>Editar</h1>
+
+    {{ include('backend/title/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a class="btn btn-link" href="{{ path('title_index') }}"><i class="fa fa-arrow-left"></i> Regresar</a>
+
+    {{ include('backend/title/_delete_form.html.twig') }}
+{% endblock %}

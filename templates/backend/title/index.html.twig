@@ -1,0 +1,35 @@
+{% extends 'backend/base.html.twig' %}
+
+{% block title %}Title index{% endblock %}
+
+{% block context %}
+    <h1>Títulos</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for title in titles %}
+            <tr>
+                <td>{{ title.name }}</td>
+                <td>{{ title.description }}</td>
+                <td>
+                    <a class="btn btn-success" href="{{ path('title_show', {'id': title.id}) }}"><i class="fa fa-eye"></i></a>
+                    <a class="btn btn-warning" href="{{ path('title_edit', {'id': title.id}) }}"><i class="fa fa-edit"></i></a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary" href="{{ path('title_new') }}"><i class="fa fa-plus"></i> Adicionar</a>
+{% endblock %}

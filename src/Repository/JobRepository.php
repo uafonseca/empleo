@@ -41,6 +41,32 @@
 				->getQuery()
 				->getOneOrNullResult();
 		}
+
+		public function getCounter(){
+            foreach ($this->categories() as $key => $category) {
+            $ouput[] = [
+                [
+                    $category['id'],
+                    $category['name']
+                ],
+                $this->createQueryBuilder('job')
+                    ->select('COUNT(job.id) as cantidad')
+                    ->where('job.category=:c')
+                    ->setParameter('c',$category['id'])
+                    ->getQuery()
+                    ->getResult()
+                ];
+		    }
+            return $ouput;
+        }
+
+        public function categories(){
+            return $this->createQueryBuilder('job')
+                ->select('category.id, category.name')
+                ->join('job.category', 'category')
+                ->getQuery()
+                ->getResult();
+        }
 		
 		public function countJob($user)
 		{
@@ -49,7 +75,7 @@
 					->andWhere('j.user = :user')
 					->setParameter('user', $user)
 					->getQuery()
-					->getResult()
+					->getArrayResult()
 			);
 		}
 		

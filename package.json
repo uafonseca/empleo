@@ -2,6 +2,10 @@
     "devDependencies": {
         "@symfony/webpack-encore": "^0.27.0",
         "core-js": "^3.0.0",
+        "node-sass": "^4.14.1",
+        "sass-loader": "^7.0.1",
+        "ts-loader": "^5.3.0",
+        "typescript": "^3.9.5",
         "webpack-notifier": "^1.6.0"
     },
     "license": "UNLICENSED",
@@ -13,6 +17,22 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "jquery": "^3.4.0"
+        "@fortawesome/fontawesome-free": "^5.13.0",
+        "@furcan/iconpicker": "^1.5.0",
+        "bootstrap": "^4.5.0",
+        "bootstrap-select": "^1.13.17",
+        "chart.js": "^2.9.3",
+        "datatables.net": "^1.10.21",
+        "datatables.net-autofill": "^2.3.5",
+        "datatables.net-bs": "^1.10.21",
+        "datatables.net-bs4": "^1.10.21",
+        "datatables.net-buttons": "^1.6.2",
+        "datatables.net-responsive": "^2.2.5",
+        "fontawesome-iconpicker": "^3.2.0",
+        "install": "^0.13.0",
+        "jquery": "^3.5.1",
+        "jquery-nstslider": "^1.0.4",
+        "popper.js": "^1.16.1",
+        "select2": "^4.0.13"
     }
 }

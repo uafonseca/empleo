@@ -10,359 +10,27 @@
     <meta name="keywords" content="empleo, trabajo, oferta, servicios, ecuador, laboral, personal, currículun vitae"/>
     <title>Emplear | {% block title %}{% endblock %}</title>
     {% block stylesheet %}
-        {#<link rel="stylesheet" href="{{ asset('site/assets/css/bootstrap.min.css') }}">#}
-        {#<link rel="stylesheet" href="{{ asset('site/assets/css/fontawesome-all.min.css') }}">#}
-        {#<link rel="stylesheet" href="{{ asset('site/assets/css/themify-icons.css') }}"/>#}
-        {#<link rel="stylesheet" href="{{ asset('site/assets/css/et-line.css') }}"/>#}
-        {#<link rel="stylesheet" href="{{ asset('site/assets/css/bootstrap-select.min.css') }}"/>#}
-        {#<link rel="stylesheet" href="{{ asset('site/assets/css/plyr.css') }}"/>#}
-        {#<link rel="stylesheet" href="{{ asset('site/assets/css/flag.css') }}"/>#}
-        {#<link rel="stylesheet" href="{{ asset('site/assets/css/slick.css') }}"/>#}
-        {#<link rel="stylesheet" href="{{ asset('site/assets/css/jquery.nstSlider.min.css') }}"/>#}
-        {#<link rel="stylesheet" type="text/css" href="{{ asset('site/css/main.css') }}">#}
         {{ encore_entry_link_tags('app') }}
-        {#<link rel="stylesheet" href="{{ asset('site/assets/css/owl.carousel.min.css') }}"/>#}
-        {#<link rel="stylesheet" type="text/css" href="{{ asset('site/css/bootstrap-multiselect.css') }}">#}
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600%7CRoboto:300i,400,500" rel="stylesheet">
-        {#{{ asset('site/') }}#}
+        {{ encore_entry_link_tags('home') }}
         <!-- Favicon -->
         <link rel="icon" href="{{ asset('site/images/favicon.png') }}">
         <link rel="apple-touch-icon" href="{{ asset('site/images/apple-touch-icon.png') }}">
         <link rel="apple-touch-icon" sizes="72x72" href="{{ asset('site/images/icon-72x72.png') }}">
         <link rel="apple-touch-icon" sizes="114x114" href="{{ asset('site/images/icon-114x114.png') }}">
-        <style>
-            .carousel-item {
-                height: 100vh;
-                min-height: 350px;
-                background: no-repeat center center scroll;
-                -webkit-background-size: cover;
-                -moz-background-size: cover;
-                -o-background-size: cover;
-                background-size: cover;
-            }
-        </style>
         <!--[if lt IE 9]>
         <script src="{{ asset('site/assets/js/html5shiv.min.js') }}"></script>
         <script src="{{ asset('site/assets/js/respond.min.js') }}"></script>
         <![endif]-->
     {% endblock %}
+
 </head>
 <body>
 
-<!-- Header -->
+
 {% block body %}
-<header>
-    <nav class="navbar navbar-expand-xl absolute-nav transparent-nav cp-nav navbar-light bg-light fluid-nav">
-        <a class="navbar-brand" href="{{ path('homepage') }}">
-            <img src="{{ asset('site/images/logo.png') }}" class="img-fluid" alt="" width="200">
-        </a>
-        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse"
-                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto job-browse">
-                <li class="nav-item dropdown ">
-                    <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false">Examinar empleos</a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li class="search-by">
-                            <h5>POR CATEGORÍA</h5>
-                            <ul>
-                                {% for c in categorys %}
-                                    <li>
-                                        <a href="{{ path('search_category', {'cat': c.id}) }}">{{ c.name }}
-                                            <span>({{ categorys|length }})</span></a>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </li>
-                        <li class="search-by">
-                            <h5>POR LOCALIZACIÓN</h5>
-                            <ul>
-                                {% for l in locations %}
-                                    <li><a href="{{ path('search_location', {'location': l.name}) }}">{{ l.name }}
-                                            (<span>{{ l.count }})</span></a></li>
-                                {% endfor %}
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                {#<li class="menu-item service">#}
-                {#<a title="Servicios" href="{{ path('service_list') }}">#}
-                {#<i data-feather="eye"></i>#}
-                {#Servicios#}
-                {#</a>#}
-                {#</li>#}
-            </ul>
-            <ul class="navbar-nav ml-auto main-nav">
-                <li class="menu-item active"><a title="Home" href="{{ path('homepage') }}">Inicio</a></li>
-                {% if is_granted('ROLE_SUPER_ADMIN') %}
-                    {#<li class="menu-item active"><a title="Home" href="/admin">Administración</a></li>#}
-                    <li class="menu-item dropdown">
-                        <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true"
-                           aria-expanded="false">Administración </a>
-                        <ul class="dropdown-menu">
-                            <li class="menu-item"><a title="About" href="/admin">Panel de administración</a></li>
-                            <li class="menu-item"><a title="About" href="{{ path('payment_index') }}">Gestión de paquetes</a></li>
-                        </ul>
-                    </li>
-                {% endif %}
-                <li class="menu-item dropdown">
-                    <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true"
-                       aria-expanded="false">Empleos </a>
-                    <ul class="dropdown-menu">
-                        <li class="menu-item"><a title="About" href="{{ path('job_list') }}">Listado de Empleos</a></li>
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <li class="menu-item"><a title="About" href="{{ path('job_new') }}">Publicar empleo</a></li>
-                        {% endif %}
-                    </ul>
-                </li>
-                <li class="menu-item dropdown">
-                    <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true"
-                       aria-expanded="false">Servicios </a>
-                    <ul class="dropdown-menu">
-                        <li class="menu-item"><a title="About" href="{{ path('service_list') }}">Listado de
-                                servicios</a></li>
-                        {% if is_granted('ROLE_USER') %}
-                            <li class="menu-item"><a title="About" href="{{ path('service_new') }}">Publicar
-                                    servicio</a></li>
-                        {% endif %}
-                    </ul>
-                </li>
-                {% if is_granted('ROLE_ADMIN') %}
-                    <li class="menu-item dropdown">
-                        <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true"
-                           aria-expanded="false">Empleador</a>
-                        <ul class="dropdown-menu">
-                            {% if is_granted('ROLE_SUPER_ADMIN') %}
-                                <li class="menu-item"><a title="About" href="#">Listado de empleadores</a></li>
-                            {% endif %}
-                            <li class="menu-item"><a title="About" href="{{ path('candidates') }}">Lista de
-                                    candidatos</a></li>
-                            <li class="menu-item"><a title="About" href="{{ path('dashboard') }}">Tablero</a></li>
-                            <li class="menu-item"><a title="About" href="{{ path('candidates') }}">Gestión de
-                                    candidatos</a></li>
-                            <li class="menu-item"><a title="About" href="{{ path('job_list') }}">Gestionar trabajo</a>
-                            </li>
-                            <li class="menu-item"><a title="About" href="{{ path('job_new') }}">Publicar trabajo</a>
-                            </li>
-                        </ul>
-                    </li>
-                {% elseif is_granted('ROLE_USER') %}
-                    <li class="menu-item dropdown">
-                        <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true"
-                           aria-expanded="false">Candidato</a>
-                        <ul class="dropdown-menu">
-                            <li class="menu-item"><a title="About" href="{{ path('dashboard') }}">Tablero</a></li>
-                            <li class="menu-item"><a title="About" href="{{ path('dashboard_edit') }}">Editar perfil</a>
-                            </li>
-                            <li class="menu-item"><a title="About" href="{{ path('dashboard_resume_edit') }}">Agregar
-                                    Curriculum Vitae</a></li>
-                            <li class="menu-item"><a title="About" href="{{ path('dashboard_resume') }}">CV</a></li>
-                            <li class="menu-item"><a title="About" href="{{ path('dashboard_resume_edit') }}">Editar
-                                    Curriculum Vitae</a></li>
-                            <li class="menu-item"><a title="About"
-                                                     href="{{ path('dashboard_bookmarked') }}">Marcados</a></li>
-                            <li class="menu-item"><a title="About" href="{{ path('dashboard_applied') }}">Aplicado</a>
-                            </li>
-                            <li class="menu-item"><a title="About" href="{{ path('candidates') }}">Lista de
-                                    candidatos</a></li>
-                        </ul>
-                    </li>
-                {% endif %}
-                <li class="menu-item dropdown">
-                    <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true"
-                       aria-expanded="false">Páginas</a>
-                    <ul class="dropdown-menu">
-                        <li class="menu-item"><a title="About" href="#">Sobre Nosotros</a></li>
-                        <li class="menu-item"><a title="About" href="#">Blog</a></li>
-                        <li class="menu-item"><a title="About" href="#">Contáctenos</a></li>
-                        <li class="menu-item"><a title="About" href="#">Determinación de precios</a></li>
-                        <li class="menu-item"><a title="About" href="#">Cómo funciona</a></li>
-                        <li class="menu-item"><a title="About" href="#">FAQ</a></li>
-                        <li class="menu-item"><a title="About" href="#">Realizar Pedido</a></li>
-                        <li class="menu-item"><a title="About" href="#">Pago Completo</a></li>
-                        <li class="menu-item"><a title="About" href="#">Factura</a></li>
-                        <li class="menu-item"><a title="About" href="{{ path('site_policy') }}">Términos y
-                                condiciones</a></li>
-                    </ul>
-                </li>
-                {% if is_granted('IS_AUTHENTICATED_FULLY') == false %}
-                    <li class="menu-item post-job"><a title="Title" href="{{ path('job_new') }}"><i
-                                    class="fas fa-plus"></i>Publicar un trabajo</a></li>
-                    <li class="menu-item post-job"><a title="Title" href="{{ path('service_new') }}"><i
-                                    class="fas fa-plus"></i>Brindar mis servicios</a></li>
-                {% elseif  is_granted('ROLE_ADMIN') %}
-                    <li class="menu-item post-job"><a title="Title" href="{{ path('service_new') }}"><i
-                                    class="fas fa-plus"></i>Crear servicio</a></li>
-                    <li class="menu-item post-job"><a title="Title" href="{{ path('job_new') }}"><i
-                                    class="fas fa-plus"></i>Publicar un trabajo</a></li>
-                {% elseif is_granted('ROLE_USER') %}
-                    <li class="menu-item post-job"><a title="Title" href="{{ path('service_new') }}"><i
-                                    class="fas fa-plus"></i>Crear servicio</a></li>
-                {% endif %}
-            </ul>
-            <ul class="navbar-nav ml-auto account-nav">
-                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    <li class="dropdown menu-item header-top-notification">
-                        <a href="#" class="notification-button"></a>
-                        <div class="notification-card">
-                            <div class="notification-head">
-                                <span>Notificaciones</span>
-                                <a href="#">Marcar todo como leído</a>
-                            </div>
-                            <div class="notification-body">
-                                {% for n in notifications %}
-                                    <a href="#" class="notification-list">
-                                        <i class="fas fa-bolt"></i>
-                                        <p>{{ n.context }}</p>
-                                        <span class="time">{{ n.date|ago }}</span>
-                                    </a>
-                                {% endfor %}
-                            </div>
-                            <div class="notification-footer">
-                                <a href="{{ path('dashboard') }}">Ver todas las notificaciones</a>
-                            </div>
-                        </div>
-                    </li>
-                {% endif %}
-                {% if app.user == false %}
-                    <li class="menu-item login-popup">
-                        <button title="Title" type="button" data-toggle="modal" data-target="#exampleModalLong">Entrar
-                        </button>
-                    </li>
-                    <li class="menu-item login-popup"><a href="{{ path('app_register') }}" title="Registro"
-                                                         type="button" data-toggle="" data-target="#">Registrarse</a>
-                    </li>
-                {% else %}
-                    <li class="menu-item dropdown">
-                        <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true"
-                           aria-expanded="false">{{ app.user.username }}</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{{ path('dashboard') }}"><span class="ti-user"></span> Cuenta</a></li>
-                            <li><a href="{{ path('dashboard_edit') }}"><span class="ti-settings"></span>
-                                    Configuración</a></li>
-                            <li><a href="/logout"><span class="ti-power-off"></span> Salir</a></li>
-                        </ul>
-                    </li>
-                {% endif %}
-            </ul>
-        </div>
-    </nav>
-    <!-- Modal -->
-    {#{{ dump(app.user) }}#}
-    <div class="account-entry">
-        <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title"><i data-feather="user"></i>Entrar</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="login-form" method="post" action="{{ path("fos_user_security_check") }}">
-                            <div class="form-group">
-                                <input type="text" value="" name="_username" id="inputUsername" class="form-control"
-                                       placeholder="Usuario o dirección de correo electrónico" required autofocus>
-                            </div>
-                            <div class="form-group">
-                                <input type="password" name="_password" id="inputPassword" class="form-control"
-                                       placeholder="Contraseña" required>
-                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                            </div>
-                            <div class="more-option">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                    <label class="form-check-label" for="defaultCheck1">
-                                        Recuérdame
-                                    </label>
-                                </div>
-                                <a href="#">¿Olvidó su contraseña?</a>
-                            </div>
-                            <button id="_submit" type="submit" class="button primary-bg btn-block">Entrar</button>
-                        </form>
-                        <p>¿No tiene una cuenta? <a href="{{ path('app_register') }}">Registrarse </a></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal fade" id="exampleModalLong2" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title"><i data-feather="edit"></i>Registro</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="account-type">
-                            <a href="#" class="candidate-acc active"><i data-feather="user"></i>Candidato</a>
-                            <a href="#" class="employer-acc"><i data-feather="briefcase"></i>Empleador</a>
-                        </div>
-                        <form action="#">
-                            <div class="form-group">
-                                <input type="text" placeholder="Nombre de usuario" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <input type="email" placeholder="Dirección de correo electrónico" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <input type="password" placeholder="Contraseña" class="form-control">
-                            </div>
-                            <div class="more-option terms">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
-                                    <label class="form-check-label" for="defaultCheck2">
-                                        Acepto los <a href="#">términos y condiciones</a>
-                                    </label>
-                                </div>
-                            </div>
-                            <button class="button primary-bg btn-block">Registrar</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Banner -->
-    <div id="banner" class="banner banner-4 ">
-        <section class="" style="position: absolute;z-index: 100; text-align: center;width: 100% ">
-            <div class="row">
-                <div class="col-12">
-                    <div class="banner-content">
-                        <h1>La manera más fácil de encontrar trabajo</h1>
-                        <p> Encuentre Empleos y Oportunidades de Carrera</p>
-
-                        <div class="banner-search">
-                            <form action="{{ path('search') }}" method="post" class="search-form">
-                                <input name="keywords" type="search" placeholder="Ingresar palabras clave">
-                                <select name="location" class="selectpicker" id="search-location">
-                                    <option value="" selected>Ubicación</option>
-                                    {% for l in locations %}
-                                        <option value="{{ l.name }}">{{ l.name }}</option>
-                                    {% endfor %}
-                                </select>
-                                <button class="button primary-bg"><i class="fas fa-search"></i>Buscar</button>
-                            </form>
-                            <div class="trending-key">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-    <!-- Banner End -->
-</header>
+<!-- Header -->
+{{ include('site/job/partials/header.html.twig') }}
 <!-- Header End -->
-
-
 <header>
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner" role="listbox">
@@ -374,6 +42,7 @@
 
 </header>
 <!-- Top Companies -->
+
 <div class="section-padding-top padding-bottom-90">
     <div class="container">
         <div class="row">
@@ -433,6 +102,7 @@
         </div>
     </div>
 </div>
+
 <!-- Top Companies End -->
 <!-- Search and Filter -->
 <div class="searchAndFilter-wrapper">
@@ -457,7 +127,7 @@
                             <ul>
                                 {% for c in categorys %}
                                     <li>
-                                        <a href="{{ path('search_category', {'cat': c.id}) }}">{{ c.name }}
+                                        <a href="{{ path('search_category', {'cat': c[0][0]}) }}">{{ c[0][1] }}
                                             <span>({{ categorys|length }})</span></a>
                                     </li>
                                 {% endfor %}
@@ -511,262 +181,28 @@
 
     {% endblock %}
     {% endblock %}
-    {% block footer %}
-    <!-- Footer -->
-    <footer class="footer-bg">
-        <div class="footer-top border-bottom section-padding-top padding-bottom-40">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="footer-logo">
-                            <a href="#">
-                                <img src="{{ asset('site/images/logo.png') }}" width="200" class="img-fluid" alt="">
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="footer-social">
-                            <ul class="social-icons">
-                                <li><a href="#"><i data-feather="facebook"></i></a></li>
-                                <li><a href="#"><i data-feather="twitter"></i></a></li>
-                                <li><a href="#"><i data-feather="linkedin"></i></a></li>
-                                <li><a href="#"><i data-feather="instagram"></i></a></li>
-                                <li><a href="#"><i data-feather="youtube"></i></a></li>
-                            </ul>
-                            <select class="selectpicker select-language" id="select-country">
-                                <option value="United States of America" selected>EN</option>
-                                <option value="United Kingdom">GB</option>
-                                <option value="Spain">ES</option>
-                                <option value="Portugal">PT</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="footer-widget-wrapper padding-bottom-60 padding-top-80">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-2 col-sm-6">
-                        <div class="footer-widget footer-shortcut-link">
-                            <h4>Information</h4>
-                            <div class="widget-inner">
-                                <ul>
-                                    <li><a href="#">Sobre nosotros</a></li>
-                                    <li><a href="#">Contáctenos</a></li>
-                                    <li><a href="#">Política de privacidad</a></li>
-                                    <li><a href="{{ path('site_policy') }}">Términos & Condiciones</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-sm-6">
-                        <div class="footer-widget footer-shortcut-link">
-                            <h4>Candidatos</h4>
-                            <div class="widget-inner">
-                                <ul>
-                                    <li><a href="#">Crear una cuenta</a></li>
-                                    <li><a href="#">Orientación profesional </a></li>
-                                    <li><a href="#">Mi oficina</a></li>
-                                    <li><a href="#">Preguntas más frecuentes</a></li>
-                                    <li><a href="#">Guías de video</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-sm-6">
-                        <div class="footer-widget footer-shortcut-link">
-                            <h4>Empleadores</h4>
-                            <div class="widget-inner">
-                                <ul>
-                                    <li><a href="#">Crear una cuenta</a></li>
-                                    <li><a href="#">Productos / Servicios</a></li>
-                                    <li><a href="#">Publicar un trabajo</a></li>
-                                    <li><a href="#">Preguntas más frecuentes</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-5 offset-lg-1 col-sm-6">
-                        <div class="footer-widget footer-newsletter">
-                            <h4>Hoja informativa</h4>
-                            <p>Recibe actualizaciones por correo electrónico sobre nuestras últimas noticias y ofertas
-                                especiales.</p>
-                            <form action="#" class="newsletter-form form-inline">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Email address...">
-                                </div>
-                                <button class="btn button primary-bg">Enviar<i class="fas fa-caret-right"></i></button>
-                                <p class="newsletter-error">0 - porfavor introduzca un valor</p>
-                                <p class="newsletter-success">¡Gracias por suscribirse!</p>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom-area">
-            <div class="container">
-                <div class="row">
-                    <div class="col">
-                        <div class="footer-bottom border-top">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <p class="copyright-text">Copyright <a href="#">emplear.gessmac.com</a> 2019, Todos
-                                        los derechos reservados</p>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="back-to-top">
-                                        <a href="#">Volver arriba<i class="fas fa-angle-up"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="ajax"><!-- Place at bottom of page --></div>
-    </footer>
-    <!-- Footer End -->
+    {{ encore_entry_script_tags('app') }}
+    {{ include('site/job/partials/footer.html.twig') }}
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="{{ asset('site/assets/js/jquery.min.js') }}"></script>
-    <script src="{{ asset('site/assets/js/popper.min.js') }}"></script>
-    <script src="{{ asset('site/assets/js/bootstrap.min.js') }}"></script>
+
+
     <script src="{{ asset('site/assets/js/feather.min.js') }}"></script>
     <script src="{{ asset('site/assets/js/bootstrap-select.min.js') }}"></script>
-    <script src="{{ asset('site/assets/js/jquery.nstSlider.min.js') }}"></script>
     <script src="{{ asset('site/assets/js/visible.js') }}"></script>
-    <script src="{{ asset('site/assets/js/jquery.countTo.js') }}"></script>
-    <script src="{{ asset('site/assets/js/chart.js') }}"></script>
     <script src="{{ asset('site/assets/js/plyr.js') }}"></script>
     <script src="{{ asset('site/assets/js/tinymce.min.js') }}"></script>
     <script src="{{ asset('site/assets/js/slick.min.js') }}"></script>
     <script src="{{ asset('site/assets/js/jquery.ajaxchimp.min.js') }}"></script>
-
     <script src="{{ asset('site/js/custom.js') }}"></script>
-
     <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC87gjXWLqrHuLKR0CTV5jNLdP4pEHMhmg"></script>
     <script src="{{ asset('site/js/map.js') }}"></script>
-
     <script src="{{ asset('site/assets/js/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('site/js/searchMap.js') }}"></script>
     <script src="{{ asset('site/js/validate.js') }}"></script>
-
     <script src="{{ asset('site/js/map.js') }}"></script>
     <script src="{{ asset('site/js/utils.js') }}"></script>
     {% block js %}{% endblock %}
-    <script>
-        $(document).ready(function () {
-            {% if verificated_acount is defined %}
-                {% if verificated_acount  == true %}
-                    {% if is_granted('ROLE_SUPER_ADMIN')%}
-                         console.log('>>>>>>ROLE_SUPER_ADMIN=>VERIFICATION_SKIP<<<<<<<');
-                    {% else %}
-                        $('#modal-code').modal('show');
-                        $('#modal-code').modal({backdrop: 'static', keyboard: false});
-                    {% endif %}
-                {% endif %}
-            {% endif %}
-        })
-    </script>
-    <style>
-        #code {
-            text-align: center;
-            width: 50%;
-            padding: 12px 20px;
-            margin: 8px 0;
-            box-sizing: border-box;
-            border-radius: 3px;
-            clear: both;
-            font-size: 30px;
-            padding: 0;
-        }
-    </style>
-    <!-- Modal -->
-    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-        <div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal-code" tabindex="-1" role="dialog"
-             aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header" style="background-color: #fe9703">
-                        <h5 class="modal-title" id="exampleModalLabel">Debe verificar su cuenta</h5>
-                    </div>
-                    <form action="acount/verificate" class="" method="post" style="text-align: center">
-                        <div class="modal-body">
-                            <br>
-                            <h6>
-                                Hola <em>{{ app.user.username }}</em> para completar su registro introduzca el código
-                                que hemos enviado a <em>{{ app.user.email }}</em>
-                            </h6>
-                            <br>
-                            <hr>
-                            {% for label, flashes in app.session.flashbag.all %}
-                                {% for flash in flashes %}
-                                    {% if ( label == 'error' ) %}
-                                        <div class="alert alert-danger alert-dismissible fade show">
-                                            {{ flash }}
-                                        </div>
-                                    {% elseif ( label == 'success' ) %}
-                                        <div class="alert alert-success alert-dismissible fade show">
-                                            {{ flash }}
-                                        </div>
-                                    {% endif %}
-                                {% endfor %}
-                            {% endfor %}
-                            <label style="font-size: 20px" class="label" for="code">Código de verificación</label>
-                            <br>
-                            <input id="code" name="code" required type="text">
-                            <br>
-                            <a href="send/code" class="btn btn-primary">Enviar código nuevamente</a>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Verificar mi cuenta</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    {% endif %}
-    <div id="splass-s" class="splass splass-success hidden">
-        <div class="splass-header">
-            <button id="close-footer-pub" onclick="$('#splass-s').fadeOut('slow')" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            <span id="type-success"> </span>
-        </div>
-        <div class="splass-body">
-            <p></p>
-        </div>
-    </div>
-    <div id="splass-e" class="splass splass-error hidden">
-        <div class="splass-header">
-            <button id="close-footer-pub" onclick="$('#splass-e').fadeOut('slow')" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            <span id="type-error"> </span>
-        </div>
-        <div class="splass-body">
-            <p></p>
-        </div>
-    </div>
-    {#<div class="publicity home-publicity hidden">#}
-        {#<div class="publicity-header">#}
-            {#<button id="close-footer-pub" type="button" class="close" data-dismiss="modal" aria-label="Close">#}
-    {#<span aria-hidden="true">&times;</span>#}
-    {#</button>#}
-        {#</div>#}
-        {#<img class="img-fluid img-thumbnail" src="{{ asset('images/test.jpg') }}" alt="">#}
-        {#<span class="label-pub">Publicidad auspiciada</span>#}
-        {#<div class="text-block">#}
-            {#<h4>Mi publicidad</h4>#}
-            {#<p>Contenido de prueba..... asdsa dsaas dasd sad asd asd sad asdasda</p>#}
-        {#</div>#}
-    {#</div>#}
 </div>
 </body>
-{% endblock %}
 </html>

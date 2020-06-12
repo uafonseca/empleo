@@ -24,4 +24,6 @@ return [
     Hampe\Bundle\ZurbInkBundle\HampeZurbInkBundle::class => ['all' => true],
     Beelab\PaypalBundle\BeelabPaypalBundle::class => ['all' => true],
     Symfony\WebpackEncoreBundle\WebpackEncoreBundle::class => ['all' => true],
+    FOS\JsRoutingBundle\FOSJsRoutingBundle::class => ['all' => true],
+    Sg\DatatablesBundle\SgDatatablesBundle::class => ['all' => true],
 ];

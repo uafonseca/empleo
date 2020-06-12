@@ -1,0 +1,30 @@
+{% extends 'backend/base.html.twig' %}
+
+{% block title %}Title{% endblock %}
+
+{% block context %}
+    <h1>Título</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ title.id }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ title.name }}</td>
+            </tr>
+            <tr>
+                <th>Descripción</th>
+                <td>{{ title.description }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a class="btn btn-link" href="{{ path('title_index') }}"><i class="fa fa-arrow-left"></i> Regresar</a>
+
+    <a class="btn btn-warning" href="{{ path('title_edit', {'id': title.id}) }}"><i class="fa fa-edit"></i> Editar</a>
+
+    {{ include('backend/title/_delete_form.html.twig') }}
+{% endblock %}

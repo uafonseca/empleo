@@ -23,10 +23,12 @@
 	use App\Form\UserFullyEmployerType;
 	use App\Form\UserFullyType;
     use App\Service\CategoryService;
+    use App\Service\JobService;
     use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 	use Symfony\Component\HttpFoundation\BinaryFileResponse;
 	use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
-	use Symfony\Component\HttpFoundation\Request;
+    use Symfony\Component\HttpFoundation\JsonResponse;
+    use Symfony\Component\HttpFoundation\Request;
 	use Symfony\Component\HttpFoundation\Response;
 	use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 	use Symfony\Component\Routing\Annotation\Route;
@@ -48,14 +50,19 @@
 	    /** @var CategoryService  */
 	    private $categoryService;
 
+	    /** @var JobService  */
+	    private $jobService;
+
         /**
          * mainController constructor.
-         * @param $categoryService
+         * @param CategoryService $categoryService
+         * @param JobService $jobService
          */
-        public function __construct(CategoryService $categoryService)
+        public function __construct(CategoryService $categoryService, JobService $jobService)
         {
             $this->categoryService = $categoryService;
             $this->categoryService = $categoryService;
+            $this->jobService = $jobService;
         }
 
 
@@ -181,7 +188,7 @@
 						10
 					),
 					'locations' => $this->container->get('app.service.helper')->loadLocations(),
-					'categorys' => $this->categoryService->findAll(),
+					'categorys' => $this->jobService->findByAllCategory(),
 					'citys' => $this->container->get('app.service.helper')->loadCityes(),
 					'company' => $this->container->get('app.service.helper')->LoadCompany(),
 					'entity' => count($em->getRepository(User::class)->findByRole('ROLE_ADMIN')),
@@ -678,4 +685,84 @@
 				)
 			);
 		}
+
+
+        /**
+         * @Route("/ajax/abaut", name="ajax_about")
+         */
+        public function aboutAjax(Request $request)
+        {
+            $entityManager = $this->getDoctrine()->getManager();
+            $resume = $entityManager->getRepository(Resume::class)->findOneBy(
+                array('id' => $request->request->get('resume_id'))
+            );
+            $info = $request->request->get('about');
+            if ($info != null) {
+                $resume->setAboutMe($request->request->get('about'));
+            }
+            $entityManager->flush();
+            $response = new JsonResponse();
+            $response->setStatusCode(200);
+            $response->setData(
+                array(
+                    'response' => 'success',
+                    'data' => $info,
+                )
+            );
+
+            return $response;
+        }
+
+        /**
+         * @Route("/ajax/skill", name="ajax_skill")
+         */
+        public function skillAjax(Request $request)
+        {
+            $count = $request->request->get('count');
+            $info = array();
+            for ($i = 1; $i <= $count; $i++) {
+                $val = $request->request->get('skill-'.$i);
+                if ($val != null) {
+                    $info[] = $val;
+                }
+            }
+            /** @var User $user */
+            $user = $this->get('security.token_storage')->getToken()->getUser();
+            $user->setSkillArray($info);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+            $response = new JsonResponse();
+            $response->setStatusCode(200);
+            $response->setData(
+                array(
+                    'response' => 'success',
+                    'data' => $info,
+                )
+            );
+
+            return $response;
+        }
+
+        /**
+         * @Route("/ajax/skill/remove", name="ajax_skill_remove")
+         */
+        public function removeSkil(Request $request)
+        {
+            $entityManager = $this->getDoctrine()->getManager();
+            /** @var User $user */
+            $user = $this->get('security.token_storage')->getToken()->getUser();
+            $item = $request->request->get('item');
+            $user->remove_skill($item);
+            $entityManager->flush();
+            $response = new JsonResponse();
+            $response->setStatusCode(200);
+            $response->setData(
+                array(
+                    'response' => 'success',
+                    'data' => $item,
+                )
+            );
+
+            return $response;
+        }
 	}

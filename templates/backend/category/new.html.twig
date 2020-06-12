@@ -1,0 +1,15 @@
+{% extends 'backend/base.html.twig' %}
+
+{% block title %}New Category{% endblock %}
+
+{% block context %}
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Nueva categoría</h1>
+    </div>
+
+    {{ include('backend/category/_form.html.twig') }}
+
+{% endblock %}
+{% block scripts %}
+    {{ encore_entry_script_tags('backend_category_form') }}
+{% endblock %}
