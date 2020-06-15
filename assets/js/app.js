@@ -10,7 +10,7 @@ require('../../public/site/assets/css/slick.css');
 require('../../public/site/assets/css/owl.carousel.min.css');
 require('../../public/site/assets/css/jquery.nstSlider.min.css');
 require('../../public/site/assets/js/jquery.nstSlider.min');
-
+import "datatables.net-bs/css/dataTables.bootstrap.min.css";
 
 require('./select');
 
@@ -23,10 +23,9 @@ import 'chart.js';
 import 'bootstrap-select';
 import 'select2'
 import 'fontawesome-iconpicker';
-// import 'datatables.net';
-// import 'datatables.net-bs';
-// import 'datatables.net-responsive';
-// import 'datatables.net-autofill';
+import 'fontawesome-iconpicker/dist/css/fontawesome-iconpicker.css';
+
+require('./datatables');
 
 
 

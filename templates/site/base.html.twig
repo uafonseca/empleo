@@ -1,18 +1,19 @@
 <!doctype html>
 <html lang="en">
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="google-site-verification" content="vNFitz6yibJRiBJtDjy97_vfeIFfs-ORViVI3_q_Pvo"/>
-    <meta name="description"
-          content="https://emplear.gessmac.com/ Está enfocado el proceso de socialización de las ofertas de emple en ecuador y cualquier parte del mundo"/>
-    <meta name="keywords" content="empleo, trabajo, oferta, servicios, ecuador, laboral, personal, currículun vitae"/>
-    <title>Emplear | {% block title %}{% endblock %}</title>
-    {% block stylesheet %}
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="google-site-verification" content="vNFitz6yibJRiBJtDjy97_vfeIFfs-ORViVI3_q_Pvo"/>
+        <meta name="description"
+              content="https://emplear.gessmac.com Está enfocado el proceso de socialización de las ofertas de emple en ecuador y cualquier parte del mundo"/>
+        <meta name="keywords" content="empleo, trabajo, oferta, servicios, ecuador, laboral, personal, currículun vitae"/>
+
+        <title>Emplear | {% block title %}{% endblock %}</title>
+
         {{ encore_entry_link_tags('app') }}
         {{ encore_entry_link_tags('home') }}
-        <!-- Favicon -->
+
         <link rel="icon" href="{{ asset('site/images/favicon.png') }}">
         <link rel="apple-touch-icon" href="{{ asset('site/images/apple-touch-icon.png') }}">
         <link rel="apple-touch-icon" sizes="72x72" href="{{ asset('site/images/icon-72x72.png') }}">
@@ -21,188 +22,31 @@
         <script src="{{ asset('site/assets/js/html5shiv.min.js') }}"></script>
         <script src="{{ asset('site/assets/js/respond.min.js') }}"></script>
         <![endif]-->
-    {% endblock %}
 
-</head>
-<body>
+        {% block stylesheet %}
+        {% endblock %}
+    </head>
+    <body>
+        {% block body %}
 
+        {{ include('site/job/partials/header.html.twig') }}
 
-{% block body %}
-<!-- Header -->
-{{ include('site/job/partials/header.html.twig') }}
-<!-- Header End -->
-<header>
-    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner" role="listbox">
-            <div class="carousel-item active"
-                 style="background-image: url('{{ asset('site/images/bg/bg2.png') }}')"></div>
-            <div class="carousel-item" style="background-image: url('{{ asset('site/images/bg/bg1.png') }}')"></div>
+        {{ include('site/includes/carousel.html.twig') }}
+
+        {{ include('site/includes/carousel_company.html.twig') }}
+
+        <div class="searchAndFilter-wrapper">
+            {{ include('site/includes/filters.html.twig') }}
+
+                {% block jobs_list %}
+                {% endblock %}
+
         </div>
-    </div>
+        {% endblock %}
 
-</header>
-<!-- Top Companies -->
+            {{ encore_entry_script_tags('app') }}
+            {{ include('site/job/partials/footer.html.twig') }}
+            {{ include('site/job/partials/scripts.html.twig') }}
 
-<div class="section-padding-top padding-bottom-90">
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <div class="company-carousel owl-carousel">
-                    <div class="company-wrap">
-                        <div class="thumb">
-                            <a href="#">
-                                <img src="{{ asset('images/default/company_img (1).gif') }}" class="img-fluid" alt="">
-                            </a>
-                        </div>
-                        <div class="body">
-                            <h4><a href="#">Compañía X</a></h4>
-                            <span>Quito, Ecuador</span>
-                            <a href="#" class="button">Ver ofertas</a>
-                        </div>
-                    </div>
-                    <div class="company-wrap">
-                        <div class="thumb">
-                            <a href="#">
-                                <img src="{{ asset('images/default/company_img (1).jpg') }}" class="img-fluid" alt="">
-                            </a>
-                        </div>
-                        <div class="body">
-                            <h4><a href="#">Compañía X</a></h4>
-                            <span>Quito, Ecuador</span>
-                            <a href="#" class="button">Ver ofertas</a>
-                        </div>
-                    </div>
-                    <div class="company-wrap">
-                        <div class="thumb">
-                            <a href="#">
-                                <img src="{{ asset('images/default/company_img (2).gif') }}" class="img-fluid" alt="">
-                            </a>
-                        </div>
-                        <div class="body">
-                            <h4><a href="#">Compañía X</a></h4>
-                            <span>Quito, Ecuador</span>
-                            <a href="#" class="button">Ver ofertas</a>
-                        </div>
-                    </div>
-                    <div class="company-wrap">
-                        <div class="thumb">
-                            <a href="#">
-                                <img src="{{ asset('images/default/company_img (3).gif') }}" class="img-fluid" alt="">
-                            </a>
-                        </div>
-                        <div class="body">
-                            <h4><a href="#">Compañía X</a></h4>
-                            <span>Quito, Ecuador</span>
-                            <a href="#" class="button">Ver ofertas</a>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Top Companies End -->
-<!-- Search and Filter -->
-<div class="searchAndFilter-wrapper">
-    <div class="section-padding-top padding-bottom-90">
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <div class="section-header">
-                        <h2>Encuentre el trabajo adecuado</h2>
-                        {#<p>Some key info for find job easily</p>#}
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4 col-md-6">
-                    <div class="explore-job">
-                        <div class="explore-job-header">
-                            <h5 class="title">TOP Categorías</h5>
-                            <i data-feather="bookmark"></i>
-                        </div>
-                        <div class="key-info">
-                            <ul>
-                                {% for c in categorys %}
-                                    <li>
-                                        <a href="{{ path('search_category', {'cat': c[0][0]}) }}">{{ c[0][1] }}
-                                            <span>({{ categorys|length }})</span></a>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="explore-job">
-                        <div class="explore-job-header">
-                            <h5 class="title">TOP Ciudades</h5>
-                            <i data-feather="map-pin"></i>
-                        </div>
-                        <div class="key-info">
-                            <ul>
-                                {% for c in citys %}
-                                    <li>
-                                        <a href="{{ path('search_city', {'city': c.name}) }}">
-                                            {{ c.name }}
-                                            <span>
-                                                ({{ c.count }})
-                                            </span>
-                                        </a>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="explore-job">
-                        <div class="explore-job-header">
-                            <h5 class="title">TOP Compañías</h5>
-                            <i data-feather="briefcase"></i>
-                        </div>
-                        <div class="key-info">
-                            <ul>
-                                {% for c in company %}
-                                    <li><a href="{{ path('search_company', {'company': c.name}) }}">{{ c.name }}
-                                            <span>({{ c.count }})</span></a></li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Search and Filter End -->
-    {% block jobs_list %}
-
-    {% endblock %}
-    {% endblock %}
-    {{ encore_entry_script_tags('app') }}
-    {{ include('site/job/partials/footer.html.twig') }}
-
-
-
-    <script src="{{ asset('site/assets/js/feather.min.js') }}"></script>
-    <script src="{{ asset('site/assets/js/bootstrap-select.min.js') }}"></script>
-    <script src="{{ asset('site/assets/js/visible.js') }}"></script>
-    <script src="{{ asset('site/assets/js/plyr.js') }}"></script>
-    <script src="{{ asset('site/assets/js/tinymce.min.js') }}"></script>
-    <script src="{{ asset('site/assets/js/slick.min.js') }}"></script>
-    <script src="{{ asset('site/assets/js/jquery.ajaxchimp.min.js') }}"></script>
-    <script src="{{ asset('site/js/custom.js') }}"></script>
-    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC87gjXWLqrHuLKR0CTV5jNLdP4pEHMhmg"></script>
-    <script src="{{ asset('site/js/map.js') }}"></script>
-    <script src="{{ asset('site/assets/js/owl.carousel.min.js') }}"></script>
-    <script src="{{ asset('site/js/searchMap.js') }}"></script>
-    <script src="{{ asset('site/js/validate.js') }}"></script>
-    <script src="{{ asset('site/js/map.js') }}"></script>
-    <script src="{{ asset('site/js/utils.js') }}"></script>
-    {% block js %}{% endblock %}
-</div>
-</body>
+    </body>
 </html>

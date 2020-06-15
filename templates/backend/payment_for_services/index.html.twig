@@ -1,0 +1,41 @@
+{% extends 'backend/base.html.twig' %}
+
+{% block title %}PaymentForServices index{% endblock %}
+
+{% block context %}
+    <h1>Paquetes de servicios</h1>
+
+    <table class="table table-hover table-bordered text-center">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Cantidad de publicaciones</th>
+                <th>Días de visibilidad</th>
+                <th>Días con prioridad</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for payment_for_service in payment_for_services %}
+            <tr>
+                <td>{{ payment_for_service.name }}</td>
+                <td>{{ payment_for_service.price }}</td>
+                <td>{{ payment_for_service.anouncementsNumberMax }}</td>
+                <td>{{ payment_for_service.visibleDays }}</td>
+                <td>{{ payment_for_service.daysImportants }}</td>
+                <td>
+                    <a href="{{ path('payment_for_services_show', {'id': payment_for_service.id}) }}"><i class="fa fa-eye"></i></a>
+                    <a href="{{ path('payment_for_services_edit', {'id': payment_for_service.id}) }}"><i class="fa fa-edit"></i></a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('payment_for_services_new') }}" class="btn btn-success"><i class="fa fa-plus"></i> Nuevo</a>
+{% endblock %}

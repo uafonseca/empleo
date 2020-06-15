@@ -195,7 +195,10 @@
 				]
 			);
 		}
-		
+
+        /**
+         * @return object[]|null
+         */
 		public function loadNotifications()
 		{
 			$user = $this->get('security.token_storage')->getToken()->getUser();

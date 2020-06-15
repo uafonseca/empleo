@@ -20,12 +20,12 @@
                                 <li><a href="#"><i data-feather="instagram"></i></a></li>
                                 <li><a href="#"><i data-feather="youtube"></i></a></li>
                             </ul>
-                            <select class="selectpicker select-language" id="select-country">
-                                <option value="United States of America" selected>EN</option>
-                                <option value="United Kingdom">GB</option>
-                                <option value="Spain">ES</option>
-                                <option value="Portugal">PT</option>
-                            </select>
+                            {#<select class="selectpicker select-language" id="select-country">#}
+                                {#<option value="United States of America" selected>EN</option>#}
+                                {#<option value="United Kingdom">GB</option>#}
+                                {#<option value="Spain">ES</option>#}
+                                {#<option value="Portugal">PT</option>#}
+                            {#</select>#}
                         </div>
                     </div>
                 </div>
@@ -99,7 +99,7 @@
                         <div class="footer-bottom border-top">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <p class="copyright-text">Copyright <a href="#">emplear.gessmac.com</a> 2019, Todos
+                                    <p class="copyright-text">Copyright <a href="#">emplear.gessmac.com</a> {{ 'now'|date('Y') }}, Todos
                                         los derechos reservados</p>
                                 </div>
                                 <div class="col-lg-6">

@@ -1,0 +1,47 @@
+{% extends 'backend/base.html.twig' %}
+
+{% block title %}PaymentForJobs index{% endblock %}
+
+{% block context %}
+    <h1>Paquetes de empleos</h1>
+
+    <table class="table table-hover table-bordered text-center">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Cantidad de publicaciones</th>
+                <th>Días de visibilidad</th>
+                <th>Días con prioridad</th>
+                <th>Cantidad máxima de CV</th>
+                <th>Evaluaciones psicológicas</th>
+                <th>Selección de candidatos</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for payment_for_job in payment_for_jobs %}
+            <tr>
+                <td>{{ payment_for_job.name }}</td>
+                <td>{{ payment_for_job.price }}</td>
+                <td>{{ payment_for_job.anouncementsNumberMax }}</td>
+                <td>{{ payment_for_job.visibleDays }}</td>
+                <td>{{ payment_for_job.daysImportants }}</td>
+                <td>{{ payment_for_job.cvNumberMax }}</td>
+                <td>{{ payment_for_job.evaluationsPsicological ? 'Si' : 'No' }}</td>
+                <td>{{ payment_for_job.selection ? 'Si' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('payment_for_jobs_show', {'id': payment_for_job.id}) }}"><i class="fa fa-eye"></i></a>
+                    <a href="{{ path('payment_for_jobs_edit', {'id': payment_for_job.id}) }}"><i class="fa fa-edit"></i></a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('payment_for_jobs_new') }}" class="btn btn-success"><i class="fa fa-plus"></i> Nuevo</a>
+{% endblock %}

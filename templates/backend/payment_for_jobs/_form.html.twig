@@ -1,0 +1,21 @@
+{{ form_start(form) }}
+    <div class="row">
+        <div class="col-6">{{ form_row(form.name) }}</div>
+
+        <div class="col-2">{{ form_row(form.price,{ 'type': 'number' }) }}</div>
+
+        <div class="col-2">{{ form_row(form.anouncements_number_max) }}</div>
+
+        <div class="col-2">{{ form_row(form.visible_days) }}</div>
+
+        <div class="col-2">{{ form_row(form.days_importants) }}</div>
+
+        <div class="col-2">{{ form_row(form.cv_number_max) }}</div>
+    </div>
+<div class="row">
+    <div class="col-3">{{ form_row(form.evaluations_psicological) }}</div>
+
+    <div class="col-3">{{ form_row(form.selection) }}</div>
+</div>
+<button class="btn btn-primary"><i class="fa fa-save"></i> Guardar</button>
+{{ form_end(form) }}

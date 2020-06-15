@@ -1,0 +1,52 @@
+{% extends 'backend/base.html.twig' %}
+{% block title %}Tablero{% endblock %}
+{% block context %}
+
+    <div class="text-center">
+        <h3>Datos del paquete</h3>
+        <div class="row">
+            <div class="col-xl-4">
+            </div>
+            <div class="col-xl-4 col-md-6 mb-4 ">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center text-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1"> Paquete de Servicios</div>
+                                <div class="text-md font-weight-bold text-primary text-uppercase mb-1 btn btn-success">{{ payment_for_service.name }} </div>
+                                <hr>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800 text-xs">
+                                    <p class="user-number">Solo es válido para publicar servicios</p>
+                                    <div class="row">
+                                        <div class="col-6 text-right"><h1>${{ payment_for_service.price }}</h1></div>
+                                        <div class="col-6 text-left">
+                                            <p class="user-number text-lg"><i class="fas fa-check-circle text-success"></i> {{ payment_for_service.visibleDays }} Días</p>
+                                            <p class="user-number text-lg"><i class="fas fa-check-circle text-success"></i> {{ payment_for_service.anouncementsNumberMax }} Publicaciones
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800 text-xs">
+                                    <div class="features">
+                                        <h6>Características</h6>
+                                        <p class="user-number"><i class="fas fa-check-circle text-success"></i> Anuncio destacado
+                                            <strong>{{ payment_for_service.daysImportants }}</strong> días</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a href="{{ path('payment_for_services_index') }}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Regresar</a>
+
+        <a href="{{ path('payment_for_services_edit', {'id': payment_for_service.id}) }}" class="btn btn-warning"><i class="fa fa-edit"></i> Editar</a>
+
+        {{ include('backend/payment_for_services/_delete_form.html.twig') }}
+    </div>
+
+{% endblock %}
+

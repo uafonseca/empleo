@@ -5,22 +5,23 @@ namespace App\Controller;
 use App\Entity\PaymentForServices;
 use App\Form\PaymentForServicesType;
 use App\Repository\PaymentForServicesRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/payment/for/services")
+ * @Route("/backebd/payment/services")
  */
-class PaymentForServicesController extends Controller
+class PaymentForServicesController extends AbstractController
 {
     /**
      * @Route("/", name="payment_for_services_index", methods={"GET"})
      */
     public function index(PaymentForServicesRepository $paymentForServicesRepository): Response
     {
-        return $this->render('payment_for_services/index.html.twig', [
+        return $this->render('backend/payment_for_services/index.html.twig', [
             'payment_for_services' => $paymentForServicesRepository->findAll(),
         ]);
     }
@@ -39,13 +40,11 @@ class PaymentForServicesController extends Controller
             $entityManager->persist($paymentForService);
             $entityManager->flush();
 
-            return $this->redirectToRoute('payment_index');
+            return $this->redirectToRoute('payment_for_services_index');
         }
 
-        return $this->render('payment_for_services/new.html.twig', [
-            'payment_for_service' => $paymentForService,
+        return $this->render('backend/payment_for_services/new.html.twig', [
             'form' => $form->createView(),
-	        'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
         ]);
     }
 
@@ -54,9 +53,8 @@ class PaymentForServicesController extends Controller
      */
     public function show(PaymentForServices $paymentForService): Response
     {
-        return $this->render('payment_for_services/show.html.twig', [
+        return $this->render('backend/payment_for_services/show.html.twig', [
             'payment_for_service' => $paymentForService,
-	        'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
         ]);
     }
 
@@ -71,15 +69,14 @@ class PaymentForServicesController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('payment_index', [
+            return $this->redirectToRoute('payment_for_services_index', [
                 'id' => $paymentForService->getId(),
             ]);
         }
 
-        return $this->render('payment_for_services/edit.html.twig', [
+        return $this->render('backend/payment_for_services/edit.html.twig', [
             'payment_for_service' => $paymentForService,
             'form' => $form->createView(),
-	        'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
         ]);
     }
 

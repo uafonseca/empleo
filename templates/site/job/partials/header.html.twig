@@ -9,40 +9,6 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto job-browse">
-                <li class="nav-item dropdown ">
-                    <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false">Examinar empleos</a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li class="search-by">
-                            <h5>POR CATEGORÍA</h5>
-                            <ul>
-                                {% for c in categorys %}
-                                    <li>
-                                        <a href="{{ path('search_category', {'cat': c[0][0]}) }}">{{ c[0][1] }}
-                                            <span>({{ categorys|length }})</span></a>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </li>
-                        <li class="search-by">
-                            <h5>POR LOCALIZACIÓN</h5>
-                            <ul>
-                                {% for l in locations %}
-                                    <li><a href="{{ path('search_location', {'location': l.name}) }}">{{ l.name }}
-                                            (<span>{{ l.count }})</span></a></li>
-                                {% endfor %}
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                {#<li class="menu-item service">#}
-                {#<a title="Servicios" href="{{ path('service_list') }}">#}
-                {#<i data-feather="eye"></i>#}
-                {#Servicios#}
-                {#</a>#}
-                {#</li>#}
-            </ul>
             <ul class="navbar-nav ml-auto main-nav">
                 <li class="menu-item active"><a title="Home" href="{{ path('homepage') }}">Inicio</a></li>
                 {% if is_granted('ROLE_SUPER_ADMIN') %}
@@ -52,8 +18,6 @@
                            aria-expanded="false">Administración </a>
                         <ul class="dropdown-menu">
                             <li class="menu-item"><a title="About" href="{{ path('backend') }}">Panel de administración</a></li>
-                            <li class="menu-item"><a title="About" href="{{ path('payment_index') }}">Gestión de
-                                    paquetes</a></li>
                         </ul>
                     </li>
                 {% endif %}
@@ -140,15 +104,15 @@
                 {% if is_granted('IS_AUTHENTICATED_FULLY') == false %}
                     <li class="menu-item post-job"><a title="Title" href="{{ path('job_new') }}"><i
                                     class="fas fa-plus"></i>Publicar un trabajo</a></li>
-                    <li class="menu-item btn-primary"><a title="Title" href="{{ path('service_new') }}"><i
+                    <li class="menu-item post-job"><a title="Title" href="{{ path('service_new') }}"><i
                                     class="fas fa-plus"></i>Brindar mis servicios</a></li>
                 {% elseif  is_granted('ROLE_ADMIN') %}
-                    <li class="menu-item btn btn-primary"><a title="Title" href="{{ path('service_new') }}"><i
+                    <li class="menu-item post-job"><a title="Title" href="{{ path('service_new') }}"><i
                                     class="fas fa-plus"></i>Crear servicio</a></li>
                     <li class="menu-item post-job"><a title="Title" href="{{ path('job_new') }}"><i
                                     class="fas fa-plus"></i>Publicar un trabajo</a></li>
                 {% elseif is_granted('ROLE_USER') %}
-                    <li class="menu-item btn-primary"><a title="Title" href="{{ path('service_new') }}"><i
+                    <li class="menu-item post-job"><a title="Title" href="{{ path('service_new') }}"><i
                                     class="fas fa-plus"></i>Crear servicio</a></li>
                 {% endif %}
             </ul>

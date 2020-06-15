@@ -16,3 +16,6 @@
 
     {{ include('backend/category/_delete_form.html.twig') }}
 {% endblock %}
+{% block scripts %}
+    {{ encore_entry_script_tags('backend_category_form') }}
+{% endblock %}

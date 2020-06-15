@@ -1,0 +1,12 @@
+{% for notification in notifications %}
+    <a class="dropdown-item d-flex align-items-center" href="#">
+        <div class="dropdown-list-image mr-3">
+            <img class="rounded-circle" src="{{ vich_uploader_asset(notification.user,'imageFile') }}" alt="">
+            <div class="status-indicator bg-success"></div>
+        </div>
+        <div class="font-weight-bold">
+            <div class="text-truncate">{{ notification.context }}</div>
+            <div class="small text-gray-500">{{ notification.date|ago }}</div>
+        </div>
+    </a>
+{% endfor %}

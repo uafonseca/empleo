@@ -1,0 +1,13 @@
+{% extends 'backend/base.html.twig' %}
+{% block title %}Tablero{% endblock %}
+{% block context %}
+
+    <h1>Editar</h1>
+
+    {{ include('backend/payment_for_services/_form.html.twig', {'button_label': 'Actualizar'}) }}
+    <br>
+    <a href="{{ path('payment_for_services_index') }}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Regresar</a>
+
+    {{ include('backend/payment_for_services/_delete_form.html.twig') }}
+
+{% endblock %}

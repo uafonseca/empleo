@@ -412,7 +412,7 @@ $(document).ready(function() {
       toolbar: 'bullist numlist',
     });
 
-    console.log(tinyMCE.EditorManager.editors);
+    // console.log(tinyMCE.EditorManager.editors);
 
     /*-------------------------------------------
       Listing Sidebar Switch
@@ -429,10 +429,10 @@ $(document).ready(function() {
         $('.sidebar-controller .sidebar-switch').on('click', function() {
           if($(this).hasClass('on')) {
             $('.slim-footer').css('width', 760);
-            console.log(windowWidth);
+            // console.log(windowWidth);
           } else {
             $('.slim-footer').css('width', 1040);
-            console.log(windowWidth);
+            // console.log(windowWidth);
           }
         })
 
@@ -445,7 +445,7 @@ $(document).ready(function() {
       $(document).on('click','.sidebar-switch', function() {
         $(this).toggleClass('on');
         if($(this).hasClass('on')){
-          console.log('on');
+          // console.log('on');
 
           $('.sidebar-controller label span').text('Hide');
 
@@ -469,7 +469,7 @@ $(document).ready(function() {
           $('.listing-side-map').width(mapWidth);
 
         } else {
-          console.log('not on');
+          // console.log('not on');
           $('.sidebar-controller label span').text('Show');
 
           $('.job-filter-wrapper').css({

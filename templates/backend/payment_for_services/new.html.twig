@@ -1,0 +1,11 @@
+{% extends 'backend/base.html.twig' %}
+{% block title %}Tablero{% endblock %}
+{% block context %}
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Nuevo paquete</h1>
+    </div>
+
+    {{ include('backend/payment_for_services/_form.html.twig') }}
+
+{% endblock %}

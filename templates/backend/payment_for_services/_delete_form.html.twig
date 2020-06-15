@@ -1,5 +1,6 @@
 <form method="post" action="{{ path('payment_for_services_delete', {'id': payment_for_service.id}) }}" onsubmit="return confirm('¿Seguro que desea eliminar el paquete seleccionado?');">
     <input type="hidden" name="_method" value="DELETE">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ payment_for_service.id) }}">
-    <button class="btn">Eliminar</button>
+    <br>
+    <button class="btn btn-danger"><i class="fas fa-trash"></i> Eliminar</button>
 </form>

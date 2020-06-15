@@ -5,22 +5,23 @@ namespace App\Controller;
 use App\Entity\PaymentForJobs;
 use App\Form\PaymentForJobsType;
 use App\Repository\PaymentForJobsRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/payment/for/jobs")
+ * @Route("/backebd/payment/job")
  */
-class PaymentForJobsController extends Controller
+class PaymentForJobsController extends AbstractController
 {
     /**
      * @Route("/", name="payment_for_jobs_index", methods={"GET"})
      */
     public function index(PaymentForJobsRepository $paymentForJobsRepository): Response
     {
-        return $this->render('payment_for_jobs/index.html.twig', [
+        return $this->render('backend/payment_for_jobs/index.html.twig', [
             'payment_for_jobs' => $paymentForJobsRepository->findAll(),
         ]);
     }
@@ -39,13 +40,12 @@ class PaymentForJobsController extends Controller
             $entityManager->persist($paymentForJob);
             $entityManager->flush();
 
-            return $this->redirectToRoute('payment_index');
+            return $this->redirectToRoute('payment_for_jobs_index');
         }
 
-        return $this->render('payment_for_jobs/new.html.twig', [
+        return $this->render('backend/payment_for_jobs/new.html.twig', [
             'payment_for_job' => $paymentForJob,
             'form' => $form->createView(),
-	        'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
         ]);
     }
 
@@ -54,7 +54,7 @@ class PaymentForJobsController extends Controller
      */
     public function show(PaymentForJobs $paymentForJob): Response
     {
-        return $this->render('payment_for_jobs/show.html.twig', [
+        return $this->render('backend/payment_for_jobs/show.html.twig', [
             'payment_for_job' => $paymentForJob,
         ]);
     }
@@ -75,7 +75,7 @@ class PaymentForJobsController extends Controller
             ]);
         }
 
-        return $this->render('payment_for_jobs/edit.html.twig', [
+        return $this->render('backend/payment_for_jobs/edit.html.twig', [
             'payment_for_job' => $paymentForJob,
             'form' => $form->createView(),
         ]);

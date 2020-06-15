@@ -1,0 +1,69 @@
+<div class="section-padding-top padding-bottom-90">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="section-header">
+                    <h2>Encuentre el trabajo adecuado</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-6">
+                <div class="explore-job">
+                    <div class="explore-job-header">
+                        <h5 class="title">TOP Categorías</h5>
+                        <i data-feather="bookmark"></i>
+                    </div>
+                    <div class="key-info">
+                        <ul>
+                            {% for c in categorys %}
+                                <li>
+                                    <a href="{{ path('search_category', {'cat': c[0][0]}) }}">{{ c[0][1] }}
+                                        <span>({{ categorys|length }})</span></a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="explore-job">
+                    <div class="explore-job-header">
+                        <h5 class="title">TOP Ciudades</h5>
+                        <i data-feather="map-pin"></i>
+                    </div>
+                    <div class="key-info">
+                        <ul>
+                            {% for c in citys %}
+                                <li>
+                                    <a href="{{ path('search_city', {'city': c.name}) }}">
+                                        {{ c.name }}
+                                        <span>
+                                                ({{ c.count }})
+                                            </span>
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="explore-job">
+                    <div class="explore-job-header">
+                        <h5 class="title">TOP Compañías</h5>
+                        <i data-feather="briefcase"></i>
+                    </div>
+                    <div class="key-info">
+                        <ul>
+                            {% for c in company %}
+                                <li><a href="{{ path('search_company', {'company': c.name}) }}">{{ c.name }}
+                                        <span>({{ c.count }})</span></a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

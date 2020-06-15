@@ -25,6 +25,7 @@ Encore
      */
     .addEntry('app', './assets/js/app.js')
     .addEntry('home', './assets/site/js/home/layout.js')
+    .addEntry('custon', './assets/backend/js/custon.js')
     .addEntry('backend_layout', './assets/backend/js/layout.js')
     .addEntry('backend_category_form', './assets/backend/category/form.js')
 
@@ -80,6 +81,7 @@ Encore
 
     // uncomment if you're having problems with a jQuery plugin
     .autoProvidejQuery()
+    .enableLessLoader()
 
 
 // uncomment if you use API Platform Admin (composer req api-admin)
