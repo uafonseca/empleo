@@ -1,0 +1,25 @@
+{% extends 'backend/base.html.twig' %}
+{% form_theme form
+    'bootstrap_4_layout.html.twig'
+    'backend/policy/theme.html.twig'
+    'backend/jquery.collection.html.twig' %}
+{% block title %}New Policy{% endblock %}
+
+{% block context %}
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Términos & condiciones</h6>
+        </div>
+        <div class="card-body">
+
+                {{ include('backend/policy/_form.html.twig') }}
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    {{ encore_entry_script_tags('backend_terms_form') }}
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Policy{% endblock %}
+
+{% block body %}
+    <h1>Policy</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ policy.id }}</td>
+            </tr>
+            <tr>
+                <th>Welcome_message</th>
+                <td>{{ policy.welcomeMessage }}</td>
+            </tr>
+            <tr>
+                <th>Privacity</th>
+                <td>{{ policy.privacity }}</td>
+            </tr>
+            <tr>
+                <th>Information</th>
+                <td>{{ policy.information }}</td>
+            </tr>
+            <tr>
+                <th>Security</th>
+                <td>{{ policy.security }}</td>
+            </tr>
+            <tr>
+                <th>Updated</th>
+                <td>{{ policy.updated }}</td>
+            </tr>
+            <tr>
+                <th>Terms</th>
+                <td>{{ policy.terms ? policy.terms|join(', ') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Conditions</th>
+                <td>{{ policy.conditions ? policy.conditions|join(', ') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Terms_header</th>
+                <td>{{ policy.termsHeader }}</td>
+            </tr>
+            <tr>
+                <th>Conditions_header</th>
+                <td>{{ policy.conditionsHeader }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('policy_index') }}">back to list</a>
+
+    <a href="{{ path('policy_edit', {'id': policy.id}) }}">edit</a>
+
+    {{ include('policy/_delete_form.html.twig') }}
+{% endblock %}

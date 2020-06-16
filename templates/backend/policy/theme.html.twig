@@ -1,0 +1,48 @@
+{% block _policy_terminos_row %}
+    {{ block('form_row') }}
+{% endblock %}
+
+{% block _policy_terminos_entry_row %}
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <div class="row">
+                <div class="col-6">
+                    <h6 class="m-0 font-weight-bold text-primary">Término</h6>
+                </div>
+                <div class="col-6">
+                    <a href="#" class="float-right text-danger mt-collection pull-right policy_terms-collection-remove policy_terms-collection-action"><i class="fa fa-trash"></i></a>
+                </div>
+            </div>
+
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                {{ form_row(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block _policy_condiciones_row %}
+    {{ block('form_row') }}
+{% endblock %}
+
+{% block _policy_condiciones_entry_row %}
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <div class="row">
+                <div class="col-6">
+                    <h6 class="m-0 font-weight-bold text-primary">Condición</h6>
+                </div>
+                <div class="col-6">
+                    <a href="#" class="float-right text-danger mt-collection pull-right policy_conditions-collection-remove policy_conditions-collection-action"><i class="fa fa-trash"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                {{ form_row(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

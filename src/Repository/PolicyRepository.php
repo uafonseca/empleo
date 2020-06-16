@@ -18,6 +18,11 @@ class PolicyRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Policy::class);
     }
+
+    /**
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
     public function load(){
     	return $this->createQueryBuilder('p')
 		    ->select('p')

@@ -1,0 +1,24 @@
+
+{{ form_start(form) }}
+    <div class="row">
+        <div class="col-6"> {{ form_row(form.welcome_message,{'attr': {'required': "true"} }) }}</div>
+        <div class="col-6"> {{ form_row(form.privacity) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-6"> {{ form_row(form.information) }}</div>
+        <div class="col-6"> {{ form_row(form.security) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-12"> {{ form_row(form.updated) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-6"> {{ form_row(form.terms) }}</div>
+        <div class="col-6"> {{ form_row(form.conditions) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-6"> {{ form_row(form.terms_header) }}</div>
+        <div class="col-6"> {{ form_row(form.conditions_header) }}</div>
+    </div>
+    <button class="btn btn-primary"> <i class="fas fa-save"></i> {{ button_label|default('Guardar') }}</button>
+
+{{ form_end(form) }}

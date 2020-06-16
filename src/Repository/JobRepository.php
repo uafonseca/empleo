@@ -7,6 +7,7 @@
 	use function Deployer\add;
 	use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 	use Symfony\Bridge\Doctrine\RegistryInterface;
+	use App\Utility\Graph\Month;
 	
 	/**
 	 * @method Job|null find($id, $lockMode = null, $lockVersion = null)
@@ -362,15 +363,16 @@
 				->getResult();
 		}
 
-//		public function updateExpired()
-//		{
-//			$this->createQueryBuilder('j')
-//				->update('App\Entity\Job', 'j')
-//				->set('j.status', '?1')
-//				->where('j.expiredDate > ?2')
-//				->setParameter(1, constants::JOB_STATUS_EXPIRED)
-//				->setParameter(2, new \DateTime("now"))
-//				->getQuery()
-//				->getResult();
-//		}
+        /**
+         * @param $month
+         * @return mixed
+         */
+		public function coutByMonth($month){
+		    return $this->createQueryBuilder('j')
+                ->select('COUNT(j.id)')
+                ->where('MONTH(j.date) =:m')
+                ->setParameter('m',$month)
+                ->getQuery()
+                ->getSingleScalarResult();
+        }
 	}

@@ -31,7 +31,7 @@ class NotificationController extends AbstractController
                 [
                     'date' => 'DESC',
                 ],
-                10
+                5
             )
         ]);
 

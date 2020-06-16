@@ -1,0 +1,51 @@
+{% extends 'backend/base.html.twig' %}
+
+{% block title %}Policy index{% endblock %}
+
+{% block context %}
+    <h1>Policy index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Welcome_message</th>
+                <th>Privacity</th>
+                <th>Information</th>
+                <th>Security</th>
+                <th>Updated</th>
+                <th>Terms</th>
+                <th>Conditions</th>
+                <th>Terms_header</th>
+                <th>Conditions_header</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for policy in policies %}
+            <tr>
+                <td>{{ policy.id }}</td>
+                <td>{{ policy.welcomeMessage }}</td>
+                <td>{{ policy.privacity }}</td>
+                <td>{{ policy.information }}</td>
+                <td>{{ policy.security }}</td>
+                <td>{{ policy.updated }}</td>
+                <td>{{ policy.terms ? policy.terms|join(', ') : '' }}</td>
+                <td>{{ policy.conditions ? policy.conditions|join(', ') : '' }}</td>
+                <td>{{ policy.termsHeader }}</td>
+                <td>{{ policy.conditionsHeader }}</td>
+                <td>
+                    <a href="{{ path('policy_show', {'id': policy.id}) }}">show</a>
+                    <a href="{{ path('policy_edit', {'id': policy.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('policy_new') }}">Create new</a>
+{% endblock %}

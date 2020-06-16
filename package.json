@@ -18,11 +18,13 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "@ckeditor/ckeditor5-build-balloon": "^19.0.2",
         "@fortawesome/fontawesome-free": "^5.13.0",
         "@furcan/iconpicker": "^1.5.0",
         "bootstrap": "^4.5.0",
         "bootstrap-select": "^1.13.17",
         "chart.js": "^2.9.3",
+        "ckeditor": "^4.0.0",
         "datatables.net": "^1.10.21",
         "datatables.net-autofill": "^2.3.5",
         "datatables.net-bs": "^1.10.21",
@@ -34,6 +36,7 @@
         "jquery": "^3.5.1",
         "jquery-nstslider": "^1.0.4",
         "popper.js": "^1.16.1",
-        "select2": "^4.0.13"
+        "select2": "^4.0.13",
+        "symfony-collection": "^2.1.30"
     }
 }

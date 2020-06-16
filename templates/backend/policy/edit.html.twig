@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Policy{% endblock %}
+
+{% block body %}
+    <h1>Edit Policy</h1>
+
+    {{ include('policy/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('policy_index') }}">back to list</a>
+
+    {{ include('policy/_delete_form.html.twig') }}
+{% endblock %}

@@ -24,6 +24,8 @@ import 'bootstrap-select';
 import 'select2'
 import 'fontawesome-iconpicker';
 import 'fontawesome-iconpicker/dist/css/fontawesome-iconpicker.css';
+import 'symfony-collection';
+import 'chart.js'
 
 require('./datatables');
 
