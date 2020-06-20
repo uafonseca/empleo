@@ -16,14 +16,17 @@
 	use App\Entity\PaymentForServices;
 	use App\Entity\Policy;
 	use App\Entity\Resume;
-	use App\Entity\User;
+    use App\Entity\StaticPage;
+    use App\Entity\User;
 	use App\Form\PaymentForJobsType;
 	use App\Form\ResumeFilesType;
 	use App\Form\ResumeType;
 	use App\Form\UserFullyEmployerType;
 	use App\Form\UserFullyType;
     use App\Service\CategoryService;
+    use App\Service\CompanyService;
     use App\Service\JobService;
+    use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
     use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 	use Symfony\Component\HttpFoundation\BinaryFileResponse;
 	use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
@@ -53,16 +56,21 @@
 	    /** @var JobService  */
 	    private $jobService;
 
+	    /** @var CompanyService  */
+	    private $companyService;
+
         /**
          * mainController constructor.
          * @param CategoryService $categoryService
          * @param JobService $jobService
+         * @param CompanyService $companyService
          */
-        public function __construct(CategoryService $categoryService, JobService $jobService)
+        public function __construct(CategoryService $categoryService, JobService $jobService, CompanyService $companyService)
         {
             $this->categoryService = $categoryService;
             $this->categoryService = $categoryService;
             $this->jobService = $jobService;
+            $this->companyService = $companyService;
         }
 
 
@@ -190,7 +198,7 @@
 					'locations' => $this->container->get('app.service.helper')->loadLocations(),
 					'categorys' => $this->jobService->findByAllCategory(),
 					'citys' => $this->container->get('app.service.helper')->loadCityes(),
-					'company' => $this->container->get('app.service.helper')->LoadCompany(),
+					'company' => $this->companyService->findAll(),
 					'entity' => count($em->getRepository(User::class)->findByRole('ROLE_ADMIN')),
 				]
 			);
@@ -218,7 +226,6 @@
 				
 				return $notifications;
 			}
-			
 			return null;
 		}
 		
@@ -767,5 +774,36 @@
             );
 
             return $response;
+        }
+
+        /**
+         * @return Response
+         * @Route("/carousel_company", name="carousel_company", options={"expose" = true})
+         */
+        public function loadCompanies()
+        {
+            return $this->render('site/includes/carousel_company.html.twig',[
+                'companies' =>$this->companyService->findActives()
+            ]);
+        }
+
+        /**
+         * @param Request $request
+         * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+         * @Route("/page", name="static_page_view", options={"expose" = true})
+         */
+        public function showStaticPage(Request $request)
+        {
+            $type = urldecode($request->query->get('type'));
+            /** @var StaticPage $page */
+            $page = $this->getDoctrine()->getRepository(StaticPage::class)->findOneBy(['type'=>$type]);
+
+            if(null === $page)
+                return $this->redirectToRoute('homepage');
+
+            return $this->render('site/static_page.html.twig',[
+                'page' => $page,
+                'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
+            ]);
         }
 	}

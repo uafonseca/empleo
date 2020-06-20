@@ -49,6 +49,21 @@ class AnouncementRepository extends ServiceEntityRepository
 			->getResult();
 		
 	}
+    /**
+     * @param $month
+     * @return mixed
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function countByMonth($month){
+        return $this->createQueryBuilder('anouncement')
+            ->select('COUNT(anouncement.id)')
+            ->where('MONTH(anouncement.date) =:m')
+            ->setParameter('m',$month)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
     // /**
     //  * @return Anouncement[] Returns an array of Anouncement objects
     //  */

@@ -1,0 +1,25 @@
+{% extends 'backend/base.html.twig' %}
+
+{% block title %}StaticPage{% endblock %}
+
+{% block context %}
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <div class="row">
+                <h6 class="m-0 font-weight-bold text-primary col-6">{{ static_page.type }}</h6>
+            </div>
+        </div>
+        <div class="card-body">
+            <p class="text-muted"><i class="fas fa-calendar"></i> {{ static_page.updateAt ? static_page.updateAt|date('Y-m-d') : '' }}</p>
+            {{ static_page.context|raw }}
+
+            <hr>
+            <a href="{{ path('static_page_index') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Regresar</a>
+
+            <a href="{{ path('static_page_edit', {'id': static_page.id}) }}" class="btn btn-warning"><i class="fas fa-edit"></i> Editar</a>
+
+            {{ include('backend/static_page/_delete_form.html.twig') }}
+        </div>
+    </div>
+
+{% endblock %}

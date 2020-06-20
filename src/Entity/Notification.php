@@ -32,7 +32,7 @@ class Notification
     private $date;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User",cascade={"remove"})
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="notifications",cascade={"persist"})
      */
     private $user;
     /**
@@ -82,7 +82,7 @@ class Notification
     }
 
     /**
-     * @return mixed
+     * @return User
      */
     public function getUser()
     {

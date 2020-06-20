@@ -25,7 +25,7 @@
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ path('homepage') }}">
                 <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
+                    <i class="fas fa-search"></i>
                 </div>
                 <div class="sidebar-brand-text mx-3">Emplear</div>
             </a>
@@ -50,7 +50,8 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                   aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-list-alt"></i>
                     <span>Categorías</span>
                 </a>
@@ -65,11 +66,13 @@
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                   aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-briefcase"></i>
                     <span>Trabajos</span>
                 </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Acciones:</h6>
                         <a class="collapse-item" href="{{ path('job_index') }}">Listado</a>
@@ -80,7 +83,8 @@
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#titles" aria-expanded="true" aria-controls="titles">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#titles" aria-expanded="true"
+                   aria-controls="titles">
                     <i class="fas fa-graduation-cap"></i>
                     <span>Títulos</span>
                 </a>
@@ -104,7 +108,8 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                   aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-file-word"></i>
                     <span>Empleos</span>
                 </a>
@@ -117,11 +122,13 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePagesService" aria-expanded="true" aria-controls="collapsePagesService">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePagesService"
+                   aria-expanded="true" aria-controls="collapsePagesService">
                     <i class="fas fa-taxi"></i>
                     <span>Servicios</span>
                 </a>
-                <div id="collapsePagesService" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div id="collapsePagesService" class="collapse" aria-labelledby="headingPages"
+                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="{{ path('payment_for_services_new') }}">Adicionar</a>
                         <a class="collapse-item" href="{{ path('payment_for_services_index') }}">Listado</a>
@@ -134,13 +141,15 @@
             </div>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#staticPages" aria-expanded="true" aria-controls="staticPages">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#staticPages"
+                   aria-expanded="true" aria-controls="staticPages">
                     <i class="fas fa-sitemap"></i>
                     <span>Páginas estáticas</span>
                 </a>
                 <div id="staticPages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="{{ path('policy_new') }}">Términos & condiciones</a>
+                        <a class="collapse-item" href="{{ path('static_page_index') }}">Páginas</a>
                     </div>
                 </div>
             </li>
@@ -170,25 +179,27 @@
                     <ul class="navbar-nav ml-auto">
 
 
-
                         <!-- Nav Item - Alerts -->
                         <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-bell fa-fw"></i>
                                 <!-- Counter - Messages -->
-                                <span class="badge badge-danger badge-counter">7</span>
+                                {#<span class="badge badge-danger badge-counter">7</span>#}
                             </a>
                             <!-- Dropdown - Messages -->
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                 aria-labelledby="messagesDropdown">
                                 <h6 class="dropdown-header">
                                     Notificaciones
                                 </h6>
                                 <div id="notifications-container">
-                                   <div class="text-center">
-                                       <i class="fas fa-spinner fa-spin fa-3x mt-5 mb-5"></i>
-                                   </div>
+                                    <div class="text-center">
+                                        <i class="fas fa-spinner fa-spin fa-3x mt-5 mb-5"></i>
+                                    </div>
                                 </div>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Ver todas</a>
+                                <a class="dropdown-item text-center small text-gray-500"
+                                   href="{{ path('notification_list') }}">Ver todas</a>
                             </div>
                         </li>
 
@@ -196,12 +207,15 @@
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ app.user.name?app.user.name:app.user.email }}</span>
-                                <img class="img-profile rounded-circle" src="{{ vich_uploader_asset(app.user,'imageFile') }}">
+                                <img class="img-profile rounded-circle"
+                                     src="{{ vich_uploader_asset(app.user,'imageFile') }}">
                             </a>
                             <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                 aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
@@ -231,16 +245,50 @@
 
                 {% endblock %}
             </div>
+
         </div>
+        <footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span>Copyright &copy; www.emplear.gessmac.com {{ 'now'|date('Y') }}</span>
+                </div>
+            </div>
+        </footer>
+
     </div>
+
 
 </div>
 
+{#<a class="scroll-to-top rounded" href="#page-top">#}
+{#<i class="fas fa-angle-up"></i>#}
+{#</a>#}
+
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <a class="btn btn-primary" href="{{ path('fos_user_security_logout') }}">Salir</a>
+            </div>
+        </div>
+    </div>
+</div>
 {{ encore_entry_script_tags('app') }}
 {{ encore_entry_script_tags('backend_layout') }}
 {{ encore_entry_script_tags('custon') }}
 <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
 <script src="{{ asset('bundles/fosjsrouting/js/fos_js_routing.js') }}"></script>
+{{ include('backend/utiles/flashBagComponent.html.twig') }}
 {% block scripts %}
 
 {% endblock %}

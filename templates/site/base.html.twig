@@ -33,7 +33,16 @@
 
         {{ include('site/includes/carousel.html.twig') }}
 
-        {{ include('site/includes/carousel_company.html.twig') }}
+        <div class="section-padding-top padding-bottom-90">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <div id="company-carousel" class="company-carousel owl-carousel">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="searchAndFilter-wrapper">
             {{ include('site/includes/filters.html.twig') }}
@@ -45,8 +54,14 @@
         {% endblock %}
 
             {{ encore_entry_script_tags('app') }}
+
             {{ include('site/job/partials/footer.html.twig') }}
             {{ include('site/job/partials/scripts.html.twig') }}
+        <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+        <script src="{{ asset('bundles/fosjsrouting/js/fos_js_routing.js') }}"></script>
+        {{ encore_entry_script_tags('home') }}
+        {% block js %}
+        {% endblock %}
 
     </body>
 </html>

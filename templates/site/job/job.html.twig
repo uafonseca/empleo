@@ -1,8 +1,17 @@
 {% extends 'site/base.html.twig' %}
+{#{% form_theme form 'bootstrap_4_layout.html.twig' %}#}
 {% block title %}Crear trabajo{% endblock %}
 {% block stylesheet %}
-    {{ parent() }}
     <link rel="stylesheet" type="text/css" href="{{ asset('site/dashboard/css/dashboard.css') }}">
+    <style>
+        label[for='job_imageFile']{
+            opacity: 0;
+        }
+        #file_upload{
+            height: 30px;
+            padding: 3px;
+        }
+    </style>
 {% endblock %}
 
 {% block body %}
@@ -28,9 +37,6 @@
         </div>
     </div>
     <!-- Breadcrumb End -->
-    {#{{ form_start(form) }}#}
-    {#{{ form_widget(form) }}#}
-    {#{{ form_end(form) }}#}
     <div class="alice-bg section-padding-bottom">
         <div class="container no-gliters">
             <div class="row no-gliters">
@@ -40,24 +46,16 @@
                             {{ form_start(form, {attr: {'class': 'job-post-form','id':'job-form'} }) }}
                             <div class="basic-info-input">
                                 <h4><i data-feather="plus-circle"></i>Publicar un empleo</h4>
-                                <div id="job-title" class="form-group row">
-                                    <label class="col-md-3 col-form-label">Título<span
-                                                style="color: red">*</span></label>
-                                    <div class="col-md-9">
-                                        {{ form_widget(form.title, { 'attr': {'class': 'form-control','placeholder':'Tu título de trabajo aquí'} }) }}
-                                        <span class="error text-danger">{{ form_errors(form.title) }}</span>
-                                    </div>
-                                </div>
+                                {{ form_row(form.title)}}
                                 <div id="logo" class="form-group row">
                                     <label class="col-md-3 col-form-label">Logo<span style="color: red">*</span></label>
                                     <div class="col-md-9">
                                         <div class="dashboard-section upload-profile-photo">
                                             <div class="update-photo" style="width: 150px;">
-                                                <img class="image" alt="">
+                                                <img id="image" class="image" alt="">
                                             </div>
                                             <div id="file_upload" class="file-upload">
                                                 {{ form_widget(form.imageFile, { 'attr': {'class': 'file-input'} } ) }}
-                                                Logo
                                             </div>
                                         </div>
                                         <span class="error text-danger">{{ form_errors(form.imageFile) }}</span>
@@ -68,109 +66,41 @@
                                                 style="color: red">*</span></label>
                                     <div class="col-md-9">
                                         <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    {{ form_widget(form.category, { 'attr': {'class': 'form-control'} }) }}
-                                                    <span class="error text-danger">{{ form_errors(form.category) }}</span>
-                                                    <i class="fa fa-caret-down"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    {{ form_widget(form.localtion, { 'attr': {'class': 'form-control','placeholder':'Ubicación de trabajo'} }) }}
-                                                    <span class="error text-danger">{{ form_errors(form.localtion) }}</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    {{ form_widget(form.type, { 'attr': {'class': 'form-control'} }) }}
-                                                    <span class="error text-danger"> {{ form_errors(form.type) }}</span>
-                                                    <i class="fa fa-caret-down"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    {{ form_widget(form.experience, { 'attr': {'class': 'form-control'} }) }}
-                                                    <span class="error text-danger">{{ form_errors(form.experience) }}</span>
-                                                    <i class="fa fa-caret-down"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    {{ form_widget(form.salary_min, { 'attr': {'id': 'min','class': 'form-control','placeholder':'Salario'} }) }}
-                                                    <span class="error text-danger">{{ form_errors(form.salary_min) }}</span>
-                                                </div>
-                                            </div>
-                                            {#<div class="col-md-3">#}
-                                            {#<div class="form-group">#}
-                                            {#{{ form_widget(form.salary_max, { 'attr': {'class': 'form-control','placeholder':'A '} }) }}#}
-                                            {#<span class="error text-danger">{{ form_errors(form.salary_max) }}</span>#}
-                                            {#</div>#}
-                                            {#</div>#}
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    {{ form_widget(form.qualification, { 'attr': {'class': 'form-control'} }) }}
-                                                    <span class="error text-danger">{{ form_errors(form.qualification) }}</span>
-                                                    <i class="fa fa-caret-down"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group datepicker">
-                                                    {{ form_widget(form.date, { 'attr': {'class': 'form-control'} }) }}
-                                                    <span class="error text-danger">{{ form_errors(form.date) }}</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group datepicker">
-                                                    {{ form_widget(form.gender, { 'attr': {'class': 'form-control'} }) }}
-                                                    <span class="error text-danger">{{ form_errors(form.gender) }}</span>
-                                                </div>
-                                            </div>
+                                            <div class="col-md-6">{{ form_row(form.category)}}</div>
+                                            <div class="col-md-6">{{ form_row(form.localtion)}}</div>
+                                            <div class="col-md-6">{{ form_row(form.type)}}</div>
+                                            <div class="col-md-6">{{ form_row(form.experience)}}</div>
+                                            <div class="col-md-6">{{ form_row(form.salary_min)}}</div>
+                                            <div class="col-md-6">{{ form_row(form.qualification)}}</div>
+                                            <div class="col-md-6">{{ form_row(form.date)}}</div>
+                                            <div class="col-md-6">{{ form_row(form.gender)}}</div>
                                         </div>
                                     </div>
                                 </div>
                                 <div id="job-description" class="row">
                                     <label class="col-md-3 col-form-label">Descripción del trabajo<span
                                                 style="color: red">*</span></label>
-                                    <div class="col-md-9">
-                                        <div class="form-group shadow-textarea">
-                                            <label for="exampleFormControlTextarea6"></label>
-                                            {{ form_widget(form.description, { 'attr': {'class': 'form-control z-depth-1','placeholder':'Descripción del trabajo'} }) }}
-                                            <span class="error text-danger">{{ form_errors(form.description) }}</span>
-                                        </div>
-                                    </div>
+                                        <div class="col-md-9">{{ form_row(form.description)}}</div>
                                 </div>
                                 <div id="response" class="row">
                                     <label class="col-md-3 col-form-label">Responsabilidades<span
                                                 style="color: red">*</span></label>
                                     <div class="col-md-9">
-                                        <div class="form-group shadow-textarea">
-                                            <label for="exampleFormControlTextarea6"></label>
-                                            {{ form_widget(form.responsabilities, { 'attr': {'class': 'form-control z-depth-1','placeholder':'Responsabilidades'} }) }}
-                                            <span class="error text-danger">{{ form_errors(form.responsabilities) }}</span>
-                                        </div>
+                                        {{ form_row(form.responsabilities)}}
                                     </div>
                                 </div>
                                 <div id="education" class="row">
                                     <label class="col-md-3 col-form-label">Educación<span
                                                 style="color: red">*</span></label>
                                     <div class="col-md-9">
-                                        <div class="form-group shadow-textarea">
-                                            <label for="exampleFormControlTextarea6"></label>
-                                            {{ form_widget(form.education, { 'attr': {'class': 'form-control z-depth-1','placeholder':'Educación'} }) }}
-                                            <span class="error text-danger">{{ form_errors(form.education) }}</span>
-                                        </div>
+                                        {{ form_row(form.education)}}
                                     </div>
                                 </div>
                                 <div id="others" class="row">
                                     <label class="col-md-3 col-form-label">Otros beneficios<span
                                                 style="color: red">*</span></label>
                                     <div class="col-md-9">
-                                        <div class="form-group shadow-textarea">
-                                            <label for="exampleFormControlTextarea6"></label>
-                                            {{ form_widget(form.others, { 'attr': {'class': 'form-control z-depth-1','placeholder':'Otros beneficios'} }) }}
-                                            <span class="error text-danger">{{ form_errors(form.others) }}</span>
-                                        </div>
+                                        {{ form_row(form.others)}}
                                     </div>
                                 </div>
                                 <div id="post-location" class="form-group row">
@@ -249,23 +179,12 @@
                                                 style="color: red">*</span></label>
                                     <div class="col-md-9">
                                         <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    {{ form_widget(form.company_name, { 'attr': {'class': 'form-control','placeholder':'Nombre de la compañía','value': app.user.companyName } }) }}
-                                                    <span class="error text-danger">{{ form_errors(form.company_name) }}</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    {{ form_widget(form.web_address, { 'attr': {'class': 'form-control','placeholder':'Dirección web'} }) }}
-                                                    <span class="error text-danger">{{ form_errors(form.web_address) }}</span>
-                                                </div>
-                                            </div>
                                             <div class="col-md-12">
-                                                <div class="form-group shadow-textarea">
-                                                    {{ form_widget(form.campany_profile, { 'attr': {'rows':'3','class': 'form-control z-depth-1','placeholder':'Descripción del trabajo'} }) }}
-                                                    <span class="error text-danger">{{ form_errors(form.campany_profile) }}</span>
-                                                </div>
+                                                {#{% if company is not null %}#}
+                                                    {##}
+                                                {#{% else %}#}
+                                                    {{ form_row(form.company) }}
+                                                {#{% endif %}#}
                                             </div>
                                         </div>
                                     </div>
@@ -316,11 +235,6 @@
     </div>
 {% endblock %}
 {% block footer %}
-    {{ parent() }}
-    <script src="{{ asset('site/dashboard/js/dashboard.js') }}"></script>
-    <script src="{{ asset('site/dashboard/js/datePicker.js') }}"></script>
-    <script src="{{ asset('site/dashboard/js/upload-input2.js') }}"></script>
-    <script src="{{ asset('site/js/bootstrap-multiselect.js') }}"></script>
     <script>
 
         var placeSearch, autocomplete;
@@ -387,4 +301,10 @@
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC87gjXWLqrHuLKR0CTV5jNLdP4pEHMhmg&libraries=places&callback=initAutocomplete"
             async defer></script>
+{% endblock %}
+{% block js %}
+    <script src="{{ asset('site/dashboard/js/dashboard.js') }}"></script>
+    <script src="{{ asset('site/dashboard/js/datePicker.js') }}"></script>
+    <script src="{{ asset('site/dashboard/js/upload-input2.js') }}"></script>
+    <script src="{{ asset('site/js/bootstrap-multiselect.js') }}"></script>
 {% endblock %}

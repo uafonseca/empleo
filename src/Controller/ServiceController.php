@@ -11,7 +11,8 @@
 	use App\Entity\PaymentForJobs;
 	use App\Entity\PaymentForServices;
 	use App\Form\ServiceJobType;
-	use function PHPSTORM_META\type;
+    use App\Repository\JobRepository;
+    use function PHPSTORM_META\type;
 	use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 	use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 	use Symfony\Component\HttpFoundation\Request;
@@ -182,16 +183,15 @@
 		/**
 		 * @Route("/services/search",name="services_search")
 		 */
-		public function search(Request $request)
+		public function search(Request $request, JobRepository $repository)
 		{
 			$keywords = $request->request->get('keywords');
-			$em = $this->getDoctrine()->getManager();
 			$pagination = $this->get('knp_paginator');
 			if (empty($keywords)) {
 				return $this->redirectToRoute('service_list');
 			} else {
 				$pagination->paginate(
-					$em->getRepository(Job::class)->searchServices($keywords),
+                    $repository->searchServices($keywords),
 					$request->query->getInt('page', 1),
 					10
 				);
@@ -201,7 +201,7 @@
 				'service/list.html.twig',
 				array(
 					'jobs' => $pagination->paginate(
-						$em->getRepository(Job::class)->searchServices($keywords),
+                        $repository->searchServices($keywords),
 						$request->query->getInt('page', 1),
 						10
 					),

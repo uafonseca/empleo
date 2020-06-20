@@ -39,3 +39,9 @@ vich_uploader:
             inject_on_load:     false
             delete_on_update:   true
             delete_on_remove:   true
+        company_image:
+            uri_prefix: /uploads
+            upload_destination: '%kernel.root_dir%/../public/uploads'
+            namer: vich_uploader.namer_hash
+            directory_namer:
+                options: { upload_to: /cuestionarios/images_preguntas }

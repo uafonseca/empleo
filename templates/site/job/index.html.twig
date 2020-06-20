@@ -30,8 +30,6 @@
                                             {% endif %}
                                         </a></h4>
                                     <div class="info">
-                                        {#{{ j.dateCreated|date_modify("+"~j.user.package.daysImportants~" day") |date('Y-m-d') }}#}
-                                        {#{{ j.dateCreated|date('Y-m-d') }}#}
                                         <span class="company"><a><i data-feather="briefcase"></i>{{ j.CompanyName }}</a></span>
                                         <span class="office-location"><a><i data-feather="map-pin"></i>{{ j.Localtion }}</a></span>
                                         {% if j.type == 'partial' %}
@@ -56,14 +54,13 @@
                                         <a onclick="bookMark('{{ j.id }}')" class="favourite {% if j.id in app.user.bookmarked %}active{% endif %} "><i data-feather="heart"></i></a>
                                         {% else %}
                                             <a data-toggle="modal" data-target="#exampleModalLong"  class="button">Aplica ya!</a>
-                                            {#<a  class="favourite"><i data-feather="heart"></i></a>#}
                                         {% endif %}
                                     </div>
                                     <p class="deadline">{{ j.dateCreated|localizeddate('short', 'none', 'en')}}</p>
                                 </div>
                             </div>
                             <div class="col-12 job-about">
-                                <p> {{ j.description| easyadmin_truncate(200)}}</p>
+                                {{ j.description | easyadmin_truncate(200) | raw }}
                             </div>
                         </div>
                     {% endfor %}

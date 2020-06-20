@@ -232,6 +232,11 @@ class Job
      */
     private $images = [];
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Company::class, inversedBy="jobs",cascade={"persist"})
+     */
+    private $company;
+
     public function __construct()
     {
         $this->applications = array();
@@ -685,6 +690,18 @@ class Job
     public function setImages(?array $images): self
     {
         $this->images = $images;
+
+        return $this;
+    }
+
+    public function getCompany(): ?Company
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?Company $company): self
+    {
+        $this->company = $company;
 
         return $this;
     }

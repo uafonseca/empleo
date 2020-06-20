@@ -29,6 +29,7 @@ Encore
     .addEntry('backend_layout', './assets/backend/js/layout.js')
     .addEntry('backend_category_form', './assets/backend/category/form.js')
     .addEntry('backend_terms_form', './assets/backend/terms/form.js')
+    .addEntry('backend_dashboard', './assets/backend/js/chart-area.js')
 
 
 
@@ -57,12 +58,16 @@ Encore
         useBuiltIns: 'usage',
         corejs: 3
     })
+    .autoProvideVariables({
+        toastr: 'toastr',
+    })
     .copyFiles([
         {from: './node_modules/ckeditor/', to: 'ckeditor/[path][name].[ext]', pattern: /\.(js|css)$/, includeSubdirectories: false},
         {from: './node_modules/ckeditor/adapters', to: 'ckeditor/adapters/[path][name].[ext]'},
         {from: './node_modules/ckeditor/lang', to: 'ckeditor/lang/[path][name].[ext]'},
         {from: './node_modules/ckeditor/plugins', to: 'ckeditor/plugins/[path][name].[ext]'},
         {from: './node_modules/ckeditor/skins', to: 'ckeditor/skins/[path][name].[ext]'},
+        {from: './assets/site/images', to: 'backend/images/[path][name].[ext]'}
     ])
 
     // enables Sass/SCSS support

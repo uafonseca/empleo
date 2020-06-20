@@ -31,7 +31,12 @@
 				->getQuery()
 				->getResult();
 		}
-		
+
+        /**
+         * @param $key
+         * @return mixed
+         * @throws \Doctrine\ORM\NonUniqueResultException
+         */
 		public function getCountCategory($key)
 		{
 			return $this->createQueryBuilder('c')
@@ -56,7 +61,7 @@
                     ->where('job.category=:c')
                     ->setParameter('c',$category['id'])
                     ->getQuery()
-                    ->getResult()
+                    ->getSingleResult()
                 ];
 		    }
             return $ouput;
@@ -66,6 +71,7 @@
             return $this->createQueryBuilder('job')
                 ->select('category.id, category.name')
                 ->join('job.category', 'category')
+                ->distinct()
                 ->getQuery()
                 ->getResult();
         }
@@ -167,19 +173,19 @@
 				->getResult();
 		}
 		
-//		public function searchServices($keywords)
-//		{
-//			$qb = $this->createQueryBuilder('j');
-//			if ($keywords) {
-//				$qb->andWhere('j.title LIKE :key OR j.description LIKE :key')
-//					->setParameter('key', '%'.$keywords.'%');
-//				$qb->andWhere('j.status = :status')
-//					->setParameter('status', constants::JOB_STATUS_ACTIVE);
-//				return $qb->orderBy('j.expiredDate', 'DESC')
-//					->getQuery()
-//					->getResult();
-//			}
-//		}
+		public function searchServices($keywords)
+		{
+			$qb = $this->createQueryBuilder('j');
+			if ($keywords) {
+				$qb->andWhere('j.title LIKE :key OR j.description LIKE :key')
+					->setParameter('key', '%'.$keywords.'%');
+				$qb->andWhere('j.status = :status')
+					->setParameter('status', constants::JOB_STATUS_ACTIVE);
+				return $qb->orderBy('j.expiredDate', 'DESC')
+					->getQuery()
+					->getResult();
+			}
+		}
 		
 		public function searchByCategory($category)
 		{
@@ -219,7 +225,7 @@
 		public function searchByCompany($company)
 		{
 			$qb = $this->createQueryBuilder('j');
-			$qb->where('j.company_name =:company')
+			$qb->where('j.company =:company')
 				->setParameter('company', $company)
 				->orderBy('j.dateCreated', 'DESC');
 			
@@ -366,8 +372,10 @@
         /**
          * @param $month
          * @return mixed
+         * @throws \Doctrine\ORM\NoResultException
+         * @throws \Doctrine\ORM\NonUniqueResultException
          */
-		public function coutByMonth($month){
+		public function countByMonth($month){
 		    return $this->createQueryBuilder('j')
                 ->select('COUNT(j.id)')
                 ->where('MONTH(j.date) =:m')

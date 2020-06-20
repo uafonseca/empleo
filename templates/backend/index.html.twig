@@ -7,6 +7,7 @@
     <div class="row">
         {{ macro.show_card('Categorías (general)', categories|length ,'fas fa-calculator','border-left-success','text-success' ) }}
         {{ macro.show_card('Publicaciones (Trabajos)', jobs|length ,'fa-calendar','border-left-primary','text-primary' ) }}
+        {{ macro.show_card('Servicios ', announcements|length ,'fas fa-taxi','border-left-danger','text-danger' ) }}
     </div>
 
     <div class="row">
@@ -14,7 +15,7 @@
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Publicaciones</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Comportamiento de las publicaciones en el año</h6>
                     <div class="dropdown no-arrow">
                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -36,6 +37,14 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-xl-4 col-lg-5 pt-4">
+            <img src="{{ asset('build/backend/images/backend/ilustration.svg') }}" class="img-fluid px-3 px-sm-4 mt-5 mb-4" alt="">
+        </div>
     </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ encore_entry_script_tags('backend_dashboard') }}
 {% endblock %}
 

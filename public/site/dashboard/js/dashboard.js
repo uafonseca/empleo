@@ -49,9 +49,8 @@
 	/*---------------------------------------------
 		Dashboard
 	---------------------------------------------*/
-
-	$('.upload-profile-photo .file-input').change(function(){
-	    var curElement = $(this).parent().parent().find('.image');
+	$('.upload-profile-photo .custom-file .file-input').change(function(){
+	    var curElement = $('#image');
 	    var reader = new FileReader();
 
 	    reader.onload = function (e) {

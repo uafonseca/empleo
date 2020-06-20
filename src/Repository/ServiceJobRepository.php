@@ -18,7 +18,6 @@ class ServiceJobRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Service::class);
     }
-	
     // /**
     //  * @return Service[] Returns an array of Service objects
     //  */

@@ -16,7 +16,6 @@
                                 <div class="title-body">
                                     <h4>{{ job.title }}
                                         {% if job.user.package != 'payment_basic' %}
-                                            {#<span class="span-dest">DESTACADO</span>#}
                                         {% endif %}
                                     </h4>
                                     <div class="info">
@@ -51,23 +50,23 @@
                                 <div class="col-xl-7 col-lg-8">
                                     <div class="description details-section">
                                         <h4><i data-feather="align-left"></i>Descripción del empleo</h4>
-                                        <p>{{ job.description }}</p>
+                                        {{ job.description | raw}}
                                     </div>
                                     <div class="responsibilities details-section">
                                         <h4><i data-feather="zap"></i>Responsabilidades</h4>
-                                        {{ job.responsabilities }}
+                                        {{ job.responsabilities| raw }}
                                     </div>
                                     <div class="edication-and-experience details-section">
                                         <h4><i data-feather="book"></i>Educación y Experiencia</h4>
                                         <ul>
-                                            <li>{{ job.education }}</li>
-                                            <li>{{ job.experience }}</li>
+                                            <li>{{ job.education | raw}}</li>
+                                            <li>{{ job.experience | raw}}</li>
                                         </ul>
                                     </div>
                                     <div class="other-benifit details-section">
                                         <h4><i data-feather="gift"></i>Otros beneficios</h4>
                                         <ul>
-                                            <li>{{ job.others }}</li>
+                                            <li>{{ job.others| raw }}</li>
                                         </ul>
                                     </div>
                                     <div class="job-apply-buttons">
@@ -98,7 +97,8 @@
                                                 {% endif %}
                                                 <li><span>Experiencia:</span>{{ job.experience }}</li>
                                                 <li><span>Localización del empleo:</span> {{ job.yourLocaltion }}</li>
-                                                <li><span>Salario:</span> ${{ job.salaryMin }} - ${{ job.salaryMax }}</li>
+                                                {#<li><span>Salario:</span> ${{ job.salaryMin }} - ${{ job.salaryMax }}</li>#}
+                                                <li><span>Salario:</span> ${{ job.salaryMin }}</li>
                                                 <li><span>Gender:</span> {{ job.gender }}</li>
                                                 <li><span>Expira:</span>{{ job.expiredDate|date('F d, Y') }}</li>
                                             </ul>
@@ -108,9 +108,7 @@
                                             <a href="#"><i class="fab fa-facebook-f"></i></a>
                                             <a href="#"><i class="fab fa-twitter"></i></a>
                                             <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                            {#<a href="#"><i class="fab fa-google-plus-g"></i></a>#}
                                             <a href="#"><i class="fab fa-pinterest-p"></i></a>
-                                            {#<a href="#" class="add-more"><span class="ti-plus"></span></a>#}
                                         </div>
                                         <div class="buttons">
                                             {% if not is_granted('ROLE_ADMIN') %}

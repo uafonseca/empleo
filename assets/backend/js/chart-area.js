@@ -35,7 +35,6 @@ $(document).ready(function () {
             type: 'line',
             data: {
                 labels: data.month,
-                // labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
                 datasets: [{
                     label: "Publicaciones",
                     lineTension: 0.3,
@@ -49,9 +48,24 @@ $(document).ready(function () {
                     pointHoverBorderColor: "rgba(78, 115, 223, 1)",
                     pointHitRadius: 10,
                     pointBorderWidth: 2,
-                    data: data.values,
-                    // data: [0, 10000, 5000, 15000, 10000, 20000, 15000, 25000, 20000, 30000, 25000, 40000],
-                }],
+                    data: data.jobs,
+                },
+                    {
+                        label: "Servicios",
+                        lineTension: 0.3,
+                        backgroundColor: "rgba(244,25,17, 0.05)",
+                        borderColor: "rgba(244,25,17, 1)",
+                        pointRadius: 3,
+                        pointBackgroundColor: "rgba(244,25,17, 1)",
+                        pointBorderColor: "rgba(244,25,17, 1)",
+                        pointHoverRadius: 3,
+                        pointHoverBackgroundColor: "rgba(244,25,17, 1)",
+                        pointHoverBorderColor: "rgba(244,25,17, 1)",
+                        pointHitRadius: 10,
+                        pointBorderWidth: 2,
+                        data: data.services,
+                    }
+                ],
             },
             options: {
                 maintainAspectRatio: false,
@@ -114,7 +128,7 @@ $(document).ready(function () {
                     callbacks: {
                         label: function(tooltipItem, chart) {
                             var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-                            return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
+                            return datasetLabel + ': ' + number_format(tooltipItem.yLabel);
                         }
                     }
                 }

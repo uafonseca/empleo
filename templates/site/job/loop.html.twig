@@ -35,7 +35,7 @@
                             {% endif %}
                         </a></h4>
                     <div class="info">
-                        <span class="company"><a><i data-feather="briefcase"></i>{{ j.CompanyName }}</a></span>
+                        <span class="company"><a><i data-feather="briefcase"></i>{% if j.company is not null %}{{ j.company.name }}{% endif %}</a></span>
                         <span class="office-location"><a><i data-feather="map-pin"></i>{{ j.Localtion }}</a></span>
                         {% if j.type == 'partial' %}
                             <span class="job-type part-time"><a><i data-feather="clock"></i>A tiempo parcial</a></span>
@@ -65,7 +65,7 @@
                 </div>
             </div>
             <div class="col-12 job-about">
-                <p> {{ j.description| easyadmin_truncate(200) }}</p>
+                {{ j.description| easyadmin_truncate(200)|raw }}
             </div>
         </div>
     {% endfor %}

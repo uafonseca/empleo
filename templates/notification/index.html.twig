@@ -1,1 +1,58 @@
+{% extends 'backend/base.html.twig' %}
+{% import 'backend/macros.html.twig' as macro %}
+
+{% block title %}Notificaciones{% endblock %}
+
+{% block context %}
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <div class="row">
+                <h6 class="m-0 font-weight-bold text-primary col-6">Notificaciones</h6>
+                <div class="col-6">
+                    {% if notifications|length > 0 %}
+                        <a class="text-right btn btn-warning float-right cortex-confirm" data-mode="reload"  href="{{ path('notification_remove_all') }}"><i class="fas fa-trash"></i> Eliminar todas</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+
+            <div class="row">
+                {% for n in notifications %}
+                    <div id="{{ n.id }}" class="col-xl-12 col-md-12 mb-4">
+                        <div class="card border-left-success shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-decoration-none text-uppercase mb-1">{{ n.context }}</div>
+                                        <div class="text-sm-left mb-0 font-weight-bold text-muted"><small><i class="fas fa-calendar-check"></i> {{ n.date|ago }}</small></div>
+                                        <div class="text-sm-left mb-0 font-weight-bold text-muted"><small><i class="fas fa-user"></i> @{{ n.user }}</small></div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <a href="{{ path('notification_remove', {'id': n.id}) }}" data-mode="reload" class="btn btn-danger btn-circle cortex-confirm">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+
+                       <div class="card mb-4 py-3 border-left-danger col-12">
+                           <div class="card-body">
+                               <h3 class="m-0 font-weight-bold text-primary col-6">No hay notificaciones para mostrar</h3>
+                           </div>
+                       </div>
+
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
+{% block scripts %}
+
+{% endblock %}
 

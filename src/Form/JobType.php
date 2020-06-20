@@ -10,6 +10,7 @@ namespace App\Form;
 
 use App\Entity\Category;
 use App\Entity\Job;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
@@ -31,13 +32,18 @@ class JobType extends AbstractType
     {
 
         $builder
-            ->add('title')
+            ->add('title', null, [
+                'label' => 'Título'
+            ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'placeholder' => 'Categoría',
                 'choice_label' => 'name',
+                'label' => 'Categoría'
             ])
-            ->add('localtion')
+            ->add('localtion', null, [
+                'label' => 'Ubicación'
+            ])
             ->add('type', ChoiceType::class, [
                 'choices' => [
                     'Tiempo completo' => 'ful',
@@ -47,7 +53,8 @@ class JobType extends AbstractType
                     'Por obra' => 'obra',
                     'Por contrato' => 'contrato',
                 ],
-                'placeholder' => 'Tipo'
+                'placeholder' => 'Tipo',
+                'label' => 'Tipo'
             ])
             ->add('experience', ChoiceType::class, [
                 'choices' => [
@@ -56,41 +63,67 @@ class JobType extends AbstractType
                     'De 2 a 3 años' => 'De 2 a 3 años',
                     'Más de 3 años' => 'Más de 3 años',
                 ],
-                'placeholder' => 'Experiencia'
+                'placeholder' => 'Experiencia',
+                'label' => 'Experiencia'
             ])
-            ->add('salary_min', IntegerType::class)
+            ->add('salary_min', IntegerType::class, [
+                'label' => 'Salario mínimo'
+            ])
             ->add('qualification', ChoiceType::class, [
                 'choices' => [
                     'Urge' => 'Urge',
                     'Inmediato' => 'Inmediato',
                 ],
-                'placeholder' => 'Prioridad'
+                'placeholder' => 'Prioridad',
+                'label' => 'Calificación'
             ])
-            ->add('date', DateType::class, ['widget' => 'single_text',])
-            ->add('description', TextareaType::class)
-            ->add('responsabilities', TextareaType::class)
-            ->add('education', TextareaType::class)
-            ->add('others', TextareaType::class)
-	        ->add('country',null,[
-	        	'attr' => ['id' => 'country'],
-		        ])
-            ->add('city',null,['attr' => ['id' => 'city']])
+            ->add('date', DateType::class, [
+                'widget' => 'single_text',
+                'label' => 'Fecha'
+            ])
+            ->add('description', CKEditorType::class, [
+                'label' => 'Descripción'
+            ])
+            ->add('responsabilities', CKEditorType::class, [
+                'label' => 'Responsabilidades'
+            ])
+            ->add('education', CKEditorType::class, [
+                'label' => 'Educación'
+            ])
+            ->add('others', CKEditorType::class, [
+                'label' => 'Otros'
+            ])
+            ->add('country', null, [
+                'attr' => ['id' => 'country'],
+                'label' => 'País'
+            ])
+            ->add('city', null, [
+                'attr' => ['id' => 'city'],
+                'label'=>'Ciudad'
+            ])
             ->add('gender', ChoiceType::class, [
                 'choices' => [
                     'Femenino' => 'femenino',
                     'Másculino' => 'masculino',
                     'Cualquier' => 'cualquier',
                 ],
-                'placeholder' => 'Género'
+                'placeholder' => 'Género',
+                'label'=>'Género'
             ])
-            ->add('zip_code',null,['attr' => ['id' => 'postal_code']])
+            ->add('zip_code', null, [
+                'attr' => ['id' => 'postal_code'],
+                'label'=>'Código postal'
+            ])
             ->add('imageFile', FileType::class, array(
                 'required' => true,
             ))
-            ->add('your_localtion',null,['attr' => ['id' => 'autocomplete']])
-            ->add('company_name')
-            ->add('web_address', UrlType::class)
-            ->add('campany_profile', TextareaType::class)
+            ->add('your_localtion', null, [
+                'attr' => ['id' => 'autocomplete'],
+                'label'=>'Ubicación'
+            ])
+            ->add('company', CompanyType::class, [
+                'label' => 'Datos de la compañía'
+            ])
             ->add('save', SubmitType::class, ['label' => 'Publicar su trabajo']);
     }
 

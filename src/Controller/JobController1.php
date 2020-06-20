@@ -11,7 +11,8 @@
 	use App\constants;
     use App\Entity\Anouncement;
     use App\Entity\Category;
-	use App\Entity\Job;
+    use App\Entity\Company;
+    use App\Entity\Job;
 	use App\Entity\Notification;
 	use App\Entity\Payment;
 	use App\Entity\PaymentForJobs;
@@ -34,11 +35,12 @@
 		 */
 		public function jobNew(Request $request)
 		{
+		    /** @var User $user */
+            $user = $this->getUser();
 			$post = new Job();
+			$post->setCompany($user->getCompany());
 			$form = $this->createForm(JobType::class, $post);
-			$currentUser = $this->get('security.token_storage')->getToken()->getUser();
 			$entityManager = $this->getDoctrine()->getManager();
-			$user = $entityManager->getRepository(User::class)->find($currentUser->getId());
 			$form->handleRequest($request);
 			if ($form->isSubmitted() && $form->isValid()) {
 				$payment = $user->getPackage();
@@ -54,6 +56,7 @@
 							'form' => $form->createView(),
 							'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
 							'expired' => $this->container->get('app.service.helper')->expired(),
+                            'company'=>$user->getCompany()
 						]
 					);
 				} elseif ($form->get('date')->getData() > new \DateTime("now")) {
@@ -67,6 +70,8 @@
 				$post->setDateCreated(new \DateTime("now"));
 				$entityManager->persist($post);
 				$entityManager->flush();
+                if($user->getCompany() === null)
+                    $user->setCompany($post->getCompany());
 				$notification = new Notification();
 				$notification->setDate(new \DateTime());
 				$notification->setType(constants::NOTIFICATION_JOB_CREATE);
@@ -74,6 +79,7 @@
 				$notification->setUser($this->get('security.token_storage')->getToken()->getUser());
 				$notification->setActive(true);
 				$entityManager->persist($notification);
+				$entityManager->flush();
 				return $this->redirectToRoute('job_manage');
 			}
 			if (null == $this->container->get('app.service.helper')->expired()) {
@@ -90,6 +96,7 @@
 					'form' => $form->createView(),
 					'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
 					'expired' => $this->container->get('app.service.helper')->expired(),
+                    'company'=>$user->getCompany()
 				]
 			);
 		}
@@ -169,11 +176,14 @@
 				)
 			);
 		}
-		
-		/**
-		 * @Route("/search/company/{company}",name="search_company")
-		 */
-		public function searchByCompany(Request $request, $company)
+
+        /**
+         * @param Request $request
+         * @param Company $company
+         * @return \Symfony\Component\HttpFoundation\Response
+         * @Route("/search/company/{id}",name="search_company")
+         */
+		public function searchByCompany(Request $request, Company $company)
 		{
 			$em = $this->getDoctrine()->getManager();
 			$pagination = $this->get('knp_paginator');
