@@ -1,0 +1,129 @@
+{% block _skills_skils_row %}
+    {{ block('form_row') }}
+{% endblock %}
+
+{% block _form_education_row %}
+    {{ block('form_row') }}
+{% endblock %}
+
+{% block _form_ocupations_row %}
+    {{ block('form_row') }}
+{% endblock %}
+
+{% block _form_professionalSkills_row %}
+    {{ block('form_row') }}
+{% endblock %}
+
+{% block _califications_row %}
+    {{ block('form_row') }}
+{% endblock %}
+
+
+{% block _skills_skils_entry_row %}
+    <div class="row">
+        <div class="col-md-10">{{ form_row(form) }}</div>
+        <div class="col-md-2"><a href="#" class="btn btn-danger mt-collection pull-right skills_skils-collection-remove skills_skils-collection-action"><i class="fa fa-trash"></i></a></div>
+    </div>
+{% endblock %}
+
+
+{% block _form_education_entry_row %}
+    <div class="row">
+        <div class="panel panel-primary col-md-12">
+            <div class="panel-heading">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a href="#" class="float-right btn btn-danger form_education-collection-remove form_education-collection-action"><i class="fa fa-trash"></i></a>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-4">{{ form_row(form.title) }}</div>
+                    <div class="col-md-4">{{ form_row(form.institute) }}</div>
+                    <div class="col-md-4">{{ form_row(form.periode) }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">{{ form_row(form.context) }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block _form_ocupations_entry_row %}
+    <div class="row">
+        <div class="panel panel-primary col-md-12">
+            <div class="panel-heading">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a href="#" class="float-right btn btn-danger form_ocupations-collection-remove form_ocupations-collection-action"><i class="fa fa-trash"></i></a>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-4">{{ form_row(form.title) }}</div>
+                    <div class="col-md-4">{{ form_row(form.company) }}</div>
+                    <div class="col-md-4">{{ form_row(form.periode) }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">{{ form_row(form.context) }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block _form_professionalSkills_entry_row %}
+    <div class="row">
+        <div class="panel panel-primary col-md-12">
+            <div class="panel-heading">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a href="#" class="float-right btn btn-danger form_professionalSkills-collection-remove form_professionalSkills-collection-action"><i class="fa fa-trash"></i></a>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-8">{{ form_row(form.name) }}</div>
+                    <div class="col-md-4">{{ form_row(form.porcent) }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block _form_califications_entry_row %}
+    <div class="row">
+        <div class="col-md-10">{{ form_row(form) }}</div>
+        <div class="col-md-2 pt-5">
+            <a href="#" class="btn btn-danger form_califications-collection-remove form_califications-collection-action"><i class="fa fa-trash"></i></a>
+        </div>
+    </div>
+{% endblock %}

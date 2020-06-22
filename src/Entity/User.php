@@ -152,9 +152,10 @@ class User extends BaseUser
 
 
     /**
-     * @ORM\Column(type="array", nullable=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\ResumeMetadata", mappedBy="user",cascade={"remove", "persist"})
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
-    private $skils = [];
+    private $skils;
 
     /**
      * @ORM\Column(type="array", nullable=true)
@@ -267,7 +268,7 @@ class User extends BaseUser
     public function __construct()
     {
         parent::__construct();
-        $this->skils = array();
+        $this->skils = new ArrayCollection();
         $this->social_links = array();
         $this->bookmarked = array();
         $this->applied = array();
@@ -598,27 +599,18 @@ class User extends BaseUser
         return $this->skils;
     }
 
-    public function setSkils(?string $skils): self
+    public function setSkils(?ResumeMetadata $skils): self
     {
         $this->skils[] = $skils;
 
         return $this;
     }
 
-    public function setSkillArray(array $skils): self
-    {
-        $this->skils = $skils;
-
-        return $this;
-    }
 
     public function remove_skill($skill)
     {
-        if (false !== $key = array_search(strtoupper($skill), $this->skils, true)) {
-            unset($this->skils[$key]);
-            $this->skils = array_values($this->skils);
-        }
-
+        if ($this->skils->contains($skill))
+            $this->skils->removeElement($skill);
         return $this;
     }
 

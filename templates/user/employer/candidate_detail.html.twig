@@ -29,9 +29,9 @@
                                     {% endif %}
                                 </div>
                                 <div class="title-body" style="width: 100%">
-                                    <h4>{{ candidate.name }}</h4>
+                                    <h4>{{ candidate.name?candidate.name:'No definido' }}</h4>
                                     <div class="container">
-                                        <dov class="row">
+                                        <div class="row">
                                             <div class="col-sm-7">
                                                 <div class="info">
                                                     <span class="candidate-designation">
@@ -47,7 +47,7 @@
                                                     <span class="candidate-location"><i data-feather="map-pin"></i>{{ candidate.address }}</span>
                                                 </div>
                                             </div>
-                                        </dov>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

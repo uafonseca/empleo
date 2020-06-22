@@ -1,4 +1,4 @@
-core.dialogs = {
+coreApp.dialogs = {
     confirm: function (options) {
         let message = 'Debe confirmar la acción antes de continuar';
 

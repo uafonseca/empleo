@@ -39,7 +39,7 @@
                             <div class="col-md-6" style="text-align: left">
                                 <span style="font-size: small;">Publicaciones disponibles<span
                                             style="margin-left: 5px;font-size: medium"
-                                            class="badge badge-danger"> {{ expired.public }}</span></span>
+                                            class="badge badge-danger"> {{ expired.public > 0 ? expired.public : 0}}</span></span>
                             </div>
                         {% endif %}
                     </div>
@@ -100,7 +100,7 @@
                         <div class="col-md-6" style="text-align: left">
                             <span style="font-size: small;">Publicaciones disponibles<span
                                         style="margin-left: 5px;font-size: medium"
-                                        class="badge badge-danger"> {{ expired.publicService }}</span></span>
+                                        class="badge badge-danger"> {{ expired.publicService > 0 ? expired.publicService : 0}}</span></span>
                         </div>
                     {% endif %}
                 </div>

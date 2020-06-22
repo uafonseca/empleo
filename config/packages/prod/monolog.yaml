@@ -17,7 +17,7 @@ monolog:
         swift:
             type:         swift_mailer
             from_email:   'emplearecuador@gmail.com'
-            to_email:     'ubelangelfonseca@gmail.com'
+            to_email:     ['ubelangelfonseca@gmail.com', 'murdiales.ecu@gmail.com']
             subject:      'An Error Occurred! %%message%%'
             level:        debug
             formatter:    monolog.formatter.html

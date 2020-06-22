@@ -35,11 +35,11 @@
                             <div class="download-resume dashboard-section">
 
                                 {% if cv != null %}
-                                <a href="{{ path('dowload_cv', {'name': cv,'username': app.user.username}) }}">Descargar Curriculum Vitae<i data-feather="download"></i>
+                                <a href="{{ vich_uploader_asset(user.resume,'cvFile') }} " download="{{ vich_uploader_asset(user.resume, 'cvFile') }}">Descargar Curriculum Vitae<i data-feather="download"></i>
                                 </a>
                                 {% endif %}
                                 {% if cart != null %}
-                                <a href="{{ path('dowload_cv', {'name': cart,'username': app.user.username}) }}">Descargar carta de presentación<i data-feather="download"></i></a>
+                                <a href="{{ vich_uploader_asset(user.resume, 'cartFile')  }}" download="{{ vich_uploader_asset(user.resume, 'cartFile')  }}">Descargar carta de presentación<i data-feather="download"></i></a>
                                 {% endif %}
                             </div>
                             <div class="skill-and-profile dashboard-section">
@@ -92,7 +92,7 @@
                             </div>
                             <div class="about-details details-section dashboard-section">
                                 <h4><i data-feather="align-left"></i>Sobre mi</h4>
-                                {{ resume.aboutme }}
+                                {{ resume.aboutme|raw }}
                                 <div class="information-and-contact">
                                     <div class="information">
                                         <h4>Información</h4>
@@ -110,58 +110,50 @@
                             </div>
                             <div class="edication-background details-section dashboard-section">
                                 <h4><i data-feather="book"></i>Antecedentes educacionales</h4>
-                                {% for m in metas %}
-                                    {% if m.type == 'metadata_education' %}
-                                        <div id="div1-{{ m.id }}" class="education-label">
-                                            <span class="study-year">{{ m.extra }}</span>
-                                            <h5>{{ m.header }}</h5>
-                                            <p>{{ m.description }}</p>
-                                        </div>
-                                    {% endif %}
+                                {% for m in resume.education %}
+                                    <div id="div1-{{ m.id }}" class="education-label">
+                                        <span class="study-year">{{ m.title }} [ {{  m.periode  }} ]</span>
+                                        <h5>{{ m.institute }}</h5>
+                                        <p>{{ m.context }}</p>
+                                    </div>
                                 {% endfor %}
                             </div>
                             <div class="experience dashboard-section details-section">
                                 <h4><i data-feather="briefcase"></i>Experiencia laboral</h4>
-                                {% for m in metas %}
-                                    {% if m.type == 'metadata_experience' %}
-                                        <div id="div1-{{ m.id }}" class="experience-section">
-                                            <span class="service-year">{{ m.extra }}</span>
-                                            <h5>{{ m.header }}</h5>
-                                            <p>{{ m.description }}</p>
-                                        </div>
-                                    {% endif %}
+                                {% for m in resume.ocupations %}
+                                    <div id="div1-{{ m.id }}" class="experience-section">
+                                        <span class="study-year">{{ m.title }} [ {{  m.periode  }} ]</span>
+                                        <h5>{{ m.company }}</h5>
+                                        <p>{{ m.context }}</p>
+                                    </div>
                                 {% endfor %}
                             </div>
                             <div class="professonal-skill dashboard-section details-section">
                                 <h4><i data-feather="feather"></i>Habilidad profesionales</h4>
                                 <div class="progress-group">
-                                    {% for m in metas %}
-                                        {% if m.type == 'metadata_porcent' %}
-                                            <div id="div1-{{ m.id }}" class="progress-item">
-                                                <div class="progress-head">
-                                                    <p class="progress-on">{{ m.header }}</p>
-                                                </div>
-                                                <div class="progress-body">
-                                                    <div class="progress">
-                                                        <div class="progress-bar" role="progressbar"
-                                                             aria-valuenow="{{ m.context }}"
-                                                             aria-valuemin="0" aria-valuemax="100"
-                                                             style="width: 0;"></div>
-                                                    </div>
-                                                    <p class="progress-to">{{ m.context }}%</p>
-                                                </div>
+                                    {% for m in resume.professionalSkills %}
+                                        <div id="div1-{{ m.id }}" class="progress-item col-md-6">
+                                            <div class="progress-head">
+                                                <p class="progress-on">{{ m.name }}</p>
                                             </div>
-                                        {% endif %}
+                                            <div class="progress-body">
+                                                <div class="progress">
+                                                    <div class="progress-bar" role="progressbar"
+                                                         aria-valuenow="{{ m.porcent }}"
+                                                         aria-valuemin="0" aria-valuemax="100"
+                                                         style="width: 0;"></div>
+                                                </div>
+                                                <p class="progress-to">{{ m.porcent }}%</p>
+                                            </div>
+                                        </div>
                                     {% endfor %}
                                 </div>
                             </div>
                             <div class="special-qualification dashboard-section details-section">
                                 <h4><i data-feather="gift"></i>Calificación Especial</h4>
                                 <ul>
-                                    {% for m in metas %}
-                                        {% if m.type == 'metadata_qualification' %}
-                                            <li id="div1-{{ m.id }}" >{{ m.header }}</li>
-                                        {% endif %}
+                                    {% for m in resume.califications %}
+                                        <li>{{ m.name }}</li>
                                     {% endfor %}
                                 </ul>
                             </div>

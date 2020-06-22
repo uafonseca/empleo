@@ -1,7 +1,7 @@
 $(function () {
     $(document).on('click', '.cortex-confirm', function (event) {
         const scope = $(this);
-        core.dialogs.confirm({
+        coreApp.dialogs.confirm({
             'event': event,
             'onAccept': function () {
                 const mode = scope.attr('data-mode');
@@ -40,6 +40,6 @@ $(function () {
         const scope = $(this);
         const element = scope.data('lock');
 
-        cortex.dom.lock(element);
+        coreApp.dom.lock(element);
     });
 });

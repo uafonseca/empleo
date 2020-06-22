@@ -5,7 +5,8 @@
 	use App\Entity\Resume;
 	use App\Entity\User;
 	use App\Form\UserType;
-	use FOS\UserBundle\Event\GetResponseUserEvent;
+    use App\Mailer\Mailer;
+    use FOS\UserBundle\Event\GetResponseUserEvent;
 	use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 	use Symfony\Component\HttpFoundation\RedirectResponse;
 	use Symfony\Component\HttpFoundation\Response;
@@ -26,27 +27,21 @@
 			
 			return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
 		}
-		
+
 		/**
 		 * @Route("/login_success", name="login_success")
 		 */
-		public function afterLogin()
+		public function afterLogin(Request $request)
 		{
 			return $this->redirectToRoute('homepage');
-//			$user = $this->get('security.token_storage')->getToken()->getUser();
-//			$is_admin = in_array('ROLE_ADMIN', $user->getRoles());
-//			if ($is_admin) {
-//				return $this->redirectToRoute('dashboard');
-//			} elseif(in_array('ROLE_SUPER_ADMIN', $user->getRoles())) {
-//				return $this->redirectToRoute('homepage');
-//			}else{
-//				return $this->redirectToRoute('job_list');
-//			}
 		}
-		
-		/**
-		 * @Route("/register", name="app_register")
-		 */
+
+        /**
+         * @param Request $request
+         * @param Mailer $mailer
+         * @return RedirectResponse|Response|null
+         * @Route("/register", name="app_register")
+         */
 		public function register(Request $request, \Swift_Mailer $mailer)
 		{
 			$user = new User();
@@ -75,7 +70,7 @@
 					$user->setSecret(rand(10000, 99999));
 					$entityManager->persist($user);
 					$entityManager->flush();
-					$message = (new \Swift_Message('Bienvenido a emplear.com'))
+					$message = (new \Swift_Message('Bienvenido a emplear.gessma.com'))
 						->setFrom('emplearecuador@gmail.com')
 						->setBody(
 							$this->renderView(

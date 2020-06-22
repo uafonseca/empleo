@@ -23,6 +23,7 @@
 	use App\Form\ResumeType;
 	use App\Form\UserFullyEmployerType;
 	use App\Form\UserFullyType;
+    use App\Mailer\Mailer;
     use App\Service\CategoryService;
     use App\Service\CompanyService;
     use App\Service\JobService;
@@ -59,18 +60,23 @@
 	    /** @var CompanyService  */
 	    private $companyService;
 
+	    /** @var Mailer  */
+	    private $mailer;
+
         /**
          * mainController constructor.
          * @param CategoryService $categoryService
          * @param JobService $jobService
          * @param CompanyService $companyService
+         * @param Mailer $mailer
          */
-        public function __construct(CategoryService $categoryService, JobService $jobService, CompanyService $companyService)
+        public function __construct(CategoryService $categoryService, JobService $jobService, CompanyService $companyService, Mailer $mailer)
         {
             $this->categoryService = $categoryService;
             $this->categoryService = $categoryService;
             $this->jobService = $jobService;
             $this->companyService = $companyService;
+            $this->mailer = $mailer;
         }
 
 
@@ -404,6 +410,7 @@
 					'cv' => $cv,
 					'cart' => $cart,
 					'metas' => $metas,
+                    'user' => $this->getUser()
 				)
 			);
 		}
@@ -425,6 +432,7 @@
 				$em->persist($resume);
 				$em->flush();
 			}
+			/** @var Resume $resume */
 			$resume = $entityManager->getRepository(Resume::class)->findOneBy(array('user' => $user,));
 			$metas = $entityManager->getRepository(Metadata::class)->findBy(array("resume" => $resume));
 			$form = $this->createForm(ResumeType::class, $resume);
@@ -593,6 +601,7 @@
 					'verificated_acount' => $verificated,
 					'notifications' => $this->loadNotifications(),
 					'candidate' => $canditate,
+                    'expired' => $this->container->get('app.service.helper')->expired(),
 				)
 			);
 		}
@@ -657,6 +666,7 @@
 		 */
 		public function sendCode(\Swift_Mailer $mailer)
 		{
+		    /** @var User $currentUser */
 			$currentUser = $this->get('security.token_storage')->getToken()->getUser();
 			if (empty($currentUser->getSecret())) {
 				$currentUser->setSecret(rand(10000, 99999));

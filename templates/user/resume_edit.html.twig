@@ -1,5 +1,7 @@
 {% extends 'site/base.html.twig' %}
 {% block title %}Tablero{% endblock %}
+{% block stylesheet %}
+{% endblock %}
 {% block body %}
     <link rel="stylesheet" type="text/css" href="{{ asset('site/dashboard/css/dashboard.css') }}">
     {#{% set notifications = notifications %}#}
@@ -34,29 +36,31 @@
                         <div class="dashboard-content-wrapper">
                             <div class="download-resume dashboard-section">
                                 {{ form_start(form_files,{attr: {'action': '/dashboard/resume/edit'} } ) }}
-                                <div class="my-tooltip">
-                                    <span class="tooltiptext">Selecciona un archivo de tipo PDF</span>
-                                    <div id="upl" class="update-file"    >
-                                        {% if app.user.resume.cv is not null %}
-                                        {{ form_widget(form_files.cvFile) }}<i data-feather="check-square"></i> Actualizar CV <i data-feather="edit-2"></i>
-                                        {% else %}
-                                            {{ form_widget(form_files.cvFile) }}Adicionar CV <i data-feather="edit-2"></i>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                                <div class="my-tooltip">
-                                    <span class="tooltiptext">Selecciona un archivo de tipo PDF</span>
-                                    <div class="update-file">
-                                        {% if app.user.resume.cart is not null %}
-                                        {{ form_widget(form_files.cartFile) }}<i data-feather="check-square"></i> Actualizar carta de presentación <i data-feather="edit-2"></i>
-                                        {% else %}
-                                            {{ form_widget(form_files.cartFile) }}Adicionar carta de presentación <i data-feather="edit-2"></i>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                                <div class="update-file">
-                                    <input type="submit" class="btn btn-primary" value="Guardar">Guardar <i data-feather="save"></i>
-                                </div>
+
+                               <div class="row">
+                                   <div class="col-5">
+                                       {{ form_row(form_files.cvFile) }}
+                                       {% if app.user.resume.cv is not null %}
+                                           <a href="{{ vich_uploader_asset(app.user.resume, 'cvFile') }}" download="{{ vich_uploader_asset(app.user.resume, 'cvFile') }}">
+                                               <i class="fas fa-download"></i>
+                                               Descargar CV actual
+                                           </a>
+                                       {% endif %}
+                                   </div>
+                                   <div class="col-5">
+                                       {{ form_row(form_files.cartFile) }}
+                                       {% if app.user.resume.cart is not null %}
+                                           <a href="{{ vich_uploader_asset(app.user.resume, 'cartFile') }}" download="{{ vich_uploader_asset(app.user.resume, 'cartFile') }}">
+                                               <i class="fas fa-download"></i>
+                                               Descargar carta actual
+                                           </a>
+                                       {% endif %}
+                                   </div>
+
+                                   <div class="col-2 pt-5">
+                                       <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Guardar</button>
+                                   </div>
+                               </div>
 
                                 {{ form_end(form_files) }}
                                 <ul class="list-group">
@@ -68,112 +72,23 @@
                             <div class="skill-and-profile dashboard-section">
                                 <div id="skill-container" class="skill">
                                     <label>Habilidades:</label>
-                                    <button type="button" class="btn btn-primary edit-button pull-right"
+                                    <a type="button" href="{{ path('resume_skills') }}" class="btn btn-primary edit-button pull-right edit-cv"
                                             data-toggle="modal" data-target="#modal-skill">
                                         <i data-feather="edit-2"></i>
-                                    </button>
+                                    </a>
                                     <div id="container-skils">
                                         {% for sk in app.user.skils %}
                                             <a href="#">{{ sk }}</a>
                                         {% endfor %}
                                     </div>
-                                    <!-- Button trigger modal -->
-
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="modal-skill" tabindex="-1" role="dialog"
-                                         aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-body">
-                                                    <div class="title">
-                                                        <h4><i data-feather="git-branch"></i>Mis habilidades</h4>
-                                                        <a href="#" onclick="addSkill()" class="add-more">+ Adicionar
-                                                            habilidad</a>
-                                                    </div>
-                                                    <div class="content">
-                                                        <form id="ajax-skill" action="{{ path('ajax_skill') }}">
-                                                            <div class="form-group row">
-                                                                <label class="col-sm-3 col-form-label">Tipo de
-                                                                    habilidades</label>
-                                                                <div class="col-sm-9">
-                                                                    <input name="resume_id" type="hidden"
-                                                                           value="{{ resume.id }}">
-                                                                    <div class="container">
-                                                                        <div id="row-skills" class="row">
-                                                                            {% set i = 1 %}
-                                                                            {% for skil in app.user.skils %}
-                                                                                <div id="1-{{ i }}" class="col-sm-9">
-                                                                                    <div class="input-group">
-                                                                                        <div class="input-group-prepend">
-                                                                                            <div class="input-group-text">{{ i }}</div>
-                                                                                        </div>
-                                                                                        <input value="{{ skil }}"
-                                                                                               name="skill-{{ i }}"
-                                                                                               type="text"
-                                                                                               class="form-control">
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div id="2-{{ i }}" class="col-sm-3">
-                                                                                    <a href="#"
-                                                                                       onclick="removeItem('{{ i }}')"><i
-                                                                                                class="fas fa-times"
-                                                                                                style=""></i></a>
-                                                                                </div>
-                                                                                {% set i = i+1 %}
-                                                                            {% endfor %}
-                                                                        </div>
-                                                                    </div>
-                                                                    <input name="count" type="hidden" value="{{ i }}">
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="offset-sm-3 col-sm-9">
-                                                                    <div class="buttons">
-                                                                        <button class="primary-bg">Guardar</button>
-                                                                        <button class="" data-dismiss="modal">Cancel
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div style="z-index: 99999" class="modal fade" id="modal-error" role="alertdialog">
-                                        <div class="modal-dialog modal-sm" role="document">
-                                            <div class="modal-content">
-
-                                                <!-- Modal Header -->
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title">Ha cometido algunos errores</h4>
-                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                </div>
-                                                <!-- Modal body -->
-                                                <div class="modal-body">
-                                                    <ul id="errors-list" class="list-group">
-
-                                                    </ul>
-                                                </div>
-
-                                                <!-- Modal footer -->
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
 
                                 </div>
                                 <div class="social-profile">
                                     <label>Social:</label>
-                                    <button type="button" class="btn btn-primary edit-button" data-toggle="modal"
+                                    <a href="{{ path('resume_social_network') }}" class="btn btn-primary edit-button edit-cv" data-toggle="modal"
                                             data-target="#modal-social">
                                         <i data-feather="edit-2"></i>
-                                    </button>
+                                    </a>
                                     <div>
 
                                         {% if  app.user.sociallinks["fb"] is defined %}
@@ -214,234 +129,13 @@
                                         {% endif %}
                                     </div>
 
-                                    <!-- Button trigger modal -->
-
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="modal-social" tabindex="-1" role="dialog"
-                                         aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-body">
-                                                    <div class="title">
-                                                        <h4><i data-feather="git-branch"></i>Redes sociales</h4>
-                                                        {#<a href="#" class="add-more">+ Add Social</a>#}
-                                                    </div>
-                                                    <div class="content">
-                                                        <form action="{{ path('ajax_social') }}" id="social-form">
-                                                            <div class="form-group row">
-                                                                <label class="col-sm-3 col-form-label">Vínculos
-                                                                    sociales</label>
-                                                                <div class="col-sm-9">
-                                                                    <div class="input-group">
-                                                                        <div class="input-group-prepend">
-                                                                            <div class="input-group-text"><i
-                                                                                        class="fab fa-facebook-f"></i>
-                                                                            </div>
-                                                                        </div>
-                                                                        {% if app.user.sociallinks["fb"] is defined %}
-                                                                        <input name="fb"
-                                                                               value="{{ app.user.sociallinks["fb"] }}"
-                                                                               type="text" class="form-control"
-                                                                               placeholder="https://www.facebook.com/username">
-                                                                        {% else %}
-                                                                            <input name="fb"
-                                                                                   type="text" class="form-control"
-                                                                                   placeholder="https://www.facebook.com/username">
-                                                                        {% endif %}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group row">
-                                                                <div class="offset-sm-3 col-sm-9">
-                                                                    <div class="input-group">
-                                                                        <div class="input-group-prepend">
-                                                                            <div class="input-group-text"><i
-                                                                                        class="fab fa-twitter"></i>
-                                                                            </div>
-                                                                        </div>
-                                                                        {% if app.user.sociallinks["twitter"] is defined %}
-                                                                        <input name="twitter"
-                                                                               value="{{ app.user.sociallinks["twitter"] }}"
-                                                                               type="text" class="form-control"
-                                                                               placeholder="https://www.twitter.com/username">
-                                                                        {% else %}
-                                                                            <input name="twitter"
-                                                                                   type="text" class="form-control"
-                                                                                   placeholder="https://www.twitter.com/username">
-                                                                        {% endif %}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group row">
-                                                                <div class="offset-sm-3 col-sm-9">
-                                                                    <div class="input-group">
-                                                                        <div class="input-group-prepend">
-                                                                            <div class="input-group-text"><i
-                                                                                        class="fab fa-google-plus"></i>
-                                                                            </div>
-                                                                        </div>
-                                                                        {% if app.user.sociallinks["google"] is defined %}
-                                                                        <input name="google"
-                                                                               value="{{ app.user.sociallinks["google"] }}"
-                                                                               type="text" class="form-control"
-                                                                               placeholder="https://www.google.com/username">
-                                                                        {% else %}
-                                                                            <input name="google"
-                                                                                   type="text" class="form-control"
-                                                                                   placeholder="https://www.google.com/username">
-                                                                        {% endif %}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group row">
-                                                                <div class="offset-sm-3 col-sm-9">
-                                                                    <div class="input-group">
-                                                                        <div class="input-group-prepend">
-                                                                            <div class="input-group-text"><i
-                                                                                        class="fab fa-linkedin-in"></i>
-                                                                            </div>
-                                                                        </div>
-                                                                        {% if app.user.sociallinks["linkedin"] is defined %}
-                                                                        <input name="linkedin"
-                                                                               value="{{ app.user.sociallinks["linkedin"] }}"
-                                                                               type="text" class="form-control"
-                                                                               placeholder="https://www.linkedin.com/username">
-                                                                        {% else %}
-                                                                            <input name="linkedin"
-                                                                                   type="text" class="form-control"
-                                                                                   placeholder="https://www.linkedin.com/username">
-                                                                        {% endif %}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group row">
-                                                                <div class="offset-sm-3 col-sm-9">
-                                                                    <div class="input-group">
-                                                                        <div class="input-group-prepend">
-                                                                            <div class="input-group-text"><i
-                                                                                        class="fab fa-pinterest-p"></i>
-                                                                            </div>
-                                                                        </div>
-                                                                        {% if app.user.sociallinks["printerest"] is defined %}
-                                                                        <input name="printerest"
-                                                                               value="{{ app.user.sociallinks["printerest"] }}"
-                                                                               type="text" class="form-control"
-                                                                               placeholder="https://www.pinterest.com/username">
-                                                                        {% else %}
-                                                                            <input name="printerest"
-                                                                                   type="text" class="form-control"
-                                                                                   placeholder="https://www.pinterest.com/username">
-                                                                        {% endif %}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group row">
-                                                                <div class="offset-sm-3 col-sm-9">
-                                                                    <div class="input-group">
-                                                                        <div class="input-group-prepend">
-                                                                            <div class="input-group-text"><i
-                                                                                        class="fab fa-instagram"></i>
-                                                                            </div>
-                                                                        </div>
-                                                                        {% if app.user.sociallinks["instagram"] is defined %}
-                                                                        <input name="instagram"
-                                                                               value="{{ app.user.sociallinks["instagram"] }}"
-                                                                               type="text" class="form-control"
-                                                                               placeholder="https://www.instagram.com/username">
-                                                                        {% else %}
-                                                                            <input name="instagram"
-                                                                                   type="text" class="form-control"
-                                                                                   placeholder="https://www.instagram.com/username">
-                                                                        {% endif %}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group row">
-                                                                <div class="offset-sm-3 col-sm-9">
-                                                                    <div class="input-group">
-                                                                        <div class="input-group-prepend">
-                                                                            <div class="input-group-text"><i
-                                                                                        class="fab fa-behance"></i>
-                                                                            </div>
-                                                                        </div>
-                                                                        {% if app.user.sociallinks["behance"] is defined %}
-                                                                        <input name="behance"
-                                                                               value="{{ app.user.sociallinks["behance"] }}"
-                                                                               type="text" class="form-control"
-                                                                               placeholder="https://www.behance.com/username">
-                                                                        {% else %}
-                                                                            <input name="behance"
-                                                                                   type="text" class="form-control"
-                                                                                   placeholder="https://www.behance.com/username">
-                                                                        {% endif %}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group row">
-                                                                <div class="offset-sm-3 col-sm-9">
-                                                                    <div class="input-group">
-                                                                        <div class="input-group-prepend">
-                                                                            <div class="input-group-text"><i
-                                                                                        class="fab fa-dribbble"></i>
-                                                                            </div>
-                                                                        </div>
-                                                                        {% if app.user.sociallinks["dribbble"] is defined %}
-                                                                        <input name="dribbble"
-                                                                               value="{{ app.user.sociallinks["dribbble"] }}"
-                                                                               type="text" class="form-control"
-                                                                               placeholder="https://www.dribbble.com/username">
-                                                                        {% else %}
-                                                                            <input name="dribbble"
-                                                                                   type="text" class="form-control"
-                                                                                   placeholder="https://www.dribbble.com/username">
-                                                                        {% endif %}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group row">
-                                                                <div class="offset-sm-3 col-sm-9">
-                                                                    <div class="input-group">
-                                                                        <div class="input-group-prepend">
-                                                                            <div class="input-group-text"><i
-                                                                                        class="fab fa-github"></i></div>
-                                                                        </div>
-                                                                        {% if app.user.sociallinks["github"] is defined %}
-                                                                        <input name="github"
-                                                                               value="{{ app.user.sociallinks["github"] }}"
-                                                                               type="text" class="form-control"
-                                                                               placeholder="https://www.github.com/username">
-                                                                        {% else %}
-                                                                            <input name="github"
-                                                                                   type="text" class="form-control"
-                                                                                   placeholder="https://www.github.com/username">
-                                                                        {% endif %}
-
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="offset-sm-3 col-sm-9">
-                                                                    <div class="buttons">
-                                                                        <button class="primary-bg">Guardar</button>
-                                                                        <button class="" data-dismiss="modal">Cancelar
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                             <div class="about-details details-section dashboard-section">
                                 <h4><i data-feather="align-left"></i>Sobre mi</h4>
-                                {#{{ dump(resume)}}#}
                                 <div id="aboutme">
                                     {% if resume.aboutme is defined %}
-                                        <p>{{ resume.aboutme }}</p>
+                                        {{ resume.aboutme|raw }}
                                     {% else %}
                                         <p>Ups! NO hay nada aquí</p>
                                     {% endif %}
@@ -461,757 +155,86 @@
                                     </div>
                                 </div>
                                 <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary edit-resume" data-toggle="modal"
+                                <a href="{{ path('resume_about_me') }}" class="btn btn-primary edit-resume edit-cv" data-toggle="modal"
                                         data-target="#modal-about-me">
                                     <i data-feather="edit-2"></i>
-                                </button>
-                                <!-- Modal -->
-                                <div class="modal fade" id="modal-about-me" tabindex="-1" role="dialog"
-                                     aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-body">
-                                                <div class="title">
-                                                    <h4><i data-feather="align-left"></i>Sobre mi</h4>
-                                                </div>
-                                                <div class="content">
-                                                    <form id="about-me" method="post" action="{{ path('ajax_about') }}">
-                                                        <div class="form-group row">
-                                                            <label class="col-sm-3 col-form-label">Mi
-                                                                información</label>
-                                                            <div class="col-sm-9">
-                                                                <textarea id="about" rows="100" name="about"
-                                                                          class="form-control"
-                                                                          placeholder="Write Yourself">
-                                                                    {{ resume.aboutme }}
-                                                                </textarea>
-                                                                <input name="resume_id" type="hidden"
-                                                                       value="{{ resume.id }}">
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="offset-sm-3 col-sm-9">
-                                                                <div class="buttons">
-                                                                    <button id="send" class="primary-bg">Save Update
-                                                                    </button>
-                                                                    <button class="" data-dismiss="modal">Cancel
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                </a>
                             </div>
                             <div class="edication-background details-section dashboard-section">
                                 <h4><i data-feather="book"></i>Antecedentes educacionales</h4>
-                                <div class="edication-background details-section dashboard-section">
-                                    <button type="button" style="z-index: 100" class="btn btn-primary edit-resume"
-                                            data-toggle="modal" data-target="#modal-new">
-                                        <i data-feather="plus-square"></i>
-                                    </button>
-                                </div>
-                                {% for m in metas %}
-                                    {% if m.type == 'metadata_education' %}
+                                {% for m in resume.education %}
                                         <div id="div1-{{ m.id }}" class="education-label">
-                                            <span class="study-year">{{ m.extra }}</span>
-                                            <h5>{{ m.header }}</h5>
-                                            <p>{{ m.description }}</p>
+                                            <span class="study-year">{{ m.title }} [ {{  m.periode  }} ]</span>
+                                            <h5>{{ m.institute }}</h5>
+                                            <p>{{ m.context }}</p>
                                         </div>
-                                    {% endif %}
                                 {% endfor %}
                                 <!-- Button trigger modal -->
-                                <button id="btn" type="button" class="btn btn-primary edit-resume" data-toggle="modal"
+                                <a  href="{{ path('metadata_educacion') }}" class="btn btn-primary edit-resume edit-cv" data-toggle="modal"
                                         data-target="#modal-education">
                                     <i data-feather="edit-2"></i>
-                                </button>
-                                <!-- Modals -->
-                                <div class="modal fade modal-education" id="modal-new" tabindex="-1" role="dialog"
-                                     aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-body">
-                                                <div class="title">
-                                                    <h4><i data-feather="book"></i>Adicionar educación</h4>
-                                                </div>
-                                                <div class="content">
-                                                    <form method="post" id="form-education-add"
-                                                          action="{{ path('ajax_metadata_save') }}">
-                                                        <input type="hidden" name="id" value="{{ resume.id }}">
-                                                        <input type="hidden" name="option" value="1">
-                                                        <div class="input-block-wrap">
-                                                            <div class="form-group row">
-                                                                <label class="col-sm-3 col-form-label"> 01</label>
-                                                                <div class="col-sm-9">
-                                                                    <div class="input-group">
-                                                                        <div class="input-group-prepend">
-                                                                            <div class="input-group-text">
-                                                                                Título
-                                                                            </div>
-                                                                        </div>
-                                                                        <input name="title" type="text"
-                                                                               class="form-control">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group row">
-                                                                <div class="offset-sm-3 col-sm-9">
-                                                                    <div class="input-group">
-                                                                        <div class="input-group-prepend">
-                                                                            <div class="input-group-text">
-                                                                                Instituto
-                                                                            </div>
-                                                                        </div>
-                                                                        <input name="institute" type="text"
-                                                                               class="form-control">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group row">
-                                                                <div class="col-sm-9 offset-sm-3">
-                                                                    <div class="input-group">
-                                                                        <div class="input-group-prepend">
-                                                                            <div class="input-group-text">
-                                                                                Período
-                                                                            </div>
-                                                                        </div>
-                                                                        <input name="period" type="text"
-                                                                               class="form-control">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group row">
-                                                                <div class="offset-sm-3 col-sm-9">
-                                                                    <div class="input-group">
-                                                                        <div class="input-group-prepend">
-                                                                            <div class="input-group-text">
-                                                                                Descripción
-                                                                            </div>
-                                                                        </div>
-                                                                        <textarea name="description"
-                                                                                  class="form-control"></textarea>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="offset-sm-3 col-sm-9">
-                                                                <div class="buttons">
-                                                                    <button class="primary-bg">Guardar</button>
-                                                                    <button class="" data-dismiss="modal">Cancelar
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal fade modal-education" id="modal-education" tabindex="-1" role="dialog"
-                                     aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-body">
-                                                <div class="title">
-                                                    <h4><i data-feather="book"></i>Education</h4>
-                                                </div>
-                                                <div class="content">
-                                                    {% block form %}
-                                                        <form method="post" id="form-education"
-                                                              action="{{ path('ajax_metadata_save') }}">
-                                                            <input type="hidden" name="id" value="{{ resume.id }}">
-                                                            <input type="hidden" name="option" value="0">
-                                                            {% set i = 1 %}
-                                                            {% for m in metas %}
-                                                                {% if m.type == 'metadata_education' %}
-                                                                    <input type="hidden" name="rid-{{ i }}"
-                                                                           value="{{ m.id }}">
-                                                                    <div id="div-{{ m.id }}" class="input-block-wrap">
-                                                                        <div class="form-group row">
-                                                                            <label class="col-sm-1 col-form-label">{{ i }}</label>
-                                                                            <div class="col-sm-2">
-                                                                                <button id=""
-                                                                                        onclick="removeEducation('{{ m.id }}')"
-                                                                                        type="button"
-                                                                                        class="btn btn-primary edit-resume"
-                                                                                        data-target="">
-                                                                                    <i data-feather="minus"></i>
-                                                                                </button>
-                                                                            </div>
-                                                                            <div class="col-sm-9">
-                                                                                <div class="input-group">
-                                                                                    <div class="input-group-prepend">
-                                                                                        <div class="input-group-text">
-                                                                                            Título
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <input value="{{ m.header }}"
-                                                                                           name="title-{{ i }}"
-                                                                                           type="text"
-                                                                                           class="form-control">
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="form-group row">
-                                                                            <div class="offset-sm-3 col-sm-9">
-                                                                                <div class="input-group">
-                                                                                    <div class="input-group-prepend">
-                                                                                        <div class="input-group-text">
-                                                                                            Instituto
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <input value="{{ m.context }}"
-                                                                                           name="institute-{{ i }}"
-                                                                                           type="text"
-                                                                                           class="form-control">
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="form-group row">
-                                                                            <div class="col-sm-9 offset-sm-3">
-                                                                                <div class="input-group">
-                                                                                    <div class="input-group-prepend">
-                                                                                        <div class="input-group-text">
-                                                                                            Período
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <input value="{{ m.extra }}"
-                                                                                           name="period-{{ i }}"
-                                                                                           type="text"
-                                                                                           class="form-control">
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="form-group row">
-                                                                            <div class="offset-sm-3 col-sm-9">
-                                                                                <div class="input-group">
-                                                                                    <div class="input-group-prepend">
-                                                                                        <div class="input-group-text">
-                                                                                            Descripción
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <textarea name="description-{{ i }}"
-                                                                                              class="form-control">{{ m.description }}</textarea>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    {% set i = i+1 %}
-                                                                {% endif %}
-                                                            {% endfor %}
-                                                            <input id="last" type="hidden" name="count" value="{{ i }}">
-                                                            <div class="row">
-                                                                <div class="offset-sm-3 col-sm-9">
-                                                                    <div class="buttons">
-                                                                        <button class="primary-bg">Guardar</button>
-                                                                        <button class="" data-dismiss="modal">Cancelar
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                    {% endblock form %}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                </a>
+
                             </div>
                             <hr style="margin: 50px;">
                             <div class="experience dashboard-section details-section">
                                 <h4><i data-feather="briefcase"></i>Experiencia Laboral</h4>
-                                <div class="experience dashboard-section details-section">
-                                    <button type="button" style="z-index: 100" class="btn btn-primary edit-resume"
-                                            data-toggle="modal" data-target="#modal-experience-add">
-                                        <i data-feather="plus-square"></i>
-                                    </button>
-                                </div>
-                                {% for m in metas %}
-                                    {% if m.type == 'metadata_experience' %}
+                                {% for m in resume.ocupations %}
                                         <div id="div1-{{ m.id }}" class="experience-section">
-                                            <span class="service-year">{{ m.extra }}</span>
-                                            <h5>{{ m.header }}</h5>
-                                            <p>{{ m.description }}</p>
+                                            <span class="study-year">{{ m.title }} [ {{  m.periode  }} ]</span>
+                                            <h5>{{ m.company }}</h5>
+                                            <p>{{ m.context }}</p>
                                         </div>
-                                    {% endif %}
                                 {% endfor %}
-                                <!-- Button trigger modal -->
-                                <button id="btn1" type="button" class="btn btn-primary edit-resume" data-toggle="modal"
+
+                                <a href="{{ path('metadata_ocupation') }}" class="btn btn-primary edit-resume edit-cv" data-toggle="modal"
                                         data-target="#modal-experience">
                                     <i data-feather="edit-2"></i>
-                                </button>
-                                <!-- Modal -->
-                                <div class="modal fade modal-experience" id="modal-experience" tabindex="-1"
-                                     role="dialog" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-body">
-                                                <div class="title">
-                                                    <h4><i data-feather="briefcase"></i>Experiencia</h4>
-                                                </div>
-                                                <div class="content">
-                                                    <form action="{{ path('ajax_metadata_save') }}"
-                                                          id="experience-edit">
-                                                        {% set i = 1 %}
-                                                        {% for m in metas %}
-                                                            {% if m.type == 'metadata_experience' %}
-                                                                <div id="div-{{ m.id }}" class="input-block-wrap">
+                                </a>
 
-                                                                    <input type="hidden" name="rid-{{ i }}"
-                                                                           value="{{ m.id }}">
-                                                                    <div class="form-group row">
-                                                                        <label class="col-sm-1 col-form-label">{{ i }}</label>
-                                                                        <div class="col-sm-2">
-                                                                            <button id=""
-                                                                                    onclick="removeEducation('{{ m.id }}')"
-                                                                                    type="button"
-                                                                                    class="btn btn-primary edit-resume"
-                                                                                    data-target="">
-                                                                                <i data-feather="minus"></i>
-                                                                            </button>
-                                                                        </div>
-                                                                        <div class="col-sm-9">
-                                                                            <div class="input-group">
-                                                                                <div class="input-group-prepend">
-                                                                                    <div class="input-group-text">
-                                                                                        Título
-                                                                                    </div>
-                                                                                </div>
-                                                                                <input name="title"
-                                                                                       value="{{ m.header }}"
-                                                                                       type="text" class="form-control">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group row">
-                                                                        <div class="offset-sm-3 col-sm-9">
-                                                                            <div class="input-group">
-                                                                                <div class="input-group-prepend">
-                                                                                    <div class="input-group-text">
-                                                                                        Compañía
-                                                                                    </div>
-                                                                                </div>
-                                                                                <input name="company"
-                                                                                       value="{{ m.context }}"
-                                                                                       type="text" class="form-control">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group row">
-                                                                        <div class="col-sm-9 offset-sm-3">
-                                                                            <div class="input-group">
-                                                                                <div class="input-group-prepend">
-                                                                                    <div class="input-group-text">
-                                                                                        Periodo
-                                                                                    </div>
-                                                                                </div>
-                                                                                <input name="period"
-                                                                                       value="{{ m.extra }}" type="text"
-                                                                                       class="form-control">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group row">
-                                                                        <div class="offset-sm-3 col-sm-9">
-                                                                            <div class="input-group">
-                                                                                <div class="input-group-prepend">
-                                                                                    <div class="input-group-text">
-                                                                                        Descripción
-                                                                                    </div>
-                                                                                </div>
-                                                                                <textarea name="description"
-                                                                                          class="form-control">{{ m.description }}</textarea>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                {% set i = i+1 %}
-                                                            {% endif %}
-                                                        {% endfor %}
-                                                        <input id="last" type="hidden" name="count" value="{{ i }}">
-                                                        <div class="row">
-                                                            <div class="offset-sm-3 col-sm-9">
-                                                                <div class="buttons">
-                                                                    <button class="primary-bg">Guardar</button>
-                                                                    <button class="" data-dismiss="modal">Cancelar
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="modal fade modal-experience" id="modal-experience-add" tabindex="-1"
-                                     role="dialog" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-body">
-                                                <div class="title">
-                                                    <h4><i data-feather="briefcase"></i>Experiencia</h4>
-                                                </div>
-                                                <div class="content">
-                                                    <form action="{{ path('ajax_metadata_exp_save') }}"
-                                                          id="add-experience">
-                                                        <div class="input-block-wrap">
-                                                            <div class="form-group row">
-                                                                <label class="col-sm-3 col-form-label">01</label>
-                                                                <div class="col-sm-9">
-                                                                    <div class="input-group">
-                                                                        <div class="input-group-prepend">
-                                                                            <div class="input-group-text">Título</div>
-                                                                        </div>
-                                                                        <input name="title" type="text"
-                                                                               class="form-control">
-                                                                        <input type="hidden" name="id"
-                                                                               value="{{ resume.id }}">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group row">
-                                                                <div class="offset-sm-3 col-sm-9">
-                                                                    <div class="input-group">
-                                                                        <div class="input-group-prepend">
-                                                                            <div class="input-group-text">Compañía</div>
-                                                                        </div>
-                                                                        <input name="company" type="text"
-                                                                               class="form-control">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group row">
-                                                                <div class="col-sm-9 offset-sm-3">
-                                                                    <div class="input-group">
-                                                                        <div class="input-group-prepend">
-                                                                            <div class="input-group-text">Periodo</div>
-                                                                        </div>
-                                                                        <input name="period" type="text"
-                                                                               class="form-control">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group row">
-                                                                <div class="offset-sm-3 col-sm-9">
-                                                                    <div class="input-group">
-                                                                        <div class="input-group-prepend">
-                                                                            <div class="input-group-text">Descripción
-                                                                            </div>
-                                                                        </div>
-                                                                        <textarea name="description"
-                                                                                  class="form-control"></textarea>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="offset-sm-3 col-sm-9">
-                                                                <div class="buttons">
-                                                                    <button class="primary-bg">Guardar</button>
-                                                                    <button class="" data-dismiss="modal">Cancelar
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                             <hr style="margin: 50px;">
                             <div class="professonal-skill dashboard-section details-section">
                                 <h4><i data-feather="feather"></i>Habilidad profesional</h4>
                                 <div class="progress-group col-sm-10">
-                                    {% for m in metas %}
-                                        {% if m.type == 'metadata_porcent' %}
-                                            <div id="div1-{{ m.id }}" class="progress-item">
+                                    {% for m in resume.professionalSkills %}
+                                            <div id="div1-{{ m.id }}" class="progress-item col-md-6">
                                                 <div class="progress-head">
-                                                    <p class="progress-on">{{ m.header }}</p>
+                                                    <p class="progress-on">{{ m.name }}</p>
                                                 </div>
                                                 <div class="progress-body">
                                                     <div class="progress">
                                                         <div class="progress-bar" role="progressbar"
-                                                             aria-valuenow="{{ m.context }}"
+                                                             aria-valuenow="{{ m.porcent }}"
                                                              aria-valuemin="0" aria-valuemax="100"
                                                              style="width: 0;"></div>
                                                     </div>
-                                                    <p class="progress-to">{{ m.context }}%</p>
+                                                    <p class="progress-to">{{ m.porcent }}%</p>
                                                 </div>
                                             </div>
-                                        {% endif %}
                                     {% endfor %}
                                     <span id="point"></span>
                                 </div>
                                 <!-- Button trigger modal -->
 
-                                <button type="button" style="z-index: 100; " class="btn btn-primary edit-resume"
+                                <a href="{{ path('metadata_professional_skills') }}" style="z-index: 100; " class="btn btn-primary edit-resume edit-cv"
                                         data-toggle="modal" data-target="#modal-pro-skill-edit">
                                     <i data-feather="edit-2"></i>
-                                </button>
+                                </a>
 
-                                <button type="button" style="margin-top: 50px" class="btn btn-primary edit-resume"
-                                        data-toggle="modal"
-                                        data-target="#modal-pro-skill">
-                                    <i data-feather="plus-square"></i>
-                                </button>
-                                <!-- Modal -->
-                                <div class="modal fade modal-pro-skill" id="modal-pro-skill" tabindex="-1" role="dialog"
-                                     aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-body">
-                                                <div class="title">
-                                                    <h4><i data-feather="feather"></i>Habilidades profesionales</h4>
-                                                </div>
-                                                <div class="content">
-                                                    <form method="post" id="skills-form"
-                                                          action="{{ path('ajax_metadata_porcent_save') }}">
-                                                        <div class="input-block-wrap">
-                                                            <div class="form-group row">
-                                                                <label class="col-sm-3 col-form-label">Habilidad
-                                                                    </label>
-                                                                <div class="col-sm-9">
-                                                                    <div class="input-group">
-                                                                        <div class="input-group-prepend">
-                                                                            <div class="input-group-text">Nombre
-                                                                            </div>
-                                                                        </div>
-                                                                        <input name="name" type="text"
-                                                                               class="form-control">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group row">
-                                                                <div class="offset-sm-3 col-sm-9">
-                                                                    <div class="input-group">
-                                                                        <div class="input-group-prepend">
-                                                                            <div class="input-group-text">Porciento
-                                                                            </div>
-                                                                        </div>
-                                                                        <input name="porcent" type="number"
-                                                                               class="form-control">
-                                                                        <input name="id" type="hidden"
-                                                                               value="{{ resume.id }}">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="offset-sm-3 col-sm-9">
-                                                                <div class="buttons">
-                                                                    <button class="primary-bg">Guardar</button>
-                                                                    <button class="" data-dismiss="modal">Cancelar
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="modal fade modal-pro-skill" id="modal-pro-skill-edit" tabindex="-1"
-                                     role="dialog"
-                                     aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-body">
-                                                <div class="title">
-                                                    <h4><i data-feather="feather"></i>Habilidades profesionales</h4>
-                                                </div>
-                                                <div class="content">
-                                                    <form id="skills-form-edit" method="post" action="{{ path('ajax_metadata_porcent_save') }}">
-                                                        <div class="input-block-wrap">
-                                                            {% set i = 1 %}
-                                                            {% for m in metas %}
-                                                                {% if m.type == 'metadata_porcent' %}
-                                                                    <div id="div-{{ m.id }}">
-                                                                    <div  class="form-group row">
-                                                                        <label class="col-sm-2 col-form-label">Habilidad
-                                                                            {{ i }}</label>
-                                                                        <div class="col-sm-1">
-                                                                            <button id=""
-                                                                                    onclick="removeEducation('{{ m.id }}')"
-                                                                                    type="button"
-                                                                                    class="btn btn-primary edit-resume"
-                                                                                    data-target="">
-                                                                                <i data-feather="minus"></i>
-                                                                            </button>
-                                                                        </div>
-                                                                        <div class="col-sm-9">
-                                                                            <div class="input-group">
-                                                                                <div class="input-group-prepend">
-                                                                                    <div class="input-group-text">Nombre
-                                                                                    </div>
-                                                                                </div>
-                                                                                <input value="{{ m.header }}"
-                                                                                       name="name-{{ i }}" type="text"
-                                                                                       class="form-control">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group row">
-                                                                        <div class="offset-sm-3 col-sm-9">
-                                                                            <div class="input-group">
-                                                                                <div class="input-group-prepend">
-                                                                                    <div class="input-group-text">
-                                                                                        Porciento
-                                                                                    </div>
-                                                                                </div>
-                                                                                <input value="{{ m.context }}"
-                                                                                       name="porcent-{{ i }}" type="number"
-                                                                                       class="form-control">
-                                                                                <input name="id" type="hidden"
-                                                                                       value="{{ resume.id }}">
-                                                                                <input type="hidden" name="meta_id-{{ i }}" value="{{ m.id }}">
-                                                                                <input type="hidden" name="counter" value="{{ i }}">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    {% set i = i+1 %}
-                                                                    </div>
-                                                                {% endif %}
-                                                            {% endfor %}
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="offset-sm-3 col-sm-9">
-                                                                <div class="buttons">
-                                                                    <button class="primary-bg">Guardar</button>
-                                                                    <button class="" data-dismiss="modal">Cancelar
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                             <hr style="margin: 50px;">
                             <div class="special-qualification dashboard-section details-section">
                                 <h4><i data-feather="gift"></i>Calificación Especial</h4>
                                 <ul>
-                                    {% for m in metas %}
-                                        {% if m.type == 'metadata_qualification' %}
-                                            <li id="div1-{{ m.id }}" >{{ m.header }}</li>
-                                        {% endif %}
+                                    {% for m in resume.califications %}
+                                        <li>{{ m.name }}</li>
                                     {% endfor %}
                                 </ul>
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary edit-resume" data-toggle="modal"
+                                <a href="{{ path('metadata_calification') }}" class="btn btn-primary edit-resume edit-cv" data-toggle="modal"
                                         data-target="#modal-qualification-remove">
                                     <i data-feather="edit-2"></i>
-                                </button>
-                                <button type="button" style="margin-top: 50px" class="btn btn-primary edit-resume"
-                                        data-toggle="modal"
-                                        data-target="#modal-qualification">
-                                    <i data-feather="plus-square"></i>
-                                </button>
-                                <!-- Modal -->
-                                <div class="modal fade" id="modal-qualification-remove" tabindex="-1" role="dialog"
-                                     aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-body">
-                                                <div class="title">
-                                                    <h4><i data-feather="align-left"></i>Calificación Especial</h4>
-                                                </div>
-                                                <div class="content">
-                                                    <form method="post" id="qualification1" action="#">
-                                                        {% set i = 1 %}
-                                                        {% for m in metas %}
-                                                            {% if m.type == 'metadata_qualification' %}
-                                                        <div id="div-{{ m.id }}" class="form-group row">
-                                                            <div class="col-sm-3">
-                                                                <button id=""
-                                                                        onclick="removeEducation('{{ m.id }}')"
-                                                                        type="button"
-                                                                        class="btn btn-primary edit-resume"
-                                                                        data-target="">
-                                                                    <i data-feather="minus"></i>
-                                                                </button>
-                                                            </div>
-                                                            <div class="col-sm-9">
-                                                                <div class="input-group">
-                                                                    <div class="input-group-prepend">
-                                                                        <div class="input-group-text">{{ i }}</div>
-                                                                    </div>
-                                                                    <input name="name{{ i }}" value="{{ m.header }}" type="text" class="form-control">
-                                                                    <input type="hidden" name="id" value="{{ resume.id }}">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                                {% set i = i+1 %}
-                                                            {% endif %}
-                                                        {% endfor %}
-                                                        <div class="row">
-                                                            <div class="offset-sm-3 col-sm-9">
-                                                                <div class="buttons">
-                                                                    <button class="primary-bg">Guardar</button>
-                                                                    <button class="" data-dismiss="modal">Cancelar
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="modal fade" id="modal-qualification" tabindex="-1" role="dialog"
-                                     aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-body">
-                                                <div class="title">
-                                                    <h4><i data-feather="align-left"></i>Calificación Especial</h4>
-                                                </div>
-                                                <div class="content">
-                                                    <form id="qualification" action="{{ path('ajax_metadata_qualification_save') }}">
-                                                                <div class="form-group row">
-                                                                    <div class="col-sm-3">
-                                                                        Nombre
-                                                                    </div>
-                                                                    <div class="col-sm-9">
-                                                                        <div class="input-group">
-                                                                            <div class="input-group-prepend">
-                                                                                <div class="input-group-text">1</div>
-                                                                            </div>
-                                                                            <input name="name"  type="text" class="form-control">
-                                                                            <input type="hidden" name="id" value="{{ resume.id }}">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                        <div class="row">
-                                                            <div class="offset-sm-3 col-sm-9">
-                                                                <div class="buttons">
-                                                                    <button class="primary-bg">Guardar</button>
-                                                                    <button class="" data-dismiss="modal">Cancelar
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                </a>
                             </div>
                             <div class="personal-information dashboard-section last-child details-section">
                                 <h4><i data-feather="user-plus"></i>Datos personales</h4>
@@ -1234,5 +257,19 @@
 
 {% endblock %}
 {% block js %}
-    <script src="{{ asset('site/js/ajax.js') }}"></script>
+    {#<script src="{{ asset('site/js/ajax.js') }}"></script>#}
+    {{ encore_entry_script_tags('cv') }}
+    <script !src="">
+        $(document).ready(function () {
+            $('#resume_files_cvFile, #resume_files_cartFile').fileinput({
+                dropZoneEnabled:false,
+                browseLabel: '&nbsp;Importar',
+                browseIcon: '<i class="fa fa-upload"></i>&nbsp;',
+                removeLabel: 'Eliminar',
+                showUpload: false,
+                allowedFileExtensions:['pdf'],
+                maxFileSize: '1024',
+            });
+        })
+    </script>
 {% endblock %}

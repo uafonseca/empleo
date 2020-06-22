@@ -98,10 +98,34 @@ class Resume
      */
     private $updatedAt;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Education::class, mappedBy="resume",cascade={"persist"})
+     */
+    private $education;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Ocupation::class, mappedBy="resume", cascade={"persist"})
+     */
+    private $ocupations;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ProfessionalSkill::class, mappedBy="resume", cascade={"persist"})
+     */
+    private $professionalSkills;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Calification::class, mappedBy="resume", cascade={"persist"})
+     */
+    private $califications;
+
 
     public function __construct()
     {
         $this->metadata = new ArrayCollection();
+        $this->education = new ArrayCollection();
+        $this->ocupations = new ArrayCollection();
+        $this->professionalSkills = new ArrayCollection();
+        $this->califications = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -299,6 +323,130 @@ class Resume
         {
             $this->setUpdatedAt(new \DateTime());
         }
+    }
+
+    /**
+     * @return Collection|Education[]
+     */
+    public function getEducation(): Collection
+    {
+        return $this->education;
+    }
+
+    public function addEducation(Education $education): self
+    {
+        if (!$this->education->contains($education)) {
+            $this->education[] = $education;
+            $education->setResume($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEducation(Education $education): self
+    {
+        if ($this->education->contains($education)) {
+            $this->education->removeElement($education);
+            // set the owning side to null (unless already changed)
+            if ($education->getResume() === $this) {
+                $education->setResume(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Ocupation[]
+     */
+    public function getOcupations(): Collection
+    {
+        return $this->ocupations;
+    }
+
+    public function addOcupation(Ocupation $ocupation): self
+    {
+        if (!$this->ocupations->contains($ocupation)) {
+            $this->ocupations[] = $ocupation;
+            $ocupation->setResume($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOcupation(Ocupation $ocupation): self
+    {
+        if ($this->ocupations->contains($ocupation)) {
+            $this->ocupations->removeElement($ocupation);
+            // set the owning side to null (unless already changed)
+            if ($ocupation->getResume() === $this) {
+                $ocupation->setResume(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ProfessionalSkill[]
+     */
+    public function getProfessionalSkills(): Collection
+    {
+        return $this->professionalSkills;
+    }
+
+    public function addProfessionalSkill(ProfessionalSkill $professionalSkill): self
+    {
+        if (!$this->professionalSkills->contains($professionalSkill)) {
+            $this->professionalSkills[] = $professionalSkill;
+            $professionalSkill->setResume($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProfessionalSkill(ProfessionalSkill $professionalSkill): self
+    {
+        if ($this->professionalSkills->contains($professionalSkill)) {
+            $this->professionalSkills->removeElement($professionalSkill);
+            // set the owning side to null (unless already changed)
+            if ($professionalSkill->getResume() === $this) {
+                $professionalSkill->setResume(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Calification[]
+     */
+    public function getCalifications(): Collection
+    {
+        return $this->califications;
+    }
+
+    public function addCalification(Calification $calification): self
+    {
+        if (!$this->califications->contains($calification)) {
+            $this->califications[] = $calification;
+            $calification->setResume($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCalification(Calification $calification): self
+    {
+        if ($this->califications->contains($calification)) {
+            $this->califications->removeElement($calification);
+            // set the owning side to null (unless already changed)
+            if ($calification->getResume() === $this) {
+                $calification->setResume(null);
+            }
+        }
+
+        return $this;
     }
 
 

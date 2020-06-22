@@ -15,9 +15,6 @@ class StaticPageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-//            ->add('updateAt',DateType::class,[
-//                'widget' => 'single_text',
-//            ])
             ->add('context',CKEditorType::class,[
                 'label' => 'Contenido'
             ])

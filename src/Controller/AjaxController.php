@@ -16,7 +16,8 @@
 	use App\Entity\Notification;
 	use App\Entity\Profession;
 	use App\Entity\Resume;
-	use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+    use App\Entity\User;
+    use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 	use Symfony\Component\HttpFoundation\JsonResponse;
 	use Symfony\Component\HttpFoundation\Request;
 	use Symfony\Component\Routing\Annotation\Route;
@@ -24,17 +25,7 @@
 	
 	class AjaxController extends Controller
 	{
-		
 
-		
-
-		
-
-		
-
-		
-
-		
 		/**
 		 * @Route("/ajax/social", name="ajax_social")
 		 */
@@ -49,7 +40,10 @@
 			$behance = $request->request->get('behance');
 			$dribbble = $request->request->get('dribbble');
 			$github = $request->request->get('github');
-			$user = $this->get('security.token_storage')->getToken()->getUser();
+
+			/** @var User $user */
+			$user =$this->getUser();
+
 			$user->setSocialLinks($this->externalLinkFilter($fb), 'fb');
 			$user->setSocialLinks($this->externalLinkFilter($twitter), 'twitter');
 			$user->setSocialLinks($this->externalLinkFilter($google), 'google');
@@ -59,18 +53,11 @@
 			$user->setSocialLinks($this->externalLinkFilter($behance), 'behance');
 			$user->setSocialLinks($this->externalLinkFilter($dribbble), 'dribbble');
 			$user->setSocialLinks($this->externalLinkFilter($github), 'github');
+
 			$entityManager = $this->getDoctrine()->getManager();
+			$entityManager->persist($user);
 			$entityManager->flush();
-			$response = new JsonResponse();
-			$response->setStatusCode(200);
-			$response->setData(
-				array(
-					'response' => 'success',
-					'data' => "OK",
-				)
-			);
-			
-			return $response;
+            return $this->redirectToRoute('dashboard_resume_edit');
 		}
 		
 		public function externalLinkFilter($url)

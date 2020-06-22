@@ -1,4 +1,4 @@
-core.select = {
+coreApp.select = {
     handleSelection: function (select, selection) {
         select.on('select2:unselecting', function (event) {
             const data = event.params.args.data;

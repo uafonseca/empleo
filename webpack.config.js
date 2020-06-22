@@ -1,10 +1,5 @@
 var Encore = require('@symfony/webpack-encore');
-// var CopyWebpackPlugin = require('copy-webpack-plugin');
-// Manually configure the runtime environment if not already configured yet by the "encore" command.
-// It's useful when you use tools that rely on webpack.config.js file.
-if (!Encore.isRuntimeEnvironmentConfigured()) {
-    Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
-}
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 Encore
 // directory where compiled assets will be stored
@@ -30,6 +25,7 @@ Encore
     .addEntry('backend_category_form', './assets/backend/category/form.js')
     .addEntry('backend_terms_form', './assets/backend/terms/form.js')
     .addEntry('backend_dashboard', './assets/backend/js/chart-area.js')
+    .addEntry('cv', './assets/site/js/cv.js')
 
 
 

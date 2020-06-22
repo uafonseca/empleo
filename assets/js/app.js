@@ -39,6 +39,7 @@ import 'bootstrap-fileinput'
 require('./datatables');
 require('./actions');
 require('./dialogs');
+require('./plugins');
 
 
 
