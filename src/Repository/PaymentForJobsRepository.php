@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\PaymentForJobs;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -18,6 +19,14 @@ class PaymentForJobsRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, PaymentForJobs::class);
     }
+
+//    public function  findAviables(User $user)
+//    {
+//        return $this->createQueryBuilder('pfj')
+//            ->leftJoin('pfj.users','user')
+//            ->where('')
+//
+//    }
 
     // /**
     //  * @return PaymentForJobs[] Returns an array of PaymentForJobs objects

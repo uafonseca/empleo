@@ -29,88 +29,95 @@
                     <div class="dashboard-container">
                         <div class="dashboard-content-wrapper">
                             <div class="row">
-                                {% if is_granted('ROLE_ADMIN') %}
-                                {% for p in packagesJobs %}
-                                    <div class="col-md-4">
-                                        <div class="pricing starter">
-                                            <span class="package-title">{{ p.name }}</span>
-                                            <div class="package-info">
-                                                <hr>
-                                                <span class="span-empleo">Paquete de Empleos</span>
-                                                <hr>
-                                                <p class="user-number">Solo es válido para publicar ofertas de empleo</p>
-                                                <h3 class="monthly-rate"><span>${{ p.price }}</span>/{{ p.visibleDays }}
-                                                    Días</h3>
-                                                <p class="user-number">Máximo de publicaciones
-                                                    <strong>{{ p.anouncementsNumberMax }}</strong>
-                                                </p>
-                                            </div>
-                                            <div class="features">
-                                                <h6>Caracteristicas</h6>
-                                                <ul>
-                                                    <li>Currículums disponibles <strong>{{ p.cvNumberMax }}</strong>
-                                                    </li>
-                                                    {% if p.evaluationsPsicological %}
-                                                        <li>Evaluaciones psicológicas</li>
-                                                    {% endif %}
-                                                    <li>Anuncio destacado <strong>{{ p.daysImportants }}</strong> días
-                                                    </li>
-                                                    {% if p.selection %}
-                                                        <li>Selección de candidatos</li>
-                                                    {% endif %}
-                                                </ul>
-                                            </div>
-                                            {% if p.price == 0 %}
-                                                <div class="buy-button">
-                                                    <a href="{{ path('buy_package_free', {'packId': p.id, 'type':'job'}) }}"
-                                                       class="button btn-success">Obtener</a>
+                                {% if is_granted('ROLE_ADMIN') and type == 'job' %}
+                                    {% for p in packagesJobs %}
+                                        <div class="col-md-4">
+                                            <div class="pricing starter">
+                                                <span class="package-title">{{ p.name }}</span>
+                                                <div class="package-info">
+                                                    <hr>
+                                                    <span class="span-empleo">Paquete de Empleos</span>
+                                                    <hr>
+                                                    <p class="user-number">Solo es válido para publicar ofertas de
+                                                        empleo</p>
+                                                    <h3 class="monthly-rate">
+                                                        <span>${{ p.price }}</span>/{{ p.visibleDays }}
+                                                        Días</h3>
+                                                    <p class="user-number">Máximo de publicaciones
+                                                        <strong>{{ p.anouncementsNumberMax }}</strong>
+                                                    </p>
                                                 </div>
-                                            {% else %}
-                                                <div class="buy-button">
-                                                    <a href="{{ path('checkout', {'packId': p.id,'type':'job'}) }}"
-                                                       class="button primary-bg">Obtener</a>
+                                                <div class="features">
+                                                    <h6>Caracteristicas</h6>
+                                                    <ul>
+                                                        <li>Currículums disponibles <strong>{{ p.cvNumberMax }}</strong>
+                                                        </li>
+                                                        {% if p.evaluationsPsicological %}
+                                                            <li>Evaluaciones psicológicas</li>
+                                                        {% endif %}
+                                                        <li>Anuncio destacado <strong>{{ p.daysImportants }}</strong>
+                                                            días
+                                                        </li>
+                                                        {% if p.selection %}
+                                                            <li>Selección de candidatos</li>
+                                                        {% endif %}
+                                                    </ul>
                                                 </div>
-                                            {% endif %}
+                                                {% if p.price == 0 %}
+                                                    <div class="buy-button">
+                                                        <a href="{{ path('buy_package_free', {'packId': p.id, 'type':'job'}) }}"
+                                                           class="button btn-success">Obtener</a>
+                                                    </div>
+                                                {% else %}
+                                                    <div class="buy-button">
+                                                        <a href="{{ path('checkout', {'packId': p.id,'type':'job'}) }}"
+                                                           class="button primary-bg">Obtener</a>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
                                         </div>
-                                    </div>
-                                {% endfor %}
+                                    {% endfor %}
                                 {% endif %}
-                                {% for p in packagesServices %}
-                                    <div class="col-md-4">
-                                        <div class="pricing starter">
-                                            <span class="package-title">{{ p.name }}</span>
-                                            <div class="package-info">
-                                                <hr>
-                                                <span class="span-dest">Paquete de Servicios</span>
-                                                <hr>
-                                                <p class="user-number">Solo es válido para publicar Servicios</p>
-                                                <h3 class="monthly-rate"><span>${{ p.price }}</span>/{{ p.visibleDays }}
-                                                    Días</h3>
-                                                <p class="user-number">Máximo de publicaciones
-                                                    <strong>{{ p.anouncementsNumberMax }}</strong>
-                                                </p>
-                                            </div>
-                                            <div class="features">
-                                                <h6>Caracteristicas</h6>
-                                                <ul>
-                                                    <li>Anuncio destacado <strong>{{ p.daysImportants }}</strong> días
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            {% if p.price == 0 %}
-                                                <div class="buy-button">
-                                                    <a href="{{ path('buy_package_free', {'packId': p.id, 'type':'service'}) }}"
-                                                       class="button btn-success">Obtener</a>
+                                {% if type == 'service' %}
+                                    {% for p in packagesServices %}
+                                        <div class="col-md-4">
+                                            <div class="pricing starter">
+                                                <span class="package-title">{{ p.name }}</span>
+                                                <div class="package-info">
+                                                    <hr>
+                                                    <span class="span-dest">Paquete de Servicios</span>
+                                                    <hr>
+                                                    <p class="user-number">Solo es válido para publicar Servicios</p>
+                                                    <h3 class="monthly-rate">
+                                                        <span>${{ p.price }}</span>/{{ p.visibleDays }}
+                                                        Días</h3>
+                                                    <p class="user-number">Máximo de publicaciones
+                                                        <strong>{{ p.anouncementsNumberMax }}</strong>
+                                                    </p>
                                                 </div>
-                                            {% else %}
-                                                <div class="buy-button">
-                                                    <a href="{{ path('checkout', {'packId': p.id,'type':'service'}) }}"
-                                                       class="button primary-bg">Obtener</a>
+                                                <div class="features">
+                                                    <h6>Caracteristicas</h6>
+                                                    <ul>
+                                                        <li>Anuncio destacado <strong>{{ p.daysImportants }}</strong>
+                                                            días
+                                                        </li>
+                                                    </ul>
                                                 </div>
-                                            {% endif %}
+                                                {% if p.price == 0 %}
+                                                    <div class="buy-button">
+                                                        <a href="{{ path('buy_package_free', {'packId': p.id, 'type':'service'}) }}"
+                                                           class="button btn-success">Obtener</a>
+                                                    </div>
+                                                {% else %}
+                                                    <div class="buy-button">
+                                                        <a href="{{ path('checkout', {'packId': p.id,'type':'service'}) }}"
+                                                           class="button primary-bg">Obtener</a>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
                                         </div>
-                                    </div>
-                                {% endfor %}
+                                    {% endfor %}
+                                {% endif %}
                             </div>
                         </div>
                         {% include 'user/dashboard_sidebar.html.twig' %}

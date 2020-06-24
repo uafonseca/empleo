@@ -43,14 +43,16 @@ class NotificationService
     /**
      * @return Notification[]|object[]
      */
-    public function findAll(){
+    public function findAll()
+    {
         return $this->repository->findAll();
     }
 
     /**
      * @return mixed
      */
-    public function orderByDate(User $user){
+    public function orderByDate(User $user)
+    {
         return $this->repository->orderByDate($user);
     }
 
@@ -61,6 +63,25 @@ class NotificationService
     public function remove(Notification $notification)
     {
         $this->entityManager->remove($notification);
+        $this->entityManager->flush();
+    }
+
+    /**
+     * @param $type
+     * @param $message
+     * @param $user
+     * @param bool $active
+     * @throws \Exception
+     */
+    public function create($type, $message, $user, $active = true)
+    {
+        $notification = new Notification();
+        $notification->setDate(new \DateTime());
+        $notification->setType($type);
+        $notification->setContext($message);
+        $notification->setUser($user);
+        $notification->setActive($active);
+        $this->entityManager->persist($notification);
         $this->entityManager->flush();
     }
 }

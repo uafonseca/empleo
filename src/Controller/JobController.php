@@ -2,10 +2,15 @@
 
 namespace App\Controller;
 
+use App\constants;
 use App\Datatable\JobDatatable;
 use App\Entity\Job;
-use App\Form\Job1Type;
-use App\Repository\JobRepository;
+use App\Entity\PaymentForJobsMetadata;
+use App\Entity\User;
+use App\Form\JobType;
+use App\Service\JobService;
+use App\Service\NotificationService;
+use App\Service\UserService;
 use Sg\DatatablesBundle\Datatable\DatatableFactory;
 use Sg\DatatablesBundle\Response\DatatableResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,35 +18,53 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/backend/job")
- */
 class JobController extends AbstractController
 {
 
 
-    /** @var DatatableFactory  */
+    /** @var DatatableFactory */
     private $datatableFactory;
 
-    /** @var DatatableResponse  */
+    /** @var DatatableResponse */
     private $datatableResponse;
 
+    /** @var UserService */
+    private $userService;
+
+    /** @var NotificationService */
+    private $notificationService;
+
+    /** @var JobService */
+    private $jobservice;
+
     /**
-     * CategoryController constructor.
+     * JobController constructor.
      * @param DatatableFactory $datatableFactory
      * @param DatatableResponse $datatableResponse
+     * @param UserService $userService
+     * @param NotificationService $notificationService
+     * @param JobService $jobService
      */
-    public function __construct(DatatableFactory $datatableFactory, DatatableResponse $datatableResponse)
+    public function __construct(
+        DatatableFactory $datatableFactory,
+        DatatableResponse $datatableResponse,
+        UserService $userService,
+        NotificationService $notificationService,
+        JobService $jobService
+    )
     {
         $this->datatableFactory = $datatableFactory;
         $this->datatableResponse = $datatableResponse;
+        $this->userService = $userService;
+        $this->notificationService = $notificationService;
+        $this->jobservice = $jobService;
     }
 
     /**
      * @param Request $request
      * @return Response
      * @throws \Exception
-     * @Route("/", name="job_index", methods={"GET","POST"})
+     * @Route("/backend/job", name="job_index", methods={"GET","POST"})
      */
     public function index(Request $request): Response
     {
@@ -50,8 +73,7 @@ class JobController extends AbstractController
             'url' => $this->generateUrl('job_index')
         ]);
 
-        if ($request->isXmlHttpRequest() && $request->isMethod('POST'))
-        {
+        if ($request->isXmlHttpRequest() && $request->isMethod('POST')) {
             $this->datatableResponse->setDatatable($datatable);
             $this->datatableResponse->getDatatableQueryBuilder();
 
@@ -63,30 +85,73 @@ class JobController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="job_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
+     * @throws \Exception
+     * @Route("/job/new", name="job_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
-        $job = new Job();
-        $form = $this->createForm(Job1Type::class, $job);
-        $form->handleRequest($request);
+        /** @var User $user */
+        $user = $this->getUser();
+        /** @var PaymentForJobsMetadata $metadata */
+        if (null != $metadata = $this->userService->isReadyToGetJob($user)) {
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($job);
-            $entityManager->flush();
+            $post = new Job();
+            $post->setUser($user);
+            $post->setCompany($user->getCompany());
+            $form = $this->createForm(JobType::class, $post);
 
-            return $this->redirectToRoute('job_index');
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+
+                $payment = $metadata->getPackage();
+
+                $post->setExpiredDate(
+                    $post->getDate()->add(\DateInterval::createfromdatestring('+' . $payment->getVisibleDays() . ' day'))
+                );
+
+                if ($form->get('date')->getData() > new \DateTime("now")) {
+                    $post->setStatus(constants::JOB_STATUS_PENDING);
+                } else {
+                    $post->setStatus(constants::JOB_STATUS_ACTIVE);
+                }
+
+                $metadata->setCurrentPostCount($metadata->getCurrentPostCount() + 1);
+                if ($metadata->getCurrentPostCount() === $metadata->getPackage()->getAnouncementsNumberMax())
+                    $metadata->setActive(false);
+
+                $post->setDateCreated(new \DateTime("now"));
+                $user->setCompany($post->getCompany());
+
+                $this->notificationService->create(constants::NOTIFICATION_JOB_CREATE, 'Empleo creado satisfactoriamente', $user);
+
+                $this->jobservice->update($post);
+
+                return $this->redirectToRoute('job_manage');
+            }
+
+            $paymentMetadata = [
+                'jobs' => $this->jobservice->getCurrentJobPackage($user),
+                'services' => $this->jobservice->getCurrentServicesPackage($user)
+            ];
+
+            return $this->render(
+                'site/job/job.html.twig',
+                [
+                    'form' => $form->createView(),
+                    'notifications' => $this->notificationService->orderByDate($user),
+                    'company' => $user->getCompany(),
+                    'paymentMetadata' => $paymentMetadata
+                ]
+            );
         }
-
-        return $this->render('backend/job/new.html.twig', [
-            'job' => $job,
-            'form' => $form->createView(),
-        ]);
+        return $this->redirectToRoute('pricing_page', ['type' => 'job']);
     }
 
     /**
-     * @Route("/{id}", name="job_show", methods={"GET"})
+     * @Route("/backend/job/{id}", name="job_show", methods={"GET"})
      */
     public function show(Job $job): Response
     {
@@ -100,7 +165,7 @@ class JobController extends AbstractController
      */
     public function edit(Request $request, Job $job): Response
     {
-        $form = $this->createForm(Job1Type::class, $job);
+        $form = $this->createForm(JobType::class, $job);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -120,7 +185,7 @@ class JobController extends AbstractController
      */
     public function delete(Request $request, Job $job): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$job->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $job->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($job);
             $entityManager->flush();

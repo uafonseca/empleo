@@ -29,10 +29,10 @@
             <div class="body">
                 <div class="content">
                     <h4><a href="{{ path('job_show', {'id': j.id}) }}">{{ j.title }}
-                            {% set max_date = j.dateCreated|date_modify("+"~j.user.package.daysImportants~" day") %}
-                            {% if  max_date|date('Y-m-d') >= "now"|date('Y-m-d') %}
-                                <span class="span-dest">DESTACADO</span>
-                            {% endif %}
+                            {#{% set max_date = j.dateCreated|date_modify("+"~j.user.package.daysImportants~" day") %}#}
+                            {#{% if  max_date|date('Y-m-d') >= "now"|date('Y-m-d') %}#}
+                                {#<span class="span-dest">DESTACADO</span>#}
+                            {#{% endif %}#}
                         </a></h4>
                     <div class="info">
                         <span class="company"><a><i data-feather="briefcase"></i>{% if j.company is not null %}{{ j.company.name }}{% endif %}</a></span>

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -9,12 +11,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class PaymentForJobs extends Payment
 {
-	/**
-	 * @ORM\Id()
-	 * @ORM\GeneratedValue()
-	 * @ORM\Column(type="integer")
-	 */
-	private $id;
+    /**
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
+     */
+    private $id;
     /**
      * @ORM\Column(type="integer")
      */
@@ -29,14 +31,30 @@ class PaymentForJobs extends Payment
      * @ORM\Column(type="boolean")
      */
     private $selection;
-	
-	public function getId(): ?int
-	{
-		return $this->id;
-	}
-	
-	
-	public function getCvNumberMax(): ?int
+
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="packageJobs")
+     */
+    private $users;
+
+    /**
+     * @ORM\OneToMany(targetEntity=PaymentForJobsMetadata::class, mappedBy="package")
+     */
+    private $paymentForJobsMetadata;
+
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
+        $this->paymentForJobsMetadata = new ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+
+    public function getCvNumberMax(): ?int
     {
         return $this->cv_number_max;
     }
@@ -68,6 +86,65 @@ class PaymentForJobs extends Payment
     public function setSelection(bool $selection): self
     {
         $this->selection = $selection;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->addPackageJob($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            $user->removePackageJob($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PaymentForJobsMetadata[]
+     */
+    public function getPaymentForJobsMetadata(): Collection
+    {
+        return $this->paymentForJobsMetadata;
+    }
+
+    public function addPaymentForJobsMetadata(PaymentForJobsMetadata $paymentForJobsMetadata): self
+    {
+        if (!$this->paymentForJobsMetadata->contains($paymentForJobsMetadata)) {
+            $this->paymentForJobsMetadata[] = $paymentForJobsMetadata;
+            $paymentForJobsMetadata->setPackage($this);
+        }
+
+        return $this;
+    }
+
+    public function removePaymentForJobsMetadata(PaymentForJobsMetadata $paymentForJobsMetadata): self
+    {
+        if ($this->paymentForJobsMetadata->contains($paymentForJobsMetadata)) {
+            $this->paymentForJobsMetadata->removeElement($paymentForJobsMetadata);
+            // set the owning side to null (unless already changed)
+            if ($paymentForJobsMetadata->getPackage() === $this) {
+                $paymentForJobsMetadata->setPackage(null);
+            }
+        }
 
         return $this;
     }

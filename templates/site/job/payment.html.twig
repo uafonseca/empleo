@@ -1,33 +1,33 @@
-{% if expired == 1 %}
-<div class="row">
-    <label class="col-md-3 col-form-label">Seleccione el paquete<span
-                style="color: red">*</span></label>
-    <div class="col-md-9">
-        <div class="package-select">
-            <div class="package-select-inputs">
-                {% for p in packages %}
-                <div class="form-group">
-                    <input class="custom-radio" type="radio" id="radio_{{ p.id }}"
-                           name="my_radio" value="{{ p.id }}" checked>
-                    <label for="radio_{{ p.id }}">
-                        <span class="dot"></span>
-                        <span class="package-type">{{ p.name }}</span>
-                        ${{ p.price }}
-                    </label>
-                </div>
-                {% endfor %}
-            </div>
-            <div class="payment-method">
-                <a href="#" class="credit active"><i class="fas fa-credit-card"></i>
-                    CreditCard
-                </a>
-                <a href="#" class="paypal"><i class="fab fa-cc-paypal"></i>PayPal</a>
-                <input type="checkbox" hidden name="credit">
-                <input type="checkbox" hidden name="paypal">
-            </div>
-        </div>
-    </div>
-</div>
-{% else %}
+{#{% if expired == 1 %}#}
+{#<div class="row">#}
+    {#<label class="col-md-3 col-form-label">Seleccione el paquete<span#}
+                {#style="color: red">*</span></label>#}
+    {#<div class="col-md-9">#}
+        {#<div class="package-select">#}
+            {#<div class="package-select-inputs">#}
+                {#{% for p in packages %}#}
+                {#<div class="form-group">#}
+                    {#<input class="custom-radio" type="radio" id="radio_{{ p.id }}"#}
+                           {#name="my_radio" value="{{ p.id }}" checked>#}
+                    {#<label for="radio_{{ p.id }}">#}
+                        {#<span class="dot"></span>#}
+                        {#<span class="package-type">{{ p.name }}</span>#}
+                        {#${{ p.price }}#}
+                    {#</label>#}
+                {#</div>#}
+                {#{% endfor %}#}
+            {#</div>#}
+            {#<div class="payment-method">#}
+                {#<a href="#" class="credit active"><i class="fas fa-credit-card"></i>#}
+                    {#CreditCard#}
+                {#</a>#}
+                {#<a href="#" class="paypal"><i class="fab fa-cc-paypal"></i>PayPal</a>#}
+                {#<input type="checkbox" hidden name="credit">#}
+                {#<input type="checkbox" hidden name="paypal">#}
+            {#</div>#}
+        {#</div>#}
+    {#</div>#}
+{#</div>#}
+{#{% else %}#}
 
-{% endif %}
+{#{% endif %}#}

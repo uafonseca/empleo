@@ -195,14 +195,6 @@ class User extends BaseUser
      */
     private $companiesSeen;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\PaymentForJobs")
-     */
-    private $package;
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\PaymentForServices")
-     */
-    private $packageServices;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -264,6 +256,27 @@ class User extends BaseUser
      */
     private $company;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=PaymentForJobs::class, inversedBy="users")
+     */
+    private $packageJobs;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=PaymentForServices::class, inversedBy="users")
+     */
+    private $packageServices;
+
+    /**
+     * @ORM\OneToMany(targetEntity=PaymentForJobsMetadata::class, mappedBy="user")
+     */
+    private $paymentForJobsMetadata;
+
+    /**
+     * @ORM\OneToMany(targetEntity=PaymentForServicesMetadata::class, mappedBy="user")
+     */
+    private $paymentForServicesMetadata;
+
+
 
     public function __construct()
     {
@@ -282,6 +295,10 @@ class User extends BaseUser
         $this->companiesSeen = 0;
         $this->anouncements = new ArrayCollection();
         $this->notifications = new ArrayCollection();
+        $this->packageJobs = new ArrayCollection();
+        $this->packageServices = new ArrayCollection();
+        $this->paymentForJobsMetadata = new ArrayCollection();
+        $this->paymentForServicesMetadata = new ArrayCollection();
     }
 
     /**
@@ -953,14 +970,14 @@ class User extends BaseUser
         return $this;
     }
 
-    public function getPackage()
+    public function getPackageJobs()
     {
-        return $this->package;
+        return $this->packageJobs;
     }
 
-    public function setPackage($package): self
+    public function setPackageJobs($packageJobs): self
     {
-        $this->package = $package;
+        $this->packageJobs = $packageJobs;
 
         return $this;
     }
@@ -1215,6 +1232,105 @@ class User extends BaseUser
 
         return $this;
     }
+
+    public function addPackageJob(PaymentForJobs $packageJob): self
+    {
+        if (!$this->packageJobs->contains($packageJob)) {
+            $this->packageJobs[] = $packageJob;
+        }
+
+        return $this;
+    }
+
+    public function removePackageJob(PaymentForJobs $packageJob): self
+    {
+        if ($this->packageJobs->contains($packageJob)) {
+            $this->packageJobs->removeElement($packageJob);
+        }
+
+        return $this;
+    }
+
+    public function addPackageService(PaymentForServices $packageService): self
+    {
+        if (!$this->packageServices->contains($packageService)) {
+            $this->packageServices[] = $packageService;
+        }
+
+        return $this;
+    }
+
+    public function removePackageService(PaymentForServices $packageService): self
+    {
+        if ($this->packageServices->contains($packageService)) {
+            $this->packageServices->removeElement($packageService);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PaymentForJobsMetadata[]
+     */
+    public function getPaymentForJobsMetadata(): Collection
+    {
+        return $this->paymentForJobsMetadata;
+    }
+
+    public function addPaymentForJobsMetadata(PaymentForJobsMetadata $paymentForJobsMetadata): self
+    {
+        if (!$this->paymentForJobsMetadata->contains($paymentForJobsMetadata)) {
+            $this->paymentForJobsMetadata[] = $paymentForJobsMetadata;
+            $paymentForJobsMetadata->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePaymentForJobsMetadata(PaymentForJobsMetadata $paymentForJobsMetadata): self
+    {
+        if ($this->paymentForJobsMetadata->contains($paymentForJobsMetadata)) {
+            $this->paymentForJobsMetadata->removeElement($paymentForJobsMetadata);
+            // set the owning side to null (unless already changed)
+            if ($paymentForJobsMetadata->getUser() === $this) {
+                $paymentForJobsMetadata->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PaymentForServicesMetadata[]
+     */
+    public function getPaymentForServicesMetadata(): Collection
+    {
+        return $this->paymentForServicesMetadata;
+    }
+
+    public function addPaymentForServicesMetadata(PaymentForServicesMetadata $paymentForServicesMetadata): self
+    {
+        if (!$this->paymentForServicesMetadata->contains($paymentForServicesMetadata)) {
+            $this->paymentForServicesMetadata[] = $paymentForServicesMetadata;
+            $paymentForServicesMetadata->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePaymentForServicesMetadata(PaymentForServicesMetadata $paymentForServicesMetadata): self
+    {
+        if ($this->paymentForServicesMetadata->contains($paymentForServicesMetadata)) {
+            $this->paymentForServicesMetadata->removeElement($paymentForServicesMetadata);
+            // set the owning side to null (unless already changed)
+            if ($paymentForServicesMetadata->getUser() === $this) {
+                $paymentForServicesMetadata->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+    
 
 
 }

@@ -114,15 +114,16 @@
 			
 			return false;
 		}
-		
-		/**
-		 * @Route("/pricing",name="pricing_page")
-		 */
-		public function pricing()
+
+        /**
+         * @param Request $request
+         * @return Response
+         * @Route("/pricing",name="pricing_page")
+         */
+		public function pricing(Request $request)
 		{
 			$em = $this->getDoctrine()->getManager();
-			$currentUser = $this->get('security.token_storage')->getToken()->getUser();
-			$packagesJobs = $em->getRepository(PaymentForJobs::class)->findAll();
+			$packagesJobs = $this->jobService->findAviableJobsPacks($this->getUser());
 			$packagesServices = $em->getRepository(PaymentForServices::class)->findAll();
 			
 			return $this->render(
@@ -131,6 +132,7 @@
 					'notifications' => $this->loadNotifications(),
 					'packagesJobs' => $packagesJobs,
 					'packagesServices' => $packagesServices,
+                    'type' => $request->query->get('type')
 				]
 			);
 		}
@@ -142,10 +144,11 @@
 		public function checkout($packId, $type)
 		{
 			$em = $this->getDoctrine()->getManager();
-			$package = null;
 			if ($type == 'job') {
+			    /** @var PaymentForJobs $package */
 				$package = $em->getRepository(PaymentForJobs::class)->find($packId);
 			} else {
+			    /** @var PaymentForServices $package */
 				$package = $em->getRepository(PaymentForServices::class)->find($packId);
 			}
 			
@@ -234,16 +237,7 @@
 			}
 			return null;
 		}
-		
-		/**
-		 * @Route("/about", name="about")
-		 */
-		public function about()
-		{
-			return new Response(
-				'<html><body>about </body></html>'
-			);
-		}
+
 		
 		/**
 		 * @Route("/terms", name="site_policy")
@@ -263,19 +257,7 @@
 				)
 			);
 		}
-		
-		
-		/**
-		 * @Route("/contact", name="contact")
-		 */
-		public function contact(AuthorizationCheckerInterface $authChecker)
-		{
-			$verificated = $this->verificateUser($authChecker);
-			
-			return new Response(
-				'<html><body>Contact </body></html>'
-			);
-		}
+
 		
 		/**
 		 * @Route("/dashboard", name="dashboard")
@@ -284,8 +266,13 @@
 		 */
 		public function dashboard(AuthorizationCheckerInterface $authChecker)
 		{
-			$user = $this->get('security.token_storage')->getToken()->getUser();
+		    /** @var User $user */
+			$user = $this->getUser();
 			$verificated = $this->verificateUser($authChecker);
+            $paymentMetadata = [
+                'jobs' => $this->jobService->getCurrentJobPackage($user),
+                'services' => $this->jobService->getCurrentServicesPackage($user)
+            ];
 			if (in_array('ROLE_ADMIN', $user->getRoles())) {
 				$em = $this->getDoctrine()->getManager();
 				$public = $em->getRepository(Job::class)->countJob($user);
@@ -296,7 +283,7 @@
 						'notifications' => $this->loadNotifications(),
 						'public' => $public,
 						'requests' => $em->getRepository(Job::class)->requests($user),
-						'expired' => $this->container->get('app.service.helper')->expired(),
+                        'paymentMetadata' => $paymentMetadata
 					)
 				);
 			} else {
@@ -305,7 +292,7 @@
 					array(
 						'verificated_acount' => $verificated,
 						'notifications' => $this->loadNotifications(),
-						'expired' => $this->container->get('app.service.helper')->expired(),
+                        'paymentMetadata' => $paymentMetadata
 					)
 				);
 			}

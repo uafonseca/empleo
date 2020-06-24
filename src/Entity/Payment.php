@@ -11,32 +11,33 @@ abstract class Payment
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    protected $name;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $price;
+    protected $price;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $aux;
+    protected $aux;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $anouncements_number_max;
+    public $anouncements_number_max;
     
     /**
      * @ORM\Column(type="integer")
      */
-    private $visible_days;
+    public  $visible_days;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $days_importants;
+    protected $days_importants;
+
 
     public function getName(): ?string
     {

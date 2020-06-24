@@ -19,7 +19,8 @@
 	use App\Entity\PaymentForServices;
     use App\Entity\Profession;
     use App\Entity\User;
-	use Symfony\Component\Form\FormError;
+    use App\Service\JobService;
+    use Symfony\Component\Form\FormError;
 	use Symfony\Bundle\FrameworkBundle\Controller\Controller;
     use Symfony\Component\HttpFoundation\JsonResponse;
     use Symfony\Component\HttpFoundation\Request;
@@ -29,8 +30,22 @@
 	
 	class JobController1 extends Controller
 	{
-		/**
-		 * @Route("/job/new/", name="job_new")
+
+        /** @var JobService */
+        private $jobservice;
+
+        /**
+         * JobController1 constructor.
+         * @param JobService $jobservice
+         */
+        public function __construct(JobService $jobservice)
+        {
+            $this->jobservice = $jobservice;
+        }
+
+
+        /**
+		 * @Route("/job/new_/", name="job_new_")
 		 * @IsGranted("ROLE_ADMIN")
 		 */
 		public function jobNew(Request $request)
@@ -43,7 +58,7 @@
 			$entityManager = $this->getDoctrine()->getManager();
 			$form->handleRequest($request);
 			if ($form->isSubmitted() && $form->isValid()) {
-				$payment = $user->getPackage();
+				$payment = $user->getPackageJobs();
 				$post->setExpiredDate(
 					$post->getDate()->add(\DateInterval::createfromdatestring('+'.$payment->getVisibleDays().' day'))
 				);
@@ -294,13 +309,14 @@
 				5
 			);
 			$pagination->setTemplate('site/pagination.html.twig');
-			
+            $paymentMetadata = ['jobs' => $this->jobservice->getCurrentJobPackage($user)];
 			return $this->render(
 				'user/employer/manage_job.html.twig',
 				[
 					'jobs' => $pagination,
 					'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
 					'expired' => $this->container->get('app.service.helper')->expired(),
+                    'paymentMetadata' => $paymentMetadata
 				]
 			);
 		}
