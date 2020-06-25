@@ -41,30 +41,15 @@ set('slack_success_text', '_{{user}}_ - Deploy `{{ release_version_text }}` to *
 set('slack_failure_text', '_{{user}}_ - Deploy `{{ release_version_text }}` to *{{target}}* failed');
 
 
+desc('Update database schema');
+task('deploy:schema:update', '{{bin/console}} doctrine:schema:update --force');
 
-// Set to false to make npm recipe dont't copy node_modules from previous release
-set('previous_release', false);
+before('success', 'yarn:install');
+after('success', 'yarn:build');
+before('success', 'deploy:schema:update');
+after('deploy:failed', 'deploy:unlock');
 
-//set('ssh_multiplexing', false);
-//set('use_relative_symlinks', false);
-
-desc('Compile assets in production');
-task('yarn:run:production', 'yarn run encore production');
-
-desc('Database update');
-task('database:update', function () {
-    run('{{bin/console}} doctrine:schema:update --force');
-});
-
-desc('Dumping js routes');
-task('dump:js-routes', '{{bin/console}} fos:js-routing:dump --target=public/js/fos_js_routes.js');
-
-task('build', [
-    'database:update',
-    'dump:js-routes',
-    'yarn:install',
-    'yarn:run:production',
-]);
-
-after('deploy:vendors', 'build');
+before('deploy', 'slack:notify');
+after('success', 'slack:notify:success');
+after('deploy:failed', 'slack:notify:failure');
 
