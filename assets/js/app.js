@@ -1,5 +1,6 @@
+import $ from 'jquery';
+global.$ = global.jQuery = $;
 require('./core');
-core = {};
 require('../css/app.css');
 require('../../public/site/assets/css/bootstrap.min.css');
 require('../../public/site/assets/css/fontawesome-all.min.css');
@@ -19,8 +20,6 @@ import 'bootstrap-fileinput/css/fileinput.css'
 
 require('./select');
 
-const $ = require('jquery');
-global.$ = global.jQuery = $;
 const toastr = require('toastr');
 global.toastr = toastr;
 require( 'datatables.net-bs4' );
