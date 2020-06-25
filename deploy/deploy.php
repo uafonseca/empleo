@@ -12,7 +12,7 @@ inventory('hosts.yml');
 set('git_tty', false);
 
 set('shared_dirs', ['var/log', 'var/sessions', 'vendor', 'public/images', 'public/site/images', 'public/site/docs']);
-set('writable_dirs', ['var', 'public/images', 'public/site']);
+set('writable_dirs', ['var','var/cache',  'public/images', 'public/site']);
 set('writable_mode', 'chmod');
 
 set('release_name', function () {
@@ -41,15 +41,30 @@ set('slack_success_text', '_{{user}}_ - Deploy `{{ release_version_text }}` to *
 set('slack_failure_text', '_{{user}}_ - Deploy `{{ release_version_text }}` to *{{target}}* failed');
 
 
-desc('Update database schema');
-task('deploy:schema:update', '{{bin/console}} doctrine:schema:update --force');
 
-before('success', 'yarn:install');
-after('success', 'yarn:build');
-before('success', 'deploy:schema:update');
-after('deploy:failed', 'deploy:unlock');
+// Set to false to make npm recipe dont't copy node_modules from previous release
+set('previous_release', false);
 
-before('deploy', 'slack:notify');
-after('success', 'slack:notify:success');
-after('deploy:failed', 'slack:notify:failure');
+//set('ssh_multiplexing', false);
+//set('use_relative_symlinks', false);
+
+desc('Compile assets in production');
+task('yarn:run:production', 'yarn run encore production');
+
+desc('Database update');
+task('database:update', function () {
+    run('{{bin/console}} doctrine:schema:update --force');
+});
+
+desc('Dumping js routes');
+task('dump:js-routes', '{{bin/console}} fos:js-routing:dump --target=public/js/fos_js_routes.js');
+
+task('build', [
+    'database:update',
+    'dump:js-routes',
+    'yarn:install',
+    'yarn:run:production',
+]);
+
+after('deploy:vendors', 'build');
 
