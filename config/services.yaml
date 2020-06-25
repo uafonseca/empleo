@@ -14,11 +14,6 @@ parameters:
     paypal_username: 'paypal_username'
     paypal_password: 'paypal_password'
     paypal_signature: 'paypal_signature'
-#    mailer_host: 127.0.0.1
-#    mailer_user: "mailer_user"
-# Twig Configuration
-
-
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -36,11 +31,11 @@ services:
     twig.extension.intl:
         class: Twig_Extensions_Extension_Intl
         tags:
-        - { name: twig.extension }
+            - { name: twig.extension }
     twig.extension.date:
         class: Twig_Extensions_Extension_Date
         tags:
-        - { name: twig.extension }
+            - { name: twig.extension }
 
     app.service.helper:
         class: App\Service\Helper
@@ -79,4 +74,3 @@ services:
         alias: sg_datatables.response
     Knp\Bundle\TimeBundle\Templating\Helper\TimeHelper:
         alias: time.templating.helper.time
-

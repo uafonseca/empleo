@@ -57,21 +57,21 @@ class Mailer
      * @param EntityManagerInterface $entityManager
      */
     public function __construct(
-        \Swift_Mailer $mailer,
-        UrlGeneratorInterface $router,
-        EngineInterface $templating,
-        Security $security,
-        UploaderHelper $vich_uploader,
-        RequestStack $request_stack,
-        EntityManagerInterface $entityManager
+//        \Swift_Mailer $mailer,
+//        UrlGeneratorInterface $router,
+//        EngineInterface $templating,
+//        Security $security,
+//        UploaderHelper $vich_uploader,
+//        RequestStack $request_stack,
+//        EntityManagerInterface $entityManager
     ) {
-        $this->mailer = $mailer;
-        $this->router = $router;
-        $this->templating = $templating;
-        $this->security = $security;
-        $this->uploader = $vich_uploader;
-        $this->request_stack = $request_stack;
-        $this->entityManager = $entityManager;
+//        $this->mailer = $mailer;
+//        $this->router = $router;
+//        $this->templating = $templating;
+//        $this->security = $security;
+//        $this->uploader = $vich_uploader;
+//        $this->request_stack = $request_stack;
+//        $this->entityManager = $entityManager;
     }
 
 

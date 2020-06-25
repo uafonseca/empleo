@@ -60,8 +60,6 @@
 	    /** @var CompanyService  */
 	    private $companyService;
 
-	    /** @var Mailer  */
-	    private $mailer;
 
         /**
          * mainController constructor.
@@ -70,13 +68,12 @@
          * @param CompanyService $companyService
          * @param Mailer $mailer
          */
-        public function __construct(CategoryService $categoryService, JobService $jobService, CompanyService $companyService, Mailer $mailer)
+        public function __construct(CategoryService $categoryService, JobService $jobService, CompanyService $companyService)
         {
             $this->categoryService = $categoryService;
             $this->categoryService = $categoryService;
             $this->jobService = $jobService;
             $this->companyService = $companyService;
-            $this->mailer = $mailer;
         }
 
 

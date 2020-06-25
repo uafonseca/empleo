@@ -14,7 +14,7 @@ easy_admin:
         class: App\Entity\User
         list:
           fields:
-            - { property: 'image', type: 'image', base_path: '%app.path.user_images%' }
+#            - { property: 'image', type: 'image', base_path: '%app.path.user_images%' }
             - name
             - username
             - email
@@ -23,7 +23,7 @@ easy_admin:
             - roles
         form:
           fields:
-            - { property: 'imageFile', type: 'file', base_path: '%app.path.user_images%' }
+#            - { property: 'imageFile', type: 'file', base_path: '%app.path.user_images%' }
             - name
             - username
             - email
@@ -49,7 +49,7 @@ easy_admin:
         form:
           fields:
             - title
-            - { property: 'imageFile', type: 'file', base_path: '%app.path.company_images%' }
+#            - { property: 'imageFile', type: 'file', base_path: '%app.path.company_images%' }
         list:
           fields:
             - title
