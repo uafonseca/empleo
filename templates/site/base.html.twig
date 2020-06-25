@@ -62,6 +62,18 @@
         {{ encore_entry_script_tags('home') }}
         {% block js %}
         {% endblock %}
+        <script>
+            $(function () {
+                $('.post-job').on({
+                    mouseenter: function() {
+                        $('#help').popover('show')
+                    },
+                    mouseleave: function() {
+                        $('#help').popover('hide')
+                    }
+                })
+            })
+        </script>
 
     </body>
 </html>

@@ -37,7 +37,7 @@ class JobType extends AbstractType
             ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
-                'placeholder' => 'Categoría',
+                'placeholder' => 'Seleccione categoría',
                 'choice_label' => 'name',
                 'label' => 'Categoría'
             ])
@@ -53,7 +53,7 @@ class JobType extends AbstractType
                     'Por obra' => 'obra',
                     'Por contrato' => 'contrato',
                 ],
-                'placeholder' => 'Tipo',
+                'placeholder' => 'Seleccione tipo',
                 'label' => 'Tipo'
             ])
             ->add('experience', ChoiceType::class, [
@@ -63,7 +63,7 @@ class JobType extends AbstractType
                     'De 2 a 3 años' => 'De 2 a 3 años',
                     'Más de 3 años' => 'Más de 3 años',
                 ],
-                'placeholder' => 'Experiencia',
+                'placeholder' => 'Seleccione experiencia',
                 'label' => 'Experiencia'
             ])
             ->add('salary_min', IntegerType::class, [
@@ -74,8 +74,8 @@ class JobType extends AbstractType
                     'Urge' => 'Urge',
                     'Inmediato' => 'Inmediato',
                 ],
-                'placeholder' => 'Prioridad',
-                'label' => 'Calificación'
+                'placeholder' => 'Seleccione prioridad',
+                'label' => 'Tipo de prioridad'
             ])
             ->add('date', DateType::class, [
                 'widget' => 'single_text',
@@ -131,10 +131,10 @@ class JobType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Job::class,
-            'error_mapping' => [
-                '.' => 'city',
-
-            ],
+//            'error_mapping' => [
+//                '.' => 'city',
+//
+//            ],
         ]);
     }
 }

@@ -25,7 +25,7 @@ class CompanyType extends AbstractType
             ])
             ->add('url',UrlType::class,[
                 'label' => 'Sitio Web',
-                'required' => true
+                'required' => false
             ])
             ->add('description',CKEditorType::class,[
                 'label' => 'Descripción'

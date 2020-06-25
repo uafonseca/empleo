@@ -247,13 +247,17 @@
 			
 			$em = $this->getDoctrine()->getManager();
 			$verificated = $this->verificateUser($authChecker);
-			
+			$terms = $em->getRepository(Policy::class)->load();
+			if (null == $terms)
+            {
+                return $this->redirectToRoute('homepage');
+            }
 			return $this->render(
 				'site/policy.html.twig',
 				array(
 					'verificated_acount' => $verificated,
 					'notifications' => $this->loadNotifications(),
-					'terms' => $em->getRepository(Policy::class)->load(),
+					'terms' => $terms,
 				)
 			);
 		}

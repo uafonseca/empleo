@@ -22,12 +22,12 @@ class Job
     private $id;
 
     /**
-     * @Assert\NotBlank
+     * @Assert\NotBlank(message="Campo requerido")
      * @ORM\Column(type="string", length=255)
      */
     private $title;
     /**
-     * @Assert\NotBlank
+     * @Assert\NotBlank(message="Campo requerido")
      * @ORM\ManyToOne(targetEntity="Category",cascade={"persist"})
      * @ORM\JoinColumn(onDelete="CASCADE")
      */
@@ -39,13 +39,13 @@ class Job
     private $localtion;
 
     /**
-     * @Assert\NotBlank
+     * @Assert\NotBlank(message="Campo requerido")
      * @ORM\Column(type="string", length=255)
      */
     private $type;
 
     /**
-     * @Assert\NotBlank
+     * @Assert\NotBlank(message="Campo requerido")
      * @ORM\Column(type="string", length=255)
      */
     private $experience;
@@ -212,10 +212,6 @@ class Job
      */
     private $users;
 
-//    /**
-////     * @ORM\Column(type="boolean", nullable=true)
-////     */
-////    private $is_service;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Service", inversedBy="jobs")

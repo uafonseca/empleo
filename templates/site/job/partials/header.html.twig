@@ -115,11 +115,16 @@
                 {% if is_granted('IS_AUTHENTICATED_FULLY') == false %}
                     <li class="menu-item post-job"><a title="Title" href="{{ path('job_new') }}"><i
                                     class="fas fa-plus"></i>Publicar un trabajo</a></li>
+
                     <li class="menu-item post-job"><a title="Title" href="{{ path('service_new') }}"><i
                                     class="fas fa-plus"></i>Brindar mis servicios</a></li>
                 {% elseif  is_granted('ROLE_ADMIN') %}
                     <li class="menu-item post-job"><a title="Title" href="{{ path('service_new') }}"><i
                                     class="fas fa-plus"></i>Crear servicio</a></li>
+                    <li>
+                        <a id="help" tabindex="0" data-toggle="popover" data-placement="bottom" data-trigger="focus" title="A" data-content="And here's some amazing content. It's very engaging. Right?"></a>
+                    </li>
+
                     <li class="menu-item post-job"><a title="Title" href="{{ path('job_new') }}"><i
                                     class="fas fa-plus"></i>Publicar un trabajo</a></li>
                 {% elseif is_granted('ROLE_USER') %}
@@ -260,7 +265,6 @@
                     <div class="banner-content">
                         <h1>La manera más fácil de encontrar trabajo</h1>
                         <p> Encuentre Empleos y Oportunidades de Carrera</p>
-
                         <div class="banner-search">
                             <form action="{{ path('search') }}" method="post" class="search-form">
                                 <input name="keywords" type="search" placeholder="Ingresar palabras clave">

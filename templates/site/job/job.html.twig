@@ -4,10 +4,11 @@
 {% block stylesheet %}
     <link rel="stylesheet" type="text/css" href="{{ asset('site/dashboard/css/dashboard.css') }}">
     <style>
-        label[for='job_imageFile']{
+        label[for='job_imageFile'] , label[for='job_company_archivoFile']{
             opacity: 0;
         }
-        #file_upload{
+
+        #file_upload {
             height: 30px;
             padding: 3px;
         }
@@ -46,7 +47,7 @@
                             {{ form_start(form, {attr: {'class': 'job-post-form','id':'job-form'} }) }}
                             <div class="basic-info-input">
                                 <h4><i data-feather="plus-circle"></i>Publicar un empleo</h4>
-                                {{ form_row(form.title)}}
+                                {{ form_row(form.title) }}
                                 <div id="logo" class="form-group row">
                                     <label class="col-md-3 col-form-label">Logo<span style="color: red">*</span></label>
                                     <div class="col-md-9">
@@ -66,41 +67,41 @@
                                                 style="color: red">*</span></label>
                                     <div class="col-md-9">
                                         <div class="row">
-                                            <div class="col-md-6">{{ form_row(form.category)}}</div>
-                                            <div class="col-md-6">{{ form_row(form.localtion)}}</div>
-                                            <div class="col-md-6">{{ form_row(form.type)}}</div>
-                                            <div class="col-md-6">{{ form_row(form.experience)}}</div>
-                                            <div class="col-md-6">{{ form_row(form.salary_min)}}</div>
-                                            <div class="col-md-6">{{ form_row(form.qualification)}}</div>
-                                            <div class="col-md-6">{{ form_row(form.date)}}</div>
-                                            <div class="col-md-6">{{ form_row(form.gender)}}</div>
+                                            <div class="col-md-6">{{ form_row(form.category) }}</div>
+                                            <div class="col-md-6">{{ form_row(form.localtion) }}</div>
+                                            <div class="col-md-6">{{ form_row(form.type) }}</div>
+                                            <div class="col-md-6">{{ form_row(form.experience) }}</div>
+                                            <div class="col-md-6">{{ form_row(form.salary_min) }}</div>
+                                            <div class="col-md-6">{{ form_row(form.qualification) }}</div>
+                                            <div class="col-md-6">{{ form_row(form.date) }}</div>
+                                            <div class="col-md-6">{{ form_row(form.gender) }}</div>
                                         </div>
                                     </div>
                                 </div>
                                 <div id="job-description" class="row">
                                     <label class="col-md-3 col-form-label">Descripción del trabajo<span
                                                 style="color: red">*</span></label>
-                                        <div class="col-md-9">{{ form_row(form.description)}}</div>
+                                    <div class="col-md-9">{{ form_row(form.description) }}</div>
                                 </div>
                                 <div id="response" class="row">
                                     <label class="col-md-3 col-form-label">Responsabilidades<span
                                                 style="color: red">*</span></label>
                                     <div class="col-md-9">
-                                        {{ form_row(form.responsabilities)}}
+                                        {{ form_row(form.responsabilities) }}
                                     </div>
                                 </div>
                                 <div id="education" class="row">
                                     <label class="col-md-3 col-form-label">Educación<span
                                                 style="color: red">*</span></label>
                                     <div class="col-md-9">
-                                        {{ form_row(form.education)}}
+                                        {{ form_row(form.education) }}
                                     </div>
                                 </div>
                                 <div id="others" class="row">
                                     <label class="col-md-3 col-form-label">Otros beneficios<span
                                                 style="color: red">*</span></label>
                                     <div class="col-md-9">
-                                        {{ form_row(form.others)}}
+                                        {{ form_row(form.others) }}
                                     </div>
                                 </div>
                                 <div id="post-location" class="form-group row">
@@ -126,13 +127,13 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <input class="field form-control" id="street_number"
-                                                                       />
+                                                                />
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <input class="field form-control" id="route"
-                                                                       />
+                                                                />
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
@@ -179,12 +180,11 @@
                                                 style="color: red">*</span></label>
                                     <div class="col-md-9">
                                         <div class="row">
+                                            <div class="col-md-6">{{ form_row(form.company.archivoFile) }}</div>
+                                            <div class="col-md-6">{{ form_row(form.company.name) }}</div>
                                             <div class="col-md-12">
-                                                {#{% if company is not null %}#}
-                                                    {##}
-                                                {#{% else %}#}
-                                                    {{ form_row(form.company) }}
-                                                {#{% endif %}#}
+                                                {{ form_row(form.company.url) }}
+                                                {{ form_row(form.company.description) }}
                                             </div>
                                         </div>
                                     </div>
@@ -198,7 +198,8 @@
                                             <input class="custom-radio" required type="checkbox" id="radio-4"
                                                    name="termsandcondition">
                                             <label for="radio-4">
-                                                <span class="dot"></span> Acepta nuestros <a href="{{ path('site_policy') }}">Términos,
+                                                <span class="dot"></span> Acepta nuestros <a
+                                                        href="{{ path('site_policy') }}">Términos,
                                                     Condiciones y Política de privacidad</a>
                                             </label>
                                         </div>
@@ -225,7 +226,6 @@
                                 <li><a href="#education">Educación</a></li>
                                 <li><a href="#others">Tú ubicación</a></li>
                                 <li><a href="#post-location">Sobre la compañía</a></li>
-                                <li><a href="#package">Selección de paquete</a></li>
                             </ul>
                         </div>
                     </div>
@@ -235,6 +235,13 @@
     </div>
 {% endblock %}
 {% block footer %}
+{% endblock %}
+{% block js %}
+    <script src="{{ asset('site/dashboard/js/dashboard.js') }}"></script>
+    <script src="{{ asset('site/dashboard/js/datePicker.js') }}"></script>
+    <script src="{{ asset('site/dashboard/js/upload-input2.js') }}"></script>
+    <script src="{{ asset('site/js/bootstrap-multiselect.js') }}"></script>
+
     <script>
 
         var placeSearch, autocomplete;
@@ -301,10 +308,10 @@
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC87gjXWLqrHuLKR0CTV5jNLdP4pEHMhmg&libraries=places&callback=initAutocomplete"
             async defer></script>
-{% endblock %}
-{% block js %}
-    <script src="{{ asset('site/dashboard/js/dashboard.js') }}"></script>
-    <script src="{{ asset('site/dashboard/js/datePicker.js') }}"></script>
-    <script src="{{ asset('site/dashboard/js/upload-input2.js') }}"></script>
-    <script src="{{ asset('site/js/bootstrap-multiselect.js') }}"></script>
+
+    <script>
+        $(document).ready(function () {
+            coreApp.plugins.initNewFileInput('#job_company_archivoFile','{{ vich_uploader_asset(company,'archivoFile') }}')
+        })
+    </script>
 {% endblock %}
