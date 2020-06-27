@@ -64,7 +64,7 @@
                                             {% endif %}
                                         </div>
                                     </td>
-                                    <td class="application"><a href="#">{{ j.users|length }}</a></td>
+                                    <td class="application"><a href="#">{{ get_job_applications(j) }}</a></td>
                                     <td class="deadline">{{ j.dateCreated|localizeddate('short', 'none', 'en')}}</td>
                                     <td class="deadline">{{ j.expiredDate|localizeddate('short', 'none', 'en')}}</td>
                                     {% if j.status == 'job_active' %}
@@ -80,7 +80,7 @@
                                         </td>
                                     {% else %}
                                     <td class="action">
-                                        <a href="{{ path('job_show', {'id': j.id}) }}" class="preview"><i data-feather="eye"></i></a>
+                                        <a href="{{ path('canditate_detail_by_job', {'id': j.id}) }}" class="preview"><i data-feather="eye"></i></a>
                                         <a class="remove" onclick="showModal('{{ j.id }}')"><i data-feather="trash-2"></i></a>
                                     </td>
                                     {% endif %}

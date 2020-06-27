@@ -1,0 +1,37 @@
+{% block datetimepicker_row %}
+    {{ block('form_row') }}
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            cortex.plugins.initSingleDateRangePicker('#{{ id }}')
+        });
+    </script>
+{% endblock %}
+
+{% block icheck_row %}
+    {{ block('form_row') }}
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            cortex.plugins.initCheck2('#{{ id }}')
+        });
+    </script>
+{% endblock %}
+
+{% block form_widget_simple -%}
+    {% if type is not defined or 'file' != type %}
+        {%- set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim}) -%}
+    {% endif %}
+    {%- set type = type|default('text') -%}
+
+    {% if icon is defined %}
+        <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-{{ icon|default('') }}"></i> </span>
+            <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+            <span class="input-icon right right_flag hidden"><i class="fa fa-check"></i></span>
+        </div>
+    {% else %}
+        <div class="input-icon right no-input-group">
+            <i class="fa fa-check hidden"></i>
+            <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+        </div>
+    {% endif %}
+{%- endblock form_widget_simple %}

@@ -28,6 +28,7 @@ services:
     App\Controller\:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
+
     twig.extension.intl:
         class: Twig_Extensions_Extension_Intl
         tags:

@@ -1,0 +1,8 @@
+
+{% block _productividad_encargados_row %}
+    <div class="col-md-4 form-group {% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}" style="margin-left: -23px;">
+        {{- form_label(form) -}}
+        {{- form_widget(form) -}}
+        {{- form_errors(form) -}}
+    </div>
+{% endblock %}

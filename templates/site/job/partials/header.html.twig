@@ -115,14 +115,20 @@
                 {% if is_granted('IS_AUTHENTICATED_FULLY') == false %}
                     <li class="menu-item post-job"><a title="Title" href="{{ path('job_new') }}"><i
                                     class="fas fa-plus"></i>Publicar un trabajo</a></li>
-
+                    <li>
+                        <a id="help" tabindex="0" data-toggle="popover" data-html="true"
+                           data-placement="bottom" data-trigger="hover" title="Ayuda"
+                           data-content="<p class='text-center'>Seleccione un acción para crear un servicio o publicar un trabajo</p>"></a>
+                    </li>
                     <li class="menu-item post-job"><a title="Title" href="{{ path('service_new') }}"><i
                                     class="fas fa-plus"></i>Brindar mis servicios</a></li>
                 {% elseif  is_granted('ROLE_ADMIN') %}
                     <li class="menu-item post-job"><a title="Title" href="{{ path('service_new') }}"><i
                                     class="fas fa-plus"></i>Crear servicio</a></li>
                     <li>
-                        <a id="help" tabindex="0" data-toggle="popover" data-placement="bottom" data-trigger="focus" title="A" data-content="And here's some amazing content. It's very engaging. Right?"></a>
+                        <a id="help" tabindex="0" data-toggle="popover" data-html="true"
+                           data-placement="bottom" data-trigger="hover" title="Ayuda"
+                           data-content="<p class='text-center'>Seleccione un acción para crear un servicio o publicar un trabajo</p>"></a>
                     </li>
 
                     <li class="menu-item post-job"><a title="Title" href="{{ path('job_new') }}"><i

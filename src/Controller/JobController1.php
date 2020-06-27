@@ -19,6 +19,7 @@
 	use App\Entity\PaymentForServices;
     use App\Entity\Profession;
     use App\Entity\User;
+    use App\Repository\JobRepository;
     use App\Service\JobService;
     use Symfony\Component\Form\FormError;
 	use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -293,16 +294,18 @@
 				]
 			);
 		}
-		
-		/**
-		 * @Route("/manage/job/", name="job_manage")
-		 * @IsGranted("ROLE_ADMIN")
-		 */
-		public function manage(Request $request)
+
+        /**
+         * @param Request $request
+         * @param JobRepository $jobRepository
+         * @return \Symfony\Component\HttpFoundation\Response
+         * @Route("/manage/job/", name="job_manage")
+         * @IsGranted("ROLE_ADMIN")
+         */
+		public function manage(Request $request, JobRepository $jobRepository)
 		{
-			$em = $this->getDoctrine()->getManager();
 			$user = $this->get('security.token_storage')->getToken()->getUser();
-			$jobs = $em->getRepository(Job::class)->finJobByUser($user);
+			$jobs = $jobRepository->finJobByUser($user);
 			$pagination = $this->get('knp_paginator')->paginate(
 				$jobs,
 				$request->query->getInt('page', 1),

@@ -1,807 +1,901 @@
 <?php
-	/**
-	 * Created by PhpStorm.
-	 * User: Ubel
-	 * Date: 8/2/2019
-	 * Time: 18:26
-	 */
-	
-	namespace App\Controller;
-	
-	use App\Entity\Job;
-	use App\Entity\Metadata;
-	use App\Entity\Notification;
-	use App\Entity\Payment;
-	use App\Entity\PaymentForJobs;
-	use App\Entity\PaymentForServices;
-	use App\Entity\Policy;
-	use App\Entity\Resume;
-    use App\Entity\StaticPage;
-    use App\Entity\User;
-	use App\Form\PaymentForJobsType;
-	use App\Form\ResumeFilesType;
-	use App\Form\ResumeType;
-	use App\Form\UserFullyEmployerType;
-	use App\Form\UserFullyType;
-    use App\Mailer\Mailer;
-    use App\Service\CategoryService;
-    use App\Service\CompanyService;
-    use App\Service\JobService;
-    use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-    use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-	use Symfony\Component\HttpFoundation\BinaryFileResponse;
-	use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
-    use Symfony\Component\HttpFoundation\JsonResponse;
-    use Symfony\Component\HttpFoundation\Request;
-	use Symfony\Component\HttpFoundation\Response;
-	use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-	use Symfony\Component\Routing\Annotation\Route;
-	use App\constants;
-	use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-	use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-	use Symfony\Component\Filesystem\Filesystem;
-	use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+/**
+ * Created by PhpStorm.
+ * User: Ubel
+ * Date: 8/2/2019
+ * Time: 18:26
+ */
 
+namespace App\Controller;
+
+use App\Entity\ContactMessage;
+use App\Entity\Job;
+use App\Entity\Metadata;
+use App\Entity\Notification;
+use App\Entity\Payment;
+use App\Entity\PaymentForJobs;
+use App\Entity\PaymentForServices;
+use App\Entity\Policy;
+use App\Entity\Resume;
+use App\Entity\StaticPage;
+use App\Entity\User;
+use App\Form\ContactMessageFormType;
+use App\Form\ResumeFilesType;
+use App\Form\ResumeType;
+use App\Form\UserFullyEmployerType;
+use App\Form\UserFullyType;
+use App\Mailer\Mailer;
+use App\Repository\UserRepository;
+use App\Service\CategoryService;
+use App\Service\CompanyService;
+use App\Service\JobService;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\Routing\Annotation\Route;
+use App\constants;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+
+
+/**
+ * Class mainController
+ * @package App\Controller
+ */
+class mainController extends Controller
+{
+
+    /** @var CategoryService */
+    private $categoryService;
+
+    /** @var JobService */
+    private $jobService;
+
+    /** @var CompanyService */
+    private $companyService;
+
+    /** @var Mailer  */
+    private $mailer;
 
 
     /**
-     * Class mainController
-     * @package App\Controller
+     * mainController constructor.
+     * @param CategoryService $categoryService
+     * @param JobService $jobService
+     * @param CompanyService $companyService
+     * @param Mailer $mailer
      */
-	class mainController extends Controller
-	{
-
-	    /** @var CategoryService  */
-	    private $categoryService;
-
-	    /** @var JobService  */
-	    private $jobService;
-
-	    /** @var CompanyService  */
-	    private $companyService;
+    public function __construct(CategoryService $categoryService, JobService $jobService, CompanyService $companyService, Mailer $mailer)
+    {
+        $this->categoryService = $categoryService;
+        $this->categoryService = $categoryService;
+        $this->jobService = $jobService;
+        $this->companyService = $companyService;
+        $this->mailer = $mailer;
+    }
 
 
-        /**
-         * mainController constructor.
-         * @param CategoryService $categoryService
-         * @param JobService $jobService
-         * @param CompanyService $companyService
-         * @param Mailer $mailer
-         */
-        public function __construct(CategoryService $categoryService, JobService $jobService, CompanyService $companyService)
-        {
-            $this->categoryService = $categoryService;
-            $this->categoryService = $categoryService;
-            $this->jobService = $jobService;
-            $this->companyService = $companyService;
-        }
+    /**
+     * @Route("/mail",name="mail")
+     */
+    public function mailView()
+    {
+        return $this->render('mail/contrata.html.twig');
+    }
 
-
-        /**
-		 * @Route("/mail",name="mail")
-		 */
-		public function mailView()
-		{
-			return $this->render('mail/contrata.html.twig');
-		}
-		
-		public function verificateUser(AuthorizationCheckerInterface $authChecker)
-		{
-			if ($authChecker->isGranted('IS_AUTHENTICATED_FULLY')) {
-				$fileSystem = new Filesystem();
-				try {
-					$base = $this->getParameter('kernel.project_dir').'/public';
-					$path = $this->getParameter('app.path.user_images');
-					$user = $this->get('security.token_storage')->getToken()->getUser();
-					$dir = $base.$path.'/_files_'.$user->getUsername();
-					if (!$fileSystem->exists($dir)) {
-						$fileSystem->mkdir($dir);
-						if ($fileSystem->exists($base.$path.'/'.$user->getImage())) {
-							$fileSystem->copy($base.$path.'/'.$user->getImage(), $dir.'/'.$user->getImage());
-							$fileSystem->remove($base.$path.'/'.$user->getImage());
-						}
-					}
-				} catch (IOExceptionInterface $exception) {
-					echo $exception->getMessage();
-				}
-				if (!$this->container->get('app.service.checker')->isUserValid()) {
-					return true;
-				}
-			}
-			
-			return false;
-		}
-
-        /**
-         * @param Request $request
-         * @return Response
-         * @Route("/pricing",name="pricing_page")
-         */
-		public function pricing(Request $request)
-		{
-			$em = $this->getDoctrine()->getManager();
-			$packagesJobs = $this->jobService->findAviableJobsPacks($this->getUser());
-			$packagesServices = $em->getRepository(PaymentForServices::class)->findAll();
-			
-			return $this->render(
-				'site/pricing.html.twig',
-				[
-					'notifications' => $this->loadNotifications(),
-					'packagesJobs' => $packagesJobs,
-					'packagesServices' => $packagesServices,
-                    'type' => $request->query->get('type')
-				]
-			);
-		}
-		
-		
-		/**
-		 * @Route("/checkout/{packId}/{type}",name="checkout")
-		 */
-		public function checkout($packId, $type)
-		{
-			$em = $this->getDoctrine()->getManager();
-			if ($type == 'job') {
-			    /** @var PaymentForJobs $package */
-				$package = $em->getRepository(PaymentForJobs::class)->find($packId);
-			} else {
-			    /** @var PaymentForServices $package */
-				$package = $em->getRepository(PaymentForServices::class)->find($packId);
-			}
-			
-			return $this->render(
-				'site/checkout.html.twig',
-				[
-					'notifications' => $this->loadNotifications(),
-					'package' => $package,
-					'type' => $type,
-				]
-			);
-		}
-		
-		public function updateJobsFiles()
-		{
-			$em = $this->getDoctrine()->getManager();
-			$jobs = $em->getRepository(Job::class)->findAll();
-			$base = $this->getParameter('kernel.project_dir').'/public';
-			$path = $this->getParameter('app.path.company_images');
-			$fileSystem = new Filesystem();
-			foreach ($jobs as $job) {
-				$dir = $base.$path.'/_user_'.$job->getUser()->getId();
-				try {
-					$fileSystem->mkdir($dir);
-					if ($fileSystem->exists($base.$path.'/'.$job->getImage())) {
-						$fileSystem->copy($base.$path.'/'.$job->getImage(), $dir.'/'.$job->getImage());
-						$fileSystem->remove($base.$path.'/'.$job->getImage());
-					}
-				} catch (IOExceptionInterface $exception) {
-					echo $exception->getMessage();
-					die;
-				}
-			}
-		}
-
-        /**
-         * @Route("/",name="homepage")
-         * @param AuthorizationCheckerInterface $authChecker
-         * @return Response
-         */
-		public function index(AuthorizationCheckerInterface $authChecker): Response {
-			$verificated = $this->verificateUser($authChecker);
-			$em = $this->getDoctrine()->getManager();
-			$this->container->get('app.service.checker')->checkJobs();
-			
-			return $this->render(
-				'site/job/index.html.twig',
-				[
-					'verificated_acount' => $verificated,
-					'notifications' => $this->loadNotifications(),
-					'jobs' => $em->getRepository(Job::class)->findBy(
-						array('status' => constants::JOB_STATUS_ACTIVE),
-						array('dateCreated' => 'DESC'),
-						10
-					),
-					'locations' => $this->container->get('app.service.helper')->loadLocations(),
-					'categorys' => $this->jobService->findByAllCategory(),
-					'citys' => $this->container->get('app.service.helper')->loadCityes(),
-					'company' => $this->companyService->findAll(),
-					'entity' => count($em->getRepository(User::class)->findByRole('ROLE_ADMIN')),
-				]
-			);
-		}
-
-        /**
-         * @return object[]|null
-         */
-		public function loadNotifications()
-		{
-			$user = $this->get('security.token_storage')->getToken()->getUser();
-			
-			if (null != $user) {
-				$em = $this->getDoctrine()->getManager();
-				$notifications = $em->getRepository(Notification::class)->findBy(
-					array(
-						'user' => $user,
-						'active' => true,
-					),
-					array(
-						'date' => 'DESC',
-					),
-					10
-				);
-				
-				return $notifications;
-			}
-			return null;
-		}
-
-		
-		/**
-		 * @Route("/terms", name="site_policy")
-		 */
-		public function policy(AuthorizationCheckerInterface $authChecker)
-		{
-			
-			$em = $this->getDoctrine()->getManager();
-			$verificated = $this->verificateUser($authChecker);
-			$terms = $em->getRepository(Policy::class)->load();
-			if (null == $terms)
-            {
-                return $this->redirectToRoute('homepage');
-            }
-			return $this->render(
-				'site/policy.html.twig',
-				array(
-					'verificated_acount' => $verificated,
-					'notifications' => $this->loadNotifications(),
-					'terms' => $terms,
-				)
-			);
-		}
-
-		
-		/**
-		 * @Route("/dashboard", name="dashboard")
-		 * Require IS_AUTHENTICATED_FULLY for *every* controller method in this class.
-		 * @IsGranted("IS_AUTHENTICATED_FULLY")
-		 */
-		public function dashboard(AuthorizationCheckerInterface $authChecker)
-		{
-		    /** @var User $user */
-			$user = $this->getUser();
-			$verificated = $this->verificateUser($authChecker);
-            $paymentMetadata = [
-                'jobs' => $this->jobService->getCurrentJobPackage($user),
-                'services' => $this->jobService->getCurrentServicesPackage($user)
-            ];
-			if (in_array('ROLE_ADMIN', $user->getRoles())) {
-				$em = $this->getDoctrine()->getManager();
-				$public = $em->getRepository(Job::class)->countJob($user);
-				
-				return $this->render(
-					'user/employer/dashboard.html.twig',
-					array(
-						'notifications' => $this->loadNotifications(),
-						'public' => $public,
-						'requests' => $em->getRepository(Job::class)->requests($user),
-                        'paymentMetadata' => $paymentMetadata
-					)
-				);
-			} else {
-				return $this->render(
-					'user/dashboard.html.twig',
-					array(
-						'verificated_acount' => $verificated,
-						'notifications' => $this->loadNotifications(),
-                        'paymentMetadata' => $paymentMetadata
-					)
-				);
-			}
-		}
-		
-		
-		/**
-		 * @Route("/dashboard/edit", name="dashboard_edit")
-		 * Require IS_AUTHENTICATED_FULLY for *every* controller method in this class.
-		 * @IsGranted("IS_AUTHENTICATED_FULLY")
-		 */
-		public function edit_profile(Request $request, AuthorizationCheckerInterface $authChecker)
-		{
-			$verificated = $this->verificateUser($authChecker);
-			$user = $this->get('security.token_storage')->getToken()->getUser();
-			$is_admin = in_array('ROLE_ADMIN', $user->getRoles());
-			if ($is_admin) {
-				$form = $this->createForm(UserFullyEmployerType::class, $user);
-				$form->handleRequest($request);
-				if ($form->isSubmitted() && $form->isValid()) {
-					$entityManager = $this->getDoctrine()->getManager();
-					$entityManager->flush();
-					$notification = new Notification();
-					$notification->setDate(new \DateTime());
-					$notification->setType(constants::NOTIFICATION_PROFILE_UPDATE);
-					$notification->setContext("Su perfil se ha actualizado correctamente");
-					$notification->setUser($user);
-					$notification->setActive(true);
-					$entityManager->persist($notification);
-					$entityManager->flush();
-					
-					return $this->redirectToRoute('dashboard');
-				}
-			} else {
-				$form = $this->createForm(UserFullyType::class, $user);
-				$form->handleRequest($request);
-				if ($form->isSubmitted() && $form->isValid()) {
-					$entityManager = $this->getDoctrine()->getManager();
-					$entityManager->flush();
-					$notification = new Notification();
-					$notification->setDate(new \DateTime());
-					$notification->setType(constants::NOTIFICATION_PROFILE_UPDATE);
-					$notification->setContext("Su perfil se ha actualizado correctamente");
-					$notification->setUser($user);
-					$notification->setActive(true);
-					$entityManager->persist($notification);
-					$entityManager->flush();
-					
-					return $this->redirectToRoute('dashboard_resume_edit');
-				}
-			}
-			if ($is_admin) {
-				return $this->render(
-					'user/employer/edit_profile.html.twig',
-					array(
-						'verificated_acount' => $verificated,
-						'form' => $form->createView(),
-						'notifications' => $this->loadNotifications(),
-						'expired' => $this->container->get('app.service.helper')->expired(),
-					)
-				);
-			} else {
-				return $this->render(
-					'user/edit_profile.html.twig',
-					array(
-						'form' => $form->createView(),
-						'notifications' => $this->loadNotifications(),
-						'expired' => $this->container->get('app.service.helper')->expired(),
-					)
-				);
-			}
-		}
-		
-		/**
-		 * @Route("/ajax", name="ajax")
-		 */
-		public function deleteNotification($id)
-		{
-			//echo json_encode($id);
-		}
-		
-		/**
-		 * @Route("/dashboard/resume", name="dashboard_resume")
-		 * Require IS_AUTHENTICATED_FULLY for *every* controller method in this class.
-		 * @IsGranted("IS_AUTHENTICATED_FULLY")
-		 */
-		public function resume(AuthorizationCheckerInterface $authChecker)
-		{
-			$verificated = $this->verificateUser($authChecker);
-			$user = $this->get('security.token_storage')->getToken()->getUser();
-			$em = $this->getDoctrine()->getManager();
-			$metas = $em->getRepository(Metadata::class)->findBy(array("resume" => $user->getResume()));
-			$cv = $user->getResume()->getCv();
-			$cart = $user->getResume()->getCart();
-			
-			return $this->render(
-				'user/resume.html.twig',
-				array(
-					'verificated_acount' => $verificated,
-					'resume' => $user->getResume(),
-					'notifications' => $this->loadNotifications(),
-					'cv' => $cv,
-					'cart' => $cart,
-					'metas' => $metas,
-                    'user' => $this->getUser()
-				)
-			);
-		}
-		
-		/**
-		 * @Route("/dashboard/resume/edit", name="dashboard_resume_edit")
-		 * Require IS_AUTHENTICATED_FULLY for *every* controller method in this class.
-		 * @IsGranted("IS_AUTHENTICATED_FULLY")
-		 */
-		public function resumeEdit(Request $request, AuthorizationCheckerInterface $authChecker)
-		{
-			$verificated = $this->verificateUser($authChecker);
-			$user = $this->get('security.token_storage')->getToken()->getUser();
-			$entityManager = $this->getDoctrine()->getManager();
-			if ($user->getResume() == null) {
-				$resume = new Resume();
-				$resume->setUser($user);
-				$em = $this->getDoctrine()->getManager();
-				$em->persist($resume);
-				$em->flush();
-			}
-			/** @var Resume $resume */
-			$resume = $entityManager->getRepository(Resume::class)->findOneBy(array('user' => $user,));
-			$metas = $entityManager->getRepository(Metadata::class)->findBy(array("resume" => $resume));
-			$form = $this->createForm(ResumeType::class, $resume);
-			$formFiles = $this->createForm(ResumeFilesType::class, $resume);
-			$formFiles->handleRequest($request);
-			if ($formFiles->isSubmitted() && $formFiles->isValid()) {
-				$resume->setUpdatedAt(new \DateTime("now"));
-				$entityManager->flush();
-				$notification = new Notification();
-				$notification->setDate(new \DateTime());
-				$notification->setType(constants::METADATA_RESUME_EDIT);
-				$notification->setContext("Su curriculum se ha actualizado correctamente");
-				$notification->setUser($user);
-				$notification->setActive(true);
-				$entityManager->persist($notification);
-				$entityManager->flush();
-			}
-			
-			return $this->render(
-				'user/resume_edit.html.twig',
-				array(
-					'verificated_acount' => $verificated,
-					'resume' => $resume,
-					'notifications' => $this->loadNotifications(),
-					'form_resume' => $form->createView(),
-					'form_files' => $formFiles->createView(),
-					'metas' => $metas,
-				)
-			);
-		}
-		
-		/**
-		 * @Route("/dashboard/bookmarked", name="dashboard_bookmarked")
-		 * Require IS_AUTHENTICATED_FULLY for *every* controller method in this class.
-		 * @IsGranted("IS_AUTHENTICATED_FULLY")
-		 */
-		public function bookMarked(AuthorizationCheckerInterface $authChecker)
-		{
-			$verificated = $this->verificateUser($authChecker);
-			$user = $this->get('security.token_storage')->getToken()->getUser();
-			$marked = $user->getBookmarked();
-			$jobs = array();
-			$entityManager = $this->getDoctrine()->getManager();
-			foreach ($marked as $id) {
-				$jobs[] = $entityManager->getRepository(Job::class)->find($id);
-			}
-			
-			return $this->render(
-				'user/mark.html.twig',
-				array(
-					'verificated_acount' => $verificated,
-					'jobs' => $jobs,
-					'notifications' => $this->loadNotifications(),
-				
-				)
-			);
-		}
-		
-		/**
-		 * @Route("/dashboard/applied", name="dashboard_applied")
-		 * Require IS_AUTHENTICATED_FULLY for *every* controller method in this class.
-		 * @IsGranted("IS_AUTHENTICATED_FULLY")
-		 */
-		public function applied(AuthorizationCheckerInterface $authChecker)
-		{
-			$verificated = $this->verificateUser($authChecker);
-			$user = $this->get('security.token_storage')->getToken()->getUser();
-			$marked = $user->getApplied();
-			$jobs = array();
-			$entityManager = $this->getDoctrine()->getManager();
-			foreach ($marked as $id) {
-				$jobs[] = $entityManager->getRepository(Job::class)->find($id);
-			}
-			
-			return $this->render(
-				'user/applied.html.twig',
-				array(
-					'verificated_acount' => $verificated,
-					'jobs' => $jobs,
-					'notifications' => $this->loadNotifications(),
-				
-				)
-			);
-		}
-		
-		/**
-		 * @Route("/candidates", name="candidates")
-		 * Require IS_AUTHENTICATED_FULLY for *every* controller method in this class.
-		 * @IsGranted("IS_AUTHENTICATED_FULLY")
-		 */
-		public function candidates(AuthorizationCheckerInterface $authChecker)
-		{
-			$verificated = $this->verificateUser($authChecker);
-			$user = $this->get('security.token_storage')->getToken()->getUser();
-			$canditatesID = $user->getCandidates();
-			$users = array();
-			$entityManager = $this->getDoctrine()->getManager();
-			
-				foreach ($canditatesID as $item) {
-					if ($user->getId() != $item) {
-						array_push($users, $entityManager->getRepository(User::class)->find($item));
-					}
-				}
-			return $this->render(
-				'site/candidate.html.twig',
-				array
-				(
-					'verificated_acount' => $verificated,
-					'candidates' => $users,
-					'notifications' => $this->loadNotifications(),
-				)
-			);
-		}
-		
-		/**
-		 * @Route("/manage/candidates", name="manage_candidates")
-		 * Require IS_AUTHENTICATED_FULLY for *every* controller method in this class.
-		 * @IsGranted("IS_AUTHENTICATED_FULLY")
-		 */
-		public function manageCandidates(Request $request, AuthorizationCheckerInterface $authChecker)
-		{
-			$verificated = $this->verificateUser($authChecker);
-			$entityManager = $this->getDoctrine()->getManager();
-			$users = $entityManager->getRepository(User::class)->findCandidatesList(
-				$user = $this->get('security.token_storage')->getToken()->getUser()->getId()
-			);
-			$i = 0;
-			foreach ($users as $user) {
-				if (!$user->getCandidate()) {
-					unset($users[$i]);
-				}
-				$i++;
-			}
-			$pagination = $this->get('knp_paginator')->paginate(
-				$users,
-				$request->query->getInt('page', 1),
-				10
-			);
-			$pagination->setTemplate('site/pagination.html.twig');
-			$path = $this->getParameter('app.path.user_cv').'/';
-			
-			return $this->render(
-				'user/employer/candidate.html.twig',
-				array(
-					'verificated_acount' => $verificated,
-					'candidates' => $pagination,
-					'notifications' => $this->loadNotifications(),
-					'url' => $path,
-					'expired' => $this->container->get('app.service.helper')->expired(),
-				)
-			);
-		}
-		
-		/**
-		 * @Route("/candidate/{id}/detail", name="canditate_detail")
-		 */
-		public function candidateDetails($id, AuthorizationCheckerInterface $authChecker)
-		{
-			$em = $this->getDoctrine()->getManager();
-			$canditate = $em->getRepository(User::class)->find($id);
-			$verificated = $this->verificateUser($authChecker);
-			
-			return $this->render(
-				'user/employer/candidate_detail.html.twig',
-				array(
-					'verificated_acount' => $verificated,
-					'notifications' => $this->loadNotifications(),
-					'candidate' => $canditate,
-                    'expired' => $this->container->get('app.service.helper')->expired(),
-				)
-			);
-		}
-		/**
-		 * @Route("/resume/view/{id}", name="resume_view")
-		 */
-		public function resumeView($id){
-			$em =$this->getDoctrine()->getManager();
-			$user = $em->getRepository(User::class)->find($id);
-			return $this->render(
-				'user/resumeView.html.twig',
-				array(
-					'user' => $user,
-					'notifications' => $this->loadNotifications(),
-				)
-			);
-		}
-		
-		/**
-		 * @Route("/dowload/cv/{name}/{username}", name="dowload_cv")
-		 */
-		public function dowloadCv($name,$username)
-		{
-			try{
-				$base = $this->getParameter('kernel.project_dir').'/public/';
-				$path = $this->getParameter('app.path.user_cv').'/';
-				$response = new BinaryFileResponse($base.$path.$name);
-				$response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $username.'_'.$name);
-				return $response;
-			}catch (FileNotFoundException $exception)
-			{
-				return new Response('File not found');
-			}
-		}
-		
-		/**
-		 * @Route("acount/verificate", name="acount_verificate")
-		 *
-		 */
-		public function verificateAcount(Request $request)
-		{
-			if (null !== $request->get('code')) {
-				$currentUser = $this->get('security.token_storage')->getToken()->getUser();
-				if ($currentUser->getSecret() == $request->get('code')) {
-					$em = $this->getDoctrine()->getManager();
-					$currentUser->setVerificated(true);
-					$em->flush();
-					
-					return $this->redirectToRoute('homepage');
-				} else {
-					$this->addFlash('error', 'Código de verificación incorrecto');
-					
-					return $this->redirectToRoute('homepage');
-				}
-			}
-			
-			return $this->render('site/acount_verificate.html.twig');
-		}
-		
-		/**
-		 * @Route("send/code", name="send_code")
-		 */
-		public function sendCode(\Swift_Mailer $mailer)
-		{
-		    /** @var User $currentUser */
-			$currentUser = $this->get('security.token_storage')->getToken()->getUser();
-			if (empty($currentUser->getSecret())) {
-				$currentUser->setSecret(rand(10000, 99999));
-			}
-			$message = (new \Swift_Message('Código de verificación'))
-				->setFrom('emplearecuador@gmail.com')
-				->setBody(
-					$this->renderView(
-						'mail/code.html.twig',
-						[
-							'code' => $currentUser->getSecret(),
-						]
-					),
-					'text/html'
-				)
-				->setTo($currentUser->getEmail());
-			$mailer->send($message);
-			$this->addFlash('success', 'Se ha enviado el código a '.$currentUser->getEmail());
-			
-			return $this->redirectToRoute('homepage');
-		}
-		
-		/**
-		 * @Route("admin/package", name="admin_package")
-		 */
-		public function packageIndex()
-		{
-			$em = $this->getDoctrine()->getManager();
-			$packages = $em->getRepository(Payment::class)->findAll();
-			
-			return $this->render(
-				'admin/dashboard.html.twig',
-				array(
-					'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
-					'packages' => $packages,
-				)
-			);
-		}
-
-
-        /**
-         * @Route("/ajax/abaut", name="ajax_about")
-         */
-        public function aboutAjax(Request $request)
-        {
-            $entityManager = $this->getDoctrine()->getManager();
-            $resume = $entityManager->getRepository(Resume::class)->findOneBy(
-                array('id' => $request->request->get('resume_id'))
-            );
-            $info = $request->request->get('about');
-            if ($info != null) {
-                $resume->setAboutMe($request->request->get('about'));
-            }
-            $entityManager->flush();
-            $response = new JsonResponse();
-            $response->setStatusCode(200);
-            $response->setData(
-                array(
-                    'response' => 'success',
-                    'data' => $info,
-                )
-            );
-
-            return $response;
-        }
-
-        /**
-         * @Route("/ajax/skill", name="ajax_skill")
-         */
-        public function skillAjax(Request $request)
-        {
-            $count = $request->request->get('count');
-            $info = array();
-            for ($i = 1; $i <= $count; $i++) {
-                $val = $request->request->get('skill-'.$i);
-                if ($val != null) {
-                    $info[] = $val;
+    public function verificateUser(AuthorizationCheckerInterface $authChecker)
+    {
+        if ($authChecker->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $fileSystem = new Filesystem();
+            try {
+                $base = $this->getParameter('kernel.project_dir') . '/public';
+                $path = $this->getParameter('app.path.user_images');
+                $user = $this->get('security.token_storage')->getToken()->getUser();
+                $dir = $base . $path . '/_files_' . $user->getUsername();
+                if (!$fileSystem->exists($dir)) {
+                    $fileSystem->mkdir($dir);
+                    if ($fileSystem->exists($base . $path . '/' . $user->getImage())) {
+                        $fileSystem->copy($base . $path . '/' . $user->getImage(), $dir . '/' . $user->getImage());
+                        $fileSystem->remove($base . $path . '/' . $user->getImage());
+                    }
                 }
+            } catch (IOExceptionInterface $exception) {
+                echo $exception->getMessage();
             }
-            /** @var User $user */
-            $user = $this->get('security.token_storage')->getToken()->getUser();
-            $user->setSkillArray($info);
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->flush();
-            $response = new JsonResponse();
-            $response->setStatusCode(200);
-            $response->setData(
-                array(
-                    'response' => 'success',
-                    'data' => $info,
-                )
-            );
-
-            return $response;
+            if (!$this->container->get('app.service.checker')->isUserValid()) {
+                return true;
+            }
         }
 
-        /**
-         * @Route("/ajax/skill/remove", name="ajax_skill_remove")
-         */
-        public function removeSkil(Request $request)
-        {
-            $entityManager = $this->getDoctrine()->getManager();
-            /** @var User $user */
-            $user = $this->get('security.token_storage')->getToken()->getUser();
-            $item = $request->request->get('item');
-            $user->remove_skill($item);
-            $entityManager->flush();
-            $response = new JsonResponse();
-            $response->setStatusCode(200);
-            $response->setData(
-                array(
-                    'response' => 'success',
-                    'data' => $item,
-                )
-            );
+        return false;
+    }
 
-            return $response;
+    /**
+     * @param Request $request
+     * @return Response
+     * @Route("/pricing",name="pricing_page")
+     */
+    public function pricing(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $packagesJobs = $this->jobService->findAviableJobsPacks($this->getUser());
+        $packagesServices = $em->getRepository(PaymentForServices::class)->findAll();
+
+        return $this->render(
+            'site/pricing.html.twig',
+            [
+                'notifications' => $this->loadNotifications(),
+                'packagesJobs' => $packagesJobs,
+                'packagesServices' => $packagesServices,
+                'type' => $request->query->get('type')
+            ]
+        );
+    }
+
+
+    /**
+     * @Route("/checkout/{packId}/{type}",name="checkout")
+     */
+    public function checkout($packId, $type)
+    {
+        $em = $this->getDoctrine()->getManager();
+        if ($type == 'job') {
+            /** @var PaymentForJobs $package */
+            $package = $em->getRepository(PaymentForJobs::class)->find($packId);
+        } else {
+            /** @var PaymentForServices $package */
+            $package = $em->getRepository(PaymentForServices::class)->find($packId);
         }
 
-        /**
-         * @return Response
-         * @Route("/carousel_company", name="carousel_company", options={"expose" = true})
-         */
-        public function loadCompanies()
-        {
-            return $this->render('site/includes/carousel_company.html.twig',[
-                'companies' =>$this->companyService->findActives()
+        return $this->render(
+            'site/checkout.html.twig',
+            [
+                'notifications' => $this->loadNotifications(),
+                'package' => $package,
+                'type' => $type,
+            ]
+        );
+    }
+
+    public function updateJobsFiles()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $jobs = $em->getRepository(Job::class)->findAll();
+        $base = $this->getParameter('kernel.project_dir') . '/public';
+        $path = $this->getParameter('app.path.company_images');
+        $fileSystem = new Filesystem();
+        foreach ($jobs as $job) {
+            $dir = $base . $path . '/_user_' . $job->getUser()->getId();
+            try {
+                $fileSystem->mkdir($dir);
+                if ($fileSystem->exists($base . $path . '/' . $job->getImage())) {
+                    $fileSystem->copy($base . $path . '/' . $job->getImage(), $dir . '/' . $job->getImage());
+                    $fileSystem->remove($base . $path . '/' . $job->getImage());
+                }
+            } catch (IOExceptionInterface $exception) {
+                echo $exception->getMessage();
+                die;
+            }
+        }
+    }
+
+    /**
+     * @Route("/",name="homepage")
+     * @param AuthorizationCheckerInterface $authChecker
+     * @return Response
+     */
+    public function index(AuthorizationCheckerInterface $authChecker): Response
+    {
+        $verificated = $this->verificateUser($authChecker);
+        $em = $this->getDoctrine()->getManager();
+        $this->container->get('app.service.checker')->checkJobs();
+
+        return $this->render(
+            'site/job/index.html.twig',
+            [
+                'verificated_acount' => $verificated,
+                'notifications' => $this->loadNotifications(),
+                'jobs' => $em->getRepository(Job::class)->findBy(
+                    array('status' => constants::JOB_STATUS_ACTIVE),
+                    array('dateCreated' => 'DESC'),
+                    10
+                ),
+                'locations' => $this->container->get('app.service.helper')->loadLocations(),
+                'categorys' => $this->jobService->findByAllCategory(),
+                'citys' => $this->container->get('app.service.helper')->loadCityes(),
+                'company' => $this->companyService->findAll(),
+                'entity' => count($em->getRepository(User::class)->findByRole('ROLE_ADMIN')),
+            ]
+        );
+    }
+
+    /**
+     * @return object[]|null
+     */
+    public function loadNotifications()
+    {
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+
+        if (null != $user) {
+            $em = $this->getDoctrine()->getManager();
+            $notifications = $em->getRepository(Notification::class)->findBy(
+                array(
+                    'user' => $user,
+                    'active' => true,
+                ),
+                array(
+                    'date' => 'DESC',
+                ),
+                10
+            );
+
+            return $notifications;
+        }
+        return null;
+    }
+
+
+    /**
+     * @Route("/terms", name="site_policy")
+     */
+    public function policy(AuthorizationCheckerInterface $authChecker)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+        $verificated = $this->verificateUser($authChecker);
+        $terms = $em->getRepository(Policy::class)->load();
+        if (null == $terms) {
+            return $this->redirectToRoute('homepage');
+        }
+        return $this->render(
+            'site/policy.html.twig',
+            array(
+                'verificated_acount' => $verificated,
+                'notifications' => $this->loadNotifications(),
+                'terms' => $terms,
+            )
+        );
+    }
+
+
+    /**
+     * @Route("/dashboard", name="dashboard")
+     * Require IS_AUTHENTICATED_FULLY for *every* controller method in this class.
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
+     */
+    public function dashboard(AuthorizationCheckerInterface $authChecker)
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        $verificated = $this->verificateUser($authChecker);
+        $paymentMetadata = [
+            'jobs' => $this->jobService->getCurrentJobPackage($user),
+            'services' => $this->jobService->getCurrentServicesPackage($user)
+        ];
+        if (in_array('ROLE_ADMIN', $user->getRoles())) {
+            $em = $this->getDoctrine()->getManager();
+            $public = $em->getRepository(Job::class)->countJob($user);
+
+            return $this->render(
+                'user/employer/dashboard.html.twig',
+                array(
+                    'notifications' => $this->loadNotifications(),
+                    'public' => $public,
+                    'requests' => $em->getRepository(Job::class)->requests($user),
+                    'paymentMetadata' => $paymentMetadata
+                )
+            );
+        } else {
+            return $this->render(
+                'user/dashboard.html.twig',
+                array(
+                    'verificated_acount' => $verificated,
+                    'notifications' => $this->loadNotifications(),
+                    'paymentMetadata' => $paymentMetadata
+                )
+            );
+        }
+    }
+
+
+    /**
+     * @param Request $request
+     * @param AuthorizationCheckerInterface $authChecker
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @throws \Exception
+     * @Route("/profile/edit", name="dashboard_edit")
+     */
+    public function edit_profile(Request $request, AuthorizationCheckerInterface $authChecker)
+    {
+        $verificated = $this->verificateUser($authChecker);
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $is_admin = in_array('ROLE_ADMIN', $user->getRoles());
+        if ($is_admin) {
+            $form = $this->createForm(UserFullyEmployerType::class, $user);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->flush();
+                $notification = new Notification();
+                $notification->setDate(new \DateTime());
+                $notification->setType(constants::NOTIFICATION_PROFILE_UPDATE);
+                $notification->setContext("Su perfil se ha actualizado correctamente");
+                $notification->setUser($user);
+                $notification->setActive(true);
+                $entityManager->persist($notification);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('dashboard');
+            }
+        } else {
+            $form = $this->createForm(UserFullyType::class, $user);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->flush();
+                $notification = new Notification();
+                $notification->setDate(new \DateTime());
+                $notification->setType(constants::NOTIFICATION_PROFILE_UPDATE);
+                $notification->setContext("Su perfil se ha actualizado correctamente");
+                $notification->setUser($user);
+                $notification->setActive(true);
+                $entityManager->persist($notification);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('dashboard_resume_edit');
+            }
+        }
+        $paymentMetadata = [
+            'jobs' => $this->jobService->getCurrentJobPackage($user),
+            'services' => $this->jobService->getCurrentServicesPackage($user)
+        ];
+        if ($is_admin) {
+            return $this->render(
+                'user/employer/edit_profile.html.twig',
+                array(
+                    'verificated_acount' => $verificated,
+                    'form' => $form->createView(),
+                    'notifications' => $this->loadNotifications(),
+                    'paymentMetadata' => $paymentMetadata
+                )
+            );
+        } else {
+            return $this->render(
+                'user/edit_profile.html.twig',
+                array(
+                    'form' => $form->createView(),
+                    'notifications' => $this->loadNotifications(),
+                    'paymentMetadata' => $paymentMetadata
+                )
+            );
+        }
+    }
+
+    /**
+     * @Route("/ajax", name="ajax")
+     */
+    public function deleteNotification($id)
+    {
+        //echo json_encode($id);
+    }
+
+    /**
+     * @Route("/dashboard/resume", name="dashboard_resume")
+     * Require IS_AUTHENTICATED_FULLY for *every* controller method in this class.
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
+     */
+    public function resume(AuthorizationCheckerInterface $authChecker)
+    {
+        $verificated = $this->verificateUser($authChecker);
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $em = $this->getDoctrine()->getManager();
+        $metas = $em->getRepository(Metadata::class)->findBy(array("resume" => $user->getResume()));
+        $cv = $user->getResume()->getCv();
+        $cart = $user->getResume()->getCart();
+
+        return $this->render(
+            'user/resume.html.twig',
+            array(
+                'verificated_acount' => $verificated,
+                'resume' => $user->getResume(),
+                'notifications' => $this->loadNotifications(),
+                'cv' => $cv,
+                'cart' => $cart,
+                'metas' => $metas,
+                'user' => $this->getUser()
+            )
+        );
+    }
+
+    /**
+     * @Route("/dashboard/resume/edit", name="dashboard_resume_edit")
+     * Require IS_AUTHENTICATED_FULLY for *every* controller method in this class.
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
+     */
+    public function resumeEdit(Request $request, AuthorizationCheckerInterface $authChecker)
+    {
+        $verificated = $this->verificateUser($authChecker);
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $entityManager = $this->getDoctrine()->getManager();
+        if ($user->getResume() == null) {
+            $resume = new Resume();
+            $resume->setUser($user);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($resume);
+            $em->flush();
+        }
+        /** @var Resume $resume */
+        $resume = $entityManager->getRepository(Resume::class)->findOneBy(array('user' => $user,));
+        $metas = $entityManager->getRepository(Metadata::class)->findBy(array("resume" => $resume));
+        $form = $this->createForm(ResumeType::class, $resume);
+        $formFiles = $this->createForm(ResumeFilesType::class, $resume);
+        $formFiles->handleRequest($request);
+        if ($formFiles->isSubmitted() && $formFiles->isValid()) {
+            $resume->setUpdatedAt(new \DateTime("now"));
+            $entityManager->flush();
+            $notification = new Notification();
+            $notification->setDate(new \DateTime());
+            $notification->setType(constants::METADATA_RESUME_EDIT);
+            $notification->setContext("Su curriculum se ha actualizado correctamente");
+            $notification->setUser($user);
+            $notification->setActive(true);
+            $entityManager->persist($notification);
+            $entityManager->flush();
+        }
+
+        return $this->render(
+            'user/resume_edit.html.twig',
+            array(
+                'verificated_acount' => $verificated,
+                'resume' => $resume,
+                'notifications' => $this->loadNotifications(),
+                'form_resume' => $form->createView(),
+                'form_files' => $formFiles->createView(),
+                'metas' => $metas,
+            )
+        );
+    }
+
+    /**
+     * @Route("/dashboard/bookmarked", name="dashboard_bookmarked")
+     * Require IS_AUTHENTICATED_FULLY for *every* controller method in this class.
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
+     */
+    public function bookMarked(AuthorizationCheckerInterface $authChecker)
+    {
+        $verificated = $this->verificateUser($authChecker);
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $marked = $user->getBookmarked();
+        $jobs = array();
+        $entityManager = $this->getDoctrine()->getManager();
+        foreach ($marked as $id) {
+            $jobs[] = $entityManager->getRepository(Job::class)->find($id);
+        }
+
+        return $this->render(
+            'user/mark.html.twig',
+            array(
+                'verificated_acount' => $verificated,
+                'jobs' => $jobs,
+                'notifications' => $this->loadNotifications(),
+
+            )
+        );
+    }
+
+    /**
+     * @Route("/dashboard/applied", name="dashboard_applied")
+     * Require IS_AUTHENTICATED_FULLY for *every* controller method in this class.
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
+     */
+    public function applied(AuthorizationCheckerInterface $authChecker)
+    {
+        $verificated = $this->verificateUser($authChecker);
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $marked = $user->getApplied();
+        $jobs = array();
+        $entityManager = $this->getDoctrine()->getManager();
+        foreach ($marked as $id) {
+            $jobs[] = $entityManager->getRepository(Job::class)->find($id);
+        }
+
+        return $this->render(
+            'user/applied.html.twig',
+            array(
+                'verificated_acount' => $verificated,
+                'jobs' => $jobs,
+                'notifications' => $this->loadNotifications(),
+
+            )
+        );
+    }
+
+    /**
+     * @Route("/candidates", name="candidates")
+     * Require IS_AUTHENTICATED_FULLY for *every* controller method in this class.
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
+     */
+    public function candidates(AuthorizationCheckerInterface $authChecker)
+    {
+        $verificated = $this->verificateUser($authChecker);
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $canditatesID = $user->getCandidates();
+        $users = array();
+        $entityManager = $this->getDoctrine()->getManager();
+
+        foreach ($canditatesID as $item) {
+            if ($user->getId() != $item) {
+                array_push($users, $entityManager->getRepository(User::class)->find($item));
+            }
+        }
+        return $this->render(
+            'site/candidate.html.twig',
+            array
+            (
+                'verificated_acount' => $verificated,
+                'candidates' => $users,
+                'notifications' => $this->loadNotifications(),
+            )
+        );
+    }
+
+    /**
+     * @Route("/manage/candidates", name="manage_candidates")
+     * Require IS_AUTHENTICATED_FULLY for *every* controller method in this class.
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
+     */
+    public function manageCandidates(Request $request, AuthorizationCheckerInterface $authChecker, UserRepository $userRepository)
+    {
+        $verificated = $this->verificateUser($authChecker);
+        $entityManager = $this->getDoctrine()->getManager();
+        $users = $userRepository->findCandidatesList($user = $this->getUser()->getId());
+        $i = 0;
+        foreach ($users as $user) {
+            if (!$user->getCandidate()) {
+                unset($users[$i]);
+            }
+            $i++;
+        }
+        $pagination = $this->get('knp_paginator')->paginate(
+            $users,
+            $request->query->getInt('page', 1),
+            10
+        );
+        $pagination->setTemplate('site/pagination.html.twig');
+        $path = $this->getParameter('app.path.user_cv') . '/';
+
+        $paymentMetadata = [
+            'jobs' => $this->jobService->getCurrentJobPackage($user),
+            'services' => $this->jobService->getCurrentServicesPackage($user)
+        ];
+        return $this->render(
+            'user/employer/candidate.html.twig',
+            array(
+                'verificated_acount' => $verificated,
+                'candidates' => $pagination,
+                'notifications' => $this->loadNotifications(),
+                'url' => $path,
+                'paymentMetadata' => $paymentMetadata
+            )
+        );
+    }
+
+    /**
+     * @param Job $job
+     * @param UserRepository $userRepository
+     * @param Request $request
+     * @return Response
+     * @Route("/candidates/job/{id}/detail", name="canditate_detail_by_job")
+     */
+    public function showCandidates(Job $job, UserRepository $userRepository, Request $request)
+    {
+        $candidates = $userRepository->findCandidates($this->getUser(), $job);
+
+        $pagination = $this->get('knp_paginator')->paginate(
+            $candidates,
+            $request->query->getInt('page', 1),
+            10
+        );
+        $pagination->setTemplate('site/pagination.html.twig');
+
+        return $this->render('user/employer/show_candidates.html.twig', [
+            'candidates' => $pagination,
+            'notifications' => $this->loadNotifications(),
+            'job' => $job
+        ]);
+    }
+
+    /**
+     * @Route("/candidate/{id}/detail", name="canditate_detail")
+     */
+    public function candidateDetails(User $canditate, AuthorizationCheckerInterface $authChecker)
+    {
+        $verificated = $this->verificateUser($authChecker);
+
+        return $this->render(
+            'user/employer/candidate_detail.html.twig',
+            array(
+                'verificated_acount' => $verificated,
+                'notifications' => $this->loadNotifications(),
+                'candidate' => $canditate,
+            )
+        );
+    }
+
+    /**
+     * @param User $destinanario
+     * @param Request $request
+     * @return Response
+     * @throws \Exception
+     * @Route("/sendContactMessage/{id}", name="sendContactMessage", options={"expose" = true})
+     */
+    public function sendMessage(User $destinanario, Request $request)
+    {
+        $user = $this->getUser();
+
+        $message = new ContactMessage();
+        $message
+            ->setDate(new \DateTime('now'))
+            ->setCreator($user)
+            ->setDestinatario($destinanario);
+
+        $form = $this->createForm(ContactMessageFormType::class, $message, [
+            'action' => $this->generateUrl('sendContactMessage', ['id' => $destinanario->getId()])
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $message
+                ->setDate(new \DateTime('now'))
+                ->setCreator($user)
+                ->setDestinatario($destinanario);
+
+            $em = $this->getDoctrine()->getManager();
+
+            $em->persist($message);
+            $em->flush();
+
+            $mailerThemplate = $this->renderView('mail/service_contact.html.twig',[
+                'remit' => $message->getCreator(),
+                'body' => $message->getContext(),
+            ]);
+
+            $this->mailer->sendEmailMessage(
+                'Notificación de emplear.gessmac.com',
+                $mailerThemplate,
+                'emplearecuador@gmail.com',
+                $destinanario->getEmail(),
+                'ubelamgelfonseca@gmail.com'
+            );
+
+            return new JsonResponse([
+                'type'=>'success',
+                'message'=>'Mensaje enviado'
             ]);
         }
 
-        /**
-         * @param Request $request
-         * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
-         * @Route("/page", name="static_page_view", options={"expose" = true})
-         */
-        public function showStaticPage(Request $request)
-        {
-            $type = urldecode($request->query->get('type'));
-            /** @var StaticPage $page */
-            $page = $this->getDoctrine()->getRepository(StaticPage::class)->findOneBy(['type'=>$type]);
+        return $this->render('user/employer/contactForm.html.twig', [
+            'form' => $form->createView()
+        ]);
 
-            if(null === $page)
+    }
+
+    /**
+     * @Route("/resume/view/{id}", name="resume_view")
+     */
+    public function resumeView($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository(User::class)->find($id);
+        return $this->render(
+            'user/resumeView.html.twig',
+            array(
+                'user' => $user,
+                'notifications' => $this->loadNotifications(),
+            )
+        );
+    }
+
+    /**
+     * @Route("/dowload/cv/{name}/{username}", name="dowload_cv")
+     */
+    public function dowloadCv($name, $username)
+    {
+        try {
+            $base = $this->getParameter('kernel.project_dir') . '/public/';
+            $path = $this->getParameter('app.path.user_cv') . '/';
+            $response = new BinaryFileResponse($base . $path . $name);
+            $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $username . '_' . $name);
+            return $response;
+        } catch (FileNotFoundException $exception) {
+            return new Response('File not found');
+        }
+    }
+
+    /**
+     * @Route("acount/verificate", name="acount_verificate")
+     *
+     */
+    public function verificateAcount(Request $request)
+    {
+        if (null !== $request->get('code')) {
+            $currentUser = $this->get('security.token_storage')->getToken()->getUser();
+            if ($currentUser->getSecret() == $request->get('code')) {
+                $em = $this->getDoctrine()->getManager();
+                $currentUser->setVerificated(true);
+                $em->flush();
+
                 return $this->redirectToRoute('homepage');
+            } else {
+                $this->addFlash('error', 'Código de verificación incorrecto');
 
-            return $this->render('site/static_page.html.twig',[
-                'page' => $page,
-                'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
-            ]);
+                return $this->redirectToRoute('homepage');
+            }
         }
-	}
+
+        return $this->render('site/acount_verificate.html.twig');
+    }
+
+    /**
+     * @Route("send/code", name="send_code")
+     */
+    public function sendCode(\Swift_Mailer $mailer)
+    {
+        /** @var User $currentUser */
+        $currentUser = $this->get('security.token_storage')->getToken()->getUser();
+        if (empty($currentUser->getSecret())) {
+            $currentUser->setSecret(rand(10000, 99999));
+        }
+        $message = (new \Swift_Message('Código de verificación'))
+            ->setFrom('emplearecuador@gmail.com')
+            ->setBody(
+                $this->renderView(
+                    'mail/code.html.twig',
+                    [
+                        'code' => $currentUser->getSecret(),
+                    ]
+                ),
+                'text/html'
+            )
+            ->setTo($currentUser->getEmail());
+        $mailer->send($message);
+        $this->addFlash('success', 'Se ha enviado el código a ' . $currentUser->getEmail());
+
+        return $this->redirectToRoute('homepage');
+    }
+
+    /**
+     * @Route("admin/package", name="admin_package")
+     */
+    public function packageIndex()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $packages = $em->getRepository(Payment::class)->findAll();
+
+        return $this->render(
+            'admin/dashboard.html.twig',
+            array(
+                'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
+                'packages' => $packages,
+            )
+        );
+    }
+
+
+    /**
+     * @Route("/ajax/abaut", name="ajax_about")
+     */
+    public function aboutAjax(Request $request)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $resume = $entityManager->getRepository(Resume::class)->findOneBy(
+            array('id' => $request->request->get('resume_id'))
+        );
+        $info = $request->request->get('about');
+        if ($info != null) {
+            $resume->setAboutMe($request->request->get('about'));
+        }
+        $entityManager->flush();
+        $response = new JsonResponse();
+        $response->setStatusCode(200);
+        $response->setData(
+            array(
+                'response' => 'success',
+                'data' => $info,
+            )
+        );
+
+        return $response;
+    }
+
+    /**
+     * @Route("/ajax/skill", name="ajax_skill")
+     */
+    public function skillAjax(Request $request)
+    {
+        $count = $request->request->get('count');
+        $info = array();
+        for ($i = 1; $i <= $count; $i++) {
+            $val = $request->request->get('skill-' . $i);
+            if ($val != null) {
+                $info[] = $val;
+            }
+        }
+        /** @var User $user */
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $user->setSkillArray($info);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->flush();
+        $response = new JsonResponse();
+        $response->setStatusCode(200);
+        $response->setData(
+            array(
+                'response' => 'success',
+                'data' => $info,
+            )
+        );
+
+        return $response;
+    }
+
+    /**
+     * @Route("/ajax/skill/remove", name="ajax_skill_remove")
+     */
+    public function removeSkil(Request $request)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        /** @var User $user */
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $item = $request->request->get('item');
+        $user->remove_skill($item);
+        $entityManager->flush();
+        $response = new JsonResponse();
+        $response->setStatusCode(200);
+        $response->setData(
+            array(
+                'response' => 'success',
+                'data' => $item,
+            )
+        );
+
+        return $response;
+    }
+
+    /**
+     * @return Response
+     * @Route("/carousel_company", name="carousel_company", options={"expose" = true})
+     */
+    public function loadCompanies()
+    {
+        return $this->render('site/includes/carousel_company.html.twig', [
+            'companies' => $this->companyService->findActives()
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @Route("/page", name="static_page_view", options={"expose" = true})
+     */
+    public function showStaticPage(Request $request)
+    {
+        $type = urldecode($request->query->get('type'));
+        /** @var StaticPage $page */
+        $page = $this->getDoctrine()->getRepository(StaticPage::class)->findOneBy(['type' => $type]);
+
+        if (null === $page)
+            return $this->redirectToRoute('homepage');
+
+        return $this->render('site/static_page.html.twig', [
+            'page' => $page,
+            'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
+        ]);
+    }
+}

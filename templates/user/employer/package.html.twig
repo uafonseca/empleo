@@ -1,7 +1,8 @@
 <div class="col-md-6">
     <div class="package breadcrumb-form ">
         <div class="container border">
-            {% for pack in paymentMetadata['jobs'] %}
+            {% if paymentMetadata['jobs'] is defined %}
+                {% for pack in paymentMetadata['jobs'] %}
                 <div class="row" style="margin-top: 10px">
                     <div class="col-md-4" style="text-align: center">
                         <h5>EMPLEOS</h5>
@@ -30,35 +31,38 @@
                     </div>
                 </div>
             {% endfor %}
-            {% for pack in paymentMetadata['services'] %}
-                <div class="row" style="margin-top: 10px">
-                    <div class="col-md-4" style="text-align: center">
-                        <h5>SERVICIOS</h5>
+            {% endif %}
+            {% if paymentMetadata['services'] is defined %}
+                {% for pack in paymentMetadata['services'] %}
+                    <div class="row" style="margin-top: 10px">
+                        <div class="col-md-4" style="text-align: center">
+                            <h5>SERVICIOS</h5>
+                        </div>
+                        <div class="col-md-4">
+                            <button type="button" class="disabled btn btn-success btn-lg btn-block">{{ pack.package.name }}
+                            </button>
+                        </div>
+                        <div class="col-md-4 text-right">
+                            <button type="button" onclick="location.assign('{{ url('pricing_page',{'type':'service'}) }}')"
+                                    class="btn btn-primary btn-lg btn-block parpadea text">Cambiar plan
+                            </button>
+                        </div>
                     </div>
-                    <div class="col-md-4">
-                        <button type="button" class="disabled btn btn-success btn-lg btn-block">{{ pack.package.name }}
-                        </button>
-                    </div>
-                    <div class="col-md-4 text-right">
-                        <button type="button" onclick="location.assign('{{ url('pricing_page',{'type':'service'}) }}')"
-                                class="btn btn-primary btn-lg btn-block parpadea text">Cambiar plan
-                        </button>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6" style="text-align: left">
-                        {% set difference = date('now').diff(date(pack.datePurchase)) %}
-                        <span style="font-size: small;">Su plan expia dentro de <span
-                                    style="margin: 5px; font-size: medium"
-                                    class="badge badge-danger"> {{ pack.package.visible_days - difference.days }}</span>días</span>
-                    </div>
-                    <div class="col-md-6" style="text-align: left">
+                    <div class="row">
+                        <div class="col-md-6" style="text-align: left">
+                            {% set difference = date('now').diff(date(pack.datePurchase)) %}
+                            <span style="font-size: small;">Su plan expia dentro de <span
+                                        style="margin: 5px; font-size: medium"
+                                        class="badge badge-danger"> {{ pack.package.visible_days - difference.days }}</span>días</span>
+                        </div>
+                        <div class="col-md-6" style="text-align: left">
                                 <span style="font-size: small;">Publicaciones disponibles<span
                                             style="margin-left: 5px;font-size: medium"
                                             class="badge badge-danger"> {{ pack.package.anouncements_number_max - pack.currentPostCount }}</span></span>
+                        </div>
                     </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
 </div>

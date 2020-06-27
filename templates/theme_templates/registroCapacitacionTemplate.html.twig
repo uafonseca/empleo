@@ -1,0 +1,46 @@
+
+{% block _capacitacion_user_capacitacion_row %}
+    <div class="col-md-12 form-group {% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
+        {{ form_label(form, null, {
+            'label': 'Instructores',
+            'label_attr': {'style': 'display:block'}
+        }) }}
+        {{- form_widget(form) -}}
+        {{- form_errors(form) -}}
+        <span style="margin-left: 5px;cursor: pointer;" id="capacitacion_int" class=" badge badge-primary">
+			<i class="fa fa-plus"></i>
+        </span>
+    </div>
+{% endblock %}
+
+{% block _capacitacion_capacitadorExterno_row %}
+    <div class="col-md-12 form-group {% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
+        {{ form_label(form, null, {
+            'label': 'Capacitadores Externos',
+            'label_attr': {'style': 'display:block'}
+        }) }}
+        {{- form_widget(form) -}}
+        {{- form_errors(form) -}}
+        <span style="margin-left: 5px;cursor: pointer;" id="add_capacitador_externo" class=" badge badge-info">
+			<i class="fa fa-plus"></i>
+        </span>
+        <span style="margin-left: 5px;cursor: pointer;" id="capacitacion_ext" class=" badge badge-primary">
+			<i class="fa fa-arrow-right"></i>
+        </span>
+    </div>
+{% endblock %}
+
+{% block _capacitacion_asistencia_documento_evidencia_row %}
+    <div class="col-md-12 form-group {% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
+        {{- form_label(form) -}}
+        {{- form_widget(form) -}}
+        {{- form_errors(form) -}}
+    </div>
+{% endblock %}
+{% block _capacitacion_asistencia_documento_hoja_firma_row %}
+    <div class="col-md-12 form-group {% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
+        {{- form_label(form) -}}
+        {{- form_widget(form) -}}
+        {{- form_errors(form) -}}
+    </div>
+{% endblock %}

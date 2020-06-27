@@ -10,11 +10,11 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="breadcrumb-area">
-                        <h1>Tablero de empleador</h1>
+                        <h1>Candidatos por trabajo</h1>
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ path('homepage') }}">Inicio</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Tablero de empleador</li>
+                                <li class="breadcrumb-item active" aria-current="page">Candidatos por trabajo</li>
                             </ol>
                         </nav>
                     </div>
@@ -89,7 +89,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="status"><i data-feather="check-circle"></i>Preseleccionado</td>
+                                        <td class="status"><i data-feather="check-circle"></i>{{ get_status_candidate(job,c) }}</td>
                                         <td class="action">
                                             {% if c.resume.cv is not null %}
                                                 <a href="{{ vich_uploader_asset(c.resume,'cvFile') }}" download="{{ vich_uploader_asset(c.resume,'cvFile') }}" class="download"><i data-feather="download"></i></a>

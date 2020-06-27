@@ -33,6 +33,7 @@ set('release_version_text', function () {
     return $release;
 });
 
+
 task('yarn:build', 'cd {{ deploy_path }}/current && yarn run build');
 
 set('slack_webhook', 'https://hooks.slack.com/services/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');
@@ -44,6 +45,9 @@ set('slack_failure_text', '_{{user}}_ - Deploy `{{ release_version_text }}` to *
 desc('Update database schema');
 task('deploy:schema:update', '{{bin/console}} doctrine:schema:update --force');
 
+desc('Dumping js routes');
+task('dump:js-routes', '{{bin/console}} fos:js-routing:dump --target={{ deploy_path }}/public/bundles/fosjsrouting/js/fos_js_routing.js');
+
 before('success', 'yarn:install');
 after('success', 'yarn:build');
 before('success', 'deploy:schema:update');
@@ -52,4 +56,6 @@ after('deploy:failed', 'deploy:unlock');
 before('deploy', 'slack:notify');
 after('success', 'slack:notify:success');
 after('deploy:failed', 'slack:notify:failure');
+
+task('chmod', 'sudo chmod -R 777 /var/www/html/Emplear');
 

@@ -276,6 +276,12 @@ class User extends BaseUser
      */
     private $paymentForServicesMetadata;
 
+    /**
+     * @ORM\OneToMany(targetEntity=UserJobMetadata::class, mappedBy="user")
+     */
+    private $userJobMetadata;
+
+
 
 
     public function __construct()
@@ -299,6 +305,7 @@ class User extends BaseUser
         $this->packageServices = new ArrayCollection();
         $this->paymentForJobsMetadata = new ArrayCollection();
         $this->paymentForServicesMetadata = new ArrayCollection();
+        $this->userJobMetadata = new ArrayCollection();
     }
 
     /**
@@ -1330,7 +1337,35 @@ class User extends BaseUser
 
         return $this;
     }
-    
 
+    /**
+     * @return Collection|UserJobMetadata[]
+     */
+    public function getUserJobMetadata(): Collection
+    {
+        return $this->userJobMetadata;
+    }
 
+    public function addUserJobMetadata(UserJobMetadata $userJobMetadata): self
+    {
+        if (!$this->userJobMetadata->contains($userJobMetadata)) {
+            $this->userJobMetadata[] = $userJobMetadata;
+            $userJobMetadata->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserJobMetadata(UserJobMetadata $userJobMetadata): self
+    {
+        if ($this->userJobMetadata->contains($userJobMetadata)) {
+            $this->userJobMetadata->removeElement($userJobMetadata);
+            // set the owning side to null (unless already changed)
+            if ($userJobMetadata->getUser() === $this) {
+                $userJobMetadata->setUser(null);
+            }
+        }
+
+        return $this;
+    }
 }

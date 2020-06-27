@@ -8,6 +8,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Job;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -40,9 +41,30 @@ class UserRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param User $user
+     * @param Job $job
+     * @return mixed
+     */
+    public function findCandidates(User $user, Job $job){
+        return $this->createQueryBuilder('u')
+            ->leftJoin('u.userJobMetadata', 'userJobMetadata')
+            ->where('userJobMetadata.job =:job')
+            ->andWhere('userJobMetadata.user =:user')
+            ->setParameter('job',$job)
+            ->setParameter('user',$user)
+            ->orderBy('userJobMetadata.status')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
      * @return User[] Returns an array of user objects
      */
     public function findCandidatesList($id){
+//        return $this->createQueryBuilder('u')
+//            ->leftJoin('u.')
+
+
         return $this->createQueryBuilder('u')
             ->select('u')
             ->join('u.jobAppiled','uj')

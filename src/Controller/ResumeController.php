@@ -95,7 +95,6 @@ class ResumeController extends AbstractController
             ->add('about_me',CKEditorType::class,[
                 'label' => false,
             ])
-            ->add('save', SubmitType::class, ['label' => 'Guardar'])
             ->getForm();
 
         $form->handleRequest($request);

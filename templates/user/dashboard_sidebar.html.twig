@@ -40,7 +40,7 @@
         <ul>
 
             <li class="{% if currentPath == '/dashboard' %}active{% endif %}"><i class="fas fa-home"></i><a href="{{ path('dashboard') }}">Tablero</a></li>
-            <li class="{% if currentPath == '/dashboard/edit' %}active{% endif %}"><i class="fas fa-user"></i><a href="{{ path('dashboard_edit') }}">Editar perfil</a></li>
+            <li class="{% if currentPath == '/profile/edit' %}active{% endif %}"><i class="fas fa-user"></i><a href="{{ path('dashboard_edit') }}">Editar perfil</a></li>
             <li class="{% if currentPath == '/dashboard/resume' %}active{% endif %}"><i class="fas fa-file-alt"></i><a href="{{ path('dashboard_resume') }}">Curriculum Vitae</a></li>
             <li class="{% if currentPath == '/dashboard/resume/edit' %}active{% endif %}"><i class="fas fa-edit"></i><a href="{{ path('dashboard_resume_edit') }}">Editar Curriculum Vitae</a></li>
             <li class="{% if currentPath == '/service/manage' %}active{% endif %}"><i class="fas fa-edit"></i><a href="{{ path('service_manage') }}">Mis servicios</a></li>

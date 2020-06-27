@@ -233,10 +233,16 @@ class Job
      */
     private $company;
 
+    /**
+     * @ORM\OneToMany(targetEntity=UserJobMetadata::class, mappedBy="job")
+     */
+    private $userJobMetadata;
+
     public function __construct()
     {
         $this->applications = array();
         $this->users = new ArrayCollection();
+        $this->userJobMetadata = new ArrayCollection();
     }
 
     /**
@@ -698,6 +704,37 @@ class Job
     public function setCompany(?Company $company): self
     {
         $this->company = $company;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserJobMetadata[]
+     */
+    public function getUserJobMetadata(): Collection
+    {
+        return $this->userJobMetadata;
+    }
+
+    public function addUserJobMetadata(UserJobMetadata $userJobMetadata): self
+    {
+        if (!$this->userJobMetadata->contains($userJobMetadata)) {
+            $this->userJobMetadata[] = $userJobMetadata;
+            $userJobMetadata->setJob($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserJobMetadata(UserJobMetadata $userJobMetadata): self
+    {
+        if ($this->userJobMetadata->contains($userJobMetadata)) {
+            $this->userJobMetadata->removeElement($userJobMetadata);
+            // set the owning side to null (unless already changed)
+            if ($userJobMetadata->getJob() === $this) {
+                $userJobMetadata->setJob(null);
+            }
+        }
 
         return $this;
     }

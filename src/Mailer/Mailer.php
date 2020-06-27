@@ -57,21 +57,21 @@ class Mailer
      * @param EntityManagerInterface $entityManager
      */
     public function __construct(
-//        \Swift_Mailer $mailer,
-//        UrlGeneratorInterface $router,
-//        EngineInterface $templating,
-//        Security $security,
-//        UploaderHelper $vich_uploader,
-//        RequestStack $request_stack,
-//        EntityManagerInterface $entityManager
+        \Swift_Mailer $mailer,
+        UrlGeneratorInterface $router,
+        EngineInterface $templating,
+        Security $security,
+        UploaderHelper $vich_uploader,
+        RequestStack $request_stack,
+        EntityManagerInterface $entityManager
     ) {
-//        $this->mailer = $mailer;
-//        $this->router = $router;
-//        $this->templating = $templating;
-//        $this->security = $security;
-//        $this->uploader = $vich_uploader;
-//        $this->request_stack = $request_stack;
-//        $this->entityManager = $entityManager;
+        $this->mailer = $mailer;
+        $this->router = $router;
+        $this->templating = $templating;
+        $this->security = $security;
+        $this->uploader = $vich_uploader;
+        $this->request_stack = $request_stack;
+        $this->entityManager = $entityManager;
     }
 
 
@@ -83,21 +83,18 @@ class Mailer
      * @param string $CcEmail
      * @param string $documento_url
      */
-    public function sendEmailMessage($renderedTemplate, $fromEmail, $toEmail, $CcEmail, $documento_url = null): void
+    public function sendEmailMessage($subject, $renderedTemplate, $fromEmail, $toEmail, $CcEmail, $documento_url = null): void
     {
         $dominio = $this->request_stack->getCurrentRequest()->getSchemeAndHttpHost();
-
-        // Render the email, use the first line as the subject, and the rest as the body
-        $renderedLines = explode("\n", trim($renderedTemplate));
-        $subject = $renderedLines[0];
-        $body = implode("\n", array_slice($renderedLines, 1));
 
         $message = (new \Swift_Message($subject))
             ->setFrom($fromEmail)
             ->setTo($toEmail)
             ->setCc($CcEmail)
-            ->attach(\Swift_Attachment::fromPath($dominio . $documento_url))
             ->setBody($renderedTemplate, 'text/html');
+
+        if ($documento_url != null)
+            $message->attach(\Swift_Attachment::fromPath($dominio . $documento_url));
 
         $this->mailer->send($message);
     }

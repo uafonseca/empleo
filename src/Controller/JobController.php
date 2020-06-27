@@ -35,7 +35,7 @@ class JobController extends AbstractController
     private $notificationService;
 
     /** @var JobService */
-    private $jobservice;
+    private $jobService;
 
     /**
      * JobController constructor.
@@ -57,7 +57,7 @@ class JobController extends AbstractController
         $this->datatableResponse = $datatableResponse;
         $this->userService = $userService;
         $this->notificationService = $notificationService;
-        $this->jobservice = $jobService;
+        $this->jobService = $jobService;
     }
 
     /**
@@ -127,14 +127,14 @@ class JobController extends AbstractController
 
                 $this->notificationService->create(constants::NOTIFICATION_JOB_CREATE, 'Empleo creado satisfactoriamente', $user);
 
-                $this->jobservice->update($post);
+                $this->jobService->update($post);
 
                 return $this->redirectToRoute('job_manage');
             }
 
             $paymentMetadata = [
-                'jobs' => $this->jobservice->getCurrentJobPackage($user),
-                'services' => $this->jobservice->getCurrentServicesPackage($user)
+                'jobs' => $this->jobService->getCurrentJobPackage($user),
+                'services' => $this->jobService->getCurrentServicesPackage($user)
             ];
 
             return $this->render(
@@ -161,7 +161,10 @@ class JobController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="job_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param Job $job
+     * @return Response
+     * @Route("/{id}/editar", name="job_edit123", methods={"GET","POST"})
      */
     public function edit(Request $request, Job $job): Response
     {

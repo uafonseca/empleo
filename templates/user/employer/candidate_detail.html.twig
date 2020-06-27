@@ -1,8 +1,8 @@
 {% extends 'site/base.html.twig' %}
 {% block title %}Tablero{% endblock %}
 {% block body %}
-<link rel="stylesheet" type="text/css" href="{{ asset('site/dashboard/css/dashboard.css') }}">
-{{  include ('site/header.html.twig',{'notifications': notifications}  )}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('site/dashboard/css/dashboard.css') }}">
+    {{ include ('site/header.html.twig',{'notifications': notifications}  ) }}
     <div class="alice-bg padding-top-60 section-padding-bottom">
         <div class="container">
             {{ include('user/employer/info.html.twig') }}
@@ -44,7 +44,8 @@
                                             </div>
                                             <div class="col-sm-5">
                                                 <div class="info">
-                                                    <span class="candidate-location"><i data-feather="map-pin"></i>{{ candidate.address }}</span>
+                                                    <span class="candidate-location"><i
+                                                                data-feather="map-pin"></i>{{ candidate.address }}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -55,7 +56,9 @@
                                 {% if candidate.resume.cv is empty %}
                                     <a class="disabled">CV no disponible por el usuario <i data-feather="download"></i></a>
                                 {% else %}
-                                    <a href="{{ path('dowload_cv', {'name': candidate.resume.cv}) }}">Descargar CV <i data-feather="download"></i></a>
+                                    <a href="{{ vich_uploader_asset(candidate.resume,'cvFile') }}"
+                                       download="{{ vich_uploader_asset(candidate.resume,'cvFile') }}">Descargar CV <i
+                                                data-feather="download"></i></a>
                                 {% endif %}
                             </div>
                         </div>
@@ -63,7 +66,7 @@
                             <div class="skill">
                                 <label>Habilidades:</label>
                                 {% for skil in candidate.skils %}
-                                        <a href="#">{{ skil}}</a>
+                                    <a href="#">{{ skil }}</a>
                                 {% endfor %}
                             </div>
                             <div class="social-profile">
@@ -72,35 +75,35 @@
                                     <a target="_blank" href="{{ candidate.sociallinks["fb"] }}"><i
                                                 class="fab fa-facebook-f"></i></a>
                                 {% endif %}
-                                {% if  candidate.sociallinks["twitter"] is defined  %}
+                                {% if  candidate.sociallinks["twitter"] is defined %}
                                     <a target="_blank" href="{{ candidate.sociallinks["twitter"] }}"><i
                                                 class="fab fa-twitter"></i></a>
                                 {% endif %}
-                                {% if  candidate.sociallinks["google"] is defined  %}
+                                {% if  candidate.sociallinks["google"] is defined %}
                                     <a target="_blank" href="{{ candidate.sociallinks["google"] }}"><i
                                                 class="fab fa-google-plus"></i></a>
                                 {% endif %}
-                                {% if  candidate.sociallinks["linkedin"] is defined  %}
-                                    <a target="_blank" href="{{ candidate.sociallinks["linkedin"]  }}"><i
+                                {% if  candidate.sociallinks["linkedin"] is defined %}
+                                    <a target="_blank" href="{{ candidate.sociallinks["linkedin"] }}"><i
                                                 class="fab fa-linkedin-in"></i></a>
                                 {% endif %}
-                                {% if  candidate.sociallinks["printerest"] is defined  %}
+                                {% if  candidate.sociallinks["printerest"] is defined %}
                                     <a target="_blank" href="{{ candidate.sociallinks["printerest"] }}"><i
                                                 class="fab fa-pinterest-p"></i></a>
                                 {% endif %}
-                                {% if  candidate.sociallinks["instagram"] is defined  %}
+                                {% if  candidate.sociallinks["instagram"] is defined %}
                                     <a target="_blank" href="{{ candidate.sociallinks["instagram"] }}"><i
                                                 class="fab fa-instagram"></i></a>
                                 {% endif %}
-                                {% if  candidate.sociallinks["behance"] is defined  %}
+                                {% if  candidate.sociallinks["behance"] is defined %}
                                     <a target="_blank" href="{{ candidate.sociallinks["behance"] }}"><i
                                                 class="fab fa-behance"></i></a>
                                 {% endif %}
-                                {% if  candidate.sociallinks["dribbble"] is defined  %}
+                                {% if  candidate.sociallinks["dribbble"] is defined %}
                                     <a target="_blank" href="{{ candidate.sociallinks["dribbble"] }}"><i
                                                 class="fab fa-dribbble"></i></a>
                                 {% endif %}
-                                {% if  candidate.sociallinks["github"] is defined  %}
+                                {% if  candidate.sociallinks["github"] is defined %}
                                     <a target="_blank" href="{{ candidate.sociallinks["github"] }}"><i
                                                 class="fab fa-github"></i></a>
                                 {% endif %}
@@ -111,63 +114,55 @@
                                 <div class="col-xl-7 col-lg-8">
                                     <div class="about-details details-section">
                                         <h4><i data-feather="align-left"></i>Sobre mi</h4>
-                                        {{ candidate.about }}
+                                        {{ candidate.about|raw }}
 
                                     </div>
                                     <div class="edication-background details-section">
                                         <h4><i data-feather="book"></i>Antecedentes educacionales</h4>
-                                        {% for m in candidate.resume.metadata %}
-                                            {% if m.type == 'metadata_education' %}
-                                                <div id="div1-{{ m.id }}" class="education-label">
-                                                    <span class="study-year">{{ m.extra }}</span>
-                                                    <h5>{{ m.header }}</h5>
-                                                    <p>{{ m.description }}</p>
-                                                </div>
-                                            {% endif %}
+                                        {% for m in candidate.resume.education %}
+                                            <div id="div1-{{ m.id }}" class="education-label">
+                                                <span class="study-year">{{ m.title }} [ {{ m.periode }} ]</span>
+                                                <h5>{{ m.institute }}</h5>
+                                                <p>{{ m.context }}</p>
+                                            </div>
                                         {% endfor %}
                                     </div>
                                     <div class="experience details-section">
                                         <h4><i data-feather="briefcase"></i>Experiencia laboral</h4>
-                                        {% for m in candidate.resume.metadata %}
-                                            {% if m.type == 'metadata_experience' %}
-                                                <div id="div1-{{ m.id }}" class="experience-section">
-                                                    <span class="service-year">{{ m.extra }}</span>
-                                                    <h5>{{ m.header }}</h5>
-                                                    <p>{{ m.description }}</p>
-                                                </div>
-                                            {% endif %}
+                                        {% for m in candidate.resume.ocupations %}
+                                            <div id="div1-{{ m.id }}" class="experience-section">
+                                                <span class="study-year">{{ m.title }} [ {{ m.periode }} ]</span>
+                                                <h5>{{ m.company }}</h5>
+                                                <p>{{ m.context }}</p>
+                                            </div>
                                         {% endfor %}
                                     </div>
                                     <div class="professonal-skill details-section">
                                         <h4><i data-feather="feather"></i>Habilidad profesionales</h4>
                                         <div class="progress-group">
-                                            {% for m in candidate.resume.metadata %}
-                                                {% if m.type == 'metadata_porcent' %}
-                                                    <div id="div1-{{ m.id }}" class="progress-item">
-                                                        <div class="progress-head">
-                                                            <p class="progress-on">{{ m.header }}</p>
-                                                        </div>
-                                                        <div class="progress-body">
-                                                            <div class="progress">
-                                                                <div class="progress-bar" role="progressbar"
-                                                                     aria-valuenow="{{ m.context }}"
-                                                                     aria-valuemin="0" aria-valuemax="100"
-                                                                     style="width: 0;"></div>
-                                                            </div>
-                                                            <p class="progress-to">{{ m.context }}%</p>
-                                                        </div>
+                                            {% for m in candidate.resume.professionalSkills %}
+                                                <div id="div1-{{ m.id }}" class="progress-item col-md-6">
+                                                    <div class="progress-head">
+                                                        <p class="progress-on">{{ m.name }}</p>
                                                     </div>
-                                                {% endif %}
+                                                    <div class="progress-body">
+                                                        <div class="progress">
+                                                            <div class="progress-bar" role="progressbar"
+                                                                 aria-valuenow="{{ m.porcent }}"
+                                                                 aria-valuemin="0" aria-valuemax="100"
+                                                                 style="width: 0;"></div>
+                                                        </div>
+                                                        <p class="progress-to">{{ m.porcent }}%</p>
+                                                    </div>
+                                                </div>
                                             {% endfor %}
                                         </div>
                                     </div>
                                     <div class="special-qualification details-section">
                                         <h4><i data-feather="gift"></i>Calificación Especial</h4>
                                         <ul>
-                                            {% for m in candidate.resume.metadata %}
-                                                {% if m.type == 'metadata_qualification' %}
-                                                    <li id="div1-{{ m.id }}" >{{ m.header }}</li>
-                                                {% endif %}
+                                            {% for m in candidate.resume.califications %}
+                                                <li>{{ m.name }}</li>
                                             {% endfor %}
                                         </ul>
                                     </div>
@@ -177,7 +172,8 @@
                                         <div class="information">
                                             <h4>Información</h4>
                                             <ul>
-                                                <li><span>Category:</span> {% for c in candidate.category %} {{ c }}<br>{% endfor %}</li>
+                                                <li><span>Category:</span> {% for c in candidate.category %} {{ c }}
+                                                        <br>{% endfor %}</li>
                                                 <li><span>Ubicación:</span> {{ candidate.address }} </li>
                                                 <li><span>Disponibilidad:</span> {{ candidate.status }}</li>
                                                 <li><span>Experiencia:</span> {{ candidate.experience }} Años</li>
@@ -187,32 +183,7 @@
                                             </ul>
                                         </div>
                                         <div class="buttons">
-                                            <a href="#" class="button contact-button" data-toggle="modal" data-target="#exampleModal">Contacto</a>
-                                            {#<a href="#" class="button cover-download"><i data-feather="download"></i>Cover Letter</a>#}
-                                            {#<a href="#" class="button contact-download"><i data-feather="download"></i>Contact</a>#}
-                                        </div>
-                                        <!-- Modal -->
-                                        <div class="modal fade contact-form-modal" id="exampleModal" tabindex="-1" role="dialog" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-body">
-                                                        <h4><i data-feather="edit"></i>Contactar</h4>
-                                                        <form id="send-email" method="post">
-                                                            <div class="form-group">
-                                                                <input name="remit" type="text" class="form-control" placeholder="Nombre">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <input name="email" type="email" class="form-control" placeholder="Email">
-                                                                <input type="hidden" name="destinate" value="{{ candidate.email }}">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <textarea name="body" class="form-control" placeholder="Mensaje"></textarea>
-                                                            </div>
-                                                            <button id="send-btn" class="button">Enviar</button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <a href="#" id="contact-action" class="button contact-button">Contacto</a>
                                         </div>
                                     </div>
                                 </div>
@@ -239,5 +210,12 @@
 
 {% endblock %}
 {% block js %}
-    <script src="{{ asset('site/js/ajax.js') }}"></script>
+    <script>
+        $(function () {
+            $('#contact-action').on('click', function (e) {
+                e.preventDefault();
+                coreApp.dialogs.create({url: Routing.generate('sendContactMessage', {id: '{{ candidate.id }}'}),containerFluid:true});
+            })
+        })
+    </script>
 {% endblock %}

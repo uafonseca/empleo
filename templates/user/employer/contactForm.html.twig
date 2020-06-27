@@ -1,0 +1,69 @@
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h5 class="panel-title pull-left">
+                                    {#Antecedentes educacionales#}
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    {{ form_start(form) }}
+                    <div class="row">
+                        <div class="col-md-6">De:{{ form_row(form.creator,{attr:{'disabled':'disabled'}}) }}</div>
+                        <div class="col-md-6">Para:{{ form_row(form.destinatario,{attr:{'disabled':'disabled'}}) }}</div>
+                        <div class="col-md-12">{{ form_row(form.context) }}</div>
+                        <div class="col-md-12">
+                            <button type="submit" id="save" class="btn btn-primary" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Enviando...">
+                                <i class="fas fa-envelope"></i>
+                                Enviar
+                            </button>
+                        </div>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('form[name="contact_message_form"]').on('submit',function (event) {
+            event.preventDefault();
+            const $form =$(this);
+            if($('#contact_message_form_context').val()){
+                $.ajax({
+                    url: $(this).attr("action"),
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    beforeSend: function () {
+                        $('#save').button('loading');
+                    },
+                    success: function (data) {
+                        if (data.type === 'success') {
+                            toastr.success(data.message);
+                            coreApp.dialogs.close($form);
+                        } else {
+                            toastr.error('Ah ocurrido un error');
+                        }
+                        $('#save').button('reset');
+                    },
+                    error(response) {
+                        // toastr.error('La dirección de correo se encuentra en uso');
+                    }
+                })
+            }else {
+                toastr.warning('No debe dejar el texto en blanco');
+            }
+
+        })
+    })
+</script>

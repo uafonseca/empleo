@@ -1,0 +1,3 @@
+{%- block checkbox_widget -%}
+<input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %} />
+{%- endblock checkbox_widget -%}
