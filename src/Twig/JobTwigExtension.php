@@ -50,11 +50,11 @@ class JobTwigExtension extends AbstractExtension
     public function getJobApplications(Job $job)
     {
         $count = 0;
-//        /** @var UserJobMetadata $metadata */
-//        foreach ($job->getUserJobMetadata() as $metadata){
-//            if ($metadata->getStatus() != UserJobMetadata::STATUS_CANCELED)
-//                $count ++ ;
-//        }
+        /** @var UserJobMetadata $metadata */
+        foreach ($job->getUserJobMetadata() as $metadata){
+            if ($metadata->getStatus() != UserJobMetadata::STATUS_CANCELED)
+                $count ++ ;
+        }
         return $count;
     }
 
