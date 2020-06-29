@@ -71,6 +71,13 @@ Encore
         {from: './assets/site/images', to: 'backend/images/[path][name].[ext]'}
     ])
 
+    .addRule({
+        test: /fos_js_routing.js/,
+        use: [{
+            loader: 'raw-loader',
+        }]
+    })
+
     // enables Sass/SCSS support
     // .enableSassLoader()
 

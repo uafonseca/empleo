@@ -12,14 +12,14 @@ inventory('hosts.yml');
 set('git_tty', false);
 
 set('shared_dirs', ['var/log', 'var/sessions', 'vendor', 'public/images', 'public/site/images', 'public/site/docs']);
-set('writable_dirs', ['var','var/cache',  'public/images', 'public/site']);
+set('writable_dirs', ['var', 'public/images', 'public/site']);
 set('writable_mode', 'chmod');
 
 set('release_name', function () {
     return date('YmdHis');
 });
 
-set('keep_releases', 3);
+set('keep_releases', 2);
 
 set('env', [
     'APP_ENV' => 'production',
@@ -36,26 +36,32 @@ set('release_version_text', function () {
 
 task('yarn:build', 'cd {{ deploy_path }}/current && yarn run build');
 
-set('slack_webhook', 'https://hooks.slack.com/services/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');
-set('slack_text', "_{{user}}_ is deploying `{{ release_version_text }}` to *{{target}}*");
-set('slack_success_text', '_{{user}}_ - Deploy `{{ release_version_text }}` to *{{target}}* successful');
-set('slack_failure_text', '_{{user}}_ - Deploy `{{ release_version_text }}` to *{{target}}* failed');
+desc('Database update');
+task('database:update', function () {
+    run('{{bin/console}} doctrine:schema:update --force');
+});
 
+desc('Publish assets');
+task('assets:install', '{{bin/console}} assets:install --symlink public');
 
-desc('Update database schema');
-task('deploy:schema:update', '{{bin/console}} doctrine:schema:update --force');
 
 desc('Dumping js routes');
-task('dump:js-routes', '{{bin/console}} fos:js-routing:dump --target={{ deploy_path }}/public/bundles/fosjsrouting/js/fos_js_routing.js');
+task('dump:js-routes', '{{bin/console}} fos:js-routing:dump --target=public/bundles/fosjsrouting/js/fos_js_routing.js');
 
-before('success', 'yarn:install');
-after('success', 'yarn:build');
-before('success', 'deploy:schema:update');
-after('deploy:failed', 'deploy:unlock');
+task('grant:permissions', 'sudo chmod -R 777 /var/www/html/Emplear');
 
-before('deploy', 'slack:notify');
-after('success', 'slack:notify:success');
-after('deploy:failed', 'slack:notify:failure');
+task('build', [
+    'database:update',
+    'assets:install',
+    'dump:js-routes',
+    'yarn:install',
+    'yarn:build',
+    'grant:permissions',
+]);
 
-task('chmod', 'sudo chmod -R 777 /var/www/html/Emplear');
+after('deploy:vendors', 'build');
+
+
+
+
 
