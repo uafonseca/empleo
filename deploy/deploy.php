@@ -34,7 +34,8 @@ set('release_version_text', function () {
 });
 
 
-task('yarn:build', 'cd {{ deploy_path }}/current && yarn run build');
+desc('Compile assets in production');
+task('yarn:run:production', 'yarn run encore production');
 
 desc('Database update');
 task('database:update', function () {
@@ -48,16 +49,13 @@ task('assets:install', '{{bin/console}} assets:install --symlink public');
 desc('Dumping js routes');
 task('dump:js-routes', '{{bin/console}} fos:js-routing:dump --target=public/bundles/fosjsrouting/js/fos_js_routing.js');
 
-task('grant:permissions', 'sudo chown deploy -R /var/www/html/Emplear');
-//task('grant:permissions', 'sudo chown -R deploy  /var/www/html/Emplear && sudo chmod -R 777 /var/www/html/Emplear/releases');
 
 task('build', [
-    'database:update',
+//    'database:update',
     'assets:install',
     'dump:js-routes',
     'yarn:install',
-    'yarn:build',
-    'grant:permissions',
+    'yarn:run:production',
 ]);
 
 after('deploy:vendors', 'build');

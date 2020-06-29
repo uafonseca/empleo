@@ -21,9 +21,9 @@ class Comment
      * @ORM\Column(type="text")
      */
     private $text;
+
     /**
-     * @ORM\ManyToOne(targetEntity="Blog")
-     *
+     * @ORM\ManyToOne(targetEntity="Blog", inversedBy="comments")
      */
     private $blog;
     /**
@@ -35,7 +35,6 @@ class Comment
      * @ORM\Column(type="datetime")
      */
     protected $created;
-
 
 
     public function getId(): ?int
@@ -104,6 +103,7 @@ class Comment
         $this->created = $created;
         $this->created = new \DateTime('now');
     }
+
     public function __toString()
     {
         return $this->text;
