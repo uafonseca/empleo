@@ -24,7 +24,7 @@ class ResumeMetadata
     private $type;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User",cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="skils",cascade={"persist"})
      */
     private $user;
 

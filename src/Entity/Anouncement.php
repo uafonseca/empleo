@@ -131,7 +131,7 @@
 		/**
 		 * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="anouncements",cascade={"remove"})
 		 */
-		private $User;
+		private $user;
 		
 		/**
 		 * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="ManyToOne")

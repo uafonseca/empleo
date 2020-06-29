@@ -206,14 +206,9 @@ class User extends BaseUser
      */
     private $verificated;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Anouncement", inversedBy="user",cascade={"remove"})
-     * @ORM\JoinColumn(onDelete="CASCADE")
-     */
-    private $anouncement;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Anouncement", mappedBy="User",cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Anouncement", mappedBy="user",cascade={"remove"})
      * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $anouncements;
@@ -1045,17 +1040,6 @@ class User extends BaseUser
         return $this->verificated;
     }
 
-    public function getAnouncement(): ?Anouncement
-    {
-        return $this->anouncement;
-    }
-
-    public function setAnouncement(?Anouncement $anouncement): self
-    {
-        $this->anouncement = $anouncement;
-
-        return $this;
-    }
 
     /**
      * @return Collection|Anouncement[]
