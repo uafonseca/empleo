@@ -14,6 +14,16 @@ doctrine:
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
+        dql:
+            string_functions:
+                DATE: DoctrineExtensions\Query\Mysql\Date
+                MONTH: DoctrineExtensions\Query\Mysql\Month
+                MONTHNAME: DoctrineExtensions\Query\Mysql\MonthName
+                YEAR: DoctrineExtensions\Query\Mysql\Year
+                DAY: DoctrineExtensions\Query\Mysql\Day
+                IF: DoctrineExtensions\Query\Mysql\IfElse
+                TIMESTAMPDIFF: DoctrineExtensions\Query\Mysql\TimestampDiff
+                GROUP_CONCAT: DoctrineExtensions\Query\Mysql\GroupConcat
         mappings:
             App:
                 is_bundle: false

@@ -48,7 +48,8 @@ task('assets:install', '{{bin/console}} assets:install --symlink public');
 desc('Dumping js routes');
 task('dump:js-routes', '{{bin/console}} fos:js-routing:dump --target=public/bundles/fosjsrouting/js/fos_js_routing.js');
 
-task('grant:permissions', 'sudo chmod -R 777 /var/www/html/Emplear');
+task('grant:permissions', 'sudo chown deploy -R /var/www/html/Emplear');
+//task('grant:permissions', 'sudo chown -R deploy  /var/www/html/Emplear && sudo chmod -R 777 /var/www/html/Emplear/releases');
 
 task('build', [
     'database:update',
