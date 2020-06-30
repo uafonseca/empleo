@@ -35,7 +35,7 @@ class UserFullyType extends AbstractType
             ->add('phone',null,array('required'=>false))
             ->add('status',ChoiceType::class,[
                 'choices' => [
-                    'A tiempo completol' => 'ful',
+                    'A tiempo completo' => 'ful',
                     'A tiempo parcial' => 'partial',
                     'Temporal' => 'temporary',
                     'Independiente' => 'freelance',

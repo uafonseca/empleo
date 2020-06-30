@@ -62,6 +62,7 @@ abstract class constants
     const  JOB_STATUS_ACTIVE                 =  "job_active";
     const  JOB_STATUS_PENDING                =  "job_pending";
     const  JOB_STATUS_EXPIRED                =  "job_expired";
+    const  JOB_STATUS_LOOCK                  =  "job_loock";
     //--------job_status--------//
     //----------END----------//
 

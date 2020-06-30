@@ -8,12 +8,15 @@ use App\Entity\Job;
 use App\Entity\PaymentForJobsMetadata;
 use App\Entity\User;
 use App\Form\JobType;
+use App\Mailer\Mailer;
 use App\Service\JobService;
 use App\Service\NotificationService;
 use App\Service\UserService;
+use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Sg\DatatablesBundle\Datatable\DatatableFactory;
 use Sg\DatatablesBundle\Response\DatatableResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -37,6 +40,9 @@ class JobController extends AbstractController
     /** @var JobService */
     private $jobService;
 
+    /** @var Mailer */
+    private $mailer;
+
     /**
      * JobController constructor.
      * @param DatatableFactory $datatableFactory
@@ -44,13 +50,15 @@ class JobController extends AbstractController
      * @param UserService $userService
      * @param NotificationService $notificationService
      * @param JobService $jobService
+     * @param Mailer $mailer
      */
     public function __construct(
         DatatableFactory $datatableFactory,
         DatatableResponse $datatableResponse,
         UserService $userService,
         NotificationService $notificationService,
-        JobService $jobService
+        JobService $jobService,
+        Mailer $mailer
     )
     {
         $this->datatableFactory = $datatableFactory;
@@ -58,6 +66,7 @@ class JobController extends AbstractController
         $this->userService = $userService;
         $this->notificationService = $notificationService;
         $this->jobService = $jobService;
+        $this->mailer = $mailer;
     }
 
     /**
@@ -151,7 +160,7 @@ class JobController extends AbstractController
     }
 
     /**
-     * @Route("/backend/job/{id}", name="job_show", methods={"GET"})
+     * @Route("/backend/job/{id}", name="job_show_new", methods={"GET"})
      */
     public function show(Job $job): Response
     {
@@ -164,7 +173,7 @@ class JobController extends AbstractController
      * @param Request $request
      * @param Job $job
      * @return Response
-     * @Route("/{id}/editar", name="job_edit123", methods={"GET","POST"})
+     * @Route("/{id}/editar", name="job_edit_new", methods={"GET","POST"})
      */
     public function edit(Request $request, Job $job): Response
     {
@@ -184,16 +193,31 @@ class JobController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="job_delete", methods={"DELETE"})
+     * @param Job $job
+     * @return Response
+     * @Route("/job/{id}", name="job_delete")
      */
-    public function delete(Request $request, Job $job): Response
+    public function delete(Job $job)
     {
-        if ($this->isCsrfTokenValid('delete' . $job->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
+        $message = 'Trabajo eliminado';
+        try {
+            $job->setStatus(constants::JOB_STATUS_LOOCK);
+            $entityManager->flush();
             $entityManager->remove($job);
             $entityManager->flush();
-        }
+        } catch (ForeignKeyConstraintViolationException $exception) {
+            $message = 'Trabajo bloqueado';
 
-        return $this->redirectToRoute('job_index');
+            $user = $this->getUser();
+
+            $mailerThemplate = $this->renderView('mail/job_loock.html.twig',['user'=>$user,'job'=>$job]);
+
+            $this->mailer->sendEmailMessage('Su anuncio no cumple con nuestros términos',$mailerThemplate,['emplearecuador@gmail.com'],$job->getUser()->getEmail(),'emplearecuador@gmail.com');
+        }
+        return new JsonResponse([
+            'type' => 'success',
+            'message' => $message
+        ]);
     }
 }

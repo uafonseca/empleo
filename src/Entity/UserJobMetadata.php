@@ -43,6 +43,12 @@ class UserJobMetadata
     private $date;
 
     /**
+     * @var boolean
+     * @ORM\Column(type="boolean",nullable=true)
+     */
+    private $appiled;
+
+    /**
      * UserJobMetadata constructor.
      */
     public function __construct()
@@ -103,4 +109,24 @@ class UserJobMetadata
 
         return $this;
     }
+
+    /**
+     * @return bool
+     */
+    public function isAppiled(): ?bool
+    {
+        return $this->appiled;
+    }
+
+    /**
+     * @param bool $appiled
+     * @return UserJobMetadata
+     */
+    public function setAppiled(?bool $appiled): self
+    {
+        $this->appiled = $appiled;
+        return $this;
+    }
+
+
 }

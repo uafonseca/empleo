@@ -37,6 +37,18 @@ class PaymentForJobsMetadataRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function checkFreePack(User $user)
+    {
+        return $this->createQueryBuilder('pfjm')
+            ->leftJoin('pfjm.package','package')
+            ->andWhere('package.price = 0')
+            ->andWhere('pfjm.user =:user')
+            ->setParameter('user',$user)
+            ->orderBy('pfjm.datePurchase')
+            ->getQuery()
+            ->getResult();
+    }
+
 
 
 

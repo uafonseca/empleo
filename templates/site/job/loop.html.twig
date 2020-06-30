@@ -54,7 +54,7 @@
                 <div class="more">
                     <div class="buttons">
                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                            <a id="applied-btn-{{ j.id }}" onclick="applied('{{ j.id }}')" class="button">{% if j.id in app.user.applied %}Cancelar{% else %}Aplica ya!{% endif %}</a>
+                            <a id="applied-btn-{{ j.id }}" onclick="applied('{{ j.id }}')" class="button">{% if get_status_job(app.user,j) %}Cancelar{% else %}Aplica ya!{% endif %}</a>
                             <a onclick="bookMark('{{ j.id }}')" class="favourite {% if j.id in app.user.bookmarked %}active{% endif %} "><i data-feather="heart"></i></a>
                         {% else %}
                             <a data-toggle="modal" data-target="#modal-login" class="button">Aplica ya!</a>

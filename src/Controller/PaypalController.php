@@ -8,12 +8,27 @@ use App\Entity\PaymentForJobsMetadata;
 use App\Entity\PaymentForServices;
 use App\Entity\PaymentForServicesMetadata;
 use App\Entity\User;
+use App\Service\PaymentForJobsMetadataService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PaypalController extends AbstractController
 {
+
+    /** @var PaymentForJobsMetadataService  */
+    private $pfjmService;
+
+    /**
+     * PaypalController constructor.
+     * @param PaymentForJobsMetadataService $pfjmService
+     */
+    public function __construct(PaymentForJobsMetadataService $pfjmService)
+    {
+        $this->pfjmService = $pfjmService;
+    }
+
+
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
@@ -76,6 +91,29 @@ class PaypalController extends AbstractController
     }
 
     /**
+     *  @Route("/test", name="test")
+     */
+    public function test(){
+        $freePurshases = $this->pfjmService->checkFreePack($this->getUser());
+
+        if (count($freePurshases) > 0)
+        {
+            /** @var PaymentForJobsMetadata $meta */
+            $meta =  $freePurshases[0];
+            $intervalo = new \DateInterval('P1M');
+            $fecha = $meta->getDatePurchase();
+
+            $fecha->add($intervalo);
+
+            if ($fecha > new \DateTime('now'))
+            {
+                echo 'OK';
+            }
+        }
+        die;
+    }
+
+    /**
      * @param $packId
      * @param $type
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
@@ -84,6 +122,24 @@ class PaypalController extends AbstractController
      */
     public function buyPackageFree($packId, $type)
     {
+        $freePurshases = $this->pfjmService->checkFreePack($this->getUser());
+
+        if (count($freePurshases) > 0)
+        {
+            /** @var PaymentForJobsMetadata $meta */
+            $meta =  $freePurshases[0];
+            $intervalo = new \DateInterval('P1M');
+            $fecha = $meta->getDatePurchase();
+
+            $fecha->add($intervalo);
+
+            if ($fecha > new \DateTime('now'))
+            {
+                $this->addFlash('error','Solo puede adquirir este paquete una vez cada 30 días');
+                return $this->redirectToRoute('pricing_page', ['type' => $type]);
+            }
+        }
+
         /** @var User $currentUser */
         $currentUser = $this->getUser();
 

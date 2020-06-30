@@ -1,130 +1,105 @@
-{% extends 'base.html.twig' %}
+{% extends 'backend/base.html.twig' %}
 
 {% block title %}Job{% endblock %}
 
-{% block body %}
-    <h1>Job</h1>
+{% block context %}
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ job.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ job.title }}</td>
-            </tr>
-            <tr>
-                <th>Localtion</th>
-                <td>{{ job.localtion }}</td>
-            </tr>
-            <tr>
-                <th>Type</th>
-                <td>{{ job.type }}</td>
-            </tr>
-            <tr>
-                <th>Experience</th>
-                <td>{{ job.experience }}</td>
-            </tr>
-            <tr>
-                <th>Salary_max</th>
-                <td>{{ job.salaryMax }}</td>
-            </tr>
-            <tr>
-                <th>Salary_min</th>
-                <td>{{ job.salaryMin }}</td>
-            </tr>
-            <tr>
-                <th>Qualification</th>
-                <td>{{ job.qualification }}</td>
-            </tr>
-            <tr>
-                <th>Date</th>
-                <td>{{ job.date ? job.date|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>DateCreated</th>
-                <td>{{ job.dateCreated ? job.dateCreated|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ job.description }}</td>
-            </tr>
-            <tr>
-                <th>Responsabilities</th>
-                <td>{{ job.responsabilities }}</td>
-            </tr>
-            <tr>
-                <th>Education</th>
-                <td>{{ job.education }}</td>
-            </tr>
-            <tr>
-                <th>Others</th>
-                <td>{{ job.others }}</td>
-            </tr>
-            <tr>
-                <th>Country</th>
-                <td>{{ job.country }}</td>
-            </tr>
-            <tr>
-                <th>City</th>
-                <td>{{ job.city }}</td>
-            </tr>
-            <tr>
-                <th>Zip_code</th>
-                <td>{{ job.zipCode }}</td>
-            </tr>
-            <tr>
-                <th>Your_localtion</th>
-                <td>{{ job.yourLocaltion }}</td>
-            </tr>
-            <tr>
-                <th>Company_name</th>
-                <td>{{ job.companyName }}</td>
-            </tr>
-            <tr>
-                <th>Web_address</th>
-                <td>{{ job.webAddress }}</td>
-            </tr>
-            <tr>
-                <th>Campany_profile</th>
-                <td>{{ job.campanyProfile }}</td>
-            </tr>
-            <tr>
-                <th>Image</th>
-                <td>{{ job.image }}</td>
-            </tr>
-            <tr>
-                <th>Gender</th>
-                <td>{{ job.gender }}</td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>{{ job.status }}</td>
-            </tr>
-            <tr>
-                <th>ExpiredDate</th>
-                <td>{{ job.expiredDate ? job.expiredDate|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Applications</th>
-                <td>{{ job.applications ? job.applications|join(', ') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Video_link</th>
-                <td>{{ job.videoLink }}</td>
-            </tr>
-            <tr>
-                <th>Images</th>
-                <td>{{ job.images ? job.images|join(', ') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Trabajo</h6>
+        </div>
+        <div class="card-body">
 
-    <a href="{{ path('job_index') }}">back to list</a>
+            <table class="table table-bordered table-hover">
+                <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ job.id }}</td>
+                </tr>
+                <tr>
+                    <th>Título</th>
+                    <td>{{ job.title }}</td>
+                </tr>
+                <tr>
+                    <th>Dirección</th>
+                    <td>{{ job.localtion }}</td>
+                </tr>
+                <tr>
+                    <th>tipo</th>
+                    <td>{{ job.type }}</td>
+                </tr>
+                <tr>
+                    <th>Experiencia</th>
+                    <td>{{ job.experience }}</td>
+                </tr>
+                <tr>
+                    <th>Salario máximo</th>
+                    <td>{{ job.salaryMax }}</td>
+                </tr>
+                <tr>
+                    <th>Salario mínimo</th>
+                    <td>{{ job.salaryMin }}</td>
+                </tr>
+                <tr>
+                    <th>Calificación</th>
+                    <td>{{ job.qualification }}</td>
+                </tr>
+                <tr>
+                    <th>Fecha de publicación</th>
+                    <td>{{ job.date ? job.date|date('Y-m-d H:i:s') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>Fecha de creación</th>
+                    <td>{{ job.dateCreated ? job.dateCreated|date('Y-m-d H:i:s') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>Descripción</th>
+                    <td>{{ job.description }}</td>
+                </tr>
+                <tr>
+                    <th>Responsabilidades</th>
+                    <td>{{ job.responsabilities }}</td>
+                </tr>
+                <tr>
+                    <th>Educación</th>
+                    <td>{{ job.education }}</td>
+                </tr>
+                <tr>
+                    <th>Otros</th>
+                    <td>{{ job.others }}</td>
+                </tr>
+                <tr>
+                    <th>País</th>
+                    <td>{{ job.country }}</td>
+                </tr>
+                <tr>
+                    <th>Cuidad</th>
+                    <td>{{ job.city }}</td>
+                </tr>
+                <tr>
+                    <th>Código postal</th>
+                    <td>{{ job.zipCode }}</td>
+                </tr>
+                <tr>
+                    <th>Ubicación</th>
+                    <td>{{ job.yourLocaltion }}</td>
+                </tr>
+                <tr>
+                    <th>Género</th>
+                    <td>{{ job.gender }}</td>
+                </tr>
 
-    <a href="{{ path('job_edit', {'id': job.id}) }}">edit</a>
+                </tbody>
+            </table>
 
-    {{ include('backend/job/_delete_form.html.twig') }}
+            <a href="{{ path('job_index') }}" class="btn btn-secondary"> <i class="fas fa-arrow-left"></i> Regresar al listado </a>
+
+            <a href="{{ path('job_edit_new', {'id': job.id}) }}" class="btn btn-warning"><i class="fas fa-edit"></i> Editar</a>
+
+            {{ include('backend/job/_delete_form.html.twig') }}
+
+        </div>
+    </div>
+
+
 {% endblock %}

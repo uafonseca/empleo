@@ -25,6 +25,7 @@ class UserJobMetadataRepository extends ServiceEntityRepository
      * @param User $user
      * @param Job $job
      * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function findByUserJob(User $user, Job $job)
     {
@@ -34,7 +35,7 @@ class UserJobMetadataRepository extends ServiceEntityRepository
             ->setParameter('user',$user)
             ->setParameter('job',$job)
             ->getQuery()
-            ->getResult();
+            ->getOneOrNullResult();
     }
     // /**
     //  * @return UserJobMetadata[] Returns an array of UserJobMetadata objects

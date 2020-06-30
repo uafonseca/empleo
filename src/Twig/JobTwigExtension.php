@@ -40,6 +40,7 @@ class JobTwigExtension extends AbstractExtension
         return [
             new TwigFunction('get_job_applications', [$this, 'getJobApplications']),
             new TwigFunction('get_status_candidate', [$this, 'getStatusCandidate']),
+            new TwigFunction('get_status_job', [$this, 'getJobStatus']),
         ];
     }
 
@@ -62,15 +63,33 @@ class JobTwigExtension extends AbstractExtension
      * @param Job $job
      * @param User $user
      * @return string
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function getStatusCandidate(Job $job, User $user)
     {
-        $state = $this->userJobMetadataRepository->findByUserJob($user,$job);
+        $state = $this->userJobMetadataRepository->findByUserJob($user, $job);
 
         if ($state !=null)
         {
-            return $state[0]->getStatus();
+            return $state->getStatus();
         }
         return 'Unknown';
+    }
+
+    /**
+     * @param User $user
+     * @param Job $job
+     * @return string
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getJobStatus(User $user, Job $job){
+        /** @var UserJobMetadata $state */
+        $state = $this->userJobMetadataRepository->findByUserJob($user, $job);
+
+        if ($state !=null)
+        {
+            return $state->isAppiled();
+        }
+        return false;
     }
 }

@@ -147,7 +147,7 @@ class ServiceController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->get('security.token_storage')->getToken()->getUser();
-        $jobs = $em->getRepository(Anouncement::class)->findBy(array('User' => $user), array('date' => 'desc'));
+        $jobs = $em->getRepository(Anouncement::class)->findBy(array('user' => $user), array('date' => 'desc'));
         $pagination = $this->get('knp_paginator')->paginate(
             $jobs,
             $request->query->getInt('page', 1),

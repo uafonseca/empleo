@@ -1,79 +1,80 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <!-- Required meta tags -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="google-site-verification" content="vNFitz6yibJRiBJtDjy97_vfeIFfs-ORViVI3_q_Pvo"/>
-        <meta name="description"
-              content="https://emplear.gessmac.com Está enfocado el proceso de socialización de las ofertas de emple en ecuador y cualquier parte del mundo"/>
-        <meta name="keywords" content="empleo, trabajo, oferta, servicios, ecuador, laboral, personal, currículun vitae"/>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="vNFitz6yibJRiBJtDjy97_vfeIFfs-ORViVI3_q_Pvo"/>
+    <meta name="description"
+          content="https://emplear.gessmac.com Está enfocado el proceso de socialización de las ofertas de emple en ecuador y cualquier parte del mundo"/>
+    <meta name="keywords" content="empleo, trabajo, oferta, servicios, ecuador, laboral, personal, currículun vitae"/>
 
-        <title>Emplear | {% block title %}{% endblock %}</title>
+    <title>Emplear | {% block title %}{% endblock %}</title>
 
-        {{ encore_entry_link_tags('app') }}
-        {{ encore_entry_link_tags('home') }}
+    {{ encore_entry_link_tags('app') }}
+    {{ encore_entry_link_tags('home') }}
 
-        <link rel="icon" href="{{ asset('site/images/favicon.png') }}">
-        <link rel="apple-touch-icon" href="{{ asset('site/images/apple-touch-icon.png') }}">
-        <link rel="apple-touch-icon" sizes="72x72" href="{{ asset('site/images/icon-72x72.png') }}">
-        <link rel="apple-touch-icon" sizes="114x114" href="{{ asset('site/images/icon-114x114.png') }}">
-        <!--[if lt IE 9]>
-        <script src="{{ asset('site/assets/js/html5shiv.min.js') }}"></script>
-        <script src="{{ asset('site/assets/js/respond.min.js') }}"></script>
-        <![endif]-->
+    <link rel="icon" href="{{ asset('site/images/favicon.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('site/images/apple-touch-icon.png') }}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ asset('site/images/icon-72x72.png') }}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ asset('site/images/icon-114x114.png') }}">
+    <!--[if lt IE 9]>
+    <script src="{{ asset('site/assets/js/html5shiv.min.js') }}"></script>
+    <script src="{{ asset('site/assets/js/respond.min.js') }}"></script>
+    <![endif]-->
 
-        {% block stylesheet %}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}
+    {% block stylesheet %}
+    {% endblock %}
+</head>
+<body>
+{% block body %}
 
-        {{ include('site/job/partials/header.html.twig') }}
+    {{ include('site/job/partials/header.html.twig') }}
 
-        {{ include('site/includes/carousel.html.twig') }}
+    {{ include('site/includes/carousel.html.twig') }}
 
-        <div class="section-padding-top padding-bottom-90">
-            <div class="container">
-                <div class="row">
-                    <div class="col">
-                        <div id="company-carousel" class="company-carousel owl-carousel">
-                        </div>
+    <div class="section-padding-top padding-bottom-90">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div id="company-carousel" class="company-carousel owl-carousel">
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="searchAndFilter-wrapper">
-            {{ include('site/includes/filters.html.twig') }}
+    <div class="searchAndFilter-wrapper">
+        {{ include('site/includes/filters.html.twig') }}
 
-                {% block jobs_list %}
-                {% endblock %}
-
-        </div>
+        {% block jobs_list %}
         {% endblock %}
 
-            {{ encore_entry_script_tags('app') }}
+    </div>
+{% endblock %}
 
-            {{ include('site/job/partials/footer.html.twig') }}
-            {{ include('site/job/partials/scripts.html.twig') }}
-        <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-        <script src="{{ asset('bundles/fosjsrouting/js/fos_js_routing.js') }}"></script>
-        {{ encore_entry_script_tags('home') }}
-        {% block js %}
-        {% endblock %}
-        <script>
-            $(function () {
-                $('.post-job').on({
-                    mouseenter: function() {
-                        $('#help').popover('show')
-                    },
-                    mouseleave: function() {
-                        $('#help').popover('hide')
-                    }
-                })
-            })
-        </script>
+{{ encore_entry_script_tags('app') }}
 
-    </body>
+{{ include('site/job/partials/footer.html.twig') }}
+{{ include('site/job/partials/scripts.html.twig') }}
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ asset('bundles/fosjsrouting/js/fos_js_routing.js') }}"></script>
+{{ encore_entry_script_tags('home') }}
+{% block js %}
+{% endblock %}
+{{ include('site/utils/flagsBag.html.twig') }}
+<script>
+    $(function () {
+        $('.post-job').on({
+            mouseenter: function () {
+                $('#help').popover('show')
+            },
+            mouseleave: function () {
+                $('#help').popover('hide')
+            }
+        })
+    })
+</script>
+
+</body>
 </html>

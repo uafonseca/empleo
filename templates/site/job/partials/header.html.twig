@@ -52,8 +52,8 @@
                             {% if is_granted('ROLE_SUPER_ADMIN') %}
                                 <li class="menu-item"><a title="About" href="#">Listado de empleadores</a></li>
                             {% endif %}
-                            <li class="menu-item"><a title="About" href="{{ path('candidates') }}">Lista de
-                                    candidatos</a></li>
+                            {#<li class="menu-item"><a title="About" href="{{ path('candidates') }}">Lista de#}
+                                    {#candidatos</a></li>#}
                             <li class="menu-item"><a title="About" href="{{ path('dashboard') }}">Tablero</a></li>
                             <li class="menu-item"><a title="About" href="{{ path('candidates') }}">Gestión de
                                     candidatos</a></li>
@@ -80,8 +80,8 @@
                                                      href="{{ path('dashboard_bookmarked') }}">Marcados</a></li>
                             <li class="menu-item"><a title="About" href="{{ path('dashboard_applied') }}">Aplicado</a>
                             </li>
-                            <li class="menu-item"><a title="About" href="{{ path('candidates') }}">Lista de
-                                    candidatos</a></li>
+                            {#<li class="menu-item"><a title="About" href="{{ path('candidates') }}">Lista de#}
+                                    {#candidatos</a></li>#}
                         </ul>
                     </li>
                 {% endif %}
@@ -97,8 +97,7 @@
                                                  href="{{ path('static_page_view', {'type': constant('App\\Entity\\StaticPage::TYPE_CONTACT')|url_encode}) }}">Contáctenos</a>
                         </li>
                         <li class="menu-item"><a title="About"
-                                                 href="{{ path('static_page_view', {'type': constant('App\\Entity\\StaticPage::TYPE_PRICE')|url_encode}) }}">Determinación
-                                de precios</a></li>
+                                                 href="{{ path('static_page_view', {'type': constant('App\\Entity\\StaticPage::TYPE_PRICE')|url_encode}) }}">Planes de servicios</a></li>
                         <li class="menu-item"><a title="About"
                                                  href="{{ path('static_page_view', {'type': constant('App\\Entity\\StaticPage::TYPE_HOW_WORKING')|url_encode}) }}">Cómo
                                 funciona</a></li>

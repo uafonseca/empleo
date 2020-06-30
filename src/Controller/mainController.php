@@ -15,6 +15,7 @@ use App\Entity\Notification;
 use App\Entity\Payment;
 use App\Entity\PaymentForJobs;
 use App\Entity\PaymentForServices;
+use App\Entity\PaymentForServicesMetadata;
 use App\Entity\Policy;
 use App\Entity\Resume;
 use App\Entity\StaticPage;
@@ -36,6 +37,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 use Symfony\Component\Routing\Annotation\Route;
 use App\constants;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -127,13 +129,32 @@ class mainController extends Controller
         $packagesJobs = $this->jobService->findAviableJobsPacks($this->getUser());
         $packagesServices = $em->getRepository(PaymentForServices::class)->findAll();
 
+        /** @var FlashBag $flassh */
+        $flassh = $this->container->get('session')->getFlashBag();
+
+        $all = $flassh->all();
+        foreach ($all as $key => $value)
+        {
+            $this->addFlash('success', 'asas');
+        }
+
+        $type = $request->query->get('type');
+
+        if(!isset($type))
+        {
+            if($this->isGranted('ROLE_ADMIN'))
+                $type = 'job';
+            else
+                $type = 'service';
+        }
+
         return $this->render(
             'site/pricing.html.twig',
             [
                 'notifications' => $this->loadNotifications(),
                 'packagesJobs' => $packagesJobs,
                 'packagesServices' => $packagesServices,
-                'type' => $request->query->get('type')
+                'type' => $type
             ]
         );
     }
@@ -366,12 +387,16 @@ class mainController extends Controller
                 )
             );
         } else {
+            $active = $this->getDoctrine()->getRepository(PaymentForServicesMetadata::class)->checkUser($this->getUser());
+
+
             return $this->render(
                 'user/edit_profile.html.twig',
                 array(
                     'form' => $form->createView(),
                     'notifications' => $this->loadNotifications(),
-                    'paymentMetadata' => $paymentMetadata
+                    'paymentMetadata' => $paymentMetadata,
+                    'activePack' => $active != null,
                 )
             );
         }

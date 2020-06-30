@@ -105,7 +105,7 @@ class PaymentForJobsMetadata
         return $this;
     }
 
-    public function getDatePurchase(): ?\DateTimeInterface
+    public function getDatePurchase(): ?\DateTime
     {
         return $this->datePurchase;
     }

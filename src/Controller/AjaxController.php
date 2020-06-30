@@ -308,15 +308,28 @@ class AjaxController extends Controller
         $entityManager = $this->getDoctrine()->getManager();
 
         if ($metadata != null) {
-            $metadata->setStatus(UserJobMetadata::STATUS_CANCELED);
-            $this->notificate(
-                constants::NOTIFICATIONS_JOB_APPLIED_CANCEL,
-                "Cancelaste tu propuesta: " . $job->getTitle(),
-                $user
-            );
-            $new = false;
+            if ($metadata->getStatus() === UserJobMetadata::STATUS_CANCELED){
+                $metadata->setStatus(UserJobMetadata::STATUS_APPLIED);
+                $metadata->setAppiled(true);
+                $this->notificate(
+                    constants::NOTIFICATIONS_JOB_APPLIED_OK,
+                    "Cancelaste tu propuesta: " . $job->getTitle(),
+                    $user
+                );
+            }else{
+                if ($metadata->getStatus() === UserJobMetadata::STATUS_APPLIED){
+                    $metadata->setStatus(UserJobMetadata::STATUS_CANCELED);
+                    $metadata->setAppiled(false);
+                    $this->notificate(
+                        constants::NOTIFICATIONS_JOB_APPLIED_CANCEL,
+                        "Cancelaste tu propuesta: " . $job->getTitle(),
+                        $user
+                    );
+                }
+            }
         } else {
             $metadata = new UserJobMetadata();
+            $metadata->setAppiled(true);
             $metadata
                 ->setStatus(UserJobMetadata::STATUS_APPLIED)
                 ->setDate(new \DateTime('now'))
@@ -324,13 +337,12 @@ class AjaxController extends Controller
                 ->setJob($job);
             $entityManager->persist($metadata);
             $job->addUser($user);
-            $new = true;
             $entityManager->flush();
         }
 
         return new JsonResponse([
             'response' => 'success',
-            'data' => $new,
+            'data' => $metadata->isAppiled(),
         ]);
 
     }

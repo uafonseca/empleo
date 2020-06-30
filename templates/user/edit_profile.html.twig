@@ -162,56 +162,62 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="dashboard-section media-inputs">
-                                <h4><i data-feather="image"></i>Video</h4>
-                                <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">Video Intro</label>
-                                    <div class="col-sm-9">
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text">Link</div>
+                            {% if activePack %}
+                                <div class="dashboard-section media-inputs">
+                                    <h4><i data-feather="image"></i>Video</h4>
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Video Intro</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">Link</div>
+                                                </div>
+                                                {{ form_widget(form.videoIntro, { 'attr': {'class': 'form-control','placeholder':'https://www.youtube.com/watch?v=ZRkdyjJ_489M'} } ) }}
                                             </div>
-                                            {{ form_widget(form.videoIntro, { 'attr': {'class': 'form-control','placeholder':'https://www.youtube.com/watch?v=ZRkdyjJ_489M'} } ) }}
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="dashboard-section social-inputs">
-                                <h4><i data-feather="cast"></i>Redes sociales</h4>
-                                <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">Links</label>
-                                    <div class="col-sm-9">
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text"><i class="fab fa-facebook-f"></i></div>
+                                <div class="dashboard-section social-inputs">
+                                    <h4><i data-feather="cast"></i>Redes sociales</h4>
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Links</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text"><i class="fab fa-facebook-f"></i>
+                                                    </div>
+                                                </div>
+                                                {{ form_widget(form.socialFacebook, { 'attr': {'class': 'form-control','placeholder':'facebook.com/username'} } ) }}
                                             </div>
-                                            {{ form_widget(form.socialFacebook, { 'attr': {'class': 'form-control','placeholder':'facebook.com/username'} } ) }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="offset-sm-3 col-sm-9">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text"><i class="fab fa-twitter"></i></div>
+                                                </div>
+                                                {{ form_widget(form.socialTwitter, { 'attr': {'class': 'form-control','placeholder':'twitter.com/username'} } ) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="offset-sm-3 col-sm-9">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text"><i class="fab fa-google-plus"></i>
+                                                    </div>
+                                                </div>
+                                                {{ form_widget(form.socialGoogle, { 'attr': {'class': 'form-control','placeholder':'google.com/username'} } ) }}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <div class="offset-sm-3 col-sm-9">
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text"><i class="fab fa-twitter"></i></div>
-                                            </div>
-                                            {{ form_widget(form.socialTwitter, { 'attr': {'class': 'form-control','placeholder':'twitter.com/username'} } ) }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="offset-sm-3 col-sm-9">
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text"><i class="fab fa-google-plus"></i></div>
-                                            </div>
-                                            {{ form_widget(form.socialGoogle, { 'attr': {'class': 'form-control','placeholder':'google.com/username'} } ) }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            {% endif %}
                             <button class="button">Guardar</button>
-                            {{ form_rest(form) }}
+                            <div class="hidden">
+                                {{ form_rest(form) }}
+                            </div>
                             {{ form_end(form) }}
                         </div>
                         {% include 'user/dashboard_sidebar.html.twig' %}
@@ -226,14 +232,44 @@
 
     {#<script src="{{ asset('site/assets/js/jquery.ajaxchimp.min.js') }}"></script>#}
 {% endblock %}
-{% block footer %}
-    {{ parent() }}
+{% block js %}
     <script src="{{ asset('site/dashboard/js/dashboard.js') }}"></script>
     <script src="{{ asset('site/dashboard/js/datePicker.js') }}"></script>
-    <script src="{{ asset('site/dashboard/js/upload-input.js') }}"></script>
+    <script>
+        (function ($) {
+            $(document).ready(function () {
+
+                $('.file-input').change(function(){
+                    var curElement = $('.image');
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        // get loaded data and render thumbnail.
+                        curElement.attr('src', e.target.result);
+                    };
+
+                    // read the image file as a data URL.
+                    reader.readAsDataURL(this.files[0]);
+                });
+
+                $('.send-file .file-input').change(function(){
+                    var curElement = $(this).parent().parent().find('.image');
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        // get loaded data and render thumbnail.
+                        curElement.attr('src', e.target.result);
+                    };
+
+                    // read the image file as a data URL.
+                    reader.readAsDataURL(this.files[0]);
+                });
+            })
+        })(jQuery)
+    </script>
     <script src="{{ asset('site/js/bootstrap-multiselect.js') }}"></script>
     <script type="text/javascript">
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#multiselect').multiselect({
                 buttonWidth: '300px',
 
