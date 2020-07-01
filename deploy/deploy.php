@@ -12,8 +12,12 @@ inventory('hosts.yml');
 set('git_tty', false);
 
 set('shared_dirs', ['var/log', 'var/sessions', 'vendor', 'public/images', 'public/site/images', 'public/site/docs']);
-set('writable_dirs', ['var', 'public/images', 'public/site']);
+set('writable_dirs', ['var', 'var/cache','public/images', 'public/site']);
 set('writable_mode', 'chmod');
+set('writable_use_sudo',true);
+set('writable_chmod_recursive',true);
+
+set('ssh_multiplexing', true);
 
 set('release_name', function () {
     return date('YmdHis');
