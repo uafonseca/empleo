@@ -95,7 +95,7 @@ class JobDatatable extends AbstractDatatable
                 'title' => $this->translator->trans('sg.datatables.actions.title'),
                 'actions' => [
                     TableActions::show('job_show_new'),
-                    TableActions::delete('job_delete'),
+                    TableActions::delete('job_delete_backend'),
                 ]
             ])
         ;

@@ -195,7 +195,7 @@ class JobController extends AbstractController
     /**
      * @param Job $job
      * @return Response
-     * @Route("/job/{id}", name="job_delete")
+     * @Route("/job/delete/{id}", name="job_delete_backend")
      */
     public function delete(Job $job)
     {
