@@ -20,12 +20,6 @@
                                 <li><a href="#"><i data-feather="instagram"></i></a></li>
                                 <li><a href="#"><i data-feather="youtube"></i></a></li>
                             </ul>
-                            {#<select class="selectpicker select-language" id="select-country">#}
-                                {#<option value="United States of America" selected>EN</option>#}
-                                {#<option value="United Kingdom">GB</option>#}
-                                {#<option value="Spain">ES</option>#}
-                                {#<option value="Portugal">PT</option>#}
-                            {#</select>#}
                         </div>
                     </div>
                 </div>
@@ -39,9 +33,8 @@
                             <h4>Information</h4>
                             <div class="widget-inner">
                                 <ul>
-                                    <li><a href="#">Sobre nosotros</a></li>
-                                    <li><a href="#">Contáctenos</a></li>
-                                    <li><a href="#">Política de privacidad</a></li>
+                                    <li><a href="{{ path('static_page_view', {'type': constant('App\\Entity\\StaticPage::TYPE_ABOUT') |url_encode}) }}">Sobre nosotros</a></li>
+                                    <li><a href="{{ path('static_page_view', {'type': constant('App\\Entity\\StaticPage::TYPE_CONTACT')|url_encode}) }}">Contáctenos</a></li>
                                     <li><a href="{{ path('site_policy') }}">Términos & Condiciones</a></li>
                                 </ul>
                             </div>
@@ -52,11 +45,9 @@
                             <h4>Candidatos</h4>
                             <div class="widget-inner">
                                 <ul>
-                                    <li><a href="#">Crear una cuenta</a></li>
-                                    <li><a href="#">Orientación profesional </a></li>
-                                    <li><a href="#">Mi oficina</a></li>
-                                    <li><a href="#">Preguntas más frecuentes</a></li>
-                                    <li><a href="#">Guías de video</a></li>
+                                    <li><a href="{{ path('app_register') }}">Crear una cuenta</a></li>
+                                    <li><a href="{{ path('static_page_view', {'type': constant('App\\Entity\\StaticPage::TYPE_HOW_WORKING')|url_encode}) }}">Cómo funciona</a></li>
+                                    <li><a href="{{ path('static_page_view', {'type': constant('App\\Entity\\StaticPage::TYPE_FAQ')|url_encode}) }}">Preguntas más frecuentes</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -66,10 +57,9 @@
                             <h4>Empleadores</h4>
                             <div class="widget-inner">
                                 <ul>
-                                    <li><a href="#">Crear una cuenta</a></li>
-                                    <li><a href="#">Productos / Servicios</a></li>
-                                    <li><a href="#">Publicar un trabajo</a></li>
-                                    <li><a href="#">Preguntas más frecuentes</a></li>
+                                    <li><a href="{{ path('app_register') }}">Crear una cuenta</a></li>
+                                    <li><a href="{{ path('job_new') }}">Publicar un trabajo</a></li>
+                                    <li><a href="{{ path('static_page_view', {'type': constant('App\\Entity\\StaticPage::TYPE_FAQ')|url_encode}) }}">Preguntas más frecuentes</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -81,7 +71,7 @@
                                 especiales.</p>
                             <form action="#" class="newsletter-form form-inline">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Email address...">
+                                    <input type="text" class="form-control" placeholder="Su correo...">
                                 </div>
                                 <button class="btn button primary-bg">Enviar<i class="fas fa-caret-right"></i></button>
                                 <p class="newsletter-error">0 - porfavor introduzca un valor</p>
@@ -99,7 +89,7 @@
                         <div class="footer-bottom border-top">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <p class="copyright-text">Copyright <a href="#">emplear.gessmac.com</a> {{ 'now'|date('Y') }}, Todos
+                                    <p class="copyright-text">Copyright <a href="#">{{ url('homepage') }}</a> {{ 'now'|date('Y') }}, Todos
                                         los derechos reservados</p>
                                 </div>
                                 <div class="col-lg-6">
