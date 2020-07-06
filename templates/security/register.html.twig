@@ -14,7 +14,7 @@
             z-index: 1;
         }
         body{
-            background: url({{ asset('site/images/cover_login.jpg') }}) no-repeat;
+            background: url({{ asset('build/backend/images/bg/login-img.jpeg') }}) no-repeat;
             background-size:cover ;
             height: 90%;
         }
@@ -34,6 +34,7 @@
             opacity: 0.9!important;
             margin-right: 10px;
             margin-bottom: 10px;
+            width: 62%;
         }
         .register-left{
             text-align: center;
@@ -84,7 +85,7 @@
         }
         .btnRegister{
             float: right;
-            margin-top: 10%;
+            /*margin-top: 10%;*/
             border: none;
             border-radius: 1.5rem;
             padding: 2%;
@@ -99,7 +100,7 @@
             border: none;
             background: #0062cc;
             border-radius: 1.5rem;
-            width: 26%;
+            /*width: 26%;*/
             float: right;
         }
         .register .nav-tabs .nav-link{
@@ -192,11 +193,14 @@
                                 {% if form_errors(form.plainPassword.second) %}<div class="error">{{ form_errors(form.plainPassword.second)}}</div>{% endif %}
                             </div>
                             <div class="form-group">
-                                <input required type="radio" name="terms" id=""><span> Acepto los <a href="#">términos</a> & <a
-                                            href="#">condiciones</a></span>
+                                <label for="terms">
+                                    <input required type="checkbox" name="terms" id="terms"/>
+                                    <span> Acepto los <a href="{{ path('site_policy') }}">términos & condiciones</a></span>
+                                </label>
+
                             </div>
-                            <div class="form-group">
-                                <div style="visibility: hidden;">
+                            <div style="visibility: hidden;">
+                                <div >
                                     {{ form_widget(form.candidate, {attr:{'type':'hidden','checked':'checked'}}) }}
                                     {{ form_widget(form.employer, {attr:{'type':'hidden'}}) }}
                                     {{ form_widget(form.companyName, {attr:{'type':'hidden'}}) }}
@@ -239,8 +243,10 @@
                                 {% if form_errors(form2.plainPassword.second) %}<div class="error">{{ form_errors(form2.plainPassword.second)}}</div>{% endif %}
                             </div>
                             <div class="form-group">
-                                <input required type="radio" name="terms" id=""><span> Acepto los <a href="#">términos</a> & <a
-                                            href="#">condiciones</a></span>
+                                <label for="terms">
+                                    <input required type="checkbox" name="terms" id="terms"/>
+                                    <span> Acepto los <a href="{{ path('site_policy') }}">términos & condiciones</a></span>
+                                </label>
                             </div>
                             <div class="form-group">
                                 <div style="visibility: hidden;">

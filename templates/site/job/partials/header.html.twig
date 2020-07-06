@@ -12,7 +12,6 @@
             <ul class="navbar-nav ml-auto main-nav">
                 <li class="menu-item active"><a title="Home" href="{{ path('homepage') }}">Inicio</a></li>
                 {% if is_granted('ROLE_SUPER_ADMIN') %}
-                    {#<li class="menu-item active"><a title="Home" href="/admin">Administración</a></li>#}
                     <li class="menu-item dropdown">
                         <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true"
                            aria-expanded="false">Administración </a>
@@ -80,8 +79,6 @@
                                                      href="{{ path('dashboard_bookmarked') }}">Marcados</a></li>
                             <li class="menu-item"><a title="About" href="{{ path('dashboard_applied') }}">Aplicado</a>
                             </li>
-                            {#<li class="menu-item"><a title="About" href="{{ path('candidates') }}">Lista de#}
-                                    {#candidatos</a></li>#}
                         </ul>
                     </li>
                 {% endif %}
@@ -92,7 +89,6 @@
                         <li class="menu-item"><a title="About"
                                                  href="{{ path('static_page_view', {'type': constant('App\\Entity\\StaticPage::TYPE_ABOUT') |url_encode}) }}">Sobre
                                 Nosotros</a></li>
-                        {#<li class="menu-item"><a title="About" href="#">Blog</a></li>#}
                         <li class="menu-item"><a title="About"
                                                  href="{{ path('static_page_view', {'type': constant('App\\Entity\\StaticPage::TYPE_CONTACT')|url_encode}) }}">Contáctenos</a>
                         </li>
@@ -104,9 +100,6 @@
                         <li class="menu-item"><a title="About"
                                                  href="{{ path('static_page_view', {'type': constant('App\\Entity\\StaticPage::TYPE_FAQ')|url_encode}) }}">FAQ</a>
                         </li>
-                        {#<li class="menu-item"><a title="About" href="#">Realizar Pedido</a></li>#}
-                        {#<li class="menu-item"><a title="About" href="#">Pago Completo</a></li>#}
-                        {#<li class="menu-item"><a title="About" href="#">Factura</a></li>#}
                         <li class="menu-item"><a title="About" href="{{ path('site_policy') }}">Términos y
                                 condiciones</a></li>
                     </ul>
@@ -251,7 +244,7 @@
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
                                     <label class="form-check-label" for="defaultCheck2">
-                                        Acepto los <a href="#">términos y condiciones</a>
+                                        Acepto los <a href="{{ path('site_policy') }}">términos y condiciones</a>
                                     </label>
                                 </div>
                             </div>
@@ -267,12 +260,12 @@
         <section class="" style="position: absolute;z-index: 100; text-align: center;width: 100% ">
             <div class="row">
                 <div class="col-12">
-                    <div class="banner-content">
+                    <div class="banner-content" style="color: #0a0a0a;">
                         <h1>La manera más fácil de encontrar trabajo</h1>
                         <p> Encuentre Empleos y Oportunidades de Carrera</p>
                         <div class="banner-search">
                             <form action="{{ path('search') }}" method="post" class="search-form">
-                                <input name="keywords" type="search" placeholder="Ingresar palabras clave">
+                                <input name="keywords" type="search"  placeholder="Ingresar palabras clave">
                                 <select name="location" class="selectpicker" id="search-location">
                                     <option value="" selected>Ubicación</option>
                                     {% for l in locations %}
