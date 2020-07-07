@@ -1,5 +1,5 @@
 <header>
-    <nav class="navbar navbar-expand-xl absolute-nav transparent-nav cp-nav navbar-light bg-light fluid-nav">
+    <nav class="navbar navbar-expand-xl absolute-nav  cp-nav navbar-light bg-light fluid-nav" style="opacity: 0.9;">
         <a class="navbar-brand" href="{{ path('homepage') }}">
             <img src="{{ asset('site/images/logo.png') }}" class="img-fluid" alt="" width="200">
         </a>
@@ -257,25 +257,29 @@
     </div>
     <!-- Banner -->
     <div id="banner" class="banner banner-4 ">
-        <section class="" style="position: absolute;z-index: 100; text-align: center;width: 100% ">
+        <section class="" style="position: absolute; z-index: 100; text-align: center; width: 100% ">
             <div class="row">
                 <div class="col-12">
-                    <div class="banner-content" style="color: #0a0a0a;">
-                        <h1>La manera más fácil de encontrar trabajo</h1>
-                        <p> Encuentre Empleos y Oportunidades de Carrera</p>
-                        <div class="banner-search">
-                            <form action="{{ path('search') }}" method="post" class="search-form">
-                                <input name="keywords" type="search"  placeholder="Ingresar palabras clave">
-                                <select name="location" class="selectpicker" id="search-location">
-                                    <option value="" selected>Ubicación</option>
-                                    {% for l in locations %}
-                                        <option value="{{ l.name }}">{{ l.name }}</option>
-                                    {% endfor %}
-                                </select>
-                                <button class="button primary-bg"><i class="fas fa-search"></i>Buscar</button>
+                    <div class="banner-content">
+                        <div class="banner-4">
+                            <form action="{{ path('search') }}" class="form-inline search-form custom-search-form" role="form" method="post">
+                                <div class="input-group text-center">
+                                    <div class="form-group">
+                                        <input name="keywords" class="form-control"  type="search" placeholder="Ingresar palabras clave">
+                                    </div>
+                                    <div class="form-group">
+                                        <select class="form-control" name="location" id="selectpicker search-location">
+                                            <option value="" selected>Ubicación</option>
+                                            {% for l in locations %}
+                                            <option value="{{ l.name }}">{{ l.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <button id="search-btn" class="button primary-bg"><i class="fas fa-search"></i>Buscar</button>
+                                    </div>
+                                </div>
                             </form>
-                            <div class="trending-key">
-                            </div>
                         </div>
                     </div>
                 </div>

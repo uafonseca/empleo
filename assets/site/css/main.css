@@ -436,7 +436,7 @@ a:focus {
 }
 
 .banner-4 .banner-content {
-    padding: 290px 0 210px;
+    padding: 605px 0 210px;
     text-align: center;
     color: #ffffff;
 }
@@ -4870,7 +4870,7 @@ header {
 
 header .absolute-nav {
     position: absolute;
-    top: 25px;
+    /*top: 25px;*/
     left: 0;
     right: 0;
     z-index: 999;
@@ -4918,8 +4918,17 @@ header .absolute-nav {
 }
 
 .cp-nav .navbar-collapse .navbar-nav .post-job a {
-    background: #ffffff;
-    color: #246df8;
+    background: #007bff;
+    color: #fffafb;
+    padding: 12px 30px;
+    border-radius: 3px;
+    font-weight: 500;
+}
+
+.cp-nav .navbar-collapse .navbar-nav .post-job-new {
+    /*background: #007bff;*/
+    color: #007bff;
+    border-color: #007bff;
     padding: 12px 30px;
     border-radius: 3px;
     font-weight: 500;
@@ -10127,4 +10136,20 @@ body.loading .ajax {
    modal element will be visible */
 body.loading .ajax {
     display: block;
+}
+
+.custom-search-form{
+    background-color: #f8f9fa;
+    padding: 10px 0 32px 100px;
+    height: 100px;
+    opacity: 0.9;
+}
+#search-btn{
+    height: 50px;
+    font-size: 24px;
+}
+input[name="keywords"], select[name="location"]{
+    width: 600px!important;
+    height: 50px;
+    font-size: 24px;
 }
