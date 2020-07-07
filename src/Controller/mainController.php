@@ -20,6 +20,7 @@ use App\Entity\Policy;
 use App\Entity\Resume;
 use App\Entity\StaticPage;
 use App\Entity\User;
+use App\Entity\UserJobMetadata;
 use App\Form\ContactMessageFormType;
 use App\Form\ResumeFilesType;
 use App\Form\ResumeType;
@@ -614,14 +615,19 @@ class mainController extends Controller
 
     /**
      * @param Job $job
-     * @param UserRepository $userRepository
      * @param Request $request
      * @return Response
      * @Route("/candidates/job/{id}/detail", name="canditate_detail_by_job")
      */
-    public function showCandidates(Job $job, UserRepository $userRepository, Request $request)
+    public function showCandidates(Job $job, Request $request)
     {
-        $candidates = $userRepository->findCandidates($this->getUser(), $job);
+        $candidates = [];
+
+        foreach ($job->getUserJobMetadata() as $metadata){
+            if ($metadata->getStatus() == UserJobMetadata::STATUS_APPLIED){
+                $candidates[] = $metadata->getUser();
+            }
+        }
 
         $pagination = $this->get('knp_paginator')->paginate(
             $candidates,
