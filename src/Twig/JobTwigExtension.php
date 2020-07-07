@@ -53,7 +53,7 @@ class JobTwigExtension extends AbstractExtension
         $count = 0;
         /** @var UserJobMetadata $metadata */
         foreach ($job->getUserJobMetadata() as $metadata){
-            if ($metadata->getStatus() != UserJobMetadata::STATUS_CANCELED)
+            if ($metadata->getStatus() == UserJobMetadata::STATUS_APPLIED)
                 $count ++ ;
         }
         return $count;

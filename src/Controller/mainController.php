@@ -38,6 +38,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\constants;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -65,6 +67,9 @@ class mainController extends Controller
     /** @var Mailer  */
     private $mailer;
 
+    /** @var SessionInterface  */
+    private $session;
+
 
     /**
      * mainController constructor.
@@ -72,14 +77,16 @@ class mainController extends Controller
      * @param JobService $jobService
      * @param CompanyService $companyService
      * @param Mailer $mailer
+     * @param SessionInterface $session
      */
-    public function __construct(CategoryService $categoryService, JobService $jobService, CompanyService $companyService, Mailer $mailer)
+    public function __construct(CategoryService $categoryService, JobService $jobService, CompanyService $companyService, Mailer $mailer, SessionInterface $session)
     {
         $this->categoryService = $categoryService;
         $this->categoryService = $categoryService;
         $this->jobService = $jobService;
         $this->companyService = $companyService;
         $this->mailer = $mailer;
+        $this->session = $session;
     }
 
 
@@ -129,15 +136,6 @@ class mainController extends Controller
         $packagesJobs = $this->jobService->findAviableJobsPacks($this->getUser());
         $packagesServices = $em->getRepository(PaymentForServices::class)->findAll();
 
-        /** @var FlashBag $flassh */
-        $flassh = $this->container->get('session')->getFlashBag();
-
-        $all = $flassh->all();
-        foreach ($all as $key => $value)
-        {
-            $this->addFlash('success', 'asas');
-        }
-
         $type = $request->query->get('type');
 
         if(!isset($type))
@@ -147,14 +145,17 @@ class mainController extends Controller
             else
                 $type = 'service';
         }
-
+        $_error = $this->session->get('_error');
+        if ($_error)
+            $this->session->remove('_error');
         return $this->render(
             'site/pricing.html.twig',
             [
                 'notifications' => $this->loadNotifications(),
                 'packagesJobs' => $packagesJobs,
                 'packagesServices' => $packagesServices,
-                'type' => $type
+                'type' => $type,
+                '_error' => $_error
             ]
         );
     }

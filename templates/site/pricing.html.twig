@@ -29,6 +29,13 @@
                     <div class="dashboard-container">
                         <div class="dashboard-content-wrapper">
                             <div class="row">
+                                {% if _error is not null %}
+                                    <div class="col-md-12">
+                                        <div class="alert alert-danger ">
+                                            <i class="fa fa-warning"></i>{{ _error }}
+                                        </div>
+                                    </div>
+                                {% endif %}
                                 {% if is_granted('ROLE_ADMIN') and type == 'job' %}
                                     {% for p in packagesJobs %}
                                         <div class="col-md-4">

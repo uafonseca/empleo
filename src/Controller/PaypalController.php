@@ -11,6 +11,8 @@ use App\Entity\User;
 use App\Service\PaymentForJobsMetadataService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PaypalController extends AbstractController
@@ -19,13 +21,18 @@ class PaypalController extends AbstractController
     /** @var PaymentForJobsMetadataService  */
     private $pfjmService;
 
+    /** @var SessionInterface  */
+    private $session;
+
     /**
      * PaypalController constructor.
      * @param PaymentForJobsMetadataService $pfjmService
+     * @param SessionInterface $session
      */
-    public function __construct(PaymentForJobsMetadataService $pfjmService)
+    public function __construct(PaymentForJobsMetadataService $pfjmService, SessionInterface $session)
     {
         $this->pfjmService = $pfjmService;
+        $this->session = $session;
     }
 
 
@@ -135,7 +142,9 @@ class PaypalController extends AbstractController
 
             if ($fecha > new \DateTime('now'))
             {
-                $this->addFlash('error','Solo puede adquirir este paquete una vez cada 30 días');
+
+                $this->session->set('_error', 'Solo puede adquirir este paquete una vez cada 30 días');
+
                 return $this->redirectToRoute('pricing_page', ['type' => $type]);
             }
         }

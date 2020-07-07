@@ -156,11 +156,11 @@
                 {% endif %}
                 {% if app.user == false %}
                     <li class="menu-item login-popup">
-                        <button title="Title" type="button" data-toggle="modal" data-target="#exampleModalLong">Entrar
-                        </button>
+                        <a href="#" title="Title" type="button" data-toggle="modal" data-target="#exampleModalLong">Entrar
+                        </a>
                     </li>
-                    <li class="menu-item login-popup"><a href="{{ path('app_register') }}" title="Registro"
-                                                         type="button" data-toggle="" data-target="#">Registrarse</a>
+                    <li class="menu-item login-popup">
+                        <a href="{{ path('app_register') }}" title="Registro" >Registrarse</a>
                     </li>
                 {% else %}
                     <li class="menu-item dropdown">
@@ -256,35 +256,35 @@
         </div>
     </div>
     <!-- Banner -->
-    <div id="banner" class="banner banner-4 ">
-        <section class="" style="position: absolute; z-index: 100; text-align: center; width: 100% ">
-            <div class="row">
-                <div class="col-12">
-                    <div class="banner-content">
-                        <div class="banner-4">
-                            <form action="{{ path('search') }}" class="form-inline search-form custom-search-form" role="form" method="post">
-                                <div class="input-group text-center">
-                                    <div class="form-group">
-                                        <input name="keywords" class="form-control"  type="search" placeholder="Ingresar palabras clave">
-                                    </div>
-                                    <div class="form-group">
-                                        <select class="form-control" name="location" id="selectpicker search-location">
-                                            <option value="" selected>Ubicación</option>
-                                            {% for l in locations %}
-                                            <option value="{{ l.name }}">{{ l.name }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <button id="search-btn" class="button primary-bg"><i class="fas fa-search"></i>Buscar</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
+    {#<div id="banner" class="banner banner-4 ">#}
+        {#<section class="" style="position: absolute; z-index: 100; text-align: center; width: 100% ">#}
+            {#<div class="row">#}
+                {#<div class="col-12">#}
+                    {#<div class="banner-content">#}
+                        {#<div class="banner-4">#}
+                            {#<form action="{{ path('search') }}" class="form-inline search-form custom-search-form" role="form" method="post">#}
+                                {#<div class="input-group text-center">#}
+                                    {#<div class="form-group">#}
+                                        {#<input name="keywords" class="form-control"  type="search" placeholder="Ingresar palabras clave">#}
+                                    {#</div>#}
+                                    {#<div class="form-group">#}
+                                        {#<select class="form-control" name="location" id="selectpicker search-location">#}
+                                            {#<option value="" selected>Ubicación</option>#}
+                                            {#{% for l in locations %}#}
+                                            {#<option value="{{ l.name }}">{{ l.name }}</option>#}
+                                            {#{% endfor %}#}
+                                        {#</select>#}
+                                    {#</div>#}
+                                    {#<div class="form-group">#}
+                                        {#<button id="search-btn" class="button primary-bg"><i class="fas fa-search"></i>Buscar</button>#}
+                                    {#</div>#}
+                                {#</div>#}
+                            {#</form>#}
+                        {#</div>#}
+                    {#</div>#}
+                {#</div>#}
+            {#</div>#}
+        {#</section>#}
+    {#</div>#}
     <!-- Banner End -->
 </header>
