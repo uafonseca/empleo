@@ -226,53 +226,41 @@
             </div>
         </div>
     </div>
-
-    <!-- Call to Action -->
-    <!-- Call to Action End -->
-
-    {#<script src="{{ asset('site/assets/js/jquery.ajaxchimp.min.js') }}"></script>#}
 {% endblock %}
 {% block js %}
-    <script src="{{ asset('site/dashboard/js/dashboard.js') }}"></script>
     <script src="{{ asset('site/dashboard/js/datePicker.js') }}"></script>
-    <script>
-        (function ($) {
-            $(document).ready(function () {
-
-                $('.file-input').change(function(){
-                    var curElement = $('.image');
-                    var reader = new FileReader();
-
-                    reader.onload = function (e) {
-                        // get loaded data and render thumbnail.
-                        curElement.attr('src', e.target.result);
-                    };
-
-                    // read the image file as a data URL.
-                    reader.readAsDataURL(this.files[0]);
-                });
-
-                $('.send-file .file-input').change(function(){
-                    var curElement = $(this).parent().parent().find('.image');
-                    var reader = new FileReader();
-
-                    reader.onload = function (e) {
-                        // get loaded data and render thumbnail.
-                        curElement.attr('src', e.target.result);
-                    };
-
-                    // read the image file as a data URL.
-                    reader.readAsDataURL(this.files[0]);
-                });
-            })
-        })(jQuery)
-    </script>
     <script src="{{ asset('site/js/bootstrap-multiselect.js') }}"></script>
-    <script type="text/javascript">
+    <script>
         $(document).ready(function () {
             $('#multiselect').multiselect({
                 buttonWidth: '300px',
 
+            });
+            console.log('asda')
+            $('.file-input').change(function(){
+                var curElement = $('.image');
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    // get loaded data and render thumbnail.
+                    curElement.attr('src', e.target.result);
+                };
+
+                // read the image file as a data URL.
+                reader.readAsDataURL(this.files[0]);
+            });
+
+            $('#user_fully_employer_imageFile').change(function(){
+                var curElement = $(this).parent().parent().parent().find('.image');
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    // get loaded data and render thumbnail.
+                    curElement.attr('src', e.target.result);
+                };
+
+                // read the image file as a data URL.
+                reader.readAsDataURL(this.files[0]);
             });
         });
     </script>

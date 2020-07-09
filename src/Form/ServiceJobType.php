@@ -16,7 +16,8 @@
 	use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 	use Symfony\Component\Form\AbstractType;
 	use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-	use Symfony\Component\Form\Extension\Core\Type\DateType;
+    use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+    use Symfony\Component\Form\Extension\Core\Type\DateType;
 	use Symfony\Component\Form\Extension\Core\Type\FileType;
 	use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 	use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -91,7 +92,13 @@
 						'required' => true,
 					]
 				)
-				->add('images',ImageType::class)
+				->add('images',CollectionType::class,[
+				    'entry_type' => ImageType::class,
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                    'required' => true,
+                    'label'=> false
+                ])
 				->add('save', SubmitType::class, ['label' => 'Publicar su trabajo']);
 			;
 		}

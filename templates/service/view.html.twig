@@ -55,10 +55,10 @@
                                             <div class="company-carousel owl-carousel">
                                                 {% for image in job.images %}
                                                     <div class="company-wrap">
-                                                        <div class="thumb">
+                                                        <div class="">
                                                             <a href="#">
-                                                                <img src="{{ asset('site/images/upload/company/images_stored/')~'_user_'~job.user.id~'/'~ image.image }}"
-                                                                     class="img-fluid" alt="{{ image.image }}">
+                                                                <img src="{{ vich_uploader_asset(image,'imageFile') }}"
+                                                                     class="img-fluid" alt="">
                                                             </a>
                                                         </div>
                                                     </div>

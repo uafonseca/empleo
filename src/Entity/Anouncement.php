@@ -92,11 +92,7 @@
 		 * @ORM\Column(type="string", length=255, nullable=true)
 		 */
 		private $video_link;
-		
-		//    /**
-		//     * @ORM\Column(type="string", length=255)
-		//     */
-		//    private $package;
+
 		/**
 		 * @ORM\Column(type="string", length=255)
 		 * @var string
@@ -134,7 +130,7 @@
 		private $user;
 		
 		/**
-		 * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="ManyToOne")
+		 * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="ManyToOne", cascade={"persist"})
 		 */
 		private $images;
 		
@@ -370,12 +366,12 @@
 		
 		public function getUser(): ?User
 		{
-			return $this->User;
+			return $this->user;
 		}
 		
 		public function setUser(?User $User): self
 		{
-			$this->User = $User;
+			$this->user = $User;
 			
 			return $this;
 		}

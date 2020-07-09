@@ -95,18 +95,14 @@ class ServiceController extends Controller
                 $post->setExpiredDate(
                     $post->getDate()->add(\DateInterval::createfromdatestring('+' . $payment->getVisibleDays() . ' day'))
                 );
-
-                $files = $post->getImages();
-                $array = &$files->getValues()[0];
-                $post->getImages()->clear();
-                if (count($array) > 0) {
-                    foreach ($array as $item) {
-                        $image = new Image();
-                        $image->setImageFile($item);
-                        $image->setUpdateAt(new \DateTime());
-                        $entityManager->persist($image);
-                        $post->addImage($image);
+                $entityManager->persist($post);
+//                dump($post->getImages());
+                foreach ($post->getImages() as $image) {
+                    if ($image->getImageFile()){
+                        $image->setUpdateAt(new \DateTime('now'));
+                        $image->setManyToOne($post);
                     }
+
                 }
                 $post->setDate(new \DateTime("now"));
                 $post->setStatus(constants::JOB_STATUS_ACTIVE);
@@ -148,6 +144,7 @@ class ServiceController extends Controller
         $em = $this->getDoctrine()->getManager();
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $jobs = $em->getRepository(Anouncement::class)->findBy(array('user' => $user), array('date' => 'desc'));
+//        dump($jobs);die;
         $pagination = $this->get('knp_paginator')->paginate(
             $jobs,
             $request->query->getInt('page', 1),
@@ -168,17 +165,13 @@ class ServiceController extends Controller
     /**
      * @Route("/service/view/{id}", name="service_view")
      */
-    public function serviceView($id)
+    public function serviceView(Anouncement $anouncement)
     {
-        $em = $this->getDoctrine()->getManager();
-        $service = $em->getRepository(Anouncement::class)->find($id);
-
         return $this->render(
             'service/view.html.twig',
             array(
-                'job' => $service,
+                'job' => $anouncement,
                 'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
-//				'expired'=>$this->container->get('app.service.helper')->expired(),
             )
         );
     }

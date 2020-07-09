@@ -21,15 +21,14 @@
 		{
 			$builder
 				->add(
-					'images',
-					FileType::class,
-					[
-						'multiple' => true,
+					'imageFile',FileType::class,[
+						'multiple' => false,
 						'required'=>false,
 						'attr' => [
 							'accept' => 'image/*',
-							'multiple' => 'multiple',
+                            'class' => 'file-to-upload'
 						],
+                        'label' => false
 					]
 				);
 		}
@@ -38,7 +37,7 @@
 		{
 			$resolver->setDefaults(
 				[
-					'data_class' => null
+					'data_class' => Image::class
 				]
 			);
 		}
