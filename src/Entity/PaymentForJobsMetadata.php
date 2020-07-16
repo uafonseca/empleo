@@ -25,7 +25,7 @@ class PaymentForJobsMetadata
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity=PaymentForJobs::class, inversedBy="paymentForJobsMetadata")
+     * @ORM\ManyToOne(targetEntity="App\Entity\PaymentForJobs", inversedBy="paymentForJobsMetadata")
      */
     private $package;
 
