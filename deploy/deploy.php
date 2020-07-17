@@ -6,16 +6,32 @@ require __DIR__ . './../vendor/deployer/deployer/recipe/symfony4.php';
 require __DIR__ . './../vendor/deployer/recipes/recipe/slack.php';
 require __DIR__ . './../vendor/deployer/recipes/recipe/yarn.php';
 
-inventory('hosts.yml');
 
-// [Optional] Allocate tty for git clone. Default value is false.
+set('repository', 'git@github.com:roberto910907/empleo.ec.git');
+
+set('application', 'empleo.ec');
+
+host('23.239.26.54')
+    ->user('deploy')
+    ->stage('dev')
+    ->set('deploy_path', '/var/www/html/empleo');
+
+host('23.239.26.54')
+    ->user('deploy')
+    ->stage('prod')
+    ->set('deploy_path', '/var/www/html/empleo_prod');
+
 set('git_tty', false);
 
 set('shared_dirs', ['var/log', 'var/sessions', 'vendor', 'public/images', 'public/site/images', 'public/site/docs']);
-set('writable_dirs', ['var', 'var/cache','public/images', 'public/site']);
+
+set('writable_dirs', ['var', 'var/cache', 'public/images', 'public/site']);
+
 set('writable_mode', 'chmod');
-set('writable_use_sudo',true);
-set('writable_chmod_recursive',true);
+
+set('writable_use_sudo', true);
+
+set('writable_chmod_recursive', true);
 
 set('ssh_multiplexing', true);
 
@@ -66,6 +82,7 @@ task('build', [
 ]);
 
 after('deploy:vendors', 'build');
+after('deploy:failed', 'deploy:unlock');
 
 
 
