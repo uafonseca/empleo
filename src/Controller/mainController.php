@@ -80,9 +80,12 @@ class mainController extends Controller
      * @param Mailer $mailer
      * @param SessionInterface $session
      */
-    public function __construct(CategoryService $categoryService, JobService $jobService, CompanyService $companyService, Mailer $mailer, SessionInterface $session)
+    public function __construct(CategoryService $categoryService,
+                                JobService $jobService,
+                                CompanyService $companyService,
+                                Mailer $mailer,
+                                SessionInterface $session)
     {
-        $this->categoryService = $categoryService;
         $this->categoryService = $categoryService;
         $this->jobService = $jobService;
         $this->companyService = $companyService;
