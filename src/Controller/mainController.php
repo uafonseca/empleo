@@ -150,8 +150,11 @@ class mainController extends Controller
                 $type = 'service';
         }
         $_error = $this->session->get('_error');
+        $_error_ = $this->session->get('_error_');
         if ($_error)
             $this->session->remove('_error');
+        if ($_error_)
+            $this->session->remove('_error_');
         return $this->render(
             'site/pricing.html.twig',
             [
@@ -159,7 +162,8 @@ class mainController extends Controller
                 'packagesJobs' => $packagesJobs,
                 'packagesServices' => $packagesServices,
                 'type' => $type,
-                '_error' => $_error
+                '_error' => $_error,
+                '_error_' => $_error_
             ]
         );
     }

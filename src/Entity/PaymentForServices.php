@@ -28,6 +28,11 @@ class PaymentForServices extends Payment
      */
     private $paymentForServicesMetadata;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $paypalCode;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -94,6 +99,18 @@ class PaymentForServices extends Payment
                 $paymentForServicesMetadata->setPackage(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPaypalCode(): ?string
+    {
+        return $this->paypalCode;
+    }
+
+    public function setPaypalCode(?string $paypalCode): self
+    {
+        $this->paypalCode = $paypalCode;
 
         return $this;
     }

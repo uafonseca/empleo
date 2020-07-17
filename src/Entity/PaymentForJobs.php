@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Traits\UuidEntityTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class PaymentForJobs extends Payment
 {
+    use UuidEntityTrait;
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -41,6 +43,11 @@ class PaymentForJobs extends Payment
      * @ORM\OneToMany(targetEntity=PaymentForJobsMetadata::class, mappedBy="package")
      */
     private $paymentForJobsMetadata;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $paypalCode;
 
     public function __construct()
     {
@@ -145,6 +152,18 @@ class PaymentForJobs extends Payment
                 $paymentForJobsMetadata->setPackage(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPaypalCode(): ?string
+    {
+        return $this->paypalCode;
+    }
+
+    public function setPaypalCode(?string $paypalCode): self
+    {
+        $this->paypalCode = $paypalCode;
 
         return $this;
     }

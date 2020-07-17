@@ -35,21 +35,31 @@ class PaypalController extends AbstractController
         $this->session = $session;
     }
 
+    /**
+     * @param $type
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @Route("/cancell/{type}", name="pago_cancelado")
+     */
+    public function pagoCancelado($type){
+        $this->session->set('_error_', 'Ha ocurrido un error al procesar su solicitud');
+
+        return $this->redirectToRoute('pricing_page', ['type' => $type]);
+    }
 
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @throws \Exception
-     * @Route("/buypackage", name="buy_package")
+     * @Route("/buypackage/{type}/{uuid}", name="buy_package")
      */
-    public function buyPackage(Request $request)
+    public function buyPackage(Request $request,$type,$uuid)
     {
         /** @var User $currentUser */
         $currentUser = $this->getUser();
         $em = $this->getDoctrine()->getManager();
-        if ($request->request->get('type') == 'job') {
+        if ($type == 'job') {
             /** @var PaymentForJobs $pack */
-            $pack = $em->getRepository(PaymentForJobs::class)->find($request->request->get('package_id'));
+            $pack = $em->getRepository(PaymentForJobs::class)->findOneBy(array('uuid' => $uuid));
 
             $currentUser->addPackageJob($pack);
 
@@ -68,11 +78,10 @@ class PaypalController extends AbstractController
             $em->persist($metadata);
             $em->flush();
 
-            //TODO  proceder al pago con PayPal
 
         } else {
             /** @var PaymentForServices $pack */
-            $pack = $em->getRepository(PaymentForServices::class)->find($request->request->get('package_id'));
+            $pack = $em->getRepository(PaymentForServices::class)->findOneBy(array('uuid' => $uuid));
 
             $currentUser->addPackageService($pack);
 

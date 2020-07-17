@@ -11,8 +11,30 @@
         <div class="col-2">{{ form_row(form.days_importants) }}</div>
 
         <div class="col-2">{{ form_row(form.cv_number_max) }}</div>
+
+        <div class="col-12"></div>
+        <div class="col-8 mt-3">
+            <label for="#">Url de pago finalizado</label>
+            <div class="input-group mb-3">
+                <input type="text" id="pago-finalizado-input" readonly class="form-control"  aria-label="Username" value="{{ url('buy_package',{type:'job', uuid: payment_for_job.uuid}) }}">
+                <div class="input-group-prepend">
+                    <button id="pago-finalizdo" type="button" class="btn btn-primary">Copiar</button>
+                </div>
+            </div>
+
+            <label for="#">Url de pago cancelado</label>
+            <div class="input-group mb-3">
+                <input type="text" id="pago-candelado-input" class="form-control" readonly aria-label="Username" value="{{ url('pago_cancelado',{type:'job'}) }}">
+                <div class="input-group-prepend">
+                    <button id="pago-candelado" type="button" class="btn btn-primary">Copiar</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-12">{{ form_row(form.paypalCode) }}</div>
     </div>
-<div class="row">
+<div class="row mt-4">
     <div class="col-3">{{ form_row(form.evaluations_psicological) }}</div>
 
     <div class="col-3">{{ form_row(form.selection) }}</div>

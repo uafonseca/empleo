@@ -30,7 +30,7 @@
                         <div class="row">
                             <div class="col-lg-8">
                                 <div class="checkout-form">
-                                    <form action="{{ path('buy_package') }}" method="post">
+                                    {#<form action="{{ path('buy_package') }}" method="post">#}
                                         <div class="row">
                                             <label class="col-md-3 col-form-label">Detalles de su paquete</label>
                                             <div class="col-md-9">
@@ -63,66 +63,66 @@
                                                         </div>
                                                     </div>
                                                     <div class="w-100"></div>
-                                                    <div class="col">
-                                                        <div class="payment-method">
-                                                            <a href="#" class="paypal"><i class="fab fa-cc-paypal"></i>PayPal</a>
-                                                        </div>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-9 offset-md-3">
                                                 <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <input type="text" class="form-control"
-                                                                   placeholder="Cardholder Name">
+                                                    {% if package.paypalCode %}
+                                                        {{ package.paypalCode|raw }}
+                                                    {% else %}
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control"
+                                                                       placeholder="Cardholder Name">
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <input type="text" class="form-control"
-                                                                   placeholder="Cardholder Number">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control"
+                                                                       placeholder="Cardholder Number">
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="w-100"></div>
-                                                    <div class="col-md-4">
-                                                        <div class="form-group">
-                                                            <input type="text" class="form-control"
-                                                                   placeholder="Expired Month">
+                                                        <div class="w-100"></div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control"
+                                                                       placeholder="Expired Month">
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <div class="form-group">
-                                                            <input type="text" class="form-control"
-                                                                   placeholder="Expired Year">
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control"
+                                                                       placeholder="Expired Year">
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <div class="form-group">
-                                                            <input type="text" class="form-control" placeholder="CVV">
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control" placeholder="CVV">
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="w-100"></div>
-                                                    <div class="col">
-                                                        <div class="form-group terms">
-                                                            <input class="custom-radio" type="checkbox" id="radio-4"
-                                                                   name="termsandcondition">
-                                                            <label for="radio-4">
-                                                                <span class="dot"></span> You accepts our <a href="#">Terms
-                                                                    and Conditions</a> and <a href="#">Privacy
-                                                                    Policy</a>
-                                                            </label>
+                                                        <div class="w-100"></div>
+                                                        <div class="col">
+                                                            <div class="form-group terms">
+                                                                <input class="custom-radio" type="checkbox" id="radio-4"
+                                                                       name="termsandcondition">
+                                                                <label for="radio-4">
+                                                                    <span class="dot"></span> You accepts our <a href="#">Terms
+                                                                        and Conditions</a> and <a href="#">Privacy
+                                                                        Policy</a>
+                                                                </label>
+                                                            </div>
+                                                            <input type="hidden" value="{{ package.id }}" name="package_id">
+                                                            <input type="hidden" value="{{ type }}" name="type">
+                                                            <button class="button">Proceder al pago</button>
                                                         </div>
-                                                        <input type="hidden" value="{{ package.id }}" name="package_id">
-                                                        <input type="hidden" value="{{ type }}" name="type">
-                                                        <button class="button">Proceder al pago</button>
-                                                    </div>
+                                                    {% endif %}
+
                                                 </div>
                                             </div>
                                         </div>
-                                    </form>
+                                    {#</form>#}
                                 </div>
                             </div>
                             <div class="col-lg-4">

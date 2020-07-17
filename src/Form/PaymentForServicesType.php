@@ -6,6 +6,7 @@ use App\Entity\PaymentForServices;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -32,6 +33,9 @@ class PaymentForServicesType extends AbstractType
             ])
             ->add('days_importants', IntegerType::class, [
                 'label' => 'Días con prioridad'
+            ])
+            ->add('paypalCode',TextareaType::class,[
+                'label' => 'Código PayPal'
             ])
         ;
     }

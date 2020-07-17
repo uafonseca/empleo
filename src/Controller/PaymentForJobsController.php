@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\PaymentForJobs;
 use App\Form\PaymentForJobsType;
 use App\Repository\PaymentForJobsRepository;
+use Ramsey\Uuid\Doctrine\UuidGenerator;
+use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,6 +33,7 @@ class PaymentForJobsController extends AbstractController
     public function new(Request $request): Response
     {
         $paymentForJob = new PaymentForJobs();
+        $paymentForJob->setUuid(Uuid::uuid4());
         $form = $this->createForm(PaymentForJobsType::class, $paymentForJob);
         $form->handleRequest($request);
 

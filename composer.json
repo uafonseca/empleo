@@ -20,6 +20,7 @@
         "knplabs/knp-paginator-bundle": "^3.0",
         "knplabs/knp-time-bundle": "^1.9",
         "php-http/guzzle6-adapter": "^2.0",
+        "ramsey/uuid-doctrine": "^1.6",
         "sensio/framework-extra-bundle": "^5.1",
         "sg/datatablesbundle": "1.1.4",
         "symfony/asset": "4.2.*",
