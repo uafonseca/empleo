@@ -234,7 +234,7 @@ class Job
     private $company;
 
     /**
-     * @ORM\OneToMany(targetEntity=UserJobMetadata::class, mappedBy="job")
+     * @ORM\OneToMany(targetEntity=UserJobMeta::class, mappedBy="job")
      */
     private $userJobMetadata;
 
@@ -709,14 +709,14 @@ class Job
     }
 
     /**
-     * @return Collection|UserJobMetadata[]
+     * @return Collection|UserJobMeta[]
      */
     public function getUserJobMetadata(): Collection
     {
         return $this->userJobMetadata;
     }
 
-    public function addUserJobMetadata(UserJobMetadata $userJobMetadata): self
+    public function addUserJobMetadata(UserJobMeta $userJobMetadata): self
     {
         if (!$this->userJobMetadata->contains($userJobMetadata)) {
             $this->userJobMetadata[] = $userJobMetadata;
@@ -726,7 +726,7 @@ class Job
         return $this;
     }
 
-    public function removeUserJobMetadata(UserJobMetadata $userJobMetadata): self
+    public function removeUserJobMetadata(UserJobMeta $userJobMetadata): self
     {
         if ($this->userJobMetadata->contains($userJobMetadata)) {
             $this->userJobMetadata->removeElement($userJobMetadata);

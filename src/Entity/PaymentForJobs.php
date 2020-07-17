@@ -40,7 +40,7 @@ class PaymentForJobs extends Payment
     private $users;
 
     /**
-     * @ORM\OneToMany(targetEntity=PaymentForJobsMetadata::class, mappedBy="package")
+     * @ORM\OneToMany(targetEntity="App\Entity\PaymentForJobsMetadata", mappedBy="package")
      */
     private $paymentForJobsMetadata;
 

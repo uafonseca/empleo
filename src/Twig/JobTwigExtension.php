@@ -11,22 +11,22 @@ namespace App\Twig;
 
 use App\Entity\Job;
 use App\Entity\User;
-use App\Entity\UserJobMetadata;
-use App\Repository\UserJobMetadataRepository;
+use App\Entity\UserJobMeta;
+use App\Repository\UserJobMetaRepository;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 class JobTwigExtension extends AbstractExtension
 {
 
-    /** @var UserJobMetadataRepository  */
+    /** @var UserJobMetaRepository  */
     private $userJobMetadataRepository;
 
     /**
      * JobTwigExtension constructor.
-     * @param UserJobMetadataRepository $userJobMetadataRepository
+     * @param UserJobMetaRepository $userJobMetadataRepository
      */
-    public function __construct(UserJobMetadataRepository $userJobMetadataRepository)
+    public function __construct(UserJobMetaRepository $userJobMetadataRepository)
     {
         $this->userJobMetadataRepository = $userJobMetadataRepository;
     }
@@ -51,9 +51,9 @@ class JobTwigExtension extends AbstractExtension
     public function getJobApplications(Job $job)
     {
         $count = 0;
-        /** @var UserJobMetadata $metadata */
+        /** @var UserJobMeta $metadata */
         foreach ($job->getUserJobMetadata() as $metadata){
-            if ($metadata->getStatus() == UserJobMetadata::STATUS_APPLIED)
+            if ($metadata->getStatus() == UserJobMeta::STATUS_APPLIED)
                 $count ++ ;
         }
         return $count;
@@ -83,7 +83,7 @@ class JobTwigExtension extends AbstractExtension
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function getJobStatus(User $user, Job $job){
-        /** @var UserJobMetadata $state */
+        /** @var UserJobMeta $state */
         $state = $this->userJobMetadataRepository->findByUserJob($user, $job);
 
         if ($state !=null)

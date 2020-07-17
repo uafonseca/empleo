@@ -4,21 +4,21 @@ namespace App\Repository;
 
 use App\Entity\Job;
 use App\Entity\User;
-use App\Entity\UserJobMetadata;
+use App\Entity\UserJobMeta;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method UserJobMetadata|null find($id, $lockMode = null, $lockVersion = null)
- * @method UserJobMetadata|null findOneBy(array $criteria, array $orderBy = null)
- * @method UserJobMetadata[]    findAll()
- * @method UserJobMetadata[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method UserJobMeta|null find($id, $lockMode = null, $lockVersion = null)
+ * @method UserJobMeta|null findOneBy(array $criteria, array $orderBy = null)
+ * @method UserJobMeta[]    findAll()
+ * @method UserJobMeta[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserJobMetadataRepository extends ServiceEntityRepository
+class UserJobMetaRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, UserJobMetadata::class);
+        parent::__construct($registry, UserJobMeta::class);
     }
 
     /**

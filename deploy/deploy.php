@@ -16,16 +16,16 @@ host('23.239.26.54')
     ->stage('dev')
     ->set('deploy_path', '/var/www/html/empleo');
 
-host('23.239.26.54')
-    ->user('deploy')
-    ->stage('prod')
-    ->set('deploy_path', '/var/www/html/empleo_prod');
+//host('23.239.26.54')
+//    ->user('deploy')
+//    ->stage('prod')
+//    ->set('deploy_path', '/var/www/html/empleo_prod');
 
 set('git_tty', false);
 
 set('shared_dirs', ['var/log', 'var/sessions', 'vendor', 'public/images', 'public/site/images', 'public/site/docs']);
 
-set('writable_dirs', ['var', 'var/cache', 'public/images', 'public/site']);
+set('writable_dirs', ['var', 'public']);
 
 set('writable_mode', 'chmod');
 

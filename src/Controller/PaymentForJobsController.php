@@ -28,6 +28,8 @@ class PaymentForJobsController extends AbstractController
     }
 
     /**
+     * @param Request $request
+     * @return Response
      * @Route("/new", name="payment_for_jobs_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response

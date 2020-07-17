@@ -17,9 +17,9 @@ use App\Entity\Notification;
 use App\Entity\Profession;
 use App\Entity\Resume;
 use App\Entity\User;
-use App\Entity\UserJobMetadata;
+use App\Entity\UserJobMeta;
 use App\Repository\JobRepository;
-use App\Repository\UserJobMetadataRepository;
+use App\Repository\UserJobMetaRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -289,27 +289,27 @@ class AjaxController extends Controller
 
     /**
      * @param Request $request
-     * @param UserJobMetadataRepository $userJobMetadataRepository
+     * @param UserJobMetaRepository $userJobMetadataRepository
      * @param JobRepository $jobRepository
      * @return JsonResponse
      * @throws \Exception
      * @Route("/ajax/applied", name="ajax_applied")
      */
-    function applied(Request $request, UserJobMetadataRepository $userJobMetadataRepository, JobRepository $jobRepository)
+    function applied(Request $request, UserJobMetaRepository $userJobMetadataRepository, JobRepository $jobRepository)
     {
         $user = $this->getUser();
 
         /** @var Job $job */
         $job = $jobRepository->find($request->request->get('id'));
 
-        /** @var UserJobMetadata $metadata */
+        /** @var UserJobMeta $metadata */
         $metadata = $userJobMetadataRepository->findByUserJob($user, $job);
 
         $entityManager = $this->getDoctrine()->getManager();
 
         if ($metadata != null) {
-            if ($metadata->getStatus() === UserJobMetadata::STATUS_CANCELED){
-                $metadata->setStatus(UserJobMetadata::STATUS_APPLIED);
+            if ($metadata->getStatus() === UserJobMeta::STATUS_CANCELED){
+                $metadata->setStatus(UserJobMeta::STATUS_APPLIED);
                 $metadata->setAppiled(true);
                 $this->notificate(
                     constants::NOTIFICATIONS_JOB_APPLIED_OK,
@@ -317,8 +317,8 @@ class AjaxController extends Controller
                     $user
                 );
             }else{
-                if ($metadata->getStatus() === UserJobMetadata::STATUS_APPLIED){
-                    $metadata->setStatus(UserJobMetadata::STATUS_CANCELED);
+                if ($metadata->getStatus() === UserJobMeta::STATUS_APPLIED){
+                    $metadata->setStatus(UserJobMeta::STATUS_CANCELED);
                     $metadata->setAppiled(false);
                     $this->notificate(
                         constants::NOTIFICATIONS_JOB_APPLIED_CANCEL,
@@ -328,10 +328,10 @@ class AjaxController extends Controller
                 }
             }
         } else {
-            $metadata = new UserJobMetadata();
+            $metadata = new UserJobMeta();
             $metadata->setAppiled(true);
             $metadata
-                ->setStatus(UserJobMetadata::STATUS_APPLIED)
+                ->setStatus(UserJobMeta::STATUS_APPLIED)
                 ->setDate(new \DateTime('now'))
                 ->setUser($user)
                 ->setJob($job);

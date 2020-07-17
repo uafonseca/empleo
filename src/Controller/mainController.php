@@ -20,7 +20,7 @@ use App\Entity\Policy;
 use App\Entity\Resume;
 use App\Entity\StaticPage;
 use App\Entity\User;
-use App\Entity\UserJobMetadata;
+use App\Entity\UserJobMeta;
 use App\Form\ContactMessageFormType;
 use App\Form\ResumeFilesType;
 use App\Form\ResumeType;
@@ -631,7 +631,7 @@ class mainController extends Controller
         $candidates = [];
 
         foreach ($job->getUserJobMetadata() as $metadata){
-            if ($metadata->getStatus() == UserJobMetadata::STATUS_APPLIED){
+            if ($metadata->getStatus() == UserJobMeta::STATUS_APPLIED){
                 $candidates[] = $metadata->getUser();
             }
         }

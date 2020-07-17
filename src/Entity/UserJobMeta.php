@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\UserJobMetadataRepository;
+use App\Repository\UserJobMetaRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=UserJobMetadataRepository::class)
+ * @ORM\Entity(repositoryClass=UserJobMetaRepository::class)
  */
-class UserJobMetadata
+class UserJobMeta
 {
     const STATUS_PRESELECT = 'Preseleccionado';
     const STATUS_SELECT = 'Seleccionado';
@@ -120,7 +120,7 @@ class UserJobMetadata
 
     /**
      * @param bool $appiled
-     * @return UserJobMetadata
+     * @return UserJobMeta
      */
     public function setAppiled(?bool $appiled): self
     {
