@@ -11,15 +11,15 @@ set('repository', 'git@github.com:roberto910907/empleo.ec.git');
 
 set('application', 'empleo.ec');
 
-host('23.239.26.54')
+host('beta')
+    ->hostname('emplear.gessmac.com')
     ->user('deploy')
-    ->stage('dev')
     ->set('deploy_path', '/var/www/html/empleo');
 
-//host('23.239.26.54')
-//    ->user('deploy')
-//    ->stage('prod')
-//    ->set('deploy_path', '/var/www/html/empleo_prod');
+host('production')
+    ->hostname('emplear.gessmac.com')//serviciosyempleos.com
+    ->user('deploy')
+    ->set('deploy_path', '/var/www/html/empleo_prod');
 
 set('git_tty', false);
 
