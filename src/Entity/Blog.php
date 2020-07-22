@@ -13,6 +13,7 @@ use Doctrine\Common\Collections\Collection as Collection;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BlogRepository")
  * @Vich\Uploadable
+ * @ORM\Table
  */
 class Blog
 {

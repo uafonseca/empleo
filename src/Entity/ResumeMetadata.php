@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=ResumeMetadataRepository::class)
+ * @ORM\Table
  */
 class ResumeMetadata
 {

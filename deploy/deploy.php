@@ -33,7 +33,7 @@ set('writable_chmod_recursive', true);
 
 set('shared_dirs', ['var/log', 'var/sessions', 'vendor', 'public/images', 'public/site/images', 'public/site/docs']);
 
-set('writable_dirs', ['var/log','var/cache','var/sessions', 'public/*']);
+set('writable_dirs', ['var/log','var/cache','var/sessions', 'public/']);
 
 set('ssh_multiplexing', true);
 
