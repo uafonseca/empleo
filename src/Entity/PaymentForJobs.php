@@ -14,12 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 class PaymentForJobs extends Payment
 {
     use UuidEntityTrait;
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+
     /**
      * @ORM\Column(type="integer")
      */
@@ -37,11 +32,12 @@ class PaymentForJobs extends Payment
 
     /**
      * @ORM\ManyToMany(targetEntity=User::class, mappedBy="packageJobs")
+     *
      */
     private $users;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\PaymentForJobsMetadata", mappedBy="package")
+     * @ORM\OneToMany(targetEntity="App\Entity\PaymentForJobsMetadata", mappedBy="package", cascade={"remove"})
      */
     private $paymentForJobsMetadata;
 

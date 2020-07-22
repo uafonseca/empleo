@@ -12,12 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class PaymentForServices extends Payment
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
 
     /**
      * @ORM\ManyToMany(targetEntity=User::class, mappedBy="packageServices")
