@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Traits\UuidEntityTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 class PaymentForServices extends Payment
 {
 
+    use  UuidEntityTrait;
     /**
      * @ORM\ManyToMany(targetEntity=User::class, mappedBy="packageServices")
      */

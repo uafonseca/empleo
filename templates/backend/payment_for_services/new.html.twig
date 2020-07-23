@@ -9,3 +9,18 @@
     {{ include('backend/payment_for_services/_form.html.twig') }}
 
 {% endblock %}
+{% block scripts %}
+    <script>
+        $(function () {
+            $('#pago-finalizdo').click(function(){
+                $('#pago-finalizado-input').select();
+                document.execCommand("copy");
+            });
+
+            $('#pago-candelado').click(function(){
+                $('#pago-candelado-input').select();
+                document.execCommand("copy");
+            });
+        })
+    </script>
+{% endblock %}

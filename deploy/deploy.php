@@ -33,7 +33,7 @@ set('writable_chmod_recursive', true);
 
 set('shared_dirs', ['var/log', 'var/sessions', 'vendor', 'public/images', 'public/site/images', 'public/site/docs']);
 
-set('writable_dirs', ['var/log','var/cache','var/sessions', 'public/']);
+set('writable_dirs', ['var/log','var/cache','var/sessions', 'public/','/var/www/html/empleo','/var/www/html/empleo_prod']);
 
 set('ssh_multiplexing', true);
 
@@ -76,7 +76,7 @@ task('chmod', '{{bin/console}} assets:install --symlink public');
 
 
 task('build', [
-    'database:update',
+//    'database:update',
     'assets:install',
     'dump:js-routes',
     'yarn:install',

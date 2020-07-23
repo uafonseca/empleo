@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\PaymentForServices;
 use App\Form\PaymentForServicesType;
 use App\Repository\PaymentForServicesRepository;
+use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,6 +33,7 @@ class PaymentForServicesController extends AbstractController
     public function new(Request $request): Response
     {
         $paymentForService = new PaymentForServices();
+        $paymentForService->setUuid(Uuid::uuid4());
         $form = $this->createForm(PaymentForServicesType::class, $paymentForService);
         $form->handleRequest($request);
 
@@ -44,6 +46,7 @@ class PaymentForServicesController extends AbstractController
         }
 
         return $this->render('backend/payment_for_services/new.html.twig', [
+            'payment_for_service' => $paymentForService,
             'form' => $form->createView(),
         ]);
     }

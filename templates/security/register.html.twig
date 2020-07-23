@@ -195,7 +195,6 @@
             {{ form_start(form, { 'attr': {'id': 'regForm'} }) }}
 
                 <h2>Registro:</h2>
-
                 <!-- One "tab" for each step in the form: -->
                 <div class="tab">Datos personales:
                     <p>{{ form_row(form.name,{'attr' :{'oninput':'this.className'}}) }}</p>
@@ -208,9 +207,21 @@
                 </div>
 
                 <div class="tab">Típo de cuenta:
-                    {{ form_label(form.employer,'',{'label_attr' :{'class':'radio-inline'}}) }}
-                    {{ form_widget(form.employer,{'attr' :{'oninput':'this.className'}}) }}
-                    {{ form_errors(form.employer) }}
+                    <div class="radio-toolbar mt-4">
+                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                            <label class="btn btn-primary active">
+                                <i class="fas fa-check"></i>
+                                <input type="radio" name="options" id="option1" autocomplete="off" class="radio" checked> Usuario
+                            </label>
+                            <label class="btn btn-success">
+                                <i class="fas fa-check hidden"></i>
+                                <input type="radio" name="options" id="option2" autocomplete="off" class="radio" > Empleador
+                            </label>
+                        </div>
+                        <div class="hidden">
+                            {{ form_row(form.employer,{'attr' :{'oninput':'this.className'}}) }}
+                        </div>
+                    </div>
                 </div>
 
                 <div class="tab">Contraseña:
@@ -244,6 +255,21 @@
 
 {{ encore_entry_script_tags('app') }}
 <script type="text/javascript">
+        $(function () {
+            $('.radio').click(function (e) {
+                if($('#option1').is(':checked')) {
+                    $('#user_employer_1').prop('checked',true);
+                    $(this).prev().removeClass('hidden');
+                    $('#option2').prev().addClass('hidden');
+                }
+                if($('#option2').is(':checked')) {
+                    $('#user_employer_0').prop('checked',true);
+                    $(this).prev().removeClass('hidden');
+                    $('#option1').prev().addClass('hidden');
+                }
+            });
+        });
+
         var currentTab = 0; // Current tab is set to be the first tab (0)
         showTab(currentTab); // Display the current tab
 
