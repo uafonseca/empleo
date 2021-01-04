@@ -84,7 +84,7 @@ task('build', [
 ]);
 
 after('deploy:vendors', 'build');
-after('deploy:failed', 'deploy:unlock');
+after('deploy:failed',  'deploy:unlock');
 
 
 
