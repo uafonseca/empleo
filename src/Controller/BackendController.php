@@ -8,6 +8,8 @@ use App\Service\AnnouncementService;
 use App\Service\CategoryService;
 use App\Service\JobService;
 use App\Utility\DateTime\MonthUtility;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -60,22 +62,22 @@ class BackendController extends AbstractController
      * @param JobRepository $jobRepository
      * @param AnouncementRepository $anouncementRepository
      * @return JsonResponse
-     * @throws \Doctrine\ORM\NoResultException
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NoResultException
+     * @throws NonUniqueResultException
      * @Route("/backend/chart", name="backend_chart", options={"expose" = true})
      */
     public function createChatr(JobRepository $jobRepository, AnouncementRepository $anouncementRepository){
-        $monts = MonthUtility::getMonthsForFormWidget();
+        $months = MonthUtility::getMonthsForFormWidget();
 
-        $ouput = [];
+        $outputs = [];
 
-        foreach ($monts as $key => $value)
+        foreach ($months as $key => $value)
         {
-            $ouput['month'][] = $value;
-            $ouput['jobs'][] = $jobRepository->countByMonth($key)[0];
-            $ouput['services'][] = $anouncementRepository->countByMonth($key)[0];
+            $outputs['month'][] = $value;
+            $outputs['jobs'][] = $jobRepository->countByMonth($key)[0];
+            $outputs['services'][] = $anouncementRepository->countByMonth($key)[0];
         }
-        return new JsonResponse($ouput);
+        return new JsonResponse($outputs);
     }
 
 }

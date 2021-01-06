@@ -19,6 +19,8 @@ class PaymentForServicesController extends AbstractController
 {
     /**
      * @Route("/", name="payment_for_services_index", methods={"GET"})
+     * @param PaymentForServicesRepository $paymentForServicesRepository
+     * @return Response
      */
     public function index(PaymentForServicesRepository $paymentForServicesRepository): Response
     {
@@ -29,6 +31,8 @@ class PaymentForServicesController extends AbstractController
 
     /**
      * @Route("/new", name="payment_for_services_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {
@@ -53,6 +57,8 @@ class PaymentForServicesController extends AbstractController
 
     /**
      * @Route("/{id}", name="payment_for_services_show", methods={"GET"})
+     * @param PaymentForServices $paymentForService
+     * @return Response
      */
     public function show(PaymentForServices $paymentForService): Response
     {
@@ -63,6 +69,9 @@ class PaymentForServicesController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="payment_for_services_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param PaymentForServices $paymentForService
+     * @return Response
      */
     public function edit(Request $request, PaymentForServices $paymentForService): Response
     {
@@ -85,6 +94,9 @@ class PaymentForServicesController extends AbstractController
 
     /**
      * @Route("/{id}", name="payment_for_services_delete", methods={"DELETE"})
+     * @param Request $request
+     * @param PaymentForServices $paymentForService
+     * @return Response
      */
     public function delete(Request $request, PaymentForServices $paymentForService): Response
     {

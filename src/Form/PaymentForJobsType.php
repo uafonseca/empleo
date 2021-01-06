@@ -41,7 +41,8 @@ class PaymentForJobsType extends AbstractType
                 'label' => 'Evaluaciones psicológicas'
             ])
             ->add('paypalCode',TextareaType::class,[
-                'label' => 'Código PayPal'
+                'label' => 'Código PayPal',
+                'required' => false
             ])
             ->add('selection',null,[
                 'label' => 'Selección de candidatos'

@@ -17,6 +17,9 @@ use App\Repository\JobRepository;
 use App\Service\JobService;
 use App\Service\NotificationService;
 use App\Service\UserService;
+use Exception;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 use function PHPSTORM_META\type;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -56,7 +59,7 @@ class ServiceController extends Controller
     /**
      * @param $data
      * @param Anouncement $post
-     * @throws \Exception
+     * @throws Exception
      */
     public function setMultipleUpload($data, Anouncement $post)
     {
@@ -73,14 +76,39 @@ class ServiceController extends Controller
 
     /**
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @throws \Exception
+     * @return RedirectResponse|Response
+     * @throws Exception
      * @Route("/service/new", name="service_new")
      */
     public function serviceNew(Request $request)
     {
         /** @var User $user */
         $user = $this->getUser();
+        $metadata = $this->userService->isReadyToGetService($user);
+
+        if(!$metadata){
+            $em = $this->getDoctrine()->getManager();
+            $packagesServices =  $em->getRepository(PaymentForServices::class)->findAll();
+            /** @var PaymentForServices $service */
+            foreach ($packagesServices as $service){
+                if ($service->getPrice() === 0){
+                    $user->addPackageService($service);
+                    $metadata = new PaymentForServicesMetadata();
+                    $metadata
+                        ->setUser($user)
+                        ->setPackage($service)
+                        ->setDatePurchase(new \DateTime('now'))
+                        ->setActive(true)
+                        ->setCurrentPostCount(0);
+                    $user->addPaymentForServicesMetadata($metadata);
+
+                    $service->addPaymentForServicesMetadata($metadata);
+                    $em->persist($metadata);
+                    $em->flush();
+                    break;
+                }
+            }
+        }
         /** @var PaymentForServicesMetadata $metadata */
         if (null != $metadata = $this->userService->isReadyToGetService($user)) {
             $post = new Anouncement();
@@ -96,7 +124,6 @@ class ServiceController extends Controller
                     $post->getDate()->add(\DateInterval::createfromdatestring('+' . $payment->getVisibleDays() . ' day'))
                 );
                 $entityManager->persist($post);
-//                dump($post->getImages());
                 foreach ($post->getImages() as $image) {
                     if ($image->getImageFile()){
                         $image->setUpdateAt(new \DateTime('now'));

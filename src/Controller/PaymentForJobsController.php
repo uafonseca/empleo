@@ -19,6 +19,8 @@ class PaymentForJobsController extends AbstractController
 {
     /**
      * @Route("/", name="payment_for_jobs_index", methods={"GET"})
+     * @param PaymentForJobsRepository $paymentForJobsRepository
+     * @return Response
      */
     public function index(PaymentForJobsRepository $paymentForJobsRepository): Response
     {
@@ -55,6 +57,8 @@ class PaymentForJobsController extends AbstractController
 
     /**
      * @Route("/{id}", name="payment_for_jobs_show", methods={"GET"})
+     * @param PaymentForJobs $paymentForJob
+     * @return Response
      */
     public function show(PaymentForJobs $paymentForJob): Response
     {
@@ -65,6 +69,9 @@ class PaymentForJobsController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="payment_for_jobs_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param PaymentForJobs $paymentForJob
+     * @return Response
      */
     public function edit(Request $request, PaymentForJobs $paymentForJob): Response
     {
@@ -87,6 +94,9 @@ class PaymentForJobsController extends AbstractController
 
     /**
      * @Route("/{id}", name="payment_for_jobs_delete", methods={"DELETE"})
+     * @param Request $request
+     * @param PaymentForJobs $paymentForJob
+     * @return Response
      */
     public function delete(Request $request, PaymentForJobs $paymentForJob): Response
     {

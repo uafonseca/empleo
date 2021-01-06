@@ -1,0 +1,29 @@
+{% extends 'bundles/FOSUserBundle/layout.html.twig' %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block title %}
+    Información de Recuperación
+{% endblock %}
+
+{% block fos_user_content %}
+
+    <div class="form-box">
+        <div class="form-top">
+            <div class="form-top-left text-center">
+                <h3> Información de Recuperación</h3>
+            </div>
+            <div class="form-top-right">
+                <span style="color: #428bca"><i class="fa fa-info-circle"></i></span>
+            </div>
+        </div>
+        <div class="form-bottom">
+            <p style="color: #333">
+                {{ 'resetting.check_email'|trans({'%tokenLifetime%': tokenLifetime})|nl2br }}
+            </p>
+            <a href="{{ path('fos_user_resetting_request') }}" class="forget_password pull-right">
+                Volver a enviar código</a>
+        </div>
+    </div>
+
+{% endblock %}
