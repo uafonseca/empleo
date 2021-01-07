@@ -1,0 +1,8 @@
+{% extends 'backend/base.html.twig' %}
+{% block title %}Create new Profession{% endblock %}
+{% block context %}
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Nueva profesión</h1>
+    </div>
+    {{ include('backend/profession/_form.html.twig') }}
+{% endblock %}
