@@ -76,7 +76,7 @@ task('chmod', '{{bin/console}} assets:install --symlink public');
 
 
 task('build', [
-//    'database:update',
+    'database:update',
     'assets:install',
     'dump:js-routes',
     'yarn:install',
