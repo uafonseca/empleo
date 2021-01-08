@@ -244,7 +244,9 @@
 
     <script>
         $(document).ready(function () {
-            coreApp.plugins.initNewFileInput('#job_company_archivoFile','{{ vich_uploader_asset(company,'archivoFile') }}')
+            {% if company is not null %}
+                coreApp.plugins.initNewFileInput('#job_company_archivoFile','{{ vich_uploader_asset(company,'archivoFile') }}')
+            {% endif %}
         })
     </script>
 {% endblock %}
