@@ -29,7 +29,7 @@
 		private $title;
 		
 		/**
-		 * @ORM\ManyToOne(targetEntity="App\Entity\Service", inversedBy="anouncements")
+		 * @ORM\ManyToOne(targetEntity="App\Entity\Profession", inversedBy="anouncements")
 		 * @ORM\JoinColumn(nullable=false)
 		 */
 		private $profession;
@@ -158,12 +158,12 @@
 			return $this;
 		}
 		
-		public function getProfession(): ?Service
+		public function getProfession(): ?Profession
 		{
 			return $this->profession;
 		}
 		
-		public function setProfession(?Service $profession): self
+		public function setProfession(?Profession $profession): self
 		{
 			$this->profession = $profession;
 			

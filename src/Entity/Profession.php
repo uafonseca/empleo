@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -26,6 +27,16 @@ class Profession
      * @ORM\Column(type="text")
      */
     private $description;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Anouncement", mappedBy="profession")
+     */
+    private $anouncements;
+
+    public function __construct()
+    {
+        $this->anouncements = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -55,4 +66,22 @@ class Profession
 
         return $this;
     }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getAnouncements(): ?ArrayCollection
+    {
+        return $this->anouncements;
+    }
+
+    /**
+     * @param ArrayCollection $anouncements
+     */
+    public function setAnouncements(ArrayCollection $anouncements): void
+    {
+        $this->anouncements = $anouncements;
+    }
+
+
 }

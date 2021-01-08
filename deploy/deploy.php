@@ -71,9 +71,6 @@ task('assets:install', '{{bin/console}} assets:install --symlink public');
 desc('Dumping js routes');
 task('dump:js-routes', '{{bin/console}} fos:js-routing:dump --target=public/bundles/fosjsrouting/js/fos_js_routing.js');
 
-desc('chmod');
-task('chmod', '{{bin/console}} assets:install --symlink public');
-
 
 task('build', [
 //    'database:update',

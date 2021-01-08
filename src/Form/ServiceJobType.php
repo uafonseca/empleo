@@ -12,7 +12,8 @@
 	use App\Entity\Anouncement;
 	use App\Entity\Image;
 	use App\Entity\Job;
-	use App\Entity\Service;
+    use App\Entity\Profession;
+    use App\Entity\Service;
 	use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 	use Symfony\Component\Form\AbstractType;
 	use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -34,9 +35,8 @@
 				->add('title')
 				->add(
 					'profession',
-					EntityType::class,
-					[
-						'class' => Service::class,
+					EntityType::class, [
+						'class' => Profession::class,
 						'placeholder' => 'Mi profesión',
 						'choice_label' => 'name',
 					]
