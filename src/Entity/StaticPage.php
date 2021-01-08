@@ -9,6 +9,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass=StaticPageRepository::class)
  * @UniqueEntity(fields={"type"}, message="EL tipo seleccionado ya esta en uso.")
+ * @ORM\Table
  */
 class StaticPage
 {

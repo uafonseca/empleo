@@ -1,0 +1,10 @@
+{% extends 'backend/base.html.twig' %}
+{% block title %}Edit new Profession{% endblock %}
+{% block context %}
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Editar profesión</h1>
+    </div>
+    {{ include('backend/profession/_form.html.twig', {'button_label': 'Actualizar'}) }}
+
+{#    {{ include('backend/profession/_delete_form.html.twig') }}#}
+{% endblock %}

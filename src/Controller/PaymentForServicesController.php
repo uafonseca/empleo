@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\PaymentForServices;
 use App\Form\PaymentForServicesType;
 use App\Repository\PaymentForServicesRepository;
+use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +19,8 @@ class PaymentForServicesController extends AbstractController
 {
     /**
      * @Route("/", name="payment_for_services_index", methods={"GET"})
+     * @param PaymentForServicesRepository $paymentForServicesRepository
+     * @return Response
      */
     public function index(PaymentForServicesRepository $paymentForServicesRepository): Response
     {
@@ -28,10 +31,13 @@ class PaymentForServicesController extends AbstractController
 
     /**
      * @Route("/new", name="payment_for_services_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {
         $paymentForService = new PaymentForServices();
+        $paymentForService->setUuid(Uuid::uuid4());
         $form = $this->createForm(PaymentForServicesType::class, $paymentForService);
         $form->handleRequest($request);
 
@@ -44,12 +50,15 @@ class PaymentForServicesController extends AbstractController
         }
 
         return $this->render('backend/payment_for_services/new.html.twig', [
+            'payment_for_service' => $paymentForService,
             'form' => $form->createView(),
         ]);
     }
 
     /**
      * @Route("/{id}", name="payment_for_services_show", methods={"GET"})
+     * @param PaymentForServices $paymentForService
+     * @return Response
      */
     public function show(PaymentForServices $paymentForService): Response
     {
@@ -60,6 +69,9 @@ class PaymentForServicesController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="payment_for_services_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param PaymentForServices $paymentForService
+     * @return Response
      */
     public function edit(Request $request, PaymentForServices $paymentForService): Response
     {
@@ -82,6 +94,9 @@ class PaymentForServicesController extends AbstractController
 
     /**
      * @Route("/{id}", name="payment_for_services_delete", methods={"DELETE"})
+     * @param Request $request
+     * @param PaymentForServices $paymentForService
+     * @return Response
      */
     public function delete(Request $request, PaymentForServices $paymentForService): Response
     {

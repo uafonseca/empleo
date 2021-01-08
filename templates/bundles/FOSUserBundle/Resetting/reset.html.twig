@@ -1,0 +1,32 @@
+{% extends 'bundles/FOSUserBundle/layout.html.twig' %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+    <div class="form-box">
+        <div class="form-top">
+            <div class="form-top-left text-center">
+                <h3>Nueva Clave de Acceso</h3>
+            </div>
+            <div class="form-top-right">
+                <span style="color: #428bca"><i class="fa fa-unlock"></i></span>
+            </div>
+        </div>
+        <div class="form-bottom" style="padding: 5px 25px 40px 25px">
+            {{ form_start(form, { 'action': path('fos_user_resetting_reset', {'token': token}), 'attr': { 'class': 'login-form fos_user_resetting_reset' } }) }}
+
+            <div class="form-group">
+                <label>Nueva Contraseña *</label>
+                {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-password'}}) }}
+            </div>
+            <div class="form-group">
+                <label>Repita la Contraseña *</label>
+                {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-password'}}) }}
+            </div>
+            <button type="submit" class="btn"><i class="fa fa-angle-double-right"></i>
+                <strong>Cambiar Contraseña!</strong>
+            </button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock fos_user_content %}

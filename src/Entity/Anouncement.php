@@ -12,6 +12,7 @@
 	/**
 	 * @ORM\Entity(repositoryClass="App\Repository\AnouncementRepository")
 	 * @Vich\Uploadable
+     * @ORM\Table
 	 */
 	class Anouncement
 	{

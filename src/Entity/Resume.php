@@ -13,6 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ResumeRepository")
  * @Vich\Uploadable
+ * @ORM\Table
  */
 class Resume
 {

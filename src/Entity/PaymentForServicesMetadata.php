@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=PaymentForServicesMetadataRepository::class)
+ * @ORM\Table
  */
 class PaymentForServicesMetadata
 {

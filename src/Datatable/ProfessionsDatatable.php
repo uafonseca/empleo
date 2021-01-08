@@ -1,15 +1,16 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: ubel
- * Date: 11/06/20
- * Time: 16:08
+ * Name:  Ubel Angel Fonseca Cedeño
+ * Email: ubelangelfonseca@gmail.com
+ * Date:  7/1/21
+ * Time:  09:33
  */
 
 namespace App\Datatable;
 
 
-use App\Entity\Category;
+use App\Entity\Profession;
 use Exception;
 use Sg\DatatablesBundle\Datatable\AbstractDatatable;
 use Sg\DatatablesBundle\Datatable\Column\ActionColumn;
@@ -17,32 +18,16 @@ use Sg\DatatablesBundle\Datatable\Column\Column;
 use Sg\DatatablesBundle\Datatable\Column\VirtualColumn;
 
 /**
- * Class CategoryDatatable
+ * Class ProfessionsDatatable
  * @package App\Datatable
  */
-class CategoryDatatable extends AbstractDatatable
+class ProfessionsDatatable extends AbstractDatatable
 {
-
-    /**
-     * @return callable|\Closure|null
-     */
-    public function getLineFormatter()
-    {
-        return function ($row){
-            /** @var Category $category */
-            $category = $this->getEntityManager()->getRepository(Category::class)->find($row['id']);
-
-            $row['ico'] = '<p><span class="'.$category->getIco().'"></span> '.$category->getIco().'</p>';
-
-            return $row;
-        };
-    }
-
     /**
      * @param array $options
      * @throws Exception
      */
-    public function buildDatatable(array $options = [])
+    public function buildDatatable(array $options = array())
     {
         $this->ajax->set([
             'url' => $options['url'],
@@ -58,6 +43,7 @@ class CategoryDatatable extends AbstractDatatable
         $this->features->set([
             'processing' => true,
         ]);
+
         $this->columnBuilder
             ->add('id', Column::class,[
                 'title' => 'Id',
@@ -66,17 +52,14 @@ class CategoryDatatable extends AbstractDatatable
             ->add('name',Column::class,[
                 'title' => 'Nombre',
             ])
-            ->add('ico',VirtualColumn::class,[
-                'title' => 'Icono',
-            ])
             ->add('description',Column::class,[
                 'title' => 'Descripción',
             ])
             ->add(null,ActionColumn::class,[
                 'title' => $this->translator->trans('sg.datatables.actions.title'),
                 'actions' => [
-                    TableActions::edit('category_edit'),
-                    TableActions::delete('category_delete'),
+                    TableActions::edit('profession_edit'),
+                    TableActions::delete('profession_delete'),
                 ]
             ])
         ;
@@ -87,7 +70,7 @@ class CategoryDatatable extends AbstractDatatable
      */
     public function getEntity()
     {
-        return Category::class;
+        return Profession::class;
     }
 
     /**
@@ -95,6 +78,6 @@ class CategoryDatatable extends AbstractDatatable
      */
     public function getName()
     {
-        return 'categoryDatatable';
+        return 'professions_datatable';
     }
 }
