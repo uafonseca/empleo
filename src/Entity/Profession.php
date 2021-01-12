@@ -29,7 +29,7 @@ class Profession
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Anouncement", mappedBy="profession")
+     * @ORM\OneToMany(targetEntity="App\Entity\Anouncement", mappedBy="profession", cascade={"persist", "remove"})
      */
     private $anouncements;
 
