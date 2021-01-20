@@ -276,9 +276,6 @@ class User extends BaseUser
      */
     private $userJobMetadata;
 
-
-
-
     public function __construct()
     {
         parent::__construct();
