@@ -82,7 +82,7 @@ class User extends BaseUser
      */
     protected $address;
     /**
-     * @ORM\Column(type="text", length=255, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      * @var string
      */
     protected $about;
@@ -1348,5 +1348,14 @@ class User extends BaseUser
         }
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isReadyToApply(){
+        if ($this->getResume()->getCv() && $this->getResume()->getCart())
+            return true;
+        return false;
     }
 }

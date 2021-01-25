@@ -81,7 +81,7 @@
                                         <div class="job-summary">
                                             <h4>Resumen del servicio</h4>
                                             <ul>
-                                                <li><span>Publicado el:</span> {{ job.date|date('F d, Y') }}</li>
+                                                <li><span>Publicado el:</span> {{ job.date|date('d-m-Y') }}</li>
                                                 {#<li><span>Vacancy:</span> 08</li>#}
                                                 <li><span>Estado del servicio:
                                                 {% if job.type == 'partial' %}
@@ -99,7 +99,7 @@
                                                 <li><span>Experiencia:</span>{{ job.experience }}</li>
                                                 <li><span>Localización del servicio:</span> {{ job.location }}</li>
                                                 <li><span>Salario:</span> ${{ job.value }}</li>
-                                                <li><span>Expira:</span>{{ job.expiredDate|date('F d, Y') }}</li>
+                                                <li><span>Expira:</span>{{ job.expiredDate|date('d-m-Y') }}</li>
                                             </ul>
                                         </div>
                                         <div class="share-job-post">
@@ -113,7 +113,7 @@
                                         </div>
                                         <div class="buttons">
                                             {% if not is_granted('ROLE_ADMIN') %}
-                                                <a href="#" class="button report"><i data-feather="flag"></i>Reortar servicio</a>
+{#                                                <a href="#" class="button report"><i data-feather="flag"></i>Reortar servicio</a>#}
                                             {% endif %}
                                         </div>
                                     </div>

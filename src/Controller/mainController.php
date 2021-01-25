@@ -652,7 +652,11 @@ class mainController extends Controller
     }
 
     /**
-     * @Route("/candidate/{id}/detail", name="canditate_detail")
+     * @param User $canditate
+     * @param AuthorizationCheckerInterface $authChecker
+     * @return Response
+     *
+     *  @Route("/candidate/{id}/detail", name="canditate_detail")
      */
     public function candidateDetails(User $canditate, AuthorizationCheckerInterface $authChecker)
     {

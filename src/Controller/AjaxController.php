@@ -20,6 +20,7 @@ use App\Entity\User;
 use App\Entity\UserJobMeta;
 use App\Repository\JobRepository;
 use App\Repository\UserJobMetaRepository;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -292,12 +293,20 @@ class AjaxController extends Controller
      * @param UserJobMetaRepository $userJobMetadataRepository
      * @param JobRepository $jobRepository
      * @return JsonResponse
-     * @throws \Exception
+     * @throws Exception
      * @Route("/ajax/applied", name="ajax_applied")
      */
     function applied(Request $request, UserJobMetaRepository $userJobMetadataRepository, JobRepository $jobRepository)
     {
+        /** @var User $user */
         $user = $this->getUser();
+
+        if (!$user->isReadyToApply()){
+            return new JsonResponse([
+                'response' => 'warning',
+                'message' => 'Faltan documetos por cargar',
+            ]);
+        }
 
         /** @var Job $job */
         $job = $jobRepository->find($request->request->get('id'));
@@ -389,7 +398,7 @@ class AjaxController extends Controller
                     'data' => 'success',
                 )
             );
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $response = new JsonResponse();
             $response->setStatusCode(423);
             $response->setData(
@@ -462,7 +471,7 @@ class AjaxController extends Controller
             );
             $em->flush();
             return $response;
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $response = new JsonResponse();
             $response->setStatusCode(423);
             $response->setData(
@@ -511,7 +520,7 @@ class AjaxController extends Controller
             );
             return $response;
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $response = new JsonResponse();
             $response->setStatusCode(423);
             $response->setData(
