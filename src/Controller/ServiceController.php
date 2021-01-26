@@ -86,7 +86,7 @@ class ServiceController extends Controller
         $user = $this->getUser();
         $metadata = $this->userService->isReadyToGetService($user);
 
-        if(!$metadata){
+        if(!$metadata || !$user->getBuyFreePackJob()){
             $em = $this->getDoctrine()->getManager();
             $packagesServices =  $em->getRepository(PaymentForServices::class)->findAll();
             /** @var PaymentForServices $service */
@@ -101,6 +101,7 @@ class ServiceController extends Controller
                         ->setActive(true)
                         ->setCurrentPostCount(0);
                     $user->addPaymentForServicesMetadata($metadata);
+                    $user->setBuyFreePackService(true);
 
                     $service->addPaymentForServicesMetadata($metadata);
                     $em->persist($metadata);
@@ -111,6 +112,12 @@ class ServiceController extends Controller
         }
         /** @var PaymentForServicesMetadata $metadata */
         if (null != $metadata = $this->userService->isReadyToGetService($user)) {
+
+            if ($metadata->getCurrentPostCount() == $metadata->getPackage()->getAnouncementsNumberMax()){
+                $metadata->setActive(false);
+                return $this->redirectToRoute('pricing_page', ['type' => 'service']);
+            }
+
             $post = new Anouncement();
             $form = $this->createForm(ServiceJobType::class, $post);
             $entityManager = $this->getDoctrine()->getManager();

@@ -14,6 +14,7 @@ use App\Service\JobService;
 use App\Service\NotificationService;
 use App\Service\UserService;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
+use Exception;
 use Sg\DatatablesBundle\Datatable\DatatableFactory;
 use Sg\DatatablesBundle\Response\DatatableResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -73,7 +74,7 @@ class JobController extends AbstractController
     /**
      * @param Request $request
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      * @Route("/backend/job", name="job_index", methods={"GET","POST"})
      */
     public function index(Request $request): Response
@@ -97,7 +98,7 @@ class JobController extends AbstractController
     /**
      * @param Request $request
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      * @Route("/job/new", name="job_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
@@ -106,7 +107,7 @@ class JobController extends AbstractController
         $user = $this->getUser();
 
         $metadata = $this->userService->isReadyToGetJob($user);
-        if (!$metadata){
+        if (!$metadata && !$user->getBuyFreePackJob()){
             $em = $this->getDoctrine()->getManager();
             $paymentForJobs =  $em->getRepository(PaymentForJobs::class)->findAll();
             /** @var PaymentForJobs $paymentForJob */
@@ -121,6 +122,7 @@ class JobController extends AbstractController
                         ->setActive(true)
                         ->setCurrentPostCount(0);
                     $user->addPaymentForJobsMetadata($metadata);
+                    $user->setBuyFreePackJob(true);
 
                     $paymentForJob->addPaymentForJobsMetadata($metadata);
                     $em->persist($metadata);
@@ -132,6 +134,11 @@ class JobController extends AbstractController
 
         /** @var PaymentForJobsMetadata $metadata */
         if (null != $metadata = $this->userService->isReadyToGetJob($user)) {
+
+            if ($metadata->getCurrentPostCount() == $metadata->getPackage()->getAnouncementsNumberMax()){
+                $metadata->setActive(false);
+                return $this->redirectToRoute('pricing_page', ['type' => 'job']);
+            }
 
             $post = new Job();
             $post->setUser($user);

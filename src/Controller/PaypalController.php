@@ -169,7 +169,7 @@ class PaypalController extends AbstractController
             /** @var PaymentForJobs $pack */
             $pack = $em->getRepository(PaymentForJobs::class)->find($packId);
 
-            if ($pack === null || $pack->getPrice() !== 0)
+            if ($pack === null || $pack->getPrice() !== 0 || $currentUser->getBuyFreePackJob())
                 return $this->redirectToRoute('pricing_page', ['type' => $type]);
 
             $currentUser->addPackageJob($pack);
@@ -189,7 +189,7 @@ class PaypalController extends AbstractController
             /** @var PaymentForServices $pack */
             $pack = $em->getRepository(PaymentForServices::class)->find($packId);
 
-            if ($pack === null || $pack->getPrice() !== 0)
+            if ($pack === null || $pack->getPrice() !== 0 || $currentUser->getBuyFreePackService())
                 return $this->redirectToRoute('pricing_page', ['type' => $type]);
 
             $currentUser->addPackageService($pack);

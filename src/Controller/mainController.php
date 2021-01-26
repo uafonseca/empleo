@@ -584,11 +584,14 @@ class mainController extends Controller
      * @Route("/manage/candidates", name="manage_candidates")
      * Require IS_AUTHENTICATED_FULLY for *every* controller method in this class.
      * @IsGranted("IS_AUTHENTICATED_FULLY")
+     * @param Request $request
+     * @param AuthorizationCheckerInterface $authChecker
+     * @param UserRepository $userRepository
+     * @return Response
      */
     public function manageCandidates(Request $request, AuthorizationCheckerInterface $authChecker, UserRepository $userRepository)
     {
         $verificated = $this->verificateUser($authChecker);
-        $entityManager = $this->getDoctrine()->getManager();
         $users = $userRepository->findCandidatesList($user = $this->getUser()->getId());
         $i = 0;
         foreach ($users as $user) {
@@ -606,8 +609,8 @@ class mainController extends Controller
         $path = $this->getParameter('app.path.user_cv') . '/';
 
         $paymentMetadata = [
-            'jobs' => $this->jobService->getCurrentJobPackage($user),
-            'services' => $this->jobService->getCurrentServicesPackage($user)
+            'jobs' => $this->jobService->getCurrentJobPackage($this->getUser()),
+            'services' => $this->jobService->getCurrentServicesPackage($this->getUser())
         ];
         return $this->render(
             'user/employer/candidate.html.twig',

@@ -49,7 +49,16 @@ class User extends BaseUser
     /**
      * @ORM\Column(type="boolean", length=100, nullable=true)
      */
+    protected $buyFreePackService;
+
+    /**
+     * @ORM\Column(type="boolean", length=100, nullable=true)
+     */
     protected $candidate;
+    /**
+     * @ORM\Column(type="boolean", length=100, nullable=true)
+     */
+    protected $buyFreePackJob;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -1358,4 +1367,38 @@ class User extends BaseUser
             return true;
         return false;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getBuyFreePackService()
+    {
+        return $this->buyFreePackService;
+    }
+
+    /**
+     * @param mixed $buyFreePackService
+     */
+    public function setBuyFreePackService($buyFreePackService): void
+    {
+        $this->buyFreePackService = $buyFreePackService;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBuyFreePackJob()
+    {
+        return $this->buyFreePackJob;
+    }
+
+    /**
+     * @param mixed $buyFreePackJob
+     */
+    public function setBuyFreePackJob($buyFreePackJob): void
+    {
+        $this->buyFreePackJob = $buyFreePackJob;
+    }
+
+
 }

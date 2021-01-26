@@ -9,6 +9,7 @@ use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -48,8 +49,11 @@ class ContactMessageFormType extends AbstractType
                 },
                 'label' => false
             ])
-            ->add('context', CKEditorType::class, [
-                'label' => 'Texto a enviar'
+            ->add('context', TextareaType::class, [
+                'label' => 'Texto a enviar',
+                'attr' => [
+                    'rows' => 10
+                ]
             ])
         ;
     }
