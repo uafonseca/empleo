@@ -8,7 +8,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <h5 class="panel-title pull-left">
-                                    Antecedentes educacionales
+                                    Estudios
                                 </h5>
                             </div>
                         </div>
@@ -18,7 +18,7 @@
                 <div class="panel-body">
                     {{ form_start(form) }}
                       {{ form_row(form.education) }}
-                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
+                    <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Guardar</button>
                     {{ form_end(form) }}
                 </div>
             </div>
@@ -28,7 +28,7 @@
 <script>
     $(document).ready(function () {
         $('.education-collection').collection({
-            add: `<a class="btn btn-primary" href="#"><i class="fa fa-plus"></i> Adicionar habilidad </a>`,
+            add: `<a class="btn btn-primary" href="#"><i class="fa fa-plus"></i> Adicionar</a>`,
             allow_up: false,
             allow_down: false,
             allow_duplicate: false,

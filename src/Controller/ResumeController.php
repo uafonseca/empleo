@@ -19,6 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\Valid;
 
@@ -45,7 +46,7 @@ class ResumeController extends AbstractController
 
     /**
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      * @Route("/skills", name="resume_skills", options={"expose" = true})
      */
     public function skills(Request $request)
@@ -81,7 +82,7 @@ class ResumeController extends AbstractController
 
     /**
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      *  @Route("/about_me", name="resume_about_me", options={"expose" = true})
      */
     public function editAboutMe(Request $request)
@@ -115,7 +116,7 @@ class ResumeController extends AbstractController
 
     /**
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      * @Route("/social_network", name="resume_social_network", options={"expose" = true})
      */
     public function socialNetworks(Request $request){
@@ -129,7 +130,7 @@ class ResumeController extends AbstractController
 
     /**
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      * @Route("/metadata_educacion", name="metadata_educacion", options={"expose" = true})
      */
     public function saveMetadataAntecedente(Request $request)
@@ -181,7 +182,7 @@ class ResumeController extends AbstractController
 
     /**
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      * @Route("/metadata_ocupation", name="metadata_ocupation", options={"expose" = true})
      */
     public function saveMetadataOcupation(Request $request)
@@ -232,7 +233,7 @@ class ResumeController extends AbstractController
 
     /**
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      * @Route("/metadata_professional_skills", name="metadata_professional_skills", options={"expose" = true})
      */
     public function saveMetadataSkill(Request $request)
@@ -283,7 +284,7 @@ class ResumeController extends AbstractController
 
     /**
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      * @Route("/metadata_calification", name="metadata_calification", options={"expose" = true})
      */
     public function saveMetadataCalification(Request $request)

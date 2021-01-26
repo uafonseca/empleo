@@ -452,6 +452,9 @@ class mainController extends Controller
      * @Route("/dashboard/resume/edit", name="dashboard_resume_edit")
      * Require IS_AUTHENTICATED_FULLY for *every* controller method in this class.
      * @IsGranted("IS_AUTHENTICATED_FULLY")
+     * @param Request $request
+     * @param AuthorizationCheckerInterface $authChecker
+     * @return Response
      */
     public function resumeEdit(Request $request, AuthorizationCheckerInterface $authChecker)
     {

@@ -4,13 +4,13 @@
 {% endblock %}
 {% block body %}
     <link rel="stylesheet" type="text/css" href="{{ asset('site/dashboard/css/dashboard.css') }}">
-    {#{% set notifications = notifications %}#}
+    {# {% set notifications = notifications %} #}
     {{ include ('site/header.html.twig',{'notifications': notifications}  ) }}
-    {#{% include notifications %}#}
+    {# {% include notifications %} #}
     <!-- Breadcrumb -->
     <div class="alice-bg padding-top-70 padding-bottom-70">
         <div class="container">
-            {#{{ include('user/employer/info.html.twig') }}#}
+            {# {{ include('user/employer/info.html.twig') }} #}
             <div class="row">
                 <div class="col-md-6">
                     <div class="breadcrumb-area">
@@ -37,30 +37,33 @@
                             <div class="download-resume dashboard-section">
                                 {{ form_start(form_files,{attr: {'action': '/dashboard/resume/edit'} } ) }}
 
-                               <div class="row">
-                                   <div class="col-5">
-                                       {{ form_row(form_files.cvFile) }}
-                                       {% if app.user.resume.cv is not null %}
-                                           <a href="{{ vich_uploader_asset(app.user.resume, 'cvFile') }}" download="{{ vich_uploader_asset(app.user.resume, 'cvFile') }}">
-                                               <i class="fas fa-download"></i>
-                                               Descargar CV actual
-                                           </a>
-                                       {% endif %}
-                                   </div>
-                                   <div class="col-5">
-                                       {{ form_row(form_files.cartFile) }}
-                                       {% if app.user.resume.cart is not null %}
-                                           <a href="{{ vich_uploader_asset(app.user.resume, 'cartFile') }}" download="{{ vich_uploader_asset(app.user.resume, 'cartFile') }}">
-                                               <i class="fas fa-download"></i>
-                                               Descargar carta actual
-                                           </a>
-                                       {% endif %}
-                                   </div>
+                                <div class="row">
+                                    <div class="col-5">
+                                        {{ form_row(form_files.cvFile) }}
+                                        {% if app.user.resume.cv is not null %}
+                                            <a href="{{ vich_uploader_asset(app.user.resume, 'cvFile') }}"
+                                               download="{{ vich_uploader_asset(app.user.resume, 'cvFile') }}">
+                                                <i class="fas fa-download"></i>
+                                                Descargar CV actual
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-5">
+                                        {{ form_row(form_files.cartFile) }}
+                                        {% if app.user.resume.cart is not null %}
+                                            <a href="{{ vich_uploader_asset(app.user.resume, 'cartFile') }}"
+                                               download="{{ vich_uploader_asset(app.user.resume, 'cartFile') }}">
+                                                <i class="fas fa-download"></i>
+                                                Descargar carta actual
+                                            </a>
+                                        {% endif %}
+                                    </div>
 
-                                   <div class="col-2 pt-5">
-                                       <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Guardar</button>
-                                   </div>
-                               </div>
+                                    <div class="col-2 pt-5">
+                                        <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Guardar
+                                        </button>
+                                    </div>
+                                </div>
 
                                 {{ form_end(form_files) }}
                                 <ul class="list-group">
@@ -72,8 +75,9 @@
                             <div class="skill-and-profile dashboard-section">
                                 <div id="skill-container" class="skill">
                                     <label>Habilidades:</label>
-                                    <a type="button" href="{{ path('resume_skills') }}" class="btn btn-primary edit-button pull-right edit-cv"
-                                            data-toggle="modal" data-target="#modal-skill">
+                                    <a type="button" href="{{ path('resume_skills') }}"
+                                       class="btn btn-primary edit-button pull-right edit-cv"
+                                       data-toggle="modal" data-target="#modal-skill">
                                         <i data-feather="edit-2"></i>
                                     </a>
                                     <div id="container-skils">
@@ -85,8 +89,9 @@
                                 </div>
                                 <div class="social-profile">
                                     <label>Social:</label>
-                                    <a href="{{ path('resume_social_network') }}" class="btn btn-primary edit-button edit-cv" data-toggle="modal"
-                                            data-target="#modal-social">
+                                    <a href="{{ path('resume_social_network') }}"
+                                       class="btn btn-primary edit-button edit-cv" data-toggle="modal"
+                                       data-target="#modal-social">
                                         <i data-feather="edit-2"></i>
                                     </a>
                                     <div>
@@ -95,35 +100,35 @@
                                             <a target="_blank" href="{{ app.user.sociallinks["fb"] }}"><i
                                                         class="fab fa-facebook-f"></i></a>
                                         {% endif %}
-                                        {% if  app.user.sociallinks["twitter"] is defined  %}
+                                        {% if  app.user.sociallinks["twitter"] is defined %}
                                             <a target="_blank" href="{{ app.user.sociallinks["twitter"] }}"><i
                                                         class="fab fa-twitter"></i></a>
                                         {% endif %}
-                                        {% if  app.user.sociallinks["google"] is defined  %}
+                                        {% if  app.user.sociallinks["google"] is defined %}
                                             <a target="_blank" href="{{ app.user.sociallinks["google"] }}"><i
                                                         class="fab fa-google-plus"></i></a>
                                         {% endif %}
-                                        {% if  app.user.sociallinks["linkedin"] is defined  %}
-                                            <a target="_blank" href="{{ app.user.sociallinks["linkedin"]  }}"><i
+                                        {% if  app.user.sociallinks["linkedin"] is defined %}
+                                            <a target="_blank" href="{{ app.user.sociallinks["linkedin"] }}"><i
                                                         class="fab fa-linkedin-in"></i></a>
                                         {% endif %}
-                                        {% if  app.user.sociallinks["printerest"] is defined  %}
+                                        {% if  app.user.sociallinks["printerest"] is defined %}
                                             <a target="_blank" href="{{ app.user.sociallinks["printerest"] }}"><i
                                                         class="fab fa-pinterest-p"></i></a>
                                         {% endif %}
-                                        {% if  app.user.sociallinks["instagram"] is defined  %}
+                                        {% if  app.user.sociallinks["instagram"] is defined %}
                                             <a target="_blank" href="{{ app.user.sociallinks["instagram"] }}"><i
                                                         class="fab fa-instagram"></i></a>
                                         {% endif %}
-                                        {% if  app.user.sociallinks["behance"] is defined  %}
+                                        {% if  app.user.sociallinks["behance"] is defined %}
                                             <a target="_blank" href="{{ app.user.sociallinks["behance"] }}"><i
                                                         class="fab fa-behance"></i></a>
                                         {% endif %}
-                                        {% if  app.user.sociallinks["dribbble"] is defined  %}
+                                        {% if  app.user.sociallinks["dribbble"] is defined %}
                                             <a target="_blank" href="{{ app.user.sociallinks["dribbble"] }}"><i
                                                         class="fab fa-dribbble"></i></a>
                                         {% endif %}
-                                        {% if  app.user.sociallinks["github"] is defined  %}
+                                        {% if  app.user.sociallinks["github"] is defined %}
                                             <a target="_blank" href="{{ app.user.sociallinks["github"] }}"><i
                                                         class="fab fa-github"></i></a>
                                         {% endif %}
@@ -140,55 +145,73 @@
                                         <p>Ups! NO hay nada aquí</p>
                                     {% endif %}
                                 </div>
-                                <div class="information-and-contact">
-                                    <div class="information">
-                                        <h4>Información</h4>
-                                        <ul>
-                                            <li><span>Category:</span> {% for c in app.user.category %} {{ c }}<br>{% endfor %}</li>
-                                            <li><span>Ubicación:</span> {{ app.user.address }} </li>
-                                            <li><span>Disponibilidad:</span> {{ app.user.status }}</li>
-                                            <li><span>Experiencia:</span> {{ app.user.experience }} Años</li>
-                                            <li><span>Género:</span> {{ app.user.gender }}</li>
-                                            <li><span>Edad:</span> {{ app.user.age }} Años</li>
-                                            <li><span>Estudios:</span> {{ app.user.higherLevelTitlee }}</li>
-                                        </ul>
-                                    </div>
-                                </div>
+
                                 <!-- Button trigger modal -->
-                                <a href="{{ path('resume_about_me') }}" class="btn btn-primary edit-resume edit-cv" data-toggle="modal"
-                                        data-target="#modal-about-me">
-                                    <i data-feather="edit-2"></i>
-                                </a>
-                            </div>
-                            <div class="edication-background details-section dashboard-section">
-                                <h4><i data-feather="book"></i>Antecedentes educacionales</h4>
-                                {% for m in resume.education %}
-                                        <div id="div1-{{ m.id }}" class="education-label">
-                                            <span class="study-year">{{ m.title }} [ {{  m.periode  }} ]</span>
-                                            <h5>{{ m.institute }}</h5>
-                                            <p>{{ m.context }}</p>
-                                        </div>
-                                {% endfor %}
-                                <!-- Button trigger modal -->
-                                <a  href="{{ path('metadata_educacion') }}" class="btn btn-primary edit-resume edit-cv" data-toggle="modal"
-                                        data-target="#modal-education">
+                                <a href="{{ path('resume_about_me') }}" class="btn btn-primary edit-resume edit-cv"
+                                   data-toggle="modal"
+                                   data-target="#modal-about-me">
                                     <i data-feather="edit-2"></i>
                                 </a>
 
+                            </div>
+
+                            <div class="edication-background details-section dashboard-section">
+                                <h4><i data-feather="book"></i>Información</h4>
+                                <ul>
+                                    <li>
+                                        <span>Categoría:</span>
+                                        <ul>
+                                            {% for c in app.user.category %}
+                                                <li><p class="text-muted"> {{ c }}</p></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                    <li><span>Ubicación:</span> {{ app.user.address }} </li>
+                                    <li><span>Disponibilidad:</span> {{ app.user.status }}</li>
+                                    <li><span>Experiencia:</span> {{ app.user.experience }} Años</li>
+                                    <li><span>Género:</span> {{ app.user.gender }}</li>
+                                    <li><span>Edad:</span> {{ app.user.age }} Años</li>
+                                    <li><span>Estudios:</span> {{ app.user.higherLevelTitlee }}</li>
+                                </ul>
+                                <a href="{{ path('fos_user_profile_edit') }}" class="btn btn-primary edit-resume">
+                                    <i data-feather="edit-2"></i>
+                                </a>
+                            </div>
+
+
+
+
+
+                            <div class="edication-background details-section dashboard-section">
+                                <h4><i data-feather="book"></i>Estudios</h4>
+                                {% for m in resume.education %}
+                                    <div id="div1-{{ m.id }}" class="education-label">
+                                        <span class="study-year">{{ m.title }} [ {{ m.periode }} ]</span>
+                                        <h5>{{ m.institute }}</h5>
+                                        <p>{{ m.context }}</p>
+                                    </div>
+                                {% endfor %}
+                                <!-- Button trigger modal -->
+                                <a href="{{ path('metadata_educacion') }}" class="btn btn-primary edit-resume edit-cv"
+                                   data-toggle="modal"
+                                   data-target="#modal-education">
+                                    <i data-feather="edit-2"></i>
+                                </a>
                             </div>
                             <hr style="margin: 50px;">
                             <div class="experience dashboard-section details-section">
                                 <h4><i data-feather="briefcase"></i>Experiencia Laboral</h4>
                                 {% for m in resume.ocupations %}
-                                        <div id="div1-{{ m.id }}" class="experience-section">
-                                            <span class="study-year">{{ m.title }} [ {{  m.periode  }} ]</span>
-                                            <h5>{{ m.company }}</h5>
-                                            <p>{{ m.context }}</p>
-                                        </div>
+                                    <div id="div1-{{ m.id }}" class="experience-section">
+                                        <span class="study-year">{{ m.title }} [ {{ m.periode }} ]</span>
+                                        <h5>{{ m.company }}</h5>
+                                        <p>{{ m.context }}</p>
+                                    </div>
                                 {% endfor %}
 
-                                <a href="{{ path('metadata_ocupation') }}" class="btn btn-primary edit-resume edit-cv" data-toggle="modal"
-                                        data-target="#modal-experience">
+                                <a href="{{ path('metadata_ocupation') }}" class="btn btn-primary edit-resume edit-cv"
+                                   data-toggle="modal"
+                                   data-target="#modal-experience">
                                     <i data-feather="edit-2"></i>
                                 </a>
 
@@ -198,27 +221,28 @@
                                 <h4><i data-feather="feather"></i>Habilidad profesional</h4>
                                 <div class="progress-group col-sm-10">
                                     {% for m in resume.professionalSkills %}
-                                            <div id="div1-{{ m.id }}" class="progress-item col-md-6">
-                                                <div class="progress-head">
-                                                    <p class="progress-on">{{ m.name }}</p>
-                                                </div>
-                                                <div class="progress-body">
-                                                    <div class="progress">
-                                                        <div class="progress-bar" role="progressbar"
-                                                             aria-valuenow="{{ m.porcent }}"
-                                                             aria-valuemin="0" aria-valuemax="100"
-                                                             style="width: 0;"></div>
-                                                    </div>
-                                                    <p class="progress-to">{{ m.porcent }}%</p>
-                                                </div>
+                                        <div id="div1-{{ m.id }}" class="progress-item col-md-6">
+                                            <div class="progress-head">
+                                                <p class="progress-on">{{ m.name }}</p>
                                             </div>
+                                            <div class="progress-body">
+                                                <div class="progress">
+                                                    <div class="progress-bar" role="progressbar"
+                                                         aria-valuenow="{{ m.porcent }}"
+                                                         aria-valuemin="0" aria-valuemax="100"
+                                                         style="width: 0;"></div>
+                                                </div>
+                                                <p class="progress-to">{{ m.porcent }}%</p>
+                                            </div>
+                                        </div>
                                     {% endfor %}
                                     <span id="point"></span>
                                 </div>
                                 <!-- Button trigger modal -->
 
-                                <a href="{{ path('metadata_professional_skills') }}" style="z-index: 100; " class="btn btn-primary edit-resume edit-cv"
-                                        data-toggle="modal" data-target="#modal-pro-skill-edit">
+                                <a href="{{ path('metadata_professional_skills') }}" style="z-index: 100; "
+                                   class="btn btn-primary edit-resume edit-cv"
+                                   data-toggle="modal" data-target="#modal-pro-skill-edit">
                                     <i data-feather="edit-2"></i>
                                 </a>
 
@@ -231,8 +255,9 @@
                                         <li>{{ m.name }}</li>
                                     {% endfor %}
                                 </ul>
-                                <a href="{{ path('metadata_calification') }}" class="btn btn-primary edit-resume edit-cv" data-toggle="modal"
-                                        data-target="#modal-qualification-remove">
+                                <a href="{{ path('metadata_calification') }}"
+                                   class="btn btn-primary edit-resume edit-cv" data-toggle="modal"
+                                   data-target="#modal-qualification-remove">
                                     <i data-feather="edit-2"></i>
                                 </a>
                             </div>
@@ -257,17 +282,17 @@
 
 {% endblock %}
 {% block js %}
-    {#<script src="{{ asset('site/js/ajax.js') }}"></script>#}
+    {# <script src="{{ asset('site/js/ajax.js') }}"></script> #}
     {{ encore_entry_script_tags('cv') }}
     <script !src="">
         $(document).ready(function () {
             $('#resume_files_cvFile, #resume_files_cartFile').fileinput({
-                dropZoneEnabled:false,
+                dropZoneEnabled: false,
                 browseLabel: '&nbsp;Importar',
                 browseIcon: '<i class="fa fa-upload"></i>&nbsp;',
                 removeLabel: 'Eliminar',
                 showUpload: false,
-                allowedFileExtensions:['pdf'],
+                allowedFileExtensions: ['pdf'],
                 maxFileSize: '1024',
             });
         })

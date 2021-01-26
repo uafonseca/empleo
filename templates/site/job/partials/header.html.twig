@@ -48,15 +48,15 @@
                         <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true"
                            aria-expanded="false">Empleador</a>
                         <ul class="dropdown-menu">
-                            {% if is_granted('ROLE_SUPER_ADMIN') %}
-                                <li class="menu-item"><a title="About" href="#">Listado de empleadores</a></li>
-                            {% endif %}
-                            {#<li class="menu-item"><a title="About" href="{{ path('candidates') }}">Lista de#}
-                                    {#candidatos</a></li>#}
-                            <li class="menu-item"><a title="About" href="{{ path('dashboard') }}">Tablero</a></li>
-                            <li class="menu-item"><a title="About" href="{{ path('candidates') }}">Gestión de
+{#                            {% if is_granted('ROLE_SUPER_ADMIN') %}#}
+{#                                <li class="menu-item"><a title="About" href="#">Listado de empleadores</a></li>#}
+{#                            {% endif %}#}
+                            <li class="menu-item"><a title="About" href="{{ path('candidates') }}">Lista de
                                     candidatos</a></li>
-                            <li class="menu-item"><a title="About" href="{{ path('job_list') }}">Gestionar trabajo</a>
+                            <li class="menu-item"><a title="About" href="{{ path('dashboard') }}">Tablero</a></li>
+{#                            <li class="menu-item"><a title="About" href="{{ path('candidates') }}">Gestión de#}
+{#                                    candidatos</a></li>#}
+                            <li class="menu-item"><a title="About" href="{{ path('job_manage') }}">Gestionar trabajos</a>
                             </li>
                             <li class="menu-item"><a title="About" href="{{ path('job_new') }}">Publicar trabajo</a>
                             </li>

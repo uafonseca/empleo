@@ -23,13 +23,15 @@ host('production')
     ->user('deploy')
     ->set('deploy_path', '/var/www/html/empleo_prod');
 
+set('composer_options', '{{composer_action}} --verbose --prefer-dist --no-progress --no-interaction --optimize-autoloader --no-suggest');
+
 set('git_tty', false);
 
 set('writable_mode', 'chmod');
 
 set('writable_use_sudo', true);
 
-set('writable_chmod_recursive', true);
+set('writable_chmod_recursive',true);
 
 set('shared_dirs', ['var/log', 'var/sessions', 'vendor', 'public/images', 'public/site/images', 'public/site/docs']);
 
@@ -53,6 +55,11 @@ set('release_version_text', function () {
         $release = input()->getOption('tag');
     }
     return $release;
+});
+
+desc('chmod');
+task('chmod:777', function () {
+    run('sudo chmod -R 777 {{deploy_path}}/releases/{{release_name}}');
 });
 
 
@@ -82,6 +89,7 @@ task('build', [
 
 after('deploy:vendors', 'build');
 after('deploy:failed',  'deploy:unlock');
+after('cleanup', 'chmod:777');
 
 
 
