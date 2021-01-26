@@ -101,15 +101,15 @@ class JobType extends AbstractType
                 'attr' => ['id' => 'city'],
                 'label'=>'Ciudad'
             ])
-            ->add('gender', ChoiceType::class, [
-                'choices' => [
-                    'Femenino' => 'femenino',
-                    'Másculino' => 'masculino',
-                    'Cualquier' => 'cualquier',
-                ],
-                'placeholder' => 'Género',
-                'label'=>'Género'
-            ])
+//            ->add('gender', ChoiceType::class, [
+//                'choices' => [
+//                    'Femenino' => 'femenino',
+//                    'Másculino' => 'masculino',
+//                    'Cualquier' => 'cualquier',
+//                ],
+//                'placeholder' => 'Género',
+//                'label'=>'Género'
+//            ])
             ->add('zip_code', null, [
                 'attr' => ['id' => 'postal_code'],
                 'label'=>'Código postal'

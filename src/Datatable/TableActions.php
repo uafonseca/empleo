@@ -2,6 +2,10 @@
 
 namespace App\Datatable;
 
+/**
+ * Class TableActions
+ * @package App\Datatable
+ */
 class TableActions
 {
     /**

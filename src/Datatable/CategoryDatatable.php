@@ -10,6 +10,7 @@ namespace App\Datatable;
 
 
 use App\Entity\Category;
+use Exception;
 use Sg\DatatablesBundle\Datatable\AbstractDatatable;
 use Sg\DatatablesBundle\Datatable\Column\ActionColumn;
 use Sg\DatatablesBundle\Datatable\Column\Column;
@@ -39,7 +40,7 @@ class CategoryDatatable extends AbstractDatatable
 
     /**
      * @param array $options
-     * @throws \Exception
+     * @throws Exception
      */
     public function buildDatatable(array $options = [])
     {

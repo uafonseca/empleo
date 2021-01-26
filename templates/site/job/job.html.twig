@@ -32,6 +32,11 @@
                             </ol>
                         </nav>
                     </div>
+                    <div class="alert alert-info">
+                        <div class="alert-message">
+                            Ahora puedes promocionar tus servicios o productos, hay muchos interesados en comprar lo que ofertas
+                        </div>
+                    </div>
                 </div>
                 {{ include('user/employer/package.html.twig') }}
             </div>
@@ -74,7 +79,7 @@
                                             <div class="col-md-6">{{ form_row(form.salary_min) }}</div>
                                             <div class="col-md-6">{{ form_row(form.qualification) }}</div>
                                             <div class="col-md-6">{{ form_row(form.date) }}</div>
-                                            <div class="col-md-6">{{ form_row(form.gender) }}</div>
+{#                                            <div class="col-md-6">{{ form_row(form.gender) }}</div>#}
                                         </div>
                                     </div>
                                 </div>
@@ -115,24 +120,26 @@
                                                         'attr': {
                                                             'class': 'form-control',
                                                             'onFocus': 'geolocate()',
-                                                            'placeholder':'Su ubicación',
+                                                            'placeholder':'Detallar sector',
                                                             'required':'required',
                                                         } }) }}
                                                 </div>
                                                 <div class="container">
                                                     <div class="row">
                                                         <div class="col-md-12">
-                                                            <label class="label">Dirección</label>
+{#                                                            <label class="label">Calle</label>#}
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <input class="field form-control" id="street_number"
+                                                                       placeholder="Calle principal"
                                                                 />
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <input class="field form-control" id="route"
+                                                                       placeholder="Calle secundaria"
                                                                 />
                                                             </div>
                                                         </div>
@@ -146,7 +153,7 @@
                                                                 } }) }}
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <label class="label">Estado</label>
+                                                            <label class="label">Provincia</label>
                                                             <input class="field form-control" placeholder=""
                                                                    id="administrative_area_level_1"/>
                                                         </div>
@@ -198,7 +205,7 @@
                                             <input class="custom-radio" required type="checkbox" id="radio-4"
                                                    name="termsandcondition">
                                             <label for="radio-4">
-                                                <span class="dot"></span> Acepta nuestros <a
+                                                <span class="dot"></span> Acepta nuestros <a target="_blank"
                                                         href="{{ path('site_policy') }}">Términos,
                                                     Condiciones y Política de privacidad</a>
                                             </label>
@@ -213,7 +220,9 @@
                                 </div>
 
                             </div>
-                            {{ form_rest(form) }}
+                            <div class="hidden">
+                                {{ form_rest(form) }}
+                            </div>
                             {{ form_end(form) }}
                         </div>
                         <div class="post-sidebar">
@@ -241,10 +250,65 @@
     <script src="{{ asset('site/dashboard/js/datePicker.js') }}"></script>
     <script src="{{ asset('site/dashboard/js/upload-input2.js') }}"></script>
     <script src="{{ asset('site/js/bootstrap-multiselect.js') }}"></script>
-
     <script>
         $(document).ready(function () {
-            coreApp.plugins.initNewFileInput('#job_company_archivoFile','{{ vich_uploader_asset(company,'archivoFile') }}')
+            $('#multiselect').multiselect({
+                buttonWidth: '300px',
+
+            });
+            $('.file-input').change(function () {
+                var curElement = $('.image');
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    // get loaded data and render thumbnail.
+                    curElement.attr('src', e.target.result);
+                };
+
+                // read the image file as a data URL.
+                reader.readAsDataURL(this.files[0]);
+            });
+
+            $('#service_job_imageFile').change(function () {
+                var curElement = $(this).parent().parent().parent().find('.image');
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    // get loaded data and render thumbnail.
+                    curElement.attr('src', e.target.result);
+                };
+
+                // read the image file as a data URL.
+                reader.readAsDataURL(this.files[0]);
+            });
+
+            $('#service_job_images').collection({
+                add: `<a class="btn btn-primary pull-right" href="#"><i class="fas fa-plus" style="position: relative; top: 0;color: white;"></i></a>`,
+                remove: `<a href="#" class="btn btn-danger mt-collection pull-right"><i class="fas fa-trash" style="position: relative; top: 0;color: white;"></i></a>`,
+                allow_up: false,
+                allow_down: false,
+                allow_duplicate: false,
+                add_at_the_end: true,
+                after_add: function (collection, item) {
+                    $('.file-to-upload').fileinput({
+                        dropZoneEnabled:false,
+                        browseLabel: '&nbsp;Buscar',
+                        // browseIcon: '<i class="fa fa-upload" style="position: relative; color: white"></i>&nbsp;',
+                        removeLabel: 'Eliminar',
+                        showCancel:false,
+                        showUpload: false,
+                        allowedFileExtensions:['png','jpg','gif','jpeg'],
+                        maxFileSize: '1024',
+                    });
+                }
+            })
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            {% if company is not null %}
+                coreApp.plugins.initNewFileInput('#job_company_archivoFile','{{ vich_uploader_asset(company,'archivoFile') }}')
+            {% endif %}
         })
     </script>
 {% endblock %}

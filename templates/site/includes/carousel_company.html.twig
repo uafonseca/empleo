@@ -1,15 +1,21 @@
-{% for company in companies %}
-    <div class="company-wrap">
-        <div class="thumb" style="height: 100px!important;">
-            <a href="#">
-                <img src="{{ vich_uploader_asset(company,'archivoFile') }}" class="img-fluid"
-                     alt="">
-            </a>
-        </div>
-        <div class="body">
-            <h4><a href="#">{{ company.name }}</a></h4>
-            <a href="{{ path('search_company', {'id': company.id}) }}" class="button">Ver
-                ofertas</a>
-        </div>
+<div class="owl-stage-outer">
+    <div class="text-center" style="align-items: center">
+        {% for company in companies %}
+            <div class="owl-item m-5">
+                <div class="company-wrap">
+                    <div class="thumb" style="height: 100px!important;">
+                        <a href="#">
+                            <img src="{{ vich_uploader_asset(company,'archivoFile') }}" class="img-fluid"
+                                 alt="">
+                        </a>
+                    </div>
+                    <div class="body">
+                        <h4><a href="#">{{ company.name }}</a></h4>
+                        <a href="{{ path('search_company', {'id': company.id}) }}" class="button">Ver
+                            ofertas</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
     </div>
-{% endfor %}
+</div>

@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Form\UserType;
 use App\Mailer\Mailer;
 use FOS\UserBundle\Event\GetResponseUserEvent;
+use Swift_Mailer;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,11 +43,11 @@ class SecurityController extends Controller
 
     /**
      * @param Request $request
-     * @param \Swift_Mailer $mailer
+     * @param Swift_Mailer $mailer
      * @return RedirectResponse|Response|null
      * @Route("/register", name="app_register")
      */
-    public function register(Request $request, \Swift_Mailer $mailer)
+    public function register(Request $request, Swift_Mailer $mailer)
     {
         $user = new User();
         $user->setEnabled(true);

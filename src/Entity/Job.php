@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\File\File;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\JobRepository")
  * @Vich\Uploadable
+ * @ORM\Table
  */
 class Job
 {

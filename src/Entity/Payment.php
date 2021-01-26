@@ -4,10 +4,25 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/** @ORM\MappedSuperclass() */
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="payment", indexes={@ORM\Index(name="type_idx", columns={"type"})})
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="type", type="string", length=2)
+ * @ORM\DiscriminatorMap({
+ *     "j"="PaymentForJobs",
+ *     "s"="PaymentForServices"
+ * })
+ */
 abstract class Payment
 {
-	
+    /**
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
+     */
+    protected $id;
+
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -22,6 +37,26 @@ abstract class Payment
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $aux;
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     * @return Payment
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+
 
     /**
      * @ORM\Column(type="integer")

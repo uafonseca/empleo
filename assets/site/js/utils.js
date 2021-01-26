@@ -42,9 +42,11 @@ function applied(id) {
     }).done(function (response) {
         if(response.data){
             $('#applied-btn-'+id).html("Cancelar")
+            toastr.success('Has aplicado a la oferta!')
         }
         else{
             $('#applied-btn-'+id).html("Aplica ya!")
+            toastr.warning(response.message)
         }
 
     }).fail(function (data) {

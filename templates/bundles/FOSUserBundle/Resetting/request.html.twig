@@ -1,0 +1,20 @@
+{% extends "bundles/FOSUserBundle/layout.html.twig" %}
+
+{% block body %}
+<div class="container" style="padding-top: 10%!important; height: auto;">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request">
+                <div>
+                    <label for="username">Dirección de correo electrónico</label>
+                    <input type="text" id="username" name="username" required="required" />
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-send-o"></i> Enviar</button>
+                </div>
+                <div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock body %}

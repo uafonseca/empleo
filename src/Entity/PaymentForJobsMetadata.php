@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=PaymentForJobsMetadataRepository::class)
+ * @ORM\Table
  */
 class PaymentForJobsMetadata
 {
@@ -20,7 +21,7 @@ class PaymentForJobsMetadata
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=user::class, inversedBy="paymentForJobsMetadata")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="paymentForJobsMetadata")
      */
     private $user;
 

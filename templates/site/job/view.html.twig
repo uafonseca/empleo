@@ -69,8 +69,11 @@
                                         </ul>
                                     </div>
                                     <div class="job-apply-buttons">
-                                        {% if not is_granted('ROLE_ADMIN') %}
-                                        <a href="#" class="email"><i data-feather="mail"></i>Enviar email</a>
+                                        {% if not is_granted('ROLE_ADMIN') and app.user is not null %}
+                                                <a href="{% if app.user is null %}{{ path('app_login') }}{% endif %}" class="email"><i data-feather="mail"></i>Enviar email</a>
+                                        {% endif %}
+                                        {% if app.user is null %}
+                                            <a href="{% if app.user is null %}{{ path('app_login') }}{% endif %}" class="email"><i data-feather="mail"></i>Aplica ya!</a>
                                         {% endif %}
                                     </div>
                                 </div>
@@ -79,7 +82,7 @@
                                         <div class="job-summary">
                                             <h4>Resumen del empleo</h4>
                                             <ul>
-                                                <li><span>Publicado el:</span> {{ job.dateCreated|date('F d, Y') }}</li>
+                                                <li><span>Publicado el:</span> {{ job.dateCreated|date('d-m-Y') }}</li>
                                                 {#<li><span>Vacancy:</span> 08</li>#}
                                                 <li><span>Estado del Empleo:
                                                 {% if job.type == 'partial' %}
@@ -98,8 +101,8 @@
                                                 <li><span>Localización del empleo:</span> {{ job.yourLocaltion }}</li>
                                                 {#<li><span>Salario:</span> ${{ job.salaryMin }} - ${{ job.salaryMax }}</li>#}
                                                 <li><span>Salario:</span> ${{ job.salaryMin }}</li>
-                                                <li><span>Gender:</span> {{ job.gender }}</li>
-                                                <li><span>Expira:</span>{{ job.expiredDate|date('F d, Y') }}</li>
+                                                <li><span>Sexo:</span> {{ job.gender }}</li>
+                                                <li><span>Expira:</span>{{ job.expiredDate|date('d-m-Y') }}</li>
                                             </ul>
                                         </div>
                                         <div class="share-job-post">
@@ -111,15 +114,15 @@
                                         </div>
                                         <div class="buttons">
                                             {% if not is_granted('ROLE_ADMIN') %}
-                                            <a href="#" class="button report"><i data-feather="flag"></i>Reortar empleo</a>
+{#                                            <a href="#" class="button report"><i data-feather="flag"></i>Reortar empleo</a>#}
                                             {% endif %}
                                         </div>
-                                        <div class="job-location">
-                                            <h4>Localización</h4>
-                                            <div id="map-area">
-                                                <div class="cp-map" id="location" data-lat="40.713355" data-lng="-74.005535" data-zoom="10"></div>
-                                            </div>
-                                        </div>
+{#                                        <div class="job-location">#}
+{#                                            <h4>Localización</h4>#}
+{#                                            <div id="map-area">#}
+{#                                                <div class="cp-map" id="location" data-lat="40.713355" data-lng="-74.005535" data-zoom="10"></div>#}
+{#                                            </div>#}
+{#                                        </div>#}
                                     </div>
                                 </div>
                             </div>

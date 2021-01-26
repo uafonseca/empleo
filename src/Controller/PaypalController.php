@@ -9,7 +9,9 @@ use App\Entity\PaymentForServices;
 use App\Entity\PaymentForServicesMetadata;
 use App\Entity\User;
 use App\Service\PaymentForJobsMetadataService;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -37,7 +39,7 @@ class PaypalController extends AbstractController
 
     /**
      * @param $type
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse
      * @Route("/cancell/{type}", name="pago_cancelado")
      */
     public function pagoCancelado($type){
@@ -48,8 +50,8 @@ class PaypalController extends AbstractController
 
     /**
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     * @throws \Exception
+     * @return RedirectResponse
+     * @throws Exception
      * @Route("/buypackage/{type}/{uuid}", name="buy_package")
      */
     public function buyPackage(Request $request,$type,$uuid)
@@ -132,8 +134,8 @@ class PaypalController extends AbstractController
     /**
      * @param $packId
      * @param $type
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     * @throws \Exception
+     * @return RedirectResponse
+     * @throws Exception
      * @Route("/buypackage/free/{packId}/{type}", name="buy_package_free")
      */
     public function buyPackageFree($packId, $type)

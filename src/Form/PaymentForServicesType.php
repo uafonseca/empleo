@@ -35,7 +35,8 @@ class PaymentForServicesType extends AbstractType
                 'label' => 'Días con prioridad'
             ])
             ->add('paypalCode',TextareaType::class,[
-                'label' => 'Código PayPal'
+                'label' => 'Código PayPal',
+                'required' => false
             ])
         ;
     }

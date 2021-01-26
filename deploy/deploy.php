@@ -9,29 +9,31 @@ require __DIR__ . './../vendor/deployer/recipes/recipe/yarn.php';
 
 set('repository', 'git@github.com:roberto910907/empleo.ec.git');
 
-set('application', 'empleo.ec');
+set('application', 'serviciosyempleos');
 
 host('beta')
     ->hostname('emplear.gessmac.com')
+    ->set('branch', 'develop')
     ->user('deploy')
     ->set('deploy_path', '/var/www/html/empleo');
 
 host('production')
-    ->hostname('emplear.gessmac.com')//serviciosyempleos.com
+    ->hostname('serviciosyempleos.com')
+    ->set('branch', 'master')
     ->user('deploy')
     ->set('deploy_path', '/var/www/html/empleo_prod');
 
 set('git_tty', false);
-
-set('shared_dirs', ['var/log', 'var/sessions', 'vendor', 'public/images', 'public/site/images', 'public/site/docs']);
-
-set('writable_dirs', ['var', 'public']);
 
 set('writable_mode', 'chmod');
 
 set('writable_use_sudo', true);
 
 set('writable_chmod_recursive', true);
+
+set('shared_dirs', ['var/log', 'var/sessions', 'vendor', 'public/images', 'public/site/images', 'public/site/docs']);
+
+set('writable_dirs', ['var/log','var/cache','var/sessions', 'public/','/var/www/html/empleo','/var/www/html/empleo_prod']);
 
 set('ssh_multiplexing', true);
 
@@ -69,9 +71,6 @@ task('assets:install', '{{bin/console}} assets:install --symlink public');
 desc('Dumping js routes');
 task('dump:js-routes', '{{bin/console}} fos:js-routing:dump --target=public/bundles/fosjsrouting/js/fos_js_routing.js');
 
-desc('chmod');
-task('chmod', '{{bin/console}} assets:install --symlink public');
-
 
 task('build', [
 //    'database:update',
@@ -82,7 +81,7 @@ task('build', [
 ]);
 
 after('deploy:vendors', 'build');
-after('deploy:failed', 'deploy:unlock');
+after('deploy:failed',  'deploy:unlock');
 
 
 

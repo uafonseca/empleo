@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\constants;
 use App\Datatable\JobDatatable;
 use App\Entity\Job;
+use App\Entity\PaymentForJobs;
 use App\Entity\PaymentForJobsMetadata;
 use App\Entity\User;
 use App\Form\JobType;
@@ -103,6 +104,32 @@ class JobController extends AbstractController
     {
         /** @var User $user */
         $user = $this->getUser();
+
+        $metadata = $this->userService->isReadyToGetJob($user);
+        if (!$metadata){
+            $em = $this->getDoctrine()->getManager();
+            $paymentForJobs =  $em->getRepository(PaymentForJobs::class)->findAll();
+            /** @var PaymentForJobs $paymentForJob */
+            foreach ($paymentForJobs as $paymentForJob){
+                if ($paymentForJob->getPrice() === 0){
+                    $user->addPackageJob($paymentForJob);
+                    $metadata = new PaymentForJobsMetadata();
+                    $metadata
+                        ->setUser($user)
+                        ->setPackage($paymentForJob)
+                        ->setDatePurchase(new \DateTime('now'))
+                        ->setActive(true)
+                        ->setCurrentPostCount(0);
+                    $user->addPaymentForJobsMetadata($metadata);
+
+                    $paymentForJob->addPaymentForJobsMetadata($metadata);
+                    $em->persist($metadata);
+                    $em->flush();
+                    break;
+                }
+            }
+        }
+
         /** @var PaymentForJobsMetadata $metadata */
         if (null != $metadata = $this->userService->isReadyToGetJob($user)) {
 

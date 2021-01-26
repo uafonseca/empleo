@@ -31,10 +31,12 @@ use App\Repository\UserRepository;
 use App\Service\CategoryService;
 use App\Service\CompanyService;
 use App\Service\JobService;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -119,7 +121,7 @@ class mainController extends Controller
                     }
                 }
             } catch (IOExceptionInterface $exception) {
-                echo $exception->getMessage();
+
             }
             if (!$this->container->get('app.service.checker')->isUserValid()) {
                 return true;
@@ -222,14 +224,14 @@ class mainController extends Controller
      */
     public function index(AuthorizationCheckerInterface $authChecker): Response
     {
-        $verificated = $this->verificateUser($authChecker);
+        $verified = $this->verificateUser($authChecker);
         $em = $this->getDoctrine()->getManager();
         $this->container->get('app.service.checker')->checkJobs();
 
         return $this->render(
             'site/job/index.html.twig',
             [
-                'verificated_acount' => $verificated,
+                'verificated_acount' => $verified,
                 'notifications' => $this->loadNotifications(),
                 'jobs' => $em->getRepository(Job::class)->findBy(
                     array('status' => constants::JOB_STATUS_ACTIVE),
@@ -337,20 +339,20 @@ class mainController extends Controller
     /**
      * @param Request $request
      * @param AuthorizationCheckerInterface $authChecker
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
-     * @throws \Exception
+     * @return RedirectResponse|Response
+     * @throws Exception
      * @Route("/profile/edit", name="dashboard_edit")
      */
     public function edit_profile(Request $request, AuthorizationCheckerInterface $authChecker)
     {
-        $verificated = $this->verificateUser($authChecker);
+        $verified = $this->verificateUser($authChecker);
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $is_admin = in_array('ROLE_ADMIN', $user->getRoles());
+        $entityManager = $this->getDoctrine()->getManager();
         if ($is_admin) {
             $form = $this->createForm(UserFullyEmployerType::class, $user);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
-                $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->flush();
                 $notification = new Notification();
                 $notification->setDate(new \DateTime());
@@ -367,7 +369,6 @@ class mainController extends Controller
             $form = $this->createForm(UserFullyType::class, $user);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
-                $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->flush();
                 $notification = new Notification();
                 $notification->setDate(new \DateTime());
@@ -389,7 +390,7 @@ class mainController extends Controller
             return $this->render(
                 'user/employer/edit_profile.html.twig',
                 array(
-                    'verificated_acount' => $verificated,
+                    'verificated_acount' => $verified,
                     'form' => $form->createView(),
                     'notifications' => $this->loadNotifications(),
                     'paymentMetadata' => $paymentMetadata
@@ -651,7 +652,11 @@ class mainController extends Controller
     }
 
     /**
-     * @Route("/candidate/{id}/detail", name="canditate_detail")
+     * @param User $canditate
+     * @param AuthorizationCheckerInterface $authChecker
+     * @return Response
+     *
+     *  @Route("/candidate/{id}/detail", name="canditate_detail")
      */
     public function candidateDetails(User $canditate, AuthorizationCheckerInterface $authChecker)
     {
@@ -671,7 +676,7 @@ class mainController extends Controller
      * @param User $destinanario
      * @param Request $request
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      * @Route("/sendContactMessage/{id}", name="sendContactMessage", options={"expose" = true})
      */
     public function sendMessage(User $destinanario, Request $request)
@@ -920,7 +925,7 @@ class mainController extends Controller
 
     /**
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @return RedirectResponse|Response
      * @Route("/page", name="static_page_view", options={"expose" = true})
      */
     public function showStaticPage(Request $request)

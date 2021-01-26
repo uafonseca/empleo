@@ -1,6 +1,11 @@
 {% extends 'site/base.html.twig' %}
 {% block title %}Tablero{% endblock %}
 {% block body %}
+    <style>
+        .no-input-group{
+            width: 80%;
+        }
+    </style>
     {% include'site/header.html.twig' %}
     <link rel="stylesheet" type="text/css" href="{{ asset('site/dashboard/css/dashboard.css') }}">
     <div class="alice-bg padding-top-70 padding-bottom-70">

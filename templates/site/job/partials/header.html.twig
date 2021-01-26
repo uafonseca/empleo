@@ -207,7 +207,7 @@
                                         Recuérdame
                                     </label>
                                 </div>
-                                <a href="#">¿Olvidó su contraseña?</a>
+                                <a href="{{ path('fos_user_resetting_request') }}">¿Olvidó su contraseña?</a>
                             </div>
                             <button id="_submit" type="submit" class="button primary-bg btn-block">Entrar</button>
                         </form>
@@ -255,36 +255,4 @@
             </div>
         </div>
     </div>
-    <!-- Banner -->
-    {#<div id="banner" class="banner banner-4 ">#}
-        {#<section class="" style="position: absolute; z-index: 100; text-align: center; width: 100% ">#}
-            {#<div class="row">#}
-                {#<div class="col-12">#}
-                    {#<div class="banner-content">#}
-                        {#<div class="banner-4">#}
-                            {#<form action="{{ path('search') }}" class="form-inline search-form custom-search-form" role="form" method="post">#}
-                                {#<div class="input-group text-center">#}
-                                    {#<div class="form-group">#}
-                                        {#<input name="keywords" class="form-control"  type="search" placeholder="Ingresar palabras clave">#}
-                                    {#</div>#}
-                                    {#<div class="form-group">#}
-                                        {#<select class="form-control" name="location" id="selectpicker search-location">#}
-                                            {#<option value="" selected>Ubicación</option>#}
-                                            {#{% for l in locations %}#}
-                                            {#<option value="{{ l.name }}">{{ l.name }}</option>#}
-                                            {#{% endfor %}#}
-                                        {#</select>#}
-                                    {#</div>#}
-                                    {#<div class="form-group">#}
-                                        {#<button id="search-btn" class="button primary-bg"><i class="fas fa-search"></i>Buscar</button>#}
-                                    {#</div>#}
-                                {#</div>#}
-                            {#</form>#}
-                        {#</div>#}
-                    {#</div>#}
-                {#</div>#}
-            {#</div>#}
-        {#</section>#}
-    {#</div>#}
-    <!-- Banner End -->
 </header>
