@@ -16,6 +16,6 @@
 		public function directoryName($object, PropertyMapping $mapping): string
 		{
 			$user = $this->get('security.token_storage')->getToken()->getUser();
-			return $user ? '_user_'.$user->getId().'/' : '';
+			return gettype($user) !== 'string' ? '_user_'.$user->getId().'/' : '';
 		}
 	}

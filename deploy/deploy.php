@@ -13,7 +13,7 @@ set('application', 'serviciosyempleos');
 
 host('beta')
     ->hostname('emplear.gessmac.com')
-    ->set('branch', 'develop')
+    ->set('branch', 'master')
     ->user('deploy')
     ->set('deploy_path', '/var/www/html/empleo');
 
