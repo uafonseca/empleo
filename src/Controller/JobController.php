@@ -137,6 +137,7 @@ class JobController extends AbstractController
 
             if ($metadata->getCurrentPostCount() == $metadata->getPackage()->getAnouncementsNumberMax()){
                 $metadata->setActive(false);
+                $this->addFlash('warning','Debe acceder a comprar un paquete');
                 return $this->redirectToRoute('pricing_page', ['type' => 'job']);
             }
 

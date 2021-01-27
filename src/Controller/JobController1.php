@@ -25,7 +25,8 @@
 	use Symfony\Bundle\FrameworkBundle\Controller\Controller;
     use Symfony\Component\HttpFoundation\JsonResponse;
     use Symfony\Component\HttpFoundation\Request;
-	use Symfony\Component\Routing\Annotation\Route;
+    use Symfony\Component\HttpFoundation\Response;
+    use Symfony\Component\Routing\Annotation\Route;
 	use App\Form\JobType;
 	use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 	
@@ -196,7 +197,7 @@
         /**
          * @param Request $request
          * @param Company $company
-         * @return \Symfony\Component\HttpFoundation\Response
+         * @return Response
          * @Route("/search/company/{id}",name="search_company")
          */
 		public function searchByCompany(Request $request, Company $company)
@@ -298,7 +299,7 @@
         /**
          * @param Request $request
          * @param JobRepository $jobRepository
-         * @return \Symfony\Component\HttpFoundation\Response
+         * @return Response
          * @Route("/manage/job/", name="job_manage")
          * @IsGranted("ROLE_ADMIN")
          */

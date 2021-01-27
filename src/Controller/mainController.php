@@ -27,6 +27,7 @@ use App\Form\ResumeType;
 use App\Form\UserFullyEmployerType;
 use App\Form\UserFullyType;
 use App\Mailer\Mailer;
+use App\Repository\ContactMessageRepository;
 use App\Repository\UserRepository;
 use App\Service\CategoryService;
 use App\Service\CompanyService;
@@ -558,6 +559,8 @@ class mainController extends Controller
      * @Route("/candidates", name="candidates")
      * Require IS_AUTHENTICATED_FULLY for *every* controller method in this class.
      * @IsGranted("IS_AUTHENTICATED_FULLY")
+     * @param AuthorizationCheckerInterface $authChecker
+     * @return Response
      */
     public function candidates(AuthorizationCheckerInterface $authChecker)
     {
@@ -625,6 +628,23 @@ class mainController extends Controller
                 'paymentMetadata' => $paymentMetadata
             )
         );
+    }
+
+
+    /**
+     * @param User $candidate
+     * @param ContactMessageRepository $messageRepository
+     * @return Response
+     *
+     * @Route ("/find_messages/{id}", name="buscar_mensajes", options={"expose" = true})
+     */
+    public function getEmails(User $candidate, ContactMessageRepository $messageRepository){
+        $employer = $this->getUser();
+
+        return $this->render('user/employer/conversaciones.html.twig',[
+            'conversaciones' => $messageRepository->findByCandidate($candidate,$employer),
+            'candidato' => $candidate
+        ]);
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\ContactMessage;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -17,6 +18,23 @@ class ContactMessageRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, ContactMessage::class);
+    }
+
+
+    /**
+     * @param User $candidate
+     * @param User $logged
+     * @return int|mixed|string
+     */
+    public function findByCandidate(User $candidate, User $logged){
+        return $this->createQueryBuilder('contactMessage')
+            ->andWhere('contactMessage.creator =:creator')
+            ->andWhere('contactMessage.destinatario=:candidate')
+            ->setParameter('candidate',$candidate)
+            ->setParameter('creator',$logged)
+            ->orderBy('contactMessage.date', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 
     // /**

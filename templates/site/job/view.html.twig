@@ -70,7 +70,7 @@
                                     </div>
                                     <div class="job-apply-buttons">
                                         {% if not is_granted('ROLE_ADMIN') and app.user is not null %}
-                                                <a href="{% if app.user is null %}{{ path('app_login') }}{% endif %}" class="email"><i data-feather="mail"></i>Enviar email</a>
+{#                                                <a href="{% if app.user is null %}{{ path('app_login') }}{% endif %}" class="email"><i data-feather="mail"></i>Enviar email</a>#}
                                         {% endif %}
                                         {% if app.user is null %}
                                             <a href="{% if app.user is null %}{{ path('app_login') }}{% endif %}" class="email"><i data-feather="mail"></i>Aplica ya!</a>
@@ -132,11 +132,10 @@
                                 <div class="company-information details-section">
                                     <h4><i data-feather="briefcase"></i>Información de la compañía</h4>
                                     <ul>
-                                        <li><span>Nombre de la compañía:</span> {{ job.companyName }}</li>
-                                        <li><span>Dirección:</span> {{ job.yourLocaltion }}</li>
-                                        <li><span>Sitio web:</span> <a href="{{ job.webAddress }}">{{ job.webAddress }}</a></li>
-                                        <li><span>Descripción:</span></li>
-                                        <li>{{ job.campanyProfile }}</li>
+                                        <li><span>Nombre de la compañía:</span> {{ job.company.name }}</li>
+                                        <li><span>Sitio web:</span> <a href="{{ job.company.url }}">{{ job.company.url }}</a></li>
+                                        <li><span>Descripción:</span> </li>
+                                        <li>{{ job.company.description|raw   }}</li>
                                     </ul>
                                 </div>
                             </div>

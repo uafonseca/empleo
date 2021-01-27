@@ -1,0 +1,22 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            Conversación con {{ candidato.name }}
+        </div>
+        {% for c in conversaciones %}
+            <div class="col-9 bg-gradient-primary">
+                <div class="text-secondary">
+                    {{ c.creator}}
+                </div>
+                <div class="text-block">
+                    {{ c.context|raw }}
+                </div>
+                <p class="text-muted" style="font-size: 9px;">
+                    {{ c.date|date('d-m-Y') }}
+                </p>
+            </div>
+            <div class="col-12">
+                <hr></div>
+        {% endfor %}
+    </div>
+</div>

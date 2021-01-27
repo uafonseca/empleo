@@ -91,11 +91,12 @@
                                         </td>
                                         <td class="status"><i data-feather="check-circle"></i>Preseleccionado</td>
                                         <td class="action">
+                                            <a href="{{ path('buscar_mensajes', {'id': c.id }) }}" class="emails" style=""><i class="fa fa-envelope"></i></a>
                                             {% if c.resume.cv is not null %}
-                                                <a href="{{ vich_uploader_asset(c.resume,'cvFile') }}" download="{{ vich_uploader_asset(c.resume,'cvFile') }}" class="download"><i data-feather="download"></i></a>
+                                                <a href="{{ vich_uploader_asset(c.resume,'cvFile') }}" download="{{ vich_uploader_asset(c.resume,'cvFile') }}" class="download"><i class="fa fa-download"></i></a>
                                             {% endif %}
-                                            <a href="{{ path('canditate_detail', {'id': c.id}) }}" class="inbox"><i data-feather="eye"></i></a>
-                                            <a href="#" class="remove"><i data-feather="trash-2"></i></a>
+                                            <a href="{{ path('canditate_detail', {'id': c.id}) }}" class="inbox"><i class="fa fa-eye"></i></a>
+                                            <a href="#" class="remove"><i class="fa fa-trash"></i></a>
                                         </td>
                                     </tr>
                                     {% endfor %}
@@ -110,8 +111,16 @@
             </div>
         </div>
     </div>
-
     <!-- Job Listing End -->
-
-
+{% endblock %}
+{% block scrips %}
+    <script>
+        $(document).on('click','.emails',function (e){
+            e.preventDefault();
+            const scope = $(this)
+            coreApp.dialogs.create({
+                url:scope.attr('href')
+            })
+        })
+    </script>
 {% endblock %}
