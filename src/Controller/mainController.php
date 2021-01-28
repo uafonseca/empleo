@@ -31,10 +31,12 @@ use App\Form\UserFullyType;
 use App\Mailer\Mailer;
 use App\Repository\CompanyRepository;
 use App\Repository\ContactMessageRepository;
+use App\Repository\UserJobMetaRepository;
 use App\Repository\UserRepository;
 use App\Service\CategoryService;
 use App\Service\CompanyService;
 use App\Service\JobService;
+use Doctrine\ORM\NonUniqueResultException;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -71,10 +73,10 @@ class mainController extends Controller
     /** @var CompanyService */
     private $companyService;
 
-    /** @var Mailer  */
+    /** @var Mailer */
     private $mailer;
 
-    /** @var SessionInterface  */
+    /** @var SessionInterface */
     private $session;
 
 
@@ -148,9 +150,8 @@ class mainController extends Controller
 
         $type = $request->query->get('type');
 
-        if(!isset($type))
-        {
-            if($this->isGranted('ROLE_ADMIN'))
+        if (!isset($type)) {
+            if ($this->isGranted('ROLE_ADMIN'))
                 $type = 'job';
             else
                 $type = 'service';
@@ -259,10 +260,38 @@ class mainController extends Controller
      *
      * @Route("/companies", name="listado_companias")
      */
-    public function companies(CompanyRepository  $repository){
-        return $this->render('site/job/companies.html.twig',[
+    public function companies(CompanyRepository $repository)
+    {
+        return $this->render('site/job/companies.html.twig', [
             'companies' => $repository->findActives(),
+            'notifications' => $this->loadNotifications(),
         ]);
+    }
+
+
+    /**
+     * @return Response
+     *
+     * @Route ("/servicces", name="load_services_request")
+     */
+    public function serviciosSolicidatos()
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        $ids = $user->getServicesRequest();
+
+        $em = $this->getDoctrine()->getManager();
+        $services = [];
+
+        foreach ($ids as $id) {
+            $services[] = $em->getRepository(Anouncement::class)->find($id);
+        }
+
+        return $this->render('site/job/services.html.twig',[
+            'services' => $services,
+            'notifications' => $this->loadNotifications(),
+        ]);
+
     }
 
     /**
@@ -293,6 +322,9 @@ class mainController extends Controller
 
     /**
      * @Route("/terms", name="site_policy")
+     * @param AuthorizationCheckerInterface $authChecker
+     * @return RedirectResponse|Response
+     * @throws NonUniqueResultException
      */
     public function policy(AuthorizationCheckerInterface $authChecker)
     {
@@ -318,6 +350,8 @@ class mainController extends Controller
      * @Route("/dashboard", name="dashboard")
      * Require IS_AUTHENTICATED_FULLY for *every* controller method in this class.
      * @IsGranted("IS_AUTHENTICATED_FULLY")
+     * @param AuthorizationCheckerInterface $authChecker
+     * @return Response
      */
     public function dashboard(AuthorizationCheckerInterface $authChecker)
     {
@@ -442,6 +476,8 @@ class mainController extends Controller
      * @Route("/dashboard/resume", name="dashboard_resume")
      * Require IS_AUTHENTICATED_FULLY for *every* controller method in this class.
      * @IsGranted("IS_AUTHENTICATED_FULLY")
+     * @param AuthorizationCheckerInterface $authChecker
+     * @return Response
      */
     public function resume(AuthorizationCheckerInterface $authChecker)
     {
@@ -522,6 +558,8 @@ class mainController extends Controller
      * @Route("/dashboard/bookmarked", name="dashboard_bookmarked")
      * Require IS_AUTHENTICATED_FULLY for *every* controller method in this class.
      * @IsGranted("IS_AUTHENTICATED_FULLY")
+     * @param AuthorizationCheckerInterface $authChecker
+     * @return Response
      */
     public function bookMarked(AuthorizationCheckerInterface $authChecker)
     {
@@ -549,6 +587,8 @@ class mainController extends Controller
      * @Route("/dashboard/applied", name="dashboard_applied")
      * Require IS_AUTHENTICATED_FULLY for *every* controller method in this class.
      * @IsGranted("IS_AUTHENTICATED_FULLY")
+     * @param AuthorizationCheckerInterface $authChecker
+     * @return Response
      */
     public function applied(AuthorizationCheckerInterface $authChecker)
     {
@@ -655,11 +695,12 @@ class mainController extends Controller
      *
      * @Route ("/find_messages/{id}", name="buscar_mensajes", options={"expose" = true})
      */
-    public function getEmails(User $candidate, ContactMessageRepository $messageRepository){
+    public function getEmails(User $candidate, ContactMessageRepository $messageRepository)
+    {
         $employer = $this->getUser();
 
-        return $this->render('user/employer/conversaciones.html.twig',[
-            'conversaciones' => $messageRepository->findByCandidate($candidate,$employer),
+        return $this->render('user/employer/conversaciones.html.twig', [
+            'conversaciones' => $messageRepository->findByCandidate($candidate, $employer),
             'candidato' => $candidate
         ]);
     }
@@ -674,8 +715,8 @@ class mainController extends Controller
     {
         $candidates = [];
 
-        foreach ($job->getUserJobMetadata() as $metadata){
-            if ($metadata->getStatus() == UserJobMeta::STATUS_APPLIED){
+        foreach ($job->getUserJobMetadata() as $metadata) {
+            if ($metadata->getStatus() == UserJobMeta::STATUS_APPLIED) {
                 $candidates[] = $metadata->getUser();
             }
         }
@@ -699,7 +740,7 @@ class mainController extends Controller
      * @param AuthorizationCheckerInterface $authChecker
      * @return Response
      *
-     *  @Route("/candidate/{id}/detail", name="canditate_detail")
+     * @Route("/candidate/{id}/detail", name="canditate_detail")
      */
     public function candidateDetails(User $canditate, AuthorizationCheckerInterface $authChecker)
     {
@@ -749,7 +790,7 @@ class mainController extends Controller
             $em->persist($message);
             $em->flush();
 
-            $mailerThemplate = $this->renderView('mail/service_contact.html.twig',[
+            $mailerThemplate = $this->renderView('mail/service_contact.html.twig', [
                 'remit' => $message->getCreator(),
                 'body' => $message->getContext(),
             ]);
@@ -763,8 +804,8 @@ class mainController extends Controller
             );
 
             return new JsonResponse([
-                'type'=>'success',
-                'message'=>'Mensaje enviado'
+                'type' => 'success',
+                'message' => 'Mensaje enviado'
             ]);
         }
 

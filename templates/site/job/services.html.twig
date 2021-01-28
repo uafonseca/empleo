@@ -1,0 +1,67 @@
+{% extends 'site/base.html.twig' %}
+{% block title %}Servicios solicitados{% endblock %}
+{% block body %}
+    {% include'site/header.html.twig' %}
+    <!-- Jobs End -->
+    <div class="section-padding alice-bg">
+        <div class="container">
+            <div class="row">
+                {% for j in services %}
+                    <div class="job-list row">
+                        <div class="thumb">
+                            <a href="{{ path('service_view', {'id': j.id}) }}">
+                                <img src="{{ asset('site/images/upload/company/images_stored/')~'_user_'~j.user.id~'/'~ j.image }}" class="img-fluid" alt="{{ j.title }}">
+                            </a>
+                        </div>
+                        <div class="body">
+                            <div class="content">
+                                <h4><a href="{{ path('service_view', {'id': j.id}) }}">{{ j.title }}
+                                        {#                            {%  set max_date = j.date|date_modify("+"~j.user.packageServices.daysImportants~" day") %}#}
+                                        {#                            {% if  max_date|date('Y-m-d') >= "now"|date('Y-m-d')%}#}
+                                        {#                                <span class="span-dest">DESTACADO</span>#}
+                                        {#                            {% endif %}#}
+                                    </a></h4>
+                                <div class="info">
+                                    <span class="company"><a><i data-feather="briefcase"></i>{{ j.user.username }}</a></span>
+                                    <span class="office-location"><a><i data-feather="map-pin"></i>{{ j.Location }}</a></span>
+                                    {% if j.type == 'partial' %}
+                                        <span class="job-type part-time"><a ><i data-feather="clock"></i>A tiempo parcial</a></span>
+                                    {% endif %}
+                                    {% if j.type == 'ful' %}
+                                        <span class="job-type full-time"><a><i data-feather="clock"></i>A tiempo completo</a></span>
+                                    {% endif %}
+                                    {% if j.type == 'temporary' %}
+                                        <span class="job-type temporary"><a ><i data-feather="clock"></i>Temporal</a></span>
+                                    {% endif %}
+                                    {% if j.type == 'freelance' %}
+                                        <span class="job-type freelance"><a ><i data-feather="clock"></i>Independiente</a></span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="more">
+                                <div class="buttons">
+                                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                        <a id="applied-btn-{{ j.id }}"
+                                           onclick="contrata('{{ j.id }}',this)"  class="button">{% if j.id in app.user.ServicesRequest %}Solicitado{% else %}Contrata ya!{% endif %}</a>
+                                        <a onclick="bookMark('{{ j.id }}')" class="favourite {% if j.id in app.user.bookmarked %}active{% endif %} "><i data-feather="heart"></i></a>
+                                    {% else %}
+                                        <a data-toggle="modal" data-target="#modal-login"  class="button">Contactar!</a>
+                                        {#<a  class="favourite"><i data-feather="heart"></i></a>#}
+                                    {% endif %}
+                                </div>
+                                <p class="deadline">{{ j.date|localizeddate('short', 'none', 'en')}}</p>
+                            </div>
+                        </div>
+                        <div class="col-12 job-about">
+                            <p> {{ j.description| easyadmin_truncate(200)}}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <!-- Jobs -->
+{% endblock %}
+
+
+

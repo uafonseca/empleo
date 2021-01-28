@@ -414,6 +414,9 @@ class AjaxController extends Controller
 
     /**
      * @Route("/ajax/contrata", name="ajax_contrata")
+     * @param Request $request
+     * @param \Swift_Mailer $mailer
+     * @return JsonResponse
      */
     public function contrataAction(Request $request, \Swift_Mailer $mailer)
     {
@@ -421,6 +424,7 @@ class AjaxController extends Controller
         $em = $this->getDoctrine()->getManager();
         $service = $em->getRepository(Anouncement::class)->find($id);
         $serviceCreator = $service->getUser();
+        /** @var User $serviceCandidate */
         $serviceCandidate = $this->get('security.token_storage')->getToken()->getUser();
         if ($serviceCandidate->getServicesRequest() != null && in_array($service->getId(), $serviceCandidate->getServicesRequest())) {
             $response = new JsonResponse();

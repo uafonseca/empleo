@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Entity\UserJobMeta;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\NonUniqueResultException;
 
 /**
  * @method UserJobMeta|null find($id, $lockMode = null, $lockVersion = null)
@@ -25,7 +26,7 @@ class UserJobMetaRepository extends ServiceEntityRepository
      * @param User $user
      * @param Job $job
      * @return mixed
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
     public function findByUserJob(User $user, Job $job)
     {
@@ -36,6 +37,20 @@ class UserJobMetaRepository extends ServiceEntityRepository
             ->setParameter('job',$job)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+
+    /**
+     * @param User $user
+     * @return mixed
+     */
+    public function findByUser(User $user)
+    {
+        return $this->createQueryBuilder('userJobMetadata')
+            ->where('userJobMetadata.user =:user')
+            ->setParameter('user',$user)
+            ->getQuery()
+            ->getResult();
     }
     // /**
     //  * @return UserJobMetadata[] Returns an array of UserJobMetadata objects

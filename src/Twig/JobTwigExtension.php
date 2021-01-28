@@ -13,6 +13,7 @@ use App\Entity\Job;
 use App\Entity\User;
 use App\Entity\UserJobMeta;
 use App\Repository\UserJobMetaRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -63,7 +64,7 @@ class JobTwigExtension extends AbstractExtension
      * @param Job $job
      * @param User $user
      * @return string
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
     public function getStatusCandidate(Job $job, User $user)
     {
@@ -80,9 +81,10 @@ class JobTwigExtension extends AbstractExtension
      * @param User $user
      * @param Job $job
      * @return string
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
-    public function getJobStatus(User $user, Job $job){
+    public function getJobStatus(User $user, $job){
+        if (!$job instanceof Job)return false;
         /** @var UserJobMeta $state */
         $state = $this->userJobMetadataRepository->findByUserJob($user, $job);
 

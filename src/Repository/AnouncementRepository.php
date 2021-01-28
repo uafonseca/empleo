@@ -4,7 +4,10 @@ namespace App\Repository;
 
 use App\constants;
 use App\Entity\Anouncement;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -19,10 +22,15 @@ class AnouncementRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Anouncement::class);
     }
-	public function searchByFilters($profesion,
-		$location,
-		$gender,
-		$experience){
+
+    /**
+     * @param $profesion
+     * @param $location
+     * @param $gender
+     * @param $experience
+     * @return int|mixed|string
+     */
+	public function searchByFilters($profesion, $location, $gender, $experience){
 		$qb = $this->createQueryBuilder('j');
 		if ($profesion != null) {
 			$qb->andWhere('j.profession =: key ')
@@ -52,8 +60,8 @@ class AnouncementRepository extends ServiceEntityRepository
     /**
      * @param $month
      * @return mixed
-     * @throws \Doctrine\ORM\NoResultException
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NoResultException
+     * @throws NonUniqueResultException
      */
     public function countByMonth($month){
         return $this->createQueryBuilder('anouncement')
@@ -63,6 +71,12 @@ class AnouncementRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+
+
+    public function findApplied(User $user){
+
+    }
+
 
     // /**
     //  * @return Anouncement[] Returns an array of Anouncement objects

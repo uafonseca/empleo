@@ -13,6 +13,7 @@ use App\Entity\PaymentForServices;
 use App\Entity\PaymentForServicesMetadata;
 use App\Entity\User;
 use App\Form\ServiceJobType;
+use App\Repository\AnouncementRepository;
 use App\Repository\JobRepository;
 use App\Service\JobService;
 use App\Service\NotificationService;
@@ -72,6 +73,15 @@ class ServiceController extends Controller
             $post->addImage($image);
         }
         $em->flush();
+    }
+
+    /**
+     * @param AnouncementRepository $repository
+     */
+    public function showAplicados(AnouncementRepository $repository){
+        /** @var User $user */
+        $user = $this->getUser();
+        $applied = $user->getApplied();
     }
 
     /**
