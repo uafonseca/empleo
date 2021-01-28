@@ -248,7 +248,7 @@ class mainController extends Controller
                 'locations' => $this->container->get('app.service.helper')->loadLocations(),
                 'categorys' => $this->jobService->findByAllCategory(),
                 'citys' => $this->container->get('app.service.helper')->loadCityes(),
-                'company' => $this->companyService->findAll(),
+                'company' => $this->companyService->findActives(),
                 'entity' => count($em->getRepository(User::class)->findByRole('ROLE_ADMIN')),
             ]
         );

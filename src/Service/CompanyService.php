@@ -40,7 +40,7 @@ class CompanyService
     }
 
     /**
-     * @return \App\Entity\Company[]|object[]
+     * @return Company[]|object[]
      */
     public function findAll(){
         return $this->repository->findAll();
