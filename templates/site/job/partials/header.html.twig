@@ -11,6 +11,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto main-nav">
                 <li class="menu-item active"><a title="Home" href="{{ path('homepage') }}">Inicio</a></li>
+                <li class="menu-item active"><a title="Home" href="{{ path('listado_companias') }}">Empresas</a></li>
                 {% if is_granted('ROLE_SUPER_ADMIN') %}
                     <li class="menu-item dropdown">
                         <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true"

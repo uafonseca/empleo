@@ -8,6 +8,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Anouncement;
 use App\Entity\ContactMessage;
 use App\Entity\Job;
 use App\Entity\Metadata;
@@ -18,6 +19,7 @@ use App\Entity\PaymentForServices;
 use App\Entity\PaymentForServicesMetadata;
 use App\Entity\Policy;
 use App\Entity\Resume;
+use App\Entity\Service;
 use App\Entity\StaticPage;
 use App\Entity\User;
 use App\Entity\UserJobMeta;
@@ -27,6 +29,7 @@ use App\Form\ResumeType;
 use App\Form\UserFullyEmployerType;
 use App\Form\UserFullyType;
 use App\Mailer\Mailer;
+use App\Repository\CompanyRepository;
 use App\Repository\ContactMessageRepository;
 use App\Repository\UserRepository;
 use App\Service\CategoryService;
@@ -229,8 +232,7 @@ class mainController extends Controller
         $em = $this->getDoctrine()->getManager();
         $this->container->get('app.service.checker')->checkJobs();
 
-        return $this->render(
-            'site/job/index.html.twig',
+        return $this->render('site/job/index.html.twig',
             [
                 'verificated_acount' => $verified,
                 'notifications' => $this->loadNotifications(),
@@ -239,6 +241,9 @@ class mainController extends Controller
                     array('dateCreated' => 'DESC'),
                     10
                 ),
+                'services' => $em->getRepository(Anouncement::class)->findBy([
+                    'status' => constants::JOB_STATUS_ACTIVE,
+                ]),
                 'locations' => $this->container->get('app.service.helper')->loadLocations(),
                 'categorys' => $this->jobService->findByAllCategory(),
                 'citys' => $this->container->get('app.service.helper')->loadCityes(),
@@ -246,6 +251,18 @@ class mainController extends Controller
                 'entity' => count($em->getRepository(User::class)->findByRole('ROLE_ADMIN')),
             ]
         );
+    }
+
+    /**
+     * @param CompanyRepository $repository
+     * @return Response
+     *
+     * @Route("/companies", name="listado_companias")
+     */
+    public function companies(CompanyRepository  $repository){
+        return $this->render('site/job/companies.html.twig',[
+            'companies' => $repository->findActives(),
+        ]);
     }
 
     /**

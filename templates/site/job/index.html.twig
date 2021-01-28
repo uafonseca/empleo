@@ -3,68 +3,137 @@
 {% block jobs_list %}
     <!-- Jobs End -->
     <div class="section-padding alice-bg">
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
-                <div class="col">
-                    <div class="section-header section-header-2 section-header-with-right-content">
-                        <h2>Trabajos recientes</h2>
-                        <a href="{{ path('job_list') }}" class="header-right">+ Buscar todos los empleos</a>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col container">
-                    {% for j in jobs %}
-                        <div class="job-list row">
-                            <div class="thumb">
-                                <a href="{{ path('job_show', {'id': j.id}) }}">
-                                    <img src="{{ asset('site/images/upload/company/')~'_user_'~j.user.id~'/'~ j.image  }}" class="img-fluid" alt="{{ j.title }}">
-                                </a>
-                            </div>
-                            <div class="body">
-                                <div class="content">
-                                    <h4>
-                                        <a href="{{ path('job_show', {'id': j.id}) }}">{{ j.title }}
-                                            {#{%  set max_date = j.dateCreated|date_modify("+"~j.user.package.daysImportants~" day") %}#}
-                                            {#{% if  max_date|date('Y-m-d') >= "now"|date('Y-m-d')%}#}
-                                                {#<span class="span-dest">DESTACADO</span>#}
-                                            {#{% endif %}#}
-                                        </a></h4>
-                                    <div class="info">
-                                        <span class="company"><a><i data-feather="briefcase"></i>{{ j.CompanyName }}</a></span>
-                                        <span class="office-location"><a><i data-feather="map-pin"></i>{{ j.Localtion }}</a></span>
-                                        {% if j.type == 'partial' %}
-                                            <span class="job-type part-time"><a ><i data-feather="clock"></i>A tiempo parcial</a></span>
-                                        {% endif %}
-                                        {% if j.type == 'ful' %}
-                                            <span class="job-type full-time"><a><i data-feather="clock"></i>A tiempo completo</a></span>
-                                        {% endif %}
-                                        {% if j.type == 'temporary' %}
-                                            <span class="job-type temporary"><a ><i data-feather="clock"></i>Temporal</a></span>
-                                        {% endif %}
-                                        {% if j.type == 'freelance' %}
-                                            <span class="job-type freelance"><a ><i data-feather="clock"></i>Independiente</a></span>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                                <div class="more">
-                                    <div class="buttons">
-                                        {% if app.user %}
-                                        <a id="applied-btn-{{ j.id }}"
-                                           onclick="applied('{{ j.id }}')" class="button">{% if get_status_job(app.user,j) %}Cancelar{% else %}Aplica ya!{% endif %}</a>
-                                        <a onclick="bookMark('{{ j.id }}')" class="favourite {% if j.id in app.user.bookmarked %}active{% endif %} "><i data-feather="heart"></i></a>
-                                        {% else %}
-                                            <a data-toggle="modal" data-target="#exampleModalLong"  class="button">Aplica ya!</a>
-                                        {% endif %}
-                                    </div>
-                                    <p class="deadline">{{ j.dateCreated|localizeddate('short', 'none', 'en')}}</p>
-                                </div>
-                            </div>
-                            <div class="col-12 job-about">
-                                {{ j.description | easyadmin_truncate(200) | raw }}
+                <div class="col-6">
+                    <div class="row">
+                        <div class="col">
+                            <div class="section-header section-header-2 section-header-with-right-content">
+                                <h2>Trabajos recientes</h2>
+                                <a href="{{ path('job_list') }}" class="header-right">+ Buscar todos los empleos</a>
                             </div>
                         </div>
-                    {% endfor %}
+                    </div>
+                    <div class="row">
+                        <div class="col container">
+                            {% for j in jobs %}
+                                <div class="job-list row">
+                                    <div class="thumb">
+                                        <a href="{{ path('job_show', {'id': j.id}) }}">
+                                            <img src="{{ asset('site/images/upload/company/')~'_user_'~j.user.id~'/'~ j.image  }}" class="img-fluid" alt="{{ j.title }}">
+                                        </a>
+                                    </div>
+                                    <div class="body">
+                                        <div class="content">
+                                            <h4>
+                                                <a href="{{ path('job_show', {'id': j.id}) }}">{{ j.title }}
+                                                    {#{%  set max_date = j.dateCreated|date_modify("+"~j.user.package.daysImportants~" day") %}#}
+                                                    {#{% if  max_date|date('Y-m-d') >= "now"|date('Y-m-d')%}#}
+                                                    {#<span class="span-dest">DESTACADO</span>#}
+                                                    {#{% endif %}#}
+                                                </a></h4>
+                                            <div class="info">
+                                                <span class="company"><a><i data-feather="briefcase"></i>{{ j.CompanyName }}</a></span>
+                                                <span class="office-location"><a><i data-feather="map-pin"></i>{{ j.Localtion }}</a></span>
+                                                {% if j.type == 'partial' %}
+                                                    <span class="job-type part-time"><a ><i data-feather="clock"></i>A tiempo parcial</a></span>
+                                                {% endif %}
+                                                {% if j.type == 'ful' %}
+                                                    <span class="job-type full-time"><a><i data-feather="clock"></i>A tiempo completo</a></span>
+                                                {% endif %}
+                                                {% if j.type == 'temporary' %}
+                                                    <span class="job-type temporary"><a ><i data-feather="clock"></i>Temporal</a></span>
+                                                {% endif %}
+                                                {% if j.type == 'freelance' %}
+                                                    <span class="job-type freelance"><a ><i data-feather="clock"></i>Independiente</a></span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="more">
+                                            <div class="buttons">
+                                                {% if app.user %}
+                                                    <a id="applied-btn-{{ j.id }}"
+                                                       onclick="applied('{{ j.id }}')" class="button">{% if get_status_job(app.user,j) %}Cancelar{% else %}Aplica ya!{% endif %}</a>
+                                                    <a onclick="bookMark('{{ j.id }}')" class="favourite {% if j.id in app.user.bookmarked %}active{% endif %} "><i data-feather="heart"></i></a>
+                                                {% else %}
+                                                    <a data-toggle="modal" data-target="#exampleModalLong"  class="button">Aplica ya!</a>
+                                                {% endif %}
+                                            </div>
+                                            <p class="deadline">{{ j.dateCreated|localizeddate('short', 'none', 'en')}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 job-about">
+                                        {{ j.description | easyadmin_truncate(200) | raw }}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="row">
+                        <div class="col">
+                            <div class="section-header section-header-2 section-header-with-right-content">
+                                <h2>Servicios recientes</h2>
+                                <a href="{{ path('service_list') }}" class="header-right">+ Buscar todos los servicios</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col container">
+                            {% for j in services %}
+                                <div class="job-list row">
+                                    <div class="thumb">
+                                        <a href="{{ path('service_view', {'id': j.id}) }}">
+                                            <img src="{{ asset('site/images/upload/company/images_stored/')~'_user_'~j.user.id~'/'~ j.image  }}" class="img-fluid" alt="{{ j.title }}">
+                                        </a>
+                                    </div>
+                                    <div class="body">
+                                        <div class="content">
+                                            <h4>
+                                                <a href="{{ path('service_view', {'id': j.id}) }}">{{ j.title }}
+                                                    {#{%  set max_date = j.dateCreated|date_modify("+"~j.user.package.daysImportants~" day") %}#}
+                                                    {#{% if  max_date|date('Y-m-d') >= "now"|date('Y-m-d')%}#}
+                                                    {#<span class="span-dest">DESTACADO</span>#}
+                                                    {#{% endif %}#}
+                                                </a></h4>
+                                            <div class="info">
+                                                <span class="company"><a><i data-feather="briefcase"></i>{{ j.user.company }}</a></span>
+                                                <span class="office-location"><a><i data-feather="map-pin"></i>{{ j.location }}</a></span>
+                                                {% if j.type == 'partial' %}
+                                                    <span class="job-type part-time"><a ><i data-feather="clock"></i>A tiempo parcial</a></span>
+                                                {% endif %}
+                                                {% if j.type == 'ful' %}
+                                                    <span class="job-type full-time"><a><i data-feather="clock"></i>A tiempo completo</a></span>
+                                                {% endif %}
+                                                {% if j.type == 'temporary' %}
+                                                    <span class="job-type temporary"><a ><i data-feather="clock"></i>Temporal</a></span>
+                                                {% endif %}
+                                                {% if j.type == 'freelance' %}
+                                                    <span class="job-type freelance"><a ><i data-feather="clock"></i>Independiente</a></span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="more">
+                                            <div class="buttons">
+                                                {% if app.user %}
+                                                    <a id="applied-btn-{{ j.id }}"
+                                                       onclick="applied('{{ j.id }}')" class="button">{% if get_status_job(app.user,j) %}Cancelar{% else %}Aplica ya!{% endif %}</a>
+                                                    <a onclick="bookMark('{{ j.id }}')" class="favourite {% if j.id in app.user.bookmarked %}active{% endif %} "><i data-feather="heart"></i></a>
+                                                {% else %}
+                                                    <a data-toggle="modal" data-target="#exampleModalLong"  class="button">Aplica ya!</a>
+                                                {% endif %}
+                                            </div>
+                                            <p class="deadline">{{ j.expiredDate|localizeddate('short', 'none', 'en')}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 job-about">
+                                        {{ j.description | easyadmin_truncate(200) | raw }}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
