@@ -233,5 +233,10 @@ class Company
         $this->updateAt = new \DateTime('now');
     }
 
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
 
 }
