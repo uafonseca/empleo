@@ -265,6 +265,10 @@ class mainController extends Controller
         return $this->render('site/job/companies.html.twig', [
             'companies' => $repository->findActives(),
             'notifications' => $this->loadNotifications(),
+            'locations' => $this->container->get('app.service.helper')->loadLocations(),
+            'categorys' => $this->jobService->findByAllCategory(),
+            'citys' => $this->container->get('app.service.helper')->loadCityes(),
+            'company' => $this->companyService->findActives(),
         ]);
     }
 
@@ -593,13 +597,14 @@ class mainController extends Controller
     public function applied(AuthorizationCheckerInterface $authChecker)
     {
         $verificated = $this->verificateUser($authChecker);
+        /** @var User $user */
         $user = $this->get('security.token_storage')->getToken()->getUser();
-        $marked = $user->getApplied();
-        $jobs = array();
-        $entityManager = $this->getDoctrine()->getManager();
-        foreach ($marked as $id) {
-            $jobs[] = $entityManager->getRepository(Job::class)->find($id);
-        }
+        $jobs = $user->getJobAppiled();
+//        $jobs = array();
+//        $entityManager = $this->getDoctrine()->getManager();
+//        foreach ($marked as $id) {
+//            $jobs[] = $entityManager->getRepository(Job::class)->find($id);
+//        }
 
         return $this->render(
             'user/applied.html.twig',

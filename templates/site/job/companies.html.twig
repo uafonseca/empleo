@@ -1,13 +1,14 @@
 {% extends 'site/base.html.twig' %}
 {% block title %}Inicio{% endblock %}
 {% block body %}
-    {% include'site/header.html.twig' %}
+    {{ include('site/job/partials/header.html.twig') }}
+    {{ include('site/includes/carousel.html.twig') }}
     <!-- Jobs End -->
     <div class="section-padding alice-bg">
         <div class="container">
             <div class="row">
                 {% for c in companies %}
-                    <div class="col-4">
+                    <div class="col-3">
                         <div class="company-wrap">
                             <div class="thumb">
                                 <a href="#">

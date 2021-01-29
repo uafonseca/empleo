@@ -33,6 +33,9 @@
 
     {{ include('site/includes/carousel.html.twig') }}
 
+    {% block jobs_list %}
+    {% endblock %}
+
     <div class="section-padding-top padding-bottom-90">
         <div class="container">
             <div class="row">
@@ -47,8 +50,7 @@
     <div class="searchAndFilter-wrapper">
         {{ include('site/includes/filters.html.twig') }}
 
-        {% block jobs_list %}
-        {% endblock %}
+
 
     </div>
 {% endblock %}

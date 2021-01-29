@@ -3,7 +3,7 @@
 {% block jobs_list %}
     <!-- Jobs End -->
     <div class="section-padding alice-bg">
-        <div class="container-fluid">
+        <div class="container">
             <div class="row">
                 <div class="col-6">
                     <div class="row">
@@ -53,17 +53,17 @@
                                             <div class="buttons">
                                                 {% if app.user %}
                                                     <a id="applied-btn-{{ j.id }}"
-                                                       onclick="applied('{{ j.id }}')" class="button">{% if get_status_job(app.user,j) %}Cancelar{% else %}Aplica ya!{% endif %}</a>
+                                                       onclick="applied('{{ j.id }}')" class="button btn">{% if get_status_job(app.user,j) %}Cancelar{% else %}Aplica ya!{% endif %}</a>
                                                     <a onclick="bookMark('{{ j.id }}')" class="favourite {% if j.id in app.user.bookmarked %}active{% endif %} "><i data-feather="heart"></i></a>
                                                 {% else %}
-                                                    <a data-toggle="modal" data-target="#exampleModalLong"  class="button">Aplica ya!</a>
+                                                    <a data-toggle="modal" data-target="#exampleModalLong"  class="button btn">Aplica ya!</a>
                                                 {% endif %}
                                             </div>
                                             <p class="deadline">{{ j.dateCreated|localizeddate('short', 'none', 'en')}}</p>
                                         </div>
                                     </div>
                                     <div class="col-12 job-about">
-                                        {{ j.description | easyadmin_truncate(200) | raw }}
+{#                                        {{ j.description | easyadmin_truncate(200) | raw }}#}
                                     </div>
                                 </div>
                             {% endfor %}
@@ -118,22 +118,27 @@
                                             <div class="buttons">
                                                 {% if app.user %}
                                                     <a id="applied-btn-{{ j.id }}"
-                                                       onclick="applied('{{ j.id }}')" class="button">{% if get_status_job(app.user,j) %}Cancelar{% else %}Aplica ya!{% endif %}</a>
+                                                       onclick="applied('{{ j.id }}')" class="button btn">{% if get_status_job(app.user,j) %}Cancelar{% else %}Aplica ya!{% endif %}</a>
                                                     <a onclick="bookMark('{{ j.id }}')" class="favourite {% if j.id in app.user.bookmarked %}active{% endif %} "><i data-feather="heart"></i></a>
                                                 {% else %}
-                                                    <a data-toggle="modal" data-target="#exampleModalLong"  class="button">Aplica ya!</a>
+                                                    <a data-toggle="modal" data-target="#exampleModalLong"  class="button btn">Aplica ya!</a>
                                                 {% endif %}
                                             </div>
                                             <p class="deadline">{{ j.expiredDate|localizeddate('short', 'none', 'en')}}</p>
                                         </div>
                                     </div>
                                     <div class="col-12 job-about">
-                                        {{ j.description | easyadmin_truncate(200) | raw }}
+{#                                        {{ j.description | easyadmin_truncate(200) | raw }}#}
                                     </div>
                                 </div>
                             {% endfor %}
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <a href="{{ path('job_list') }}" class="btn btn-primary btn-lg" style="margin-top: 20px;"><i class="fa fa-eye"></i> Ver más</a>
                 </div>
             </div>
         </div>
