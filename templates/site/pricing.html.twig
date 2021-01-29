@@ -17,6 +17,13 @@
                         </nav>
                     </div>
                 </div>
+                <div class="col-6">
+                    {% if app.request.get('redirect') is not null %}
+                        <div class="text-info">
+                            Has ocupado todas tus publicaciones disponibles, contrata un plan con más privilegios
+                        </div>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>

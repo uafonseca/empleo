@@ -39,13 +39,15 @@
 
                                 <div class="row">
                                     <div class="col-5">
-                                        {{ form_row(form_files.cvFile) }}
                                         {% if app.user.resume.cv is not null %}
+                                            {{ form_row(form_files.cvFile,{'attr':{'requered':'requiered'}}) }}
                                             <a href="{{ vich_uploader_asset(app.user.resume, 'cvFile') }}"
                                                download="{{ vich_uploader_asset(app.user.resume, 'cvFile') }}">
                                                 <i class="fas fa-download"></i>
                                                 Descargar CV actual
                                             </a>
+                                        {% else %}
+                                            {{ form_row(form_files.cvFile,{'attr':{'requered':'requiered'}}) }}
                                         {% endif %}
                                     </div>
                                     <div class="col-5">
@@ -60,7 +62,7 @@
                                     </div>
 
                                     <div class="col-2 pt-5">
-                                        <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Guardar
+                                        <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Guardar
                                         </button>
                                     </div>
                                 </div>

@@ -106,6 +106,14 @@ class JobService
 
         $collection = new ArrayCollection($allPackages);
 
+        if ($user->getBuyFreePackJob()){
+            /** @var PaymentForJobs $item */
+            foreach ($collection as $item){
+                if ($item->getPrice() === 0)
+                    $collection->removeElement($item);
+            }
+        }
+
         /** @var PaymentForJobsMetadata  $activesPack */
         foreach ($activesPacks as $activesPack)
         {

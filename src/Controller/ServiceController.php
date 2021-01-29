@@ -96,7 +96,8 @@ class ServiceController extends Controller
         $user = $this->getUser();
         $metadata = $this->userService->isReadyToGetService($user);
 
-        if(!$metadata || !$user->getBuyFreePackJob()){
+
+        if(!$metadata || !$user->getBuyFreePackService()){
             $em = $this->getDoctrine()->getManager();
             $packagesServices =  $em->getRepository(PaymentForServices::class)->findAll();
             /** @var PaymentForServices $service */
@@ -222,6 +223,8 @@ class ServiceController extends Controller
 
     /**
      * @Route("/service/list", name="service_list")
+     * @param Request $request
+     * @return Response
      */
     public function serviceList(Request $request)
     {

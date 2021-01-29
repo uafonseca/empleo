@@ -241,7 +241,7 @@
                                 <div class="row">
                                     <div class="col-md-9 offset-md-3">
                                         <div class="form-group terms">
-                                            <input class="custom-radio" required="required" selected="selected" type="checkbox" id="radio-4"
+                                            <input class="custom-radio" required="required" type="checkbox" id="radio-4"
                                                    name="termsandcondition">
                                             <label for="radio-4">
                                                 <span class="dot"></span> Acepta nuestros <a target="_blank"
@@ -268,7 +268,6 @@
                                 <li><a href="#job-title">Título del Servicio</a></li>
                                 <li><a href="#job-summery">Resumen del servicio</a></li>
                                 <li><a href="#job-description">Descripción del servicio</a></li>
-{#                                <li><a href="#others">Tú ubicación</a></li>#}
                             </ul>
                         </div>
                     </div>
@@ -281,11 +280,25 @@
     <script src="{{ asset('site/dashboard/js/datePicker.js') }}"></script>
     <script src="{{ asset('site/js/bootstrap-multiselect.js') }}"></script>
     <script>
+        $('form[name="service_job"]').submit(function (e){
+            let radio = $('#radio-4');
+            if (!radio.is(':checked')){
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                toastr.warning('Debe aceptar nuestros términos y condiciones')
+                return false;
+            }
+            return true;
+        });
+
         $(document).ready(function () {
             $('#multiselect').multiselect({
                 buttonWidth: '300px',
 
             });
+
+
             $('.file-input').change(function () {
                 var curElement = $('.image');
                 var reader = new FileReader();
@@ -327,7 +340,7 @@
                         removeLabel: 'Eliminar',
                         showCancel:false,
                         showUpload: false,
-                        allowedFileExtensions:['png','jpg','gif','jpeg'],
+                        allowedFileExtensions:['png','jpg','gif','jpeg','jfif'],
                         maxFileSize: '1024',
                     });
                 }

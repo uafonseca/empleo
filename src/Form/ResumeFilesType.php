@@ -19,14 +19,28 @@ class ResumeFilesType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $cv = $options['cv'];
+        $cart = $options['cart'];
         $builder
-            ->add('cvFile',FileType::class,array('required'=>false,'label'=>'CV (PDF)'))
-            ->add('cartFile',FileType::class,array('required'=>false,'label'=>'Carta de presentación (PDF)'));
+            ->add('cvFile', FileType::class,
+                array(
+                    'required' => $cv,
+                    'label' => 'CV (PDF)')
+            )
+            ->add('cartFile', FileType::class,
+                array(
+                    'required' => $cart,
+                    'label' => 'Carta de presentación (PDF)'
+                )
+            );
     }
+
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => Resume::class,
         ]);
+        $resolver->setRequired('cv');
+        $resolver->setRequired('cart');
     }
 }

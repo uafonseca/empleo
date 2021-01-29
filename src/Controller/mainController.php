@@ -530,7 +530,16 @@ class mainController extends Controller
         $resume = $entityManager->getRepository(Resume::class)->findOneBy(array('user' => $user,));
         $metas = $entityManager->getRepository(Metadata::class)->findBy(array("resume" => $resume));
         $form = $this->createForm(ResumeType::class, $resume);
-        $formFiles = $this->createForm(ResumeFilesType::class, $resume);
+        $haveCv = false;
+        $haveCart = false;
+
+        if ($resume->getCvFile()) $haveCv = true;
+        if ($resume->getCartFile()) $haveCart = false;
+
+        $formFiles = $this->createForm(ResumeFilesType::class, $resume,[
+            'cv' => $haveCv,
+            'cart' => $haveCart
+        ]);
         $formFiles->handleRequest($request);
         if ($formFiles->isSubmitted() && $formFiles->isValid()) {
             $resume->setUpdatedAt(new \DateTime("now"));
@@ -1029,6 +1038,24 @@ class mainController extends Controller
         return $this->render('site/static_page.html.twig', [
             'page' => $page,
             'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     *
+     * @Route ("/check_email", name="check_email", options={"expose" = true})
+     */
+    public function checkEmail(Request $request){
+        $email = $request->query->get('email');
+        $em = $this->getDoctrine()->getManager();
+        $user =  $em->getRepository(User::class)->findOneBy([
+            'email' => $email
+        ]);
+
+        return new JsonResponse([
+            'valid' => $user ? false : true
         ]);
     }
 }

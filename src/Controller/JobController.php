@@ -191,7 +191,8 @@ class JobController extends AbstractController
                 ]
             );
         }
-        return $this->redirectToRoute('pricing_page', ['type' => 'job']);
+
+        return $this->redirectToRoute('pricing_page', ['type' => 'job','redirect' => true]);
     }
 
     /**

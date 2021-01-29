@@ -25,7 +25,7 @@
             width: 62%;
         }
         body{
-            background: url({{ asset('build/backend/images/bg/login-img.jpeg') }}) no-repeat;
+            {#background: url({{ asset('build/backend/images/bg/login-img.jpeg') }}) no-repeat;#}
             background-size:cover ;
             height: 90%;
         }
@@ -135,7 +135,7 @@
         <div class="col-md-3 register-left">
             <img src="{{ asset('images/default/logo_sm.png') }}" alt=""/>
             <h3>Bievenido</h3>
-            <p>Emplear.ec la mejor forma de buscar trabajo!</p>
+            <p>La mejor forma de buscar trabajo y promocionar tus servicios!</p>
             <a href="{{ path('app_register') }}"><input type="submit" name="" value="Registrarse"/></a>
         </div>
         <div class="col-md-9 register-right">
@@ -160,7 +160,7 @@
                                 <input type="password" class="form-control" name="_password" placeholder="Contraseña" required>
                                 <input type="hidden" class="form-control" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                             </div>
-                            <a href="#">¿Olvidó su contraseña?</a>
+                            <a href="{{ path('fos_user_resetting_request') }}">¿Olvidó su contraseña?</a>
                             <input type="submit" class="btnRegister"  value="Entrar"/>
                         </div>
                         <div class="col-md-2"></div>
