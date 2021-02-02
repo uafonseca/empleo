@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\constants;
+use App\Datatable\MyJobDatatable;
 use App\Entity\Anouncement;
 use App\Entity\Image;
 use App\Entity\Job;
@@ -19,6 +20,9 @@ use App\Service\JobService;
 use App\Service\NotificationService;
 use App\Service\UserService;
 use Exception;
+use Sg\DatatablesBundle\Datatable\DatatableFactory;
+use Sg\DatatablesBundle\Response\DatatableResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use function PHPSTORM_META\type;
@@ -37,23 +41,33 @@ class ServiceController extends Controller
     /** @var UserService */
     private $userService;
 
-    /** @var NotificationService  */
+    /** @var NotificationService */
     private $notificationService;
 
-    /** @var JobService  */
+    /** @var JobService */
     private $jobService;
+
+    /** @var DatatableFactory */
+    private $datatableFactory;
+
+    /** @var DatatableResponse */
+    private $datatableResponse;
 
     /**
      * ServiceController constructor.
      * @param UserService $userService
      * @param NotificationService $notificationService
      * @param JobService $jobService
+     * @param $datatableFactory
+     * @param $datatableResponse
      */
-    public function __construct(UserService $userService, NotificationService $notificationService, JobService $jobService)
+    public function __construct(UserService $userService, NotificationService $notificationService, JobService $jobService, DatatableFactory $datatableFactory, DatatableResponse $datatableResponse)
     {
         $this->userService = $userService;
         $this->notificationService = $notificationService;
         $this->jobService = $jobService;
+        $this->datatableFactory = $datatableFactory;
+        $this->datatableResponse = $datatableResponse;
     }
 
 
@@ -78,7 +92,8 @@ class ServiceController extends Controller
     /**
      * @param AnouncementRepository $repository
      */
-    public function showAplicados(AnouncementRepository $repository){
+    public function showAplicados(AnouncementRepository $repository)
+    {
         /** @var User $user */
         $user = $this->getUser();
         $applied = $user->getApplied();
@@ -97,12 +112,12 @@ class ServiceController extends Controller
         $metadata = $this->userService->isReadyToGetService($user);
 
 
-        if(!$metadata || !$user->getBuyFreePackService()){
+        if (!$metadata || !$user->getBuyFreePackService()) {
             $em = $this->getDoctrine()->getManager();
-            $packagesServices =  $em->getRepository(PaymentForServices::class)->findAll();
+            $packagesServices = $em->getRepository(PaymentForServices::class)->findAll();
             /** @var PaymentForServices $service */
-            foreach ($packagesServices as $service){
-                if ($service->getPrice() === 0){
+            foreach ($packagesServices as $service) {
+                if ($service->getPrice() === 0) {
                     $user->addPackageService($service);
                     $metadata = new PaymentForServicesMetadata();
                     $metadata
@@ -124,7 +139,7 @@ class ServiceController extends Controller
         /** @var PaymentForServicesMetadata $metadata */
         if (null != $metadata = $this->userService->isReadyToGetService($user)) {
 
-            if ($metadata->getCurrentPostCount() == $metadata->getPackage()->getAnouncementsNumberMax()){
+            if ($metadata->getCurrentPostCount() == $metadata->getPackage()->getAnouncementsNumberMax()) {
                 $metadata->setActive(false);
                 return $this->redirectToRoute('pricing_page', ['type' => 'service']);
             }
@@ -143,7 +158,7 @@ class ServiceController extends Controller
                 );
                 $entityManager->persist($post);
                 foreach ($post->getImages() as $image) {
-                    if ($image->getImageFile()){
+                    if ($image->getImageFile()) {
                         $image->setUpdateAt(new \DateTime('now'));
                         $image->setManyToOne($post);
                     }
@@ -182,14 +197,59 @@ class ServiceController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @param Anouncement $post
+     * @return RedirectResponse|Response
+     * @throws Exception
+     * @Route("/service/{id}/edit", name="service_edit")
+     */
+    public function serviceEdit(Request $request, Anouncement $post)
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        $form = $this->createForm(ServiceJobType::class, $post);
+        $entityManager = $this->getDoctrine()->getManager();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            foreach ($post->getImages() as $image) {
+                if ($image->getImageFile()) {
+                    $image->setUpdateAt(new \DateTime('now'));
+                    $image->setManyToOne($post);
+                }
+
+            }
+            $entityManager->flush();
+
+            $this->notificationService->create(constants::NOTIFICATION_JOB_UPDATE, 'Servicio modificado satisfactoriamente', $user);
+
+            return $this->redirectToRoute('load_services_request');
+        }
+        $paymentMetadata = [
+            'jobs' => $this->jobService->getCurrentJobPackage($user),
+            'services' => $this->jobService->getCurrentServicesPackage($user)
+        ];
+        return $this->render(
+            'service/new.html.twig',
+            [
+                'form' => $form->createView(),
+                'notifications' => $this->notificationService->orderByDate($user),
+                'paymentMetadata' => $paymentMetadata
+            ]
+        );
+    }
+
+    /**
      * @Route("/service/manage", name="service_manage")
+     * @param Request $request
+     * @return Response
      */
     public function manage(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $jobs = $em->getRepository(Anouncement::class)->findBy(array('user' => $user), array('date' => 'desc'));
-//        dump($jobs);die;
         $pagination = $this->get('knp_paginator')->paginate(
             $jobs,
             $request->query->getInt('page', 1),
@@ -249,6 +309,9 @@ class ServiceController extends Controller
 
     /**
      * @Route("/services/search",name="services_search")
+     * @param Request $request
+     * @param JobRepository $repository
+     * @return RedirectResponse|Response
      */
     public function search(Request $request, JobRepository $repository)
     {

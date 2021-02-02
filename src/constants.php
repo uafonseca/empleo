@@ -15,6 +15,7 @@ abstract class constants
     //-----notifications-----//
     const NOTIFICATION_PROFILE_UPDATE       =   "update_profile";
     const NOTIFICATION_JOB_CREATE           =   "create_profile";
+    const NOTIFICATION_JOB_UPDATE           =   "update_job";
     //-----notifications-----//
     //----------END----------//
 

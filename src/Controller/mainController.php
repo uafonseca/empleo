@@ -8,6 +8,7 @@
 
 namespace App\Controller;
 
+use App\Datatable\emailsDatatable;
 use App\Entity\Anouncement;
 use App\Entity\ContactMessage;
 use App\Entity\Job;
@@ -19,7 +20,6 @@ use App\Entity\PaymentForServices;
 use App\Entity\PaymentForServicesMetadata;
 use App\Entity\Policy;
 use App\Entity\Resume;
-use App\Entity\Service;
 use App\Entity\StaticPage;
 use App\Entity\User;
 use App\Entity\UserJobMeta;
@@ -38,6 +38,8 @@ use App\Service\CompanyService;
 use App\Service\JobService;
 use Doctrine\ORM\NonUniqueResultException;
 use Exception;
+use Sg\DatatablesBundle\Datatable\DatatableFactory;
+use Sg\DatatablesBundle\Response\DatatableResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
@@ -46,8 +48,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\constants;
@@ -79,6 +79,12 @@ class mainController extends Controller
     /** @var SessionInterface */
     private $session;
 
+    /** @var DatatableFactory */
+    private $datatableFactory;
+
+    /** @var DatatableResponse */
+    private $datatableResponse;
+
 
     /**
      * mainController constructor.
@@ -87,18 +93,25 @@ class mainController extends Controller
      * @param CompanyService $companyService
      * @param Mailer $mailer
      * @param SessionInterface $session
+     * @param DatatableFactory $datatableFactory
+     * @param DatatableResponse $datatableResponse
      */
     public function __construct(CategoryService $categoryService,
                                 JobService $jobService,
                                 CompanyService $companyService,
                                 Mailer $mailer,
-                                SessionInterface $session)
+                                SessionInterface $session,
+                                DatatableFactory $datatableFactory,
+                                DatatableResponse $datatableResponse
+    )
     {
         $this->categoryService = $categoryService;
         $this->jobService = $jobService;
         $this->companyService = $companyService;
         $this->mailer = $mailer;
         $this->session = $session;
+        $this->datatableFactory = $datatableFactory;
+        $this->datatableResponse = $datatableResponse;
     }
 
 
@@ -239,12 +252,15 @@ class mainController extends Controller
                 'notifications' => $this->loadNotifications(),
                 'jobs' => $em->getRepository(Job::class)->findBy(
                     array('status' => constants::JOB_STATUS_ACTIVE),
-                    array('dateCreated' => 'DESC'),
+                    array('dateCreated' => 'asc'),
                     10
                 ),
                 'services' => $em->getRepository(Anouncement::class)->findBy([
                     'status' => constants::JOB_STATUS_ACTIVE,
-                ]),
+
+                ], [
+                    'date' => 'asc'
+                ], 10),
                 'locations' => $this->container->get('app.service.helper')->loadLocations(),
                 'categorys' => $this->jobService->findByAllCategory(),
                 'citys' => $this->container->get('app.service.helper')->loadCityes(),
@@ -291,7 +307,7 @@ class mainController extends Controller
             $services[] = $em->getRepository(Anouncement::class)->find($id);
         }
 
-        return $this->render('site/job/services.html.twig',[
+        return $this->render('site/job/services.html.twig', [
             'services' => $services,
             'notifications' => $this->loadNotifications(),
         ]);
@@ -536,7 +552,7 @@ class mainController extends Controller
         if ($resume->getCvFile()) $haveCv = true;
         if ($resume->getCartFile()) $haveCart = false;
 
-        $formFiles = $this->createForm(ResumeFilesType::class, $resume,[
+        $formFiles = $this->createForm(ResumeFilesType::class, $resume, [
             'cv' => $haveCv,
             'cart' => $haveCart
         ]);
@@ -1047,10 +1063,11 @@ class mainController extends Controller
      *
      * @Route ("/check_email", name="check_email", options={"expose" = true})
      */
-    public function checkEmail(Request $request){
+    public function checkEmail(Request $request)
+    {
         $email = $request->query->get('email');
         $em = $this->getDoctrine()->getManager();
-        $user =  $em->getRepository(User::class)->findOneBy([
+        $user = $em->getRepository(User::class)->findOneBy([
             'email' => $email
         ]);
 
@@ -1058,4 +1075,37 @@ class mainController extends Controller
             'valid' => $user ? false : true
         ]);
     }
+
+    /**
+     * @param Request $request
+     * @return Response
+     *
+     * @throws Exception
+     * @Route ("/view_emails", name="emails_view", options={"expose" = true})
+     */
+    public function loadEmails(Request $request)
+    {
+        $datatable = $this->datatableFactory->create(emailsDatatable::class);
+        $datatable->buildDatatable([
+            'url' => $this->generateUrl('emails_view')
+        ]);
+
+        if ($request->isXmlHttpRequest() && $request->isMethod('POST')){
+            $this->datatableResponse->setDatatable($datatable);
+
+            $builder = $this->datatableResponse->getDatatableQueryBuilder();
+
+            $builder->getQb()
+                ->where('contactmessage.creator=:user')
+                ->setParameter('user',$this->getUser());
+
+            return $this->datatableResponse->getResponse();
+        }
+        return $this->render('mail/emails_list.html.twig',[
+            'datatable' => $datatable
+        ]);
+
+    }
+
+
 }

@@ -49,8 +49,8 @@
                                     <span>Trabajos Favoritos</span>
                                 </div>
                             </div>
-                            <div class="dashboard-section dashboard-view-chart">
-                                <canvas id="view-chart" width="400" height="200"></canvas>
+                            <div id="messages" class="dashboard-section dashboard-view-chart">
+
                             </div>
                             <div class="dashboard-section dashboard-recent-activity">
                                 <h4 class="title">Actividad reciente</h4>
@@ -62,14 +62,12 @@
                                         <span class="time">{{ n.date|ago }}</span>
                                     </div>
                                     <div class="close-activity">
-                                       <i class="fas fa-times" onclick="test1(a)"></i>
                                     </div>
                                 </div>
                                 {% endfor %}
                             </div>
                         </div>
                         {% include 'user/dashboard_sidebar.html.twig' %}
-
                     </div>
                 </div>
             </div>
@@ -84,5 +82,10 @@
     <script src="{{ asset('site/dashboard/js/upload-input.js') }}"></script>
 
     {% endblock %}
- {% block js %}
+ {% block scrips %}
+     <script>
+         $(document).ready(function (){
+             $('#messages').load('{{ path('emails_view') }}');
+         })
+     </script>
  {% endblock %}

@@ -49,8 +49,8 @@
                                     <span>Llamadas para entrevistas</span>
                                 </div>
                             </div>
-                            <div class="dashboard-section dashboard-view-chart">
-                                <canvas id="view-chart" width="400" height="200"></canvas>
+                            <div id="messages" class="dashboard-section dashboard-view-chart">
+
                             </div>
                             <div class="dashboard-section dashboard-recent-activity">
                                 <h4 class="title">Actividad reciente</h4>
@@ -63,7 +63,7 @@
                                             <span class="time">{{ n.date|ago }}</span>
                                         </div>
                                         <div class="close-activity">
-                                            <i class="fas fa-times" onclick="test1(a)"></i>
+{#                                            <i class="fas fa-times" onclick="test1(a)"></i>#}
                                         </div>
                                     </div>
                                 {% endfor %}
@@ -79,6 +79,13 @@
 
 
     {% endblock %}
+{% block scrips %}
+    <script>
+        $(document).ready(function (){
+            $('#messages').load('{{ path('emails_view') }}');
+        })
+    </script>
+{% endblock %}
  {% block footer %}
      {{ parent() }}
      <script src="{{ asset('site/assets/js/jquery.ajaxchimp.min.js') }}"></script>

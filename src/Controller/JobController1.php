@@ -9,6 +9,7 @@
 	namespace App\Controller;
 	
 	use App\constants;
+    use App\Datatable\MyJobDatatable;
     use App\Entity\Anouncement;
     use App\Entity\Category;
     use App\Entity\Company;
@@ -21,9 +22,13 @@
     use App\Entity\User;
     use App\Repository\JobRepository;
     use App\Service\JobService;
+    use Exception;
+    use Sg\DatatablesBundle\Datatable\DatatableFactory;
+    use Sg\DatatablesBundle\Response\DatatableResponse;
     use Symfony\Component\Form\FormError;
 	use Symfony\Bundle\FrameworkBundle\Controller\Controller;
     use Symfony\Component\HttpFoundation\JsonResponse;
+    use Symfony\Component\HttpFoundation\RedirectResponse;
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\HttpFoundation\Response;
     use Symfony\Component\Routing\Annotation\Route;
@@ -36,20 +41,32 @@
         /** @var JobService */
         private $jobservice;
 
+        /** @var DatatableFactory  */
+        private $datatableFactory;
+
+        /** @var DatatableResponse  */
+        private $datatableResponse;
+
         /**
          * JobController1 constructor.
          * @param JobService $jobservice
+         * @param DatatableFactory $datatableFactory
+         * @param DatatableResponse $datatableResponse
          */
-        public function __construct(JobService $jobservice)
+        public function __construct(JobService $jobservice, DatatableFactory $datatableFactory, DatatableResponse $datatableResponse)
         {
             $this->jobservice = $jobservice;
+            $this->datatableFactory = $datatableFactory;
+            $this->datatableResponse = $datatableResponse;
         }
 
 
         /**
-		 * @Route("/job/new_/", name="job_new_")
-		 * @IsGranted("ROLE_ADMIN")
-		 */
+         * @Route("/job/new_/", name="job_new_")
+         * @IsGranted("ROLE_ADMIN")
+         * @param Request $request
+         * @return RedirectResponse|Response
+         */
 		public function jobNew(Request $request)
 		{
 		    /** @var User $user */
@@ -324,8 +341,11 @@
 				]
 			);
 		}
+
         /**
          * @Route("/ajax/job/remove", name="ajax_job_remove")
+         * @param Request $request
+         * @return JsonResponse
          */
         function removeJob(Request $request)
         {
@@ -345,8 +365,11 @@
 
             return $response;
         }
+
         /**
          * @Route("/ajax/filters", name="ajax_filters")
+         * @param Request $request
+         * @return JsonResponse
          */
         function searchWithFilters(Request $request)
         {
@@ -493,6 +516,74 @@
             );
 
             return $response;
+        }
+
+        /**
+         * @param Request $request
+         * @return JsonResponse|Response
+         * @throws Exception
+         *
+         * @Route ("/misServicios", name="my_services_list")
+         */
+        public function misServiciosSolicitados(Request $request){
+            $datatable = $this->datatableFactory->create(MyJobDatatable::class);
+
+            $datatable->buildDatatable([
+                'url' => $this->generateUrl('my_services_list')
+            ]);
+
+            if ($request->isXmlHttpRequest() && $request->isMethod('POST')) {
+                $this->datatableResponse->setDatatable($datatable);
+                $builder = $this->datatableResponse->getDatatableQueryBuilder();
+
+                $builder->getQb()
+                    ->where('job.user=:user')
+                    ->setParameter('user', $this->getUser());
+
+                return $this->datatableResponse->getResponse();
+            }
+            return $this->render('site/job/myServices.html.twig', [
+                'datatable' => $datatable,
+                'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
+            ]);
+        }
+
+
+        /**
+         * @param Request $request
+         * @param Job $post
+         * @return RedirectResponse|Response
+         *
+         * @Route ("/actualizar/{id}", name="actualizar_trabajo")
+         */
+        public function editJob(Request $request, Job $post){
+            /** @var User $user */
+            $user = $this->getUser();
+            $form = $this->createForm(JobType::class, $post);
+            $entityManager = $this->getDoctrine()->getManager();
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+
+                $entityManager->flush();
+                $notification = new Notification();
+                $notification->setDate(new \DateTime());
+                $notification->setType(constants::NOTIFICATION_JOB_UPDATE);
+                $notification->setContext("Empleo modificado satisfactoriamente");
+                $notification->setUser($this->get('security.token_storage')->getToken()->getUser());
+                $notification->setActive(true);
+                $entityManager->persist($notification);
+                $entityManager->flush();
+                return $this->redirectToRoute('my_services_list');
+            }
+            return $this->render(
+                'site/job/job.html.twig',
+                [
+                    'form' => $form->createView(),
+                    'notifications' => $this->container->get('app.service.helper')->loadNotifications(),
+                    'expired' => $this->container->get('app.service.helper')->expired(),
+                    'company'=>$user->getCompany()
+                ]
+            );
         }
 
     }

@@ -44,6 +44,7 @@
                                         <a id="applied-btn-{{ j.id }}"
                                            onclick="contrata('{{ j.id }}',this)"  class="button">{% if j.id in app.user.ServicesRequest %}Solicitado{% else %}Contrata ya!{% endif %}</a>
                                         <a onclick="bookMark('{{ j.id }}')" class="favourite {% if j.id in app.user.bookmarked %}active{% endif %} "><i data-feather="heart"></i></a>
+                                        <a href="{{ path('service_edit', {'id': j.id}) }}" class=""><i class="fa fa-edit"></i></a>
                                     {% else %}
                                         <a data-toggle="modal" data-target="#modal-login"  class="button">Contactar!</a>
                                         {#<a  class="favourite"><i data-feather="heart"></i></a>#}
