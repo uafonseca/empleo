@@ -269,6 +269,8 @@ class ServiceController extends Controller
 
     /**
      * @Route("/service/view/{id}", name="service_view")
+     * @param Anouncement $anouncement
+     * @return Response
      */
     public function serviceView(Anouncement $anouncement)
     {

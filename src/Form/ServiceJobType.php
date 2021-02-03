@@ -84,7 +84,9 @@
 						'attr' => ['id' => 'country'],
 					]
 				)
-				->add('videoLink')
+				->add('videoLink',UrlType::class,[
+				    'required' => false
+                ])
 				->add(
 					'imageFile',
 					FileType::class,

@@ -57,8 +57,7 @@
                                                     <div class="company-wrap">
                                                         <div class="">
                                                             <a href="#">
-                                                                <img src="{{ vich_uploader_asset(image,'imageFile') }}"
-                                                                     class="img-fluid" alt="">
+                                                                <img src="{{asset('site/images/upload/company/images_stored/')~'_user_'~job.user.id~'/'~ image.image  }}" class="img-fluid" alt="">
                                                             </a>
                                                         </div>
                                                     </div>
