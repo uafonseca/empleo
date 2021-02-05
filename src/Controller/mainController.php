@@ -252,14 +252,14 @@ class mainController extends Controller
                 'notifications' => $this->loadNotifications(),
                 'jobs' => $em->getRepository(Job::class)->findBy(
                     array('status' => constants::JOB_STATUS_ACTIVE),
-                    array('dateCreated' => 'asc'),
+                    array('dateCreated' => 'desc'),
                     10
                 ),
                 'services' => $em->getRepository(Anouncement::class)->findBy([
                     'status' => constants::JOB_STATUS_ACTIVE,
 
                 ], [
-                    'date' => 'asc'
+                    'date' => 'desc'
                 ], 10),
                 'locations' => $this->container->get('app.service.helper')->loadLocations(),
                 'categorys' => $this->jobService->findByAllCategory(),
