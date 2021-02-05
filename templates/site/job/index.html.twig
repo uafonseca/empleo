@@ -118,7 +118,7 @@
                                             <div class="buttons">
                                                 {% if app.user %}
                                                     <a id="applied-btn-{{ j.id }}"
-                                                       onclick="applied('{{ j.id }}')" class="button btn">{% if get_status_job(app.user,j) %}Cancelar{% else %}Aplica ya!{% endif %}</a>
+                                                       onclick="contrata('{{ j.id }}',this)" class="apply button">{% if j.id in app.user.ServicesRequest %}Solicitado{% else %}Contrata ya!{% endif %}</a>
                                                     <a onclick="bookMark('{{ j.id }}')" class="favourite {% if j.id in app.user.bookmarked %}active{% endif %} "><i data-feather="heart"></i></a>
                                                 {% else %}
                                                     <a data-toggle="modal" data-target="#exampleModalLong"  class="button btn">Aplica ya!</a>

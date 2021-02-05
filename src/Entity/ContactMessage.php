@@ -53,7 +53,7 @@ class ContactMessage
     }
 
     /**
-     * @return Collection|User[]
+     * @return User
      */
     public function getCreator()
     {
@@ -63,7 +63,7 @@ class ContactMessage
 
 
     /**
-     * @return Collection|User[]
+     * @return User
      */
     public function getDestinatario()
     {

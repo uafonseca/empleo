@@ -36,13 +36,11 @@
                                     </div>
                                 </div>
                             </div>
-                            {% if not is_granted('ROLE_ADMIN') and app.user is not null %}
                             <div class="buttons">
                                 <a onclick="bookMark('{{ job.id }}')" class="favourite button save {% if  job.id in app.user.bookmarked %}active{% endif %} "><i data-feather="heart"></i>Guardar Empleo</a>
                                 <a id="applied-btn-{{ job.id }}"
                                   onclick="applied('{{ job.id }}')" class="apply button">{% if  job.id in app.user.applied %}Cancelar{% else %}Aplica ya!{% endif %}</a>
                             </div>
-                            {% endif %}
                         </div>
                         <div class="details-information section-padding-60">
                             <div class="row">

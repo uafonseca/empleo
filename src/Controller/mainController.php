@@ -91,7 +91,7 @@ class mainController extends Controller
      * @param CategoryService $categoryService
      * @param JobService $jobService
      * @param CompanyService $companyService
-     * @param Mailer $mailer
+     * @param \App\Service\Mailer $mailer
      * @param SessionInterface $session
      * @param DatatableFactory $datatableFactory
      * @param DatatableResponse $datatableResponse
@@ -99,7 +99,7 @@ class mainController extends Controller
     public function __construct(CategoryService $categoryService,
                                 JobService $jobService,
                                 CompanyService $companyService,
-                                Mailer $mailer,
+                                \App\Service\Mailer $mailer,
                                 SessionInterface $session,
                                 DatatableFactory $datatableFactory,
                                 DatatableResponse $datatableResponse
@@ -720,6 +720,46 @@ class mainController extends Controller
 
     /**
      * @param User $candidate
+     * @param Request $request
+     * @return JsonResponse|Response
+     *
+     * @Route ("/send_message/{id}", name="enviar_mensaje_de_correo" )
+     */
+    public function sendEmail(User $candidate, Request $request)
+    {
+        $message = new ContactMessage();
+        $message->setDestinatario($candidate);
+
+        $form = $this->createForm(ContactMessageFormType::class,$message,[
+            'action' => $this->generateUrl('enviar_mensaje_de_correo',['id' => $candidate->getId()])
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+
+            $message->setDate(new \DateTime('now'));
+
+            $em->persist($message);
+            $em->flush();
+
+            $this->mailer->sendEmailCandidate($message);
+
+            return new JsonResponse([
+                'type' => 'success',
+                'message' => 'Mensaje enviado'
+            ]);
+        }
+
+        return $this->render('user/senMessage.html.twig',[
+            'form' => $form->createView()
+        ]);
+    }
+
+
+    /**
+     * @param User $candidate
      * @param ContactMessageRepository $messageRepository
      * @return Response
      *
@@ -1090,18 +1130,18 @@ class mainController extends Controller
             'url' => $this->generateUrl('emails_view')
         ]);
 
-        if ($request->isXmlHttpRequest() && $request->isMethod('POST')){
+        if ($request->isXmlHttpRequest() && $request->isMethod('POST')) {
             $this->datatableResponse->setDatatable($datatable);
 
             $builder = $this->datatableResponse->getDatatableQueryBuilder();
 
             $builder->getQb()
                 ->where('contactmessage.creator=:user')
-                ->setParameter('user',$this->getUser());
+                ->setParameter('user', $this->getUser());
 
             return $this->datatableResponse->getResponse();
         }
-        return $this->render('mail/emails_list.html.twig',[
+        return $this->render('mail/emails_list.html.twig', [
             'datatable' => $datatable
         ]);
 

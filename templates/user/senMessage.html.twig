@@ -1,0 +1,36 @@
+{{ form_start(form) }}
+<div class="row">
+    <div class="col-6">{{ form_row(form.creator,{'attr':{'disabled':'disabled'}}) }}</div>
+    <div class="col-6">{{ form_row(form.destinatario,{'attr':{'disabled':'disabled'}}) }}</div>
+    <div class="col-12">{{ form_row(form.context) }}</div>
+    <div class="col-12" style="margin-top: 20px;">
+        <a href="#" class="btn btn-success save"> <i class="fa fa-save"></i> Guardar</a>
+    </div>
+</div>
+{{ form_end(form) }}
+
+<script>
+    $(function (){
+        $('.save').on('click',function (e){
+            e.preventDefault();
+            let form = $('form[name="contact_message_form"]');
+            const scope = $(form);
+            if ($('#contact_message_form_context').val()){
+                $.ajax({
+                    url: scope.attr('action'),
+                    type: scope.attr('method'),
+                    data: new FormData(form.get(0) ? form.get(0) : form),
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        if(response.type === 'success'){
+                            toastr.success(response.message)
+                            coreApp.dialogs.close(scope);
+                        }
+                    }
+                });
+            }else {
+                toastr.error('Debe introducir un texto')            }
+        })
+    })
+</script>

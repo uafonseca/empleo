@@ -20,18 +20,37 @@ use App\Entity\User;
 use App\Entity\UserJobMeta;
 use App\Repository\JobRepository;
 use App\Repository\UserJobMetaRepository;
+use App\Service\Mailer;
 use Exception;
+use Swift_Mailer;
+use Swift_Message;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\constants;
 
-class AjaxController extends Controller
+class AjaxController extends AbstractController
 {
+
+    private $mailer;
+
+    /**
+     * AjaxController constructor.
+     * @param $mailer
+     */
+    public function __construct(Mailer $mailer)
+    {
+        $this->mailer = $mailer;
+    }
+
 
     /**
      * @Route("/ajax/social", name="ajax_social")
+     * @param Request $request
+     * @return RedirectResponse
      */
     public function socialLinks(Request $request)
     {
@@ -322,7 +341,7 @@ class AjaxController extends Controller
                 $metadata->setAppiled(true);
                 $this->notificate(
                     constants::NOTIFICATIONS_JOB_APPLIED_OK,
-                    "Cancelaste tu propuesta: " . $job->getTitle(),
+                    "Has aplicado al trabajo: " . $job->getTitle(),
                     $user
                 );
             }else{
@@ -347,6 +366,17 @@ class AjaxController extends Controller
             $entityManager->persist($metadata);
             $job->addUser($user);
             $entityManager->flush();
+            $this->notificate(
+                constants::NOTIFICATIONS_JOB_APPLIED_OK,
+                "Aplicaste al trabajo: " . $job->getTitle(),
+                $user
+            );
+
+            $this->notificate(
+                constants::NOTIFICATIONS_JOB_APPLIED_OK,
+                "El usuario: " . $user->getName()." aplicó a la oferta" . $job->getTitle(),
+                $job->getUser()
+            );
         }
 
         return new JsonResponse([
@@ -367,12 +397,17 @@ class AjaxController extends Controller
         $notification->setActive(true);
         $entityManager->persist($notification);
         $entityManager->flush();
+
+        $this->mailer->sendNotification($notification);
     }
 
     /**
      * @Route("/mail/sender", name="mail_sender")
+     * @param Request $request
+     * @param Swift_Mailer $mailer
+     * @return JsonResponse
      */
-    public function sendEmail(Request $request, \Swift_Mailer $mailer)
+    public function sendEmail(Request $request, Swift_Mailer $mailer)
     {
         try {
             $message = (new \Swift_Message('Notificación'))
@@ -415,10 +450,10 @@ class AjaxController extends Controller
     /**
      * @Route("/ajax/contrata", name="ajax_contrata")
      * @param Request $request
-     * @param \Swift_Mailer $mailer
+     * @param Swift_Mailer $mailer
      * @return JsonResponse
      */
-    public function contrataAction(Request $request, \Swift_Mailer $mailer)
+    public function contrataAction(Request $request, Swift_Mailer $mailer)
     {
         $id = $request->request->get('id');
         $em = $this->getDoctrine()->getManager();
@@ -493,7 +528,7 @@ class AjaxController extends Controller
     /**
      * @Route("/ajax/send/email/candidate", name="ajax_send_email_candidate")
      */
-    public function sendEmailTocandidate(Request $request, \Swift_Mailer $mailer)
+    public function sendEmailTocandidate(Request $request, Swift_Mailer $mailer)
     {
         $subject = $request->request->get('email_subject');
         $body = $request->request->get('email_body');

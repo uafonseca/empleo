@@ -33,9 +33,9 @@ set('writable_use_sudo', true);
 
 set('writable_chmod_recursive',true);
 
-set('shared_dirs', ['var/log', 'var/sessions', 'vendor', 'public/bundles', 'public/images', 'public/site', 'public/uploads']);
+set('shared_dirs', ['var/log', 'var/sessions', 'vendor', 'public/images', 'public/site/images', 'public/site/docs']);
 
-set('writable_dirs', ['var/log','var/cache','var/sessions', 'public/','/var/www/html/empleo']);
+set('writable_dirs', ['var/log','var/cache','var/sessions', 'public/','/var/www/html/empleo','/var/www/html/empleo_prod']);
 
 set('ssh_multiplexing', true);
 

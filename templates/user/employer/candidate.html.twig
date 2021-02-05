@@ -91,6 +91,7 @@
                                         </td>
                                         <td class="status"><i data-feather="check-circle"></i>Preseleccionado</td>
                                         <td class="action">
+                                            <a href="{{ path('enviar_mensaje_de_correo', {'id': c.id }) }}" class="new-mail text-success" style=""><i class="fa fa-plus"></i></a>
                                             <a href="{{ path('buscar_mensajes', {'id': c.id }) }}" class="emails" style=""><i class="fa fa-envelope"></i></a>
                                             {% if c.resume.cv is not null %}
                                                 <a href="{{ vich_uploader_asset(c.resume,'cvFile') }}" download="{{ vich_uploader_asset(c.resume,'cvFile') }}" class="download"><i class="fa fa-download"></i></a>
@@ -115,7 +116,7 @@
 {% endblock %}
 {% block scrips %}
     <script>
-        $(document).on('click','.emails',function (e){
+        $(document).on('click','.emails, .new-mail',function (e){
             e.preventDefault();
             const scope = $(this)
             coreApp.dialogs.create({

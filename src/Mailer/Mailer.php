@@ -2,6 +2,7 @@
 
 namespace App\Mailer;
 
+use App\Entity\ContactMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -75,13 +76,13 @@ class Mailer
     }
 
 
-
     /**
+     * @param $subject
      * @param string $renderedTemplate
      * @param array $fromEmail
      * @param string $toEmail
      * @param string $CcEmail
-     * @param string $documento_url
+     * @param null $documento_url
      */
     public function sendEmailMessage($subject, $renderedTemplate, $fromEmail, $toEmail, $CcEmail, $documento_url = null): void
     {
@@ -99,4 +100,7 @@ class Mailer
         $this->mailer->send($message);
     }
 
+    public function sendEmailCandidate(ContactMessage $message){
+
+    }
 }
