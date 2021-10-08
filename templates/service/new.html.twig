@@ -1,349 +1,382 @@
 {% extends 'site/base.html.twig' %}
 {% form_theme form 'backend/jquery.collection.html.twig' %}
-{% block title %}Crear servicio{% endblock %}
+{% block title %}Crear servicio
+{% endblock %}
 {% block stylesheet %}
-    {{ parent() }}
-    <link rel="stylesheet" type="text/css" href="{{ asset('site/dashboard/css/dashboard.css') }}">
-    <style>
-        #service_job_images > div > label {
-            opacity: 0;
-        }
-    </style>
+{{ parent() }}
+<link rel="stylesheet" type="text/css" href="{{ asset('site/dashboard/css/dashboard.css') }}">
+<style>
+    #service_job_images>div>label {
+        opacity: 0;
+    }
+</style>
 {% endblock %}
 
 {% block body %}
-    {{ include ('site/header.html.twig',{'notifications': notifications}  ) }}
-    <!-- Breadcrumb -->
-    <div class="alice-bg padding-top-70 padding-bottom-70">
-        <div class="container">
-            {{ include('user/employer/info.html.twig') }}
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="breadcrumb-area">
-                        <h1>Crear servicio</h1>
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{{ path('homepage') }}">Inicio</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Crear servicio</li>
-                            </ol>
-                        </nav>
-                    </div>
-                    <div class="alert alert-info">
-                        <div class="alert-message">
-                            Ahora puedes promocionar tus servicios o productos, hay muchos interesados en comprar lo que ofertas
-                        </div>
+{{ include ('site/header.html.twig',{'notifications': notifications} ) }}
+<!-- Breadcrumb -->
+<div class="alice-bg padding-top-70 padding-bottom-70">
+    <div class="container">
+        {{ include('user/employer/info.html.twig') }}
+        <div class="row">
+            <div class="col-md-6">
+                <div class="breadcrumb-area">
+                    <h1>Mi panel de servicios</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="{{ path('homepage') }}">Inicio</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">Crear servicio</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="alert alert-info">
+                    <div class="alert-message">
+                        Ahora puedes promocionar tus servicios o productos, hay muchos interesados en comprar lo que
+                        ofertas
                     </div>
                 </div>
-                {{ include('user/employer/package.html.twig') }}
             </div>
+            {{ include('user/employer/package.html.twig') }}
         </div>
     </div>
-    <div class="alice-bg section-padding-bottom">
-        <div class="container no-gliters">
-            <div class="row no-gliters">
-                <div class="col">
-                    <div class="post-container">
-                        <div class="post-content-wrapper">
-                            {{ form_start(form, {attr: {'class': 'job-post-form','id':'job-form'} }) }}
-                            <div class="basic-info-input">
-                                <h4><i data-feather="plus-circle"></i>Detallar
-                                    servicio</h4>
-                                <div id="job-title" class="form-group row">
-                                    <label class="col-md-3 col-form-label">Título<span
-                                                style="color: red">*</span></label>
-                                    <div class="col-md-9">
-                                        {{ form_widget(form.title, { 'attr': {'class': 'form-control','placeholder':'Título'} }) }}
-                                        <span class="error text-danger">{{ form_errors(form.title) }}</span>
-                                    </div>
+</div>
+<div class="alice-bg section-padding-bottom">
+    <div class="container no-gliters">
+        <div class="row no-gliters">
+            <div class="col">
+                <div class="post-container">
+                    <div class="post-content-wrapper">
+                        {{ form_start(form, {attr: {'class': 'job-post-form','id':'job-form'} }) }}
+                        <div class="basic-info-input">
+                            <h4>
+                                <i data-feather="plus-circle"></i>Detallar
+                                servicio
+                            </h4>
+                            <div id="job-title" class="form-group row">
+                                <label class="col-md-3 col-form-label">Título<span style="color: red">*</span>
+                                </label>
+                                <div class="col-md-9">
+                                    {{ form_widget(form.title, { 'attr': {'class':
+                                    'form-control','placeholder':'Título'} }) }}
+                                    <span class="error text-danger">{{ form_errors(form.title) }}</span>
                                 </div>
-                                <div id="logo" class="form-group row">
-                                    <label class="col-md-3 col-form-label">Logo<span style="color: red">*</span></label>
-                                    <div class="col-md-9">
-                                        <div class="dashboard-section upload-profile-photo">
-                                            <div class="update-photo" style="width: 150px;">
-                                                <img class="image" alt="">
-                                            </div>
-                                            <div id="file_upload" class="file-upload">
-                                                {{ form_widget(form.imageFile, { 'attr': {'class': 'file-input'} } ) }}
-                                                Imagen
-                                            </div>
+                            </div>
+                            <div id="logo" class="form-group row">
+                                <label class="col-md-3 col-form-label">Logo<span style="color: red">*</span>
+                                </label>
+                                <div class="col-md-9">
+                                    <div class="dashboard-section upload-profile-photo">
+                                        <div class="update-photo" style="width: 150px;">
+                                            <img class="image" alt="">
                                         </div>
-                                        <span class="error text-danger">{{ form_errors(form.imageFile) }}</span>
-                                    </div>
-                                </div>
-                                <div id="job-summery" class="row">
-                                    <label class="col-md-3 col-form-label">Resumen de servicio<span
-                                                style="color: red">*</span></label>
-                                    <div class="col-md-9">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    {{ form_widget(form.profession, { 'attr': {'class': 'form-control'} }) }}
-                                                    <span class="error text-danger">{{ form_errors(form.profession) }}</span>
-                                                    <i class="fa fa-caret-down"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    {{ form_widget(form.type, { 'attr': {'class': 'form-control'} }) }}
-                                                    <span class="error text-danger"> {{ form_errors(form.type) }}</span>
-                                                    <i class="fa fa-caret-down"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    {{ form_widget(form.experience, { 'attr': {'class': 'form-control'} }) }}
-                                                    <span class="error text-danger">{{ form_errors(form.experience) }}</span>
-                                                    <i class="fa fa-caret-down"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    {{ form_widget(form.value, { 'attr': {'id': 'min','class': 'form-control','placeholder':'Valor'} }) }}
-                                                    <span class="error text-danger">{{ form_errors(form.value) }}</span>
-                                                </div>
-                                            </div>
+                                        <div id="file_upload" class="file-upload">
+                                            {{ form_widget(form.imageFile, { 'attr': {'class': 'file-input'} } ) }}
+                                            160x100 jpg
                                         </div>
                                     </div>
+                                    <span class="error text-danger">{{ form_errors(form.imageFile) }}</span>
                                 </div>
-                                <div id="job-description" class="row">
-                                    <label class="col-md-3 col-form-label">Descripción del servicio<span
-                                                style="color: red">*</span></label>
-                                    <div class="col-md-9">
-                                        <div class="form-group shadow-textarea">
-                                            <label for="exampleFormControlTextarea6"></label>
-                                            {{ form_widget(form.description, { 'attr': {'class': 'form-control z-depth-1','placeholder':'Descripción del trabajo'} }) }}
-                                            <span class="error text-danger">{{ form_errors(form.description) }}</span>
+                            </div>
+                            <div id="job-summery" class="row">
+                                <label class="col-md-3 col-form-label">Resumen de servicio<span
+                                        style="color: red">*</span>
+                                </label>
+                                <div class="col-md-9">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                {{ form_widget(form.profession, { 'attr': {'class': 'form-control'} })
+                                                }}
+                                                <span class="error text-danger">{{ form_errors(form.profession)
+                                                    }}</span>
+                                                <i class="fa fa-caret-down"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                {{ form_widget(form.type, { 'attr': {'class': 'form-control'} }) }}
+                                                <span class="error text-danger">
+                                                    {{ form_errors(form.type) }}</span>
+                                                <i class="fa fa-caret-down"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                {{ form_widget(form.experience, { 'attr': {'class': 'form-control'} })
+                                                }}
+                                                <span class="error text-danger">{{ form_errors(form.experience)
+                                                    }}</span>
+                                                <i class="fa fa-caret-down"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                {{ form_widget(form.value, { 'attr': {'id': 'min','class':
+                                                'form-control','placeholder':'Valor'} }) }}
+                                                <span class="error text-danger">{{ form_errors(form.value) }}</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div id="post-location" class="form-group row">
-                                    <label class="col-md-3 col-form-label">Su ubicación<span style="color: red">*</span></label>
-                                    <div class="col-md-9">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div id="locationField">
-                                                    {{ form_widget(form.location, {
-                                                        'id': 'autocomplete',
-                                                        'attr': {
-                                                            'class': 'form-control',
-                                                            'onFocus': 'geolocate()',
-                                                            'placeholder':'Su ubicación',
-                                                            'required':'required',
-                                                        } }) }}
-                                                </div>
-                                                <div class="container">
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <label class="label">Dirección</label>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                {#<input class="field form-control" id="street_number"#}
-                                                                {{ form_widget(form.addres1, {
-                                                                    'id': 'street_number',
-                                                                    'attr': {
-                                                                        'class': 'form-control field',
-                                                                    } }) }}
-                                                                {#/>#}
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                {#<input class="field form-control" id="route"#}
-                                                                {#/>#}
-                                                                {{ form_widget(form.addres2, {
-                                                                    'id': 'route',
-                                                                    'attr': {
-                                                                        'class': 'form-control field',
-                                                                    } }) }}
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label class="label">Ciudad</label>
-                                                            {{ form_widget(form.city, {
-                                                                'id': 'locality',
-                                                                'attr': {
-                                                                    'class': 'form-control field',
-                                                                    'required':'required',
-                                                                } }) }}
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label class="label">Estado</label>
-                                                            {#<input class="field form-control" placeholder=""#}
-                                                            {#id="administrative_area_level_1"/>#}
-                                                            {{ form_widget(form.state, {
-                                                                'id': 'administrative_area_level_1',
-                                                                'attr': {
-                                                                    'class': 'form-control field',
-                                                                } }) }}
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label class="label">Código postal</label>
-                                                            {{ form_widget(form.postalCode, {
-                                                                'id': 'postal_code',
-                                                                'attr': {
-                                                                    'class': 'form-control field',
-                                                                    'required':'required',
-                                                                } }) }}
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label class="label">País</label>
-                                                            {{ form_widget(form.country, {
-                                                                'id':'country',
-                                                                'attr': {
-                                                                    'class': 'field form-control',
-                                                                    'required':'required',
-                                                                } }) }}
+                            </div>
+                            <div id="job-description" class="row">
+                                <label class="col-md-3 col-form-label">Descripción del servicio<span
+                                        style="color: red">*</span>
+                                </label>
+                                <div class="col-md-9">
+                                    <div class="form-group shadow-textarea">
+                                        <label for="exampleFormControlTextarea6"></label>
+                                        {{ form_widget(form.description, { 'attr': {'class': 'form-control
+                                        z-depth-1','placeholder':'Descripción del trabajo'} }) }}
+                                        <span class="error text-danger">{{ form_errors(form.description) }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="post-location" class="form-group row">
+                                <label class="col-md-3 col-form-label">Su ubicación<span style="color: red">*</span>
+                                </label>
+                                <div class="col-md-9">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div id="locationField">
+                                                {{ form_widget(form.location, {
+                                                'id': 'autocomplete',
+                                                'attr': {
+                                                'class': 'form-control',
+                                                'onFocus': 'geolocate()',
+                                                'placeholder':'Su ubicación',
+                                                'required':'required',
+                                                } }) }}
+                                            </div>
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <label class="label">Dirección</label>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            {#<input class="field form-control" id="street_number" #} {{
+                                                                form_widget(form.addres1, { 'id' : 'street_number'
+                                                                , 'attr' : { 'class' : 'form-control field' , } }) }}
+                                                                {# />#}
                                                         </div>
                                                     </div>
-
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            {#<input class="field form-control" id="route" #} {# />#}
+                                                            {{ form_widget(form.addres2, {
+                                                            'id': 'route',
+                                                            'attr': {
+                                                            'class': 'form-control field',
+                                                            } }) }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6"> <label class="label">Ciudad</label>
+                                                        {{ form_widget(form.city, {
+                                                        'id': 'locality',
+                                                        'attr': {
+                                                        'class': 'form-control field',
+                                                        'required':'required',
+                                                        } }) }}
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label class="label">Estado</label>
+                                                        {#<input class="field form-control" placeholder="" #}
+                                                            {#id="administrative_area_level_1" />#}
+                                                        {{ form_widget(form.state, {
+                                                        'id': 'administrative_area_level_1',
+                                                        'attr': {
+                                                        'class': 'form-control field',
+                                                        } }) }}
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label class="label">Código postal</label>
+                                                        {{ form_widget(form.postalCode, {
+                                                        'id': 'postal_code',
+                                                        'attr': {
+                                                        'class': 'form-control field',
+                                                        'required':'required',
+                                                        } }) }}
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label class="label">País</label>
+                                                        {{ form_widget(form.country, {
+                                                        'id':'country',
+                                                        'attr': {
+                                                        'class': 'field form-control',
+                                                        'required':'required',
+                                                        } }) }}
+                                                    </div>
                                                 </div>
+
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
 
-                                <div class="dashboard-section media-inputs">
-                                    <h4><i data-feather="image"></i>Fotos y Video</h4>
-                                    <div class="form-group row">
-                                        <label class="col-sm-3 col-form-label">Video Introductorio</label>
-                                        <div class="col-sm-9">
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">Link</div>
-                                                </div>
-                                                {{ form_widget(form.videoLink, {
-                                                    'attr': {
-                                                        'class': 'form-control',
-                                                        'placeholder':'https://www.youtube.com/watch?v=ZRkdyjJ_489M'
-                                                    } }) }}
+                            <div class="dashboard-section media-inputs">
+                                <h4>
+                                    <i data-feather="image"></i>Fotos y Video
+                                </h4>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Video Introductorio</label>
+                                    <div class="col-sm-9">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">Link</div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-sm-3 col-form-label">Galería</label>
-                                        <div class="col-sm-9">
-                                            <div class="input-group image-upload-input">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">Imagenes</div>
-                                                </div>
-                                                <div class="active">
-                                                    {{ form_row(form.images) }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {% include 'site/job/payment.html.twig' %}
-                                <div class="row">
-                                    <div class="col-md-9 offset-md-3">
-                                        <div class="form-group terms">
-                                            <input class="custom-radio" required="required" type="checkbox" id="radio-4"
-                                                   name="termsandcondition">
-                                            <label for="radio-4">
-                                                <span class="dot"></span> Acepta nuestros <a target="_blank"
-                                                        href="{{ path('site_policy') }}">Términos,
-                                                    Condiciones y Política de privacidad</a>
-                                            </label>
+                                            {{ form_widget(form.videoLink, {
+                                            'attr': {
+                                            'class': 'form-control',
+                                            'placeholder':'https://www.youtube.com/watch?v=ZRkdyjJ_489M'
+                                            } }) }}
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-3 col-form-label"></label>
-                                    <div class="col-md-9">
-                                        {{ form_widget(form.save, { 'attr': {'class': 'button'} }) }}
+                                    <label class="col-sm-3 col-form-label">Galería</label>
+                                    <div class="col-sm-9">
+                                        <div class="input-group image-upload-input">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">Imagenes</div>
+                                            </div>
+                                            <div class="active">
+                                                {{ form_row(form.images) }}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-
                             </div>
-                            {{ form_rest(form) }}
-                            {{ form_end(form) }}
+
+                            {% include 'site/job/payment.html.twig' %}
+                            <div class="row">
+                                <div class="col-md-9 offset-md-3">
+                                    <div class="form-group terms">
+                                        <input class="custom-radio" required type="checkbox" id="radio-4"
+                                            name="termsandcondition">
+                                        <label for="radio-4">
+                                            <span class="dot"></span>
+                                            Acepta nuestros
+                                            <a target="_blank" href="{{ path('site_policy') }}">Términos,
+                                                Condiciones y Política de privacidad</a>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label"></label>
+                                <div class="col-md-9">
+                                    {{ form_widget(form.save, { 'attr': {'class': 'button'} }) }}
+                                </div>
+                            </div>
+
                         </div>
-                        <div class="post-sidebar">
-                            <h5><i data-feather="arrow-down-circle"></i>Navegación</h5>
-                            <ul class="sidebar-menu">
-                                <li><a href="#job-title">Título del Servicio</a></li>
-                                <li><a href="#job-summery">Resumen del servicio</a></li>
-                                <li><a href="#job-description">Descripción del servicio</a></li>
-                            </ul>
-                        </div>
+                        {{ form_rest(form) }}
+                        {{ form_end(form) }}
+                    </div>
+                    <div class="post-sidebar">
+                        <h5>
+                            <i data-feather="arrow-down-circle"></i>Navegación
+                        </h5>
+                        <ul class="sidebar-menu">
+                            <li>
+                                <a href="#job-title">Título del Servicio</a>
+                            </li>
+                            <li>
+                                <a href="#job-summery">Resumen del servicio</a>
+                            </li>
+                            <li>
+                                <a href="#job-description">Descripción del servicio</a>
+                            </li>
+                            <li class="">
+                                <i class="fas fa-edit"></i>
+                                <a href="{{ path('service_manage') }}">Mis servicios</a>
+                            </li>
+                            <l>
+                                <i class="fas fa-calculator"></i>
+                                <a href="{{ path('pricing_page') }}">Plan de precios</a>
+                            </l>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}
 {% block js %}
-    <script src="{{ asset('site/dashboard/js/datePicker.js') }}"></script>
-    <script src="{{ asset('site/js/bootstrap-multiselect.js') }}"></script>
-    <script>
-        $('form[name="service_job"]').submit(function (e){
-            let radio = $('#radio-4');
-            if (!radio.is(':checked')){
-                e.preventDefault();
-                e.stopImmediatePropagation();
-                e.stopPropagation();
-                toastr.warning('Debe aceptar nuestros términos y condiciones')
-                return false;
+<script src="{{ asset('site/dashboard/js/datePicker.js') }}"></script>
+<script src="{{ asset('site/js/bootstrap-multiselect.js') }}"></script>
+<script>
+    $('form[name="service_job"]').submit(function (e) {
+        let radio = $('#radio-4');
+        if (!radio.is(':checked')) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            e.stopPropagation();
+            toastr.warning('Debe aceptar nuestros términos y condiciones')
+            return false;
+        }
+        return true;
+    });
+
+    $(document).ready(function () {
+        $('#multiselect').multiselect({ buttonWidth: '300px' });
+
+
+        $('.file-input').change(function () {
+            var curElement = $('.image');
+            var reader = new FileReader();
+
+            reader.onload = function (e) { // get loaded data and render thumbnail.
+                curElement.attr('src', e.target.result);
+            };
+
+            // read the image file as a data URL.
+            reader.readAsDataURL(this.files[0]);
+        });
+
+        $('#service_job_imageFile').change(function () {
+            var curElement = $(this).parent().parent().parent().find('.image');
+            var reader = new FileReader();
+
+            reader.onload = function (e) { // get loaded data and render thumbnail.
+                curElement.attr('src', e.target.result);
+            };
+
+            // read the image file as a data URL.
+            reader.readAsDataURL(this.files[0]);
+        });
+
+        $('#service_job_images').collection({
+            add: `<a class="btn btn-primary pull-right" href="#"><i class="fas fa-plus" style="position: relative; top: 0;color: white;"></i></a>`,
+            remove: `<a href="#" class="btn btn-danger mt-collection pull-right"><i class="fas fa-trash" style="position: relative; top: 0;color: white;"></i></a>`,
+            allow_up: false,
+            allow_down: false,
+            allow_duplicate: false,
+            add_at_the_end: true,
+            after_add: function (collection, item) {
+                $('.file-to-upload').fileinput({
+                    dropZoneEnabled: false,
+                    browseLabel: '&nbsp;Buscar',
+                    // browseIcon: '<i class="fa fa-upload" style="position: relative; color: white"></i>&nbsp;',
+                    removeLabel: 'Eliminar',
+                    showCancel: false,
+                    showUpload: false,
+                    allowedFileExtensions: [
+                        'png',
+                        'jpg',
+                        'gif',
+                        'jpeg',
+                        'jfif'
+                    ],
+                    maxFileSize: '1024'
+                });
             }
-            return true;
-        });
-
-        $(document).ready(function () {
-            $('#multiselect').multiselect({
-                buttonWidth: '300px',
-
-            });
-
-
-            $('.file-input').change(function () {
-                var curElement = $('.image');
-                var reader = new FileReader();
-
-                reader.onload = function (e) {
-                    // get loaded data and render thumbnail.
-                    curElement.attr('src', e.target.result);
-                };
-
-                // read the image file as a data URL.
-                reader.readAsDataURL(this.files[0]);
-            });
-
-            $('#service_job_imageFile').change(function () {
-                var curElement = $(this).parent().parent().parent().find('.image');
-                var reader = new FileReader();
-
-                reader.onload = function (e) {
-                    // get loaded data and render thumbnail.
-                    curElement.attr('src', e.target.result);
-                };
-
-                // read the image file as a data URL.
-                reader.readAsDataURL(this.files[0]);
-            });
-
-            $('#service_job_images').collection({
-                add: `<a class="btn btn-primary pull-right" href="#"><i class="fas fa-plus" style="position: relative; top: 0;color: white;"></i></a>`,
-                remove: `<a href="#" class="btn btn-danger mt-collection pull-right"><i class="fas fa-trash" style="position: relative; top: 0;color: white;"></i></a>`,
-                allow_up: false,
-                allow_down: false,
-                allow_duplicate: false,
-                add_at_the_end: true,
-                after_add: function (collection, item) {
-                    $('.file-to-upload').fileinput({
-                        dropZoneEnabled:false,
-                        browseLabel: '&nbsp;Buscar',
-                        // browseIcon: '<i class="fa fa-upload" style="position: relative; color: white"></i>&nbsp;',
-                        removeLabel: 'Eliminar',
-                        showCancel:false,
-                        showUpload: false,
-                        allowedFileExtensions:['png','jpg','gif','jpeg','jfif'],
-                        maxFileSize: '1024',
-                    });
-                }
-            })
-        });
-    </script>
+        })
+    });
+</script>
 {% endblock %}

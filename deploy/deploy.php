@@ -7,7 +7,7 @@ require __DIR__ . './../vendor/deployer/recipes/recipe/slack.php';
 require __DIR__ . './../vendor/deployer/recipes/recipe/yarn.php';
 
 
-set('repository', 'git@github.com:roberto910907/empleo.ec.git');
+set('repository', 'https://github.com/uafonseca/empleo.git');
 
 set('application', 'serviciosyempleos');
 
