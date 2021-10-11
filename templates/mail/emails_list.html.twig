@@ -1,4 +1,7 @@
 <div class="row">
-    {{ sg_datatables_render_html(datatable) }}
+    <div class="col-md-12">
+        <h4 class="title">Mis mensajes</h4>
+        {{ sg_datatables_render_html(datatable) }}
+    </div>
 </div>
 {{ sg_datatables_render_js(datatable) }}

@@ -9,11 +9,11 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="breadcrumb-area">
-                    <h1>Tablero de Candidatos</h1>
+                    <h1>Me gustan</h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#">Inicio</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Tablero de Candidatos</li>
+                            <li class="breadcrumb-item active" aria-current="page">Me gustan</li>
                         </ol>
                     </nav>
                 </div>
@@ -33,43 +33,45 @@
                             <h4 class="bookmark-title">{{ jobs|length }} oferta(s) marcada(s)</h4>
                             <div class="bookmark-area">
                                 {% for job in jobs %}
-                                <div id="autoremove-{{ job.id }}" class="job-list">
-                                    <div class="thumb">
-                                        <a href="{{ path('job_show', {'id': job.id}) }}">
-                                            <img src="{{ asset('site/images/upload/company/')~'_user_'~job.user.id~'/'~ job.image }}" class="img-fluid" alt="{{ job.title }}">
-                                        </a>
-                                    </div>
-                                    <div class="body">
-                                        <div class="content">
-                                            <h4><a href="{{ path('job_show', {'id': job.id}) }}">{{ job.title }}</a></h4>
-                                            <div class="info">
-                                                <span class="company"><a href="{{ path('job_show', {'id': job.id}) }}">
-                                                        <i data-feather="briefcase"></i>{{ job.CompanyName }}</a></span>
-                                                <span class="office-location"><a href="#"><i data-feather="map-pin"></i>{{ job.Localtion }}</a></span>
-                                                {% if job.type == 'partial' %}
-                                                    <span class="job-type part-time"><a href="#"><i data-feather="clock"></i>A tiempo parcial</a></span>
-                                                {% endif %}
-                                                {% if job.type == 'ful' %}
-                                                    <span class="job-type full-time"><a href="#"><i data-feather="clock"></i>A tiempo completo</a></span>
-                                                {% endif %}
-                                                {% if job.type == 'temporary' %}
-                                                    <span class="job-type temporary"><a href="#"><i data-feather="clock"></i>Temporal</a></span>
-                                                {% endif %}
-                                                {% if job.type == 'freelance' %}
-                                                    <span class="job-type freelance"><a href="#"><i data-feather="clock"></i>Independiente</a></span>
-                                                {% endif %}
+                                    {% if job %}
+                                    <div id="autoremove-{{ job.id }}" class="job-list">
+                                        <div class="thumb">
+                                            <a href="{{ path('job_show', {'id': job.id}) }}">
+                                                <img src="{{ asset('site/images/upload/company/')~'_user_'~job.user.id~'/'~ job.image }}" class="img-fluid" alt="{{ job.title }}">
+                                            </a>
+                                        </div>
+                                        <div class="body">
+                                            <div class="content">
+                                                <h4><a href="{{ path('job_show', {'id': job.id}) }}">{{ job.title }}</a></h4>
+                                                <div class="info">
+                                                    <span class="company"><a href="{{ path('job_show', {'id': job.id}) }}">
+                                                            <i data-feather="briefcase"></i>{{ job.CompanyName }}</a></span>
+                                                    <span class="office-location"><a href="#"><i data-feather="map-pin"></i>{{ job.Localtion }}</a></span>
+                                                    {% if job.type == 'partial' %}
+                                                        <span class="job-type part-time"><a href="#"><i data-feather="clock"></i>A tiempo parcial</a></span>
+                                                    {% endif %}
+                                                    {% if job.type == 'ful' %}
+                                                        <span class="job-type full-time"><a href="#"><i data-feather="clock"></i>A tiempo completo</a></span>
+                                                    {% endif %}
+                                                    {% if job.type == 'temporary' %}
+                                                        <span class="job-type temporary"><a href="#"><i data-feather="clock"></i>Temporal</a></span>
+                                                    {% endif %}
+                                                    {% if job.type == 'freelance' %}
+                                                        <span class="job-type freelance"><a href="#"><i data-feather="clock"></i>Independiente</a></span>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="more">
+                                                <div class="buttons">
+                                                    <a href="#" class="button">Aplica ya!</a>
+                                                    <a href="#" class="favourite"><i data-feather="heart"></i></a>
+                                                </div>
+                                                <a href="" onclick="bookMark('{{ job.id }}')" class="bookmark-remove"><i class="fas fa-times"></i></a>
+                                                <p class="deadline">Fecha tope: {{ job.date|date('F d, Y')}}</p>
                                             </div>
                                         </div>
-                                        <div class="more">
-                                            <div class="buttons">
-                                                <a href="#" class="button">Aplica ya!</a>
-                                                <a href="#" class="favourite"><i data-feather="heart"></i></a>
-                                            </div>
-                                            <a href="" onclick="bookMark('{{ job.id }}')" class="bookmark-remove"><i class="fas fa-times"></i></a>
-                                            <p class="deadline">Fecha tope: {{ job.date|date('F d, Y')}}</p>
-                                        </div>
                                     </div>
-                                </div>
+                                    {% endif %}
                                 {% endfor %}
                             </div>
                         </div>

@@ -60,6 +60,13 @@
                                        download="{{ vich_uploader_asset(candidate.resume,'cvFile') }}">Descargar CV <i
                                                 data-feather="download"></i></a>
                                 {% endif %}
+                                 {% if candidate.resume.cart is empty %}
+                                    <a class="disabled">Cata de presentación <i data-feather="download"></i></a>
+                                {% else %}
+                                    <a href="{{ vich_uploader_asset(candidate.resume,'cartFile') }}"
+                                       download="{{ vich_uploader_asset(candidate.resume,'cartFile') }}">Descargar carta de presentación <i
+                                                data-feather="download"></i></a>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="skill-and-profile">
@@ -183,7 +190,7 @@
                                             </ul>
                                         </div>
                                         <div class="buttons">
-                                            <a href="#" id="contact-action" class="button contact-button">Contacto</a>
+                                            <a href="#" id="contact-action" class="button contact-button">Enviar mensaje</a>
                                         </div>
                                     </div>
                                 </div>

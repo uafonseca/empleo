@@ -8,7 +8,6 @@
 
 namespace App\Controller;
 
-
 use App\Entity\Anouncement;
 use App\Entity\Category;
 use App\Entity\Job;
@@ -34,7 +33,6 @@ use App\constants;
 
 class AjaxController extends AbstractController
 {
-
     private $mailer;
 
     /**
@@ -117,8 +115,8 @@ class AjaxController extends AbstractController
             $count = $request->request->get('count');
             for ($i = 1; $i < $count; $i++) {
                 if (null !== $up = $entityManager->getRepository(Metadata::class)->find(
-                        $request->request->get('rid-' . $i)
-                    )) {
+                    $request->request->get('rid-' . $i)
+                )) {
                     $up->setHeader($request->request->get('title-' . $i));
                     $up->setContext($request->request->get('institute-' . $i));
                     $up->setExtra($request->request->get('period-' . $i));
@@ -155,7 +153,7 @@ class AjaxController extends AbstractController
     /**
      * @Route("/ajax/metadata/remove", name="ajax_metadata_remove")
      */
-    function removeMetadata(Request $request)
+    public function removeMetadata(Request $request)
     {
         $id = $request->request->get('id');
         $entityManager = $this->getDoctrine()->getManager();
@@ -177,7 +175,7 @@ class AjaxController extends AbstractController
     /**
      * @Route("/ajax/metadata/expe/save", name="ajax_metadata_exp_save")
      */
-    function saveExperence(Request $request)
+    public function saveExperence(Request $request)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $meta = new Metadata();
@@ -208,7 +206,7 @@ class AjaxController extends AbstractController
     /**
      * @Route("/ajax/metadata/porcent/save", name="ajax_metadata_porcent_save")
      */
-    function savePorcent(Request $request)
+    public function savePorcent(Request $request)
     {
         $entityManager = $this->getDoctrine()->getManager();
         if (!empty($request->request->get('counter'))) {
@@ -256,7 +254,7 @@ class AjaxController extends AbstractController
     /**
      * @Route("/ajax/metadata/qualification/save", name="ajax_metadata_qualification_save")
      */
-    function saveQualification(Request $request)
+    public function saveQualification(Request $request)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $meta = new Metadata();
@@ -284,7 +282,7 @@ class AjaxController extends AbstractController
     /**
      * @Route("/ajax/bookmark", name="ajax_bookmark")
      */
-    function bookMark(Request $request)
+    public function bookMark(Request $request)
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $id = $request->request->get('id');
@@ -315,12 +313,12 @@ class AjaxController extends AbstractController
      * @throws Exception
      * @Route("/ajax/applied", name="ajax_applied")
      */
-    function applied(Request $request, UserJobMetaRepository $userJobMetadataRepository, JobRepository $jobRepository)
+    public function applied(Request $request, UserJobMetaRepository $userJobMetadataRepository, JobRepository $jobRepository)
     {
         /** @var User $user */
         $user = $this->getUser();
 
-        if (!$user->isReadyToApply()){
+        if (!$user->isReadyToApply()) {
             return new JsonResponse([
                 'response' => 'warning',
                 'message' => 'Faltan documetos por cargar',
@@ -336,18 +334,20 @@ class AjaxController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
 
         if ($metadata != null) {
-            if ($metadata->getStatus() === UserJobMeta::STATUS_CANCELED){
+            if ($metadata->getStatus() === UserJobMeta::STATUS_CANCELED) {
                 $metadata->setStatus(UserJobMeta::STATUS_APPLIED);
                 $metadata->setAppiled(true);
+                $user->addApplied($job->getId());
                 $this->notificate(
                     constants::NOTIFICATIONS_JOB_APPLIED_OK,
                     "Has aplicado al trabajo: " . $job->getTitle(),
                     $user
                 );
-            }else{
-                if ($metadata->getStatus() === UserJobMeta::STATUS_APPLIED){
+            } else {
+                if ($metadata->getStatus() === UserJobMeta::STATUS_APPLIED) {
                     $metadata->setStatus(UserJobMeta::STATUS_CANCELED);
                     $metadata->setAppiled(false);
+                    $user->removeApplied($job->getId());
                     $this->notificate(
                         constants::NOTIFICATIONS_JOB_APPLIED_CANCEL,
                         "Cancelaste tu propuesta: " . $job->getTitle(),
@@ -377,16 +377,17 @@ class AjaxController extends AbstractController
                 "El usuario: " . $user->getName()." aplicó a la oferta" . $job->getTitle(),
                 $job->getUser()
             );
+            $user->addApplied($job->getId());
         }
 
+        $entityManager->flush();
         return new JsonResponse([
             'response' => 'success',
             'data' => $metadata->isAppiled(),
         ]);
-
     }
 
-    function notificate($type, $context, $user)
+    public function notificate($type, $context, $user)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $notification = new Notification();
@@ -522,7 +523,6 @@ class AjaxController extends AbstractController
 
             return $response;
         }
-
     }
 
     /**
@@ -558,7 +558,6 @@ class AjaxController extends AbstractController
                 )
             );
             return $response;
-
         } catch (Exception $exception) {
             $response = new JsonResponse();
             $response->setStatusCode(423);

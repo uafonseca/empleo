@@ -80,7 +80,7 @@ class Mailer
      * @param $toEmail
      * @param $attachment
      */
-    protected function sendEmailMessage($subject, $renderedTemplate, $fromEmail, $toEmail, $attachment): void
+    public function sendEmailMessage($subject, $renderedTemplate, $fromEmail, $toEmail, $attachment): void
     {
         $message = (new \Swift_Message($subject))
             ->setFrom($fromEmail)

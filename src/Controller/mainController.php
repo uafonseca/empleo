@@ -28,7 +28,7 @@ use App\Form\ResumeFilesType;
 use App\Form\ResumeType;
 use App\Form\UserFullyEmployerType;
 use App\Form\UserFullyType;
-use App\Mailer\Mailer;
+use App\Service\Mailer;
 use App\Repository\CompanyRepository;
 use App\Repository\ContactMessageRepository;
 use App\Repository\UserJobMetaRepository;
@@ -56,7 +56,6 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
-
 /**
  * Class mainController
  * @package App\Controller
@@ -74,7 +73,7 @@ class mainController extends Controller
     private $companyService;
 
     /** @var Mailer */
-    private $mailer;
+    protected $mailer;
 
     /** @var SessionInterface */
     private $session;
@@ -91,20 +90,20 @@ class mainController extends Controller
      * @param CategoryService $categoryService
      * @param JobService $jobService
      * @param CompanyService $companyService
-     * @param \App\Service\Mailer $mailer
+     * @param Mailer $mailer
      * @param SessionInterface $session
      * @param DatatableFactory $datatableFactory
      * @param DatatableResponse $datatableResponse
      */
-    public function __construct(CategoryService $categoryService,
-                                JobService $jobService,
-                                CompanyService $companyService,
-                                \App\Service\Mailer $mailer,
-                                SessionInterface $session,
-                                DatatableFactory $datatableFactory,
-                                DatatableResponse $datatableResponse
-    )
-    {
+    public function __construct(
+        CategoryService $categoryService,
+        JobService $jobService,
+        CompanyService $companyService,
+        Mailer $mailer,
+        SessionInterface $session,
+        DatatableFactory $datatableFactory,
+        DatatableResponse $datatableResponse
+    ) {
         $this->categoryService = $categoryService;
         $this->jobService = $jobService;
         $this->companyService = $companyService;
@@ -140,7 +139,6 @@ class mainController extends Controller
                     }
                 }
             } catch (IOExceptionInterface $exception) {
-
             }
             if (!$this->container->get('app.service.checker')->isUserValid()) {
                 return true;
@@ -164,17 +162,20 @@ class mainController extends Controller
         $type = $request->query->get('type');
 
         if (!isset($type)) {
-            if ($this->isGranted('ROLE_ADMIN'))
+            if ($this->isGranted('ROLE_ADMIN')) {
                 $type = 'job';
-            else
+            } else {
                 $type = 'service';
+            }
         }
         $_error = $this->session->get('_error');
         $_error_ = $this->session->get('_error_');
-        if ($_error)
+        if ($_error) {
             $this->session->remove('_error');
-        if ($_error_)
+        }
+        if ($_error_) {
             $this->session->remove('_error_');
+        }
         return $this->render(
             'site/pricing.html.twig',
             [
@@ -246,7 +247,8 @@ class mainController extends Controller
         $em = $this->getDoctrine()->getManager();
         $this->container->get('app.service.checker')->checkJobs();
 
-        return $this->render('site/job/index.html.twig',
+        return $this->render(
+            'site/job/index.html.twig',
             [
                 'verificated_acount' => $verified,
                 'notifications' => $this->loadNotifications(),
@@ -311,7 +313,6 @@ class mainController extends Controller
             'services' => $services,
             'notifications' => $this->loadNotifications(),
         ]);
-
     }
 
     /**
@@ -348,7 +349,6 @@ class mainController extends Controller
      */
     public function policy(AuthorizationCheckerInterface $authChecker)
     {
-
         $em = $this->getDoctrine()->getManager();
         $verificated = $this->verificateUser($authChecker);
         $terms = $em->getRepository(Policy::class)->load();
@@ -549,8 +549,12 @@ class mainController extends Controller
         $haveCv = false;
         $haveCart = false;
 
-        if ($resume->getCvFile()) $haveCv = true;
-        if ($resume->getCartFile()) $haveCart = false;
+        if ($resume->getCvFile()) {
+            $haveCv = true;
+        }
+        if ($resume->getCartFile()) {
+            $haveCart = false;
+        }
 
         $formFiles = $this->createForm(ResumeFilesType::class, $resume, [
             'cv' => $haveCv,
@@ -664,8 +668,7 @@ class mainController extends Controller
         }
         return $this->render(
             'site/candidate.html.twig',
-            array
-            (
+            array(
                 'verificated_acount' => $verificated,
                 'candidates' => $users,
                 'notifications' => $this->loadNotifications(),
@@ -730,16 +733,18 @@ class mainController extends Controller
         $message = new ContactMessage();
         $message->setDestinatario($candidate);
 
-        $form = $this->createForm(ContactMessageFormType::class,$message,[
-            'action' => $this->generateUrl('enviar_mensaje_de_correo',['id' => $candidate->getId()])
+        $form = $this->createForm(ContactMessageFormType::class, $message, [
+            'action' => $this->generateUrl('enviar_mensaje_de_correo', ['id' => $candidate->getId()])
         ]);
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
             $message->setDate(new \DateTime('now'));
+            $message->setCreator($this->getUser());
+            $message->setDestinatario($candidate);
 
             $em->persist($message);
             $em->flush();
@@ -752,7 +757,7 @@ class mainController extends Controller
             ]);
         }
 
-        return $this->render('user/senMessage.html.twig',[
+        return $this->render('user/senMessage.html.twig', [
             'form' => $form->createView()
         ]);
     }
@@ -882,7 +887,6 @@ class mainController extends Controller
         return $this->render('user/employer/contactForm.html.twig', [
             'form' => $form->createView()
         ]);
-
     }
 
     /**
@@ -1088,8 +1092,9 @@ class mainController extends Controller
         /** @var StaticPage $page */
         $page = $this->getDoctrine()->getRepository(StaticPage::class)->findOneBy(['type' => $type]);
 
-        if (null === $page)
+        if (null === $page) {
             return $this->redirectToRoute('homepage');
+        }
 
         return $this->render('site/static_page.html.twig', [
             'page' => $page,
@@ -1144,8 +1149,5 @@ class mainController extends Controller
         return $this->render('mail/emails_list.html.twig', [
             'datatable' => $datatable
         ]);
-
     }
-
-
 }

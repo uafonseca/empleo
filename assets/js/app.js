@@ -22,7 +22,7 @@ require('./select');
 
 const toastr = require('toastr');
 global.toastr = toastr;
-require( 'datatables.net-bs4' );
+require('datatables.net-bs4');
 import 'bootstrap';
 import '@fortawesome/fontawesome-free';
 import 'chart.js';

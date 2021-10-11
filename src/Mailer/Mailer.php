@@ -94,13 +94,14 @@ class Mailer
             ->setCc($CcEmail)
             ->setBody($renderedTemplate, 'text/html');
 
-        if ($documento_url != null)
+        if ($documento_url != null) {
             $message->attach(\Swift_Attachment::fromPath($dominio . $documento_url));
+        }
 
         $this->mailer->send($message);
     }
 
-    public function sendEmailCandidate(ContactMessage $message){
-
+    public function sendEmailCandidate(ContactMessage $message)
+    {
     }
 }

@@ -10,13 +10,13 @@
 			<div class="row">
 				<div class="col-md-6">
 					<div class="breadcrumb-area">
-						<h1>Mi Panel de Empresa</h1>
+						<h1>Datos de mi empresa</h1>
 						<nav aria-label="breadcrumb">
 							<ol class="breadcrumb">
 								<li class="breadcrumb-item">
 									<a href="#">Inicio</a>
 								</li>
-								<li class="breadcrumb-item active" aria-current="page">Mi Panel de Empresa</li>
+								<li class="breadcrumb-item active" aria-current="page">Datos de mi empresa</li>
 							</ol>
 						</nav>
 					</div>
@@ -50,7 +50,7 @@
 								</div>
 								<div id="file_upload" class="file-upload">
 									{{ form_widget(form.imageFile, { 'attr': {'class': 'file-input'} } ) }}
-									Cambiar avatar
+									150x150 px JPEG
 								</div>
 
 							</div>
@@ -65,7 +65,7 @@
 									</div>
 								</div>
 								<div class="form-group row">
-									<label class="col-sm-3 col-form-label">Nombre
+									<label class="col-sm-3 col-form-label">Nombre del empleador
 										<span style="color: red">*</span>
 									</label>
 									<div class="col-sm-9">
@@ -96,7 +96,7 @@
 									<label class="col-sm-3 col-form-label">Dirección<span style="color: red">*</span>
 									</label>
 									<div class="col-sm-9">
-										{{ form_widget(form.address, { 'attr': {'class': 'form-control','placeholder':'Washington D.C'} } ) }}
+										{{ form_widget(form.address, { 'attr': {'class': 'form-control','placeholder':'Dirección de la empresa'} } ) }}
 									</div>
 								</div>
 								<div class="form-group row">
@@ -120,11 +120,11 @@
 								<div class="form-group row">
 									<label class="col-sm-3 col-form-label">Video Intro</label>
 									<div class="col-sm-9">
-										<div class="input-group">
+										<div class="input-group" style="width:100%!important">
 											<div class="input-group-prepend">
 												<div class="input-group-text">Link</div>
 											</div>
-											{{ form_widget(form.videoIntro, { 'attr': {'class': 'form-control','placeholder':'https://www.youtube.com/watch?v=ZRkdyjJ_489M'} } ) }}
+											{{ form_widget(form.videoIntro, { 'attr': {'class': 'form-control','placeholder':'https://www.youtube.com/watch?v=ZRkdyjJ_489M','style':'width: 500px;'} } ) }}
 										</div>
 									</div>
 								</div>

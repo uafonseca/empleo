@@ -9,11 +9,11 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="breadcrumb-area">
-                    <h1>Tablero de empleador</h1>
+                    <h1>Administrar trabajos</h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ path('homepage') }}">Inicio</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Tablero de empleador</li>
+                            <li class="breadcrumb-item active" aria-current="page">Administrar trabajos</li>
                         </ol>
                     </nav>
                 </div>
@@ -80,7 +80,7 @@
                                         </td>
                                     {% else %}
                                     <td class="action">
-                                        <a href="{{ path('canditate_detail_by_job', {'id': j.id}) }}" class="preview"><i data-feather="eye"></i></a>
+                                        <a href="{{ path('canditate_detail_by_job', {'id': j.id}) }}" class="preview" title="Ver candidatos"><i data-feather="eye"></i></a>
                                         <a class="remove" onclick="showModal('{{ j.id }}')"><i data-feather="trash-2"></i></a>
                                     </td>
                                     {% endif %}

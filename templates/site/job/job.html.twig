@@ -54,7 +54,7 @@
                                 <h4><i data-feather="plus-circle"></i>Publicar un empleo</h4>
                                 {{ form_row(form.title) }}
                                 <div id="logo" class="form-group row">
-                                    <label class="col-md-3 col-form-label">Logo<span style="color: red">*</span></label>
+                                    <label class="col-md-3 col-form-label">Logo del auncio<span style="color: red">*</span></label>
                                     <div class="col-md-9">
                                         <div class="dashboard-section upload-profile-photo">
                                             <div class="update-photo" style="width: 150px;">
@@ -62,6 +62,7 @@
                                             </div>
                                             <div id="file_upload" class="file-upload">
                                                 {{ form_widget(form.imageFile, { 'attr': {'class': 'file-input'} } ) }}
+                                                160x100 jpg
                                             </div>
                                         </div>
                                         <span class="error text-danger">{{ form_errors(form.imageFile) }}</span>
