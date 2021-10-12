@@ -94,11 +94,11 @@
                                         {#<li class="menu-item"><a title="About" href="#">Detalles del empleador</a></li>#}
                                     {% endif %}
                                     <li class="menu-item"><a title="About" href="{{ path('dashboard') }}">Tablero</a></li>
-                                    <li class="menu-item"><a title="About" href="{{ path('dashboard_edit') }}">Editar perfil</a></li>
+                                    {# <li class="menu-item"><a title="About" href="{{ path('dashboard_edit') }}">Editar perfil</a></li> #}
                                     <li class="menu-item"><a title="About" href="{{ path('manage_candidates') }}">Gestión de candidatos</a></li>
                                     <li class="menu-item"><a title="About" href="{{ path('job_manage') }}">Gestionar trabajos</a></li>
                                     <li class="menu-item"><a title="About" href="{{ path('job_new') }}">Publicar trabajo</a></li>
-                                    <li class="menu-item"><a title="About" href="{{ path('my_services_list') }}">Servicios creados</a>
+                                    {# <li class="menu-item"><a title="About" href="{{ path('my_services_list') }}">Servicios creados</a> #}
                                 </ul>
                             </li>
                             {% elseif is_granted('ROLE_USER') %}
