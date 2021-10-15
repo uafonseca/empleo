@@ -33,14 +33,14 @@
                     </ul>
                 </li>
                 <li class="menu-item dropdown">
-                    <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true"
-                       aria-expanded="false">Servicios </a>
+                    {# <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true"
+                       aria-expanded="false">Servicios </a> #}
                     <ul class="dropdown-menu">
-                        <li class="menu-item"><a title="About" href="{{ path('service_list') }}">Listado de
-                                servicios</a></li>
+                        {# <li class="menu-item"><a title="About" href="{{ path('service_list') }}">Listado de
+                                servicios</a></li> #}
                         {% if is_granted('ROLE_USER') %}
-                            <li class="menu-item"><a title="About" href="{{ path('service_new') }}">Publicar
-                                    servicio</a></li>
+                            {# <li class="menu-item"><a title="About" href="{{ path('service_new') }}">Publicar
+                                    servicio</a></li> #}
                         {% endif %}
                     </ul>
                 </li>
@@ -80,7 +80,7 @@
                             <li class="menu-item"><a title="About"
                                                      href="{{ path('dashboard_bookmarked') }}">Marcados</a></li>
                             <li class="menu-item"><a title="About" href="{{ path('dashboard_applied') }}">Trabajos aplicados</a>
-                            <li class="menu-item"><a title="About" href="{{ path('load_services_request') }}">Servicios solicitados</a></li>
+                            {# <li class="menu-item"><a title="About" href="{{ path('load_services_request') }}">Servicios solicitados</a></li> #}
                             </li>
                         </ul>
                     </li>
@@ -115,8 +115,8 @@
                            data-placement="bottom" data-trigger="hover" title="Ayuda"
                            data-content="<p class='text-center'>Seleccione un acción para crear un servicio o publicar un trabajo</p>"></a>
                     </li>
-                    <li class="menu-item post-job"><a title="Title" href="{{ path('service_new') }}"><i
-                                    class="fas fa-plus"></i>Brindar mis servicios</a></li>
+                    {# <li class="menu-item post-job"><a title="Title" href="{{ path('service_new') }}"><i
+                                    class="fas fa-plus"></i>Brindar mis servicios</a></li> #}
                 {% elseif  is_granted('ROLE_ADMIN') %}
                     <li class="menu-item post-job"><a title="Title" href="{{ path('service_new') }}"><i
                                     class="fas fa-plus"></i>Crear servicio</a></li>
@@ -129,8 +129,8 @@
                     <li class="menu-item post-job"><a title="Title" href="{{ path('job_new') }}"><i
                                     class="fas fa-plus"></i>Publicar un trabajo</a></li>
                 {% elseif is_granted('ROLE_USER') %}
-                    <li class="menu-item post-job"><a title="Title" href="{{ path('service_new') }}"><i
-                                    class="fas fa-plus"></i>Crear servicio</a></li>
+                    {# <li class="menu-item post-job"><a title="Title" href="{{ path('service_new') }}"><i
+                                    class="fas fa-plus"></i>Crear servicio</a></li> #}
                 {% endif %}
             </ul>
             <ul class="navbar-nav ml-auto account-nav">

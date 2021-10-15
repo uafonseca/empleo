@@ -34,10 +34,10 @@
                         </div>
                         {% endif %}
                         <div class="dropdown header-top-account">
-                            <select class="selectpicker select-language" data-width="fit">
+                            {# <select class="selectpicker select-language" data-width="fit">
                                 <option  data-content='<span class="flag-icon flag-icon-mx"></span> Español'>Español</option>
                                 <option data-content='<span class="flag-icon flag-icon-us"></span> English'>English</option>
-                            </select>
+                            </select> #}
                             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                             <a href="#" class="account-button">{{ app.user.username }}</a>
                             <div class="account-card">
@@ -84,7 +84,7 @@
                             <li class="menu-item active"><a title="Home" href="{{ path('homepage') }}">Inicio</a></li>
                             <li class="menu-item active"><a title="Home" href="{{ path('listado_companias') }}">Empresas</a></li>
                             <li class="menu-item"><a title="Home" href="{{ path('job_list') }}">Listado de empleos</a></li>
-                            <li class="menu-item"><a title="Home" href="{{ path('service_list') }}">Listado de servicios</a></li>
+                            {# <li class="menu-item"><a title="Home" href="{{ path('service_list') }}">Listado de servicios</a></li> #}
                             {% if is_granted('ROLE_ADMIN') %}
                             <li class="menu-item dropdown">
                                 <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">Empleador</a>
@@ -113,7 +113,7 @@
                                     <li class="menu-item"><a title="About" href="{{ path('dashboard_bookmarked') }}">Marcados</a></li>
                                     <li class="menu-item"><a title="About" href="{{ path('dashboard_applied') }}">Trabajos aplicados</a></li>
                                     <li class="menu-item"><a title="About" href="{{ path('static_page_view', {'type': constant('App\\Entity\\StaticPage::TYPE_PRICE')|url_encode}) }}">Determinación de precios</a></li>
-                                    <li class="menu-item"><a title="About" href="{{ path('load_services_request') }}">Servicios solicitados</a></li>
+                                    {# <li class="menu-item"><a title="About" href="{{ path('load_services_request') }}">Servicios solicitados</a></li> #}
                                     {#<li class="menu-item"><a title="About" href="#">Alerta</a></li>#}
                                 </ul>
                             </li>
@@ -144,10 +144,10 @@
                                 <li class="menu-item post-job"><a title="Title" href="{{ path('job_new') }}"><i class="fas fa-plus"></i>Publicar un empleo</a></li>
                                 <li class="menu-item post-job" style="margin-left: 10px"><a title="Title" href="{{ path('service_new') }}"><i class="fas fa-plus"></i>Crear servicio</a></li>
                             {% elseif  is_granted('ROLE_ADMIN')%}
-                                <li class="menu-item post-job" ><a title="Title" href="{{ path('service_new') }}"><i class="fas fa-plus"></i>Crear servicio</a></li>
+                                {# <li class="menu-item post-job" ><a title="Title" href="{{ path('service_new') }}"><i class="fas fa-plus"></i>Crear servicio</a></li> #}
                                 <li class="menu-item post-job" style="margin-left: 5px"><a title="Title" href="{{ path('job_new') }}"><i class="fas fa-plus"></i>Publicar un empleo</a></li>
                             {% elseif is_granted('ROLE_USER') %}
-                                <li class="menu-item post-job"><a title="Title" href="{{ path('service_new') }}"><i class="fas fa-plus"></i>Crear servicio</a></li>
+                                {# <li class="menu-item post-job"><a title="Title" href="{{ path('service_new') }}"><i class="fas fa-plus"></i>Crear servicio</a></li> #}
                             {% endif %}
                         </ul>
                     </div>
