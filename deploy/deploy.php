@@ -18,7 +18,7 @@ host('beta')
     ->set('deploy_path', '/var/www/html/empleo');
 
 host('production')
-    ->hostname('serviciosyempleos.com')
+    ->hostname('emplear.gessmac.com')
     ->set('branch', 'master')
     ->user('deploy')
     ->set('deploy_path', '/var/www/html/empleo_prod');
@@ -90,8 +90,3 @@ task('build', [
 after('deploy:vendors', 'build');
 after('deploy:failed',  'deploy:unlock');
 after('cleanup', 'chmod:777');
-
-
-
-
-
