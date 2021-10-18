@@ -1,9 +1,15 @@
 {% extends 'mail/base.html.twig' %}
- {% block content %}
-     <div class="container">
-        <h2>Notificación</h2>
-         <img id="logo" src="{{ absolute_url(asset('site/images/logo.png')) }}" alt="Emplear_Logo">
-         <hr>
-         <p>{{ body|raw }}</p>
-     </div>
- {% endblock %}
+{% block content %}
+  <div class="container">
+    <h2>
+      Notificación
+    </h2>
+    <img id="logo"
+      src="{{ absolute_url(asset('build/backend/images/lolo_last.svg')) }}"
+      alt="Emplear_Logo" />
+    <hr />
+    <p>
+      {{ body|raw }}
+    </p>
+  </div>
+{% endblock %}

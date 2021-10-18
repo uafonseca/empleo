@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -28,15 +29,15 @@ class Image
      * @ORM\Column(type="string", length=255)
      */
     private $image;
-	
-	/**
-	 * @Assert\Image(
-	 *     allowLandscape = true,
-	 *     allowPortrait = true
-	 * )
-	 * @Vich\UploadableField(mapping="image_store", fileNameProperty="image")
-	 * @var File
-	 */
+    
+    /**
+     * @Assert\Image(
+     *     allowLandscape = true,
+     *     allowPortrait = true
+     * )
+     * @Vich\UploadableField(mapping="image_store", fileNameProperty="image")
+     * @var File
+     */
     private $imageFile;
 
     /**
@@ -51,7 +52,7 @@ class Image
     
     public function __construct()
     {
-    
+        $this->updateAt = new DateTime('now');
     }
 
     public function getId(): ?int
@@ -78,11 +79,11 @@ class Image
 
     public function setImageFile(File $imageFile): self
     {
-	    $this->imageFile = $imageFile;
-	    if ($imageFile instanceof UploadedFile) {
-		    $this->setUpdateAt(new \DateTime());
-	    }
-	    return $this;
+        $this->imageFile = $imageFile;
+        if ($imageFile instanceof UploadedFile) {
+            $this->setUpdateAt(new \DateTime());
+        }
+        return $this;
     }
 
     public function getUpdateAt(): ?\DateTimeInterface
@@ -109,4 +110,8 @@ class Image
         return $this;
     }
     
+    public function __toString()
+    {
+        return $this->image;
+    }
 }

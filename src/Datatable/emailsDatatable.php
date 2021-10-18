@@ -8,7 +8,6 @@
 
 namespace App\Datatable;
 
-
 use App\constants;
 use App\Entity\ContactMessage;
 use App\Entity\Job;
@@ -87,7 +86,7 @@ class emailsDatatable extends AbstractDatatable
             ->add('destinatario.name', Column::class, [
                 'title' => 'Destinatario',
             ])
-            ->add('date', DateTimeColumn::class,[
+            ->add('date', DateTimeColumn::class, [
                 'title' => 'Fecha',
                 'default_content' => '-',
                 'date_format' => 'L',
@@ -96,7 +95,7 @@ class emailsDatatable extends AbstractDatatable
                 )),
                 'timeago' => true
             ])
-            ->add('context', Column::class,[
+            ->add('context', Column::class, [
                 'title' => 'Contenido',
             ])
 //            ->add(null,ActionColumn::class,[

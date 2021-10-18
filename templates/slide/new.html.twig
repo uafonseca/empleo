@@ -1,0 +1,13 @@
+{% extends 'backend/base.html.twig' %} {% block context %}
+
+<div class="card">
+    <div class="card-header">
+        Nuevo banner
+    </div>
+    <div class="card-footer">
+        {{ include('slide/_form.html.twig') }}
+
+        <a class="btn btn-secondary mt-3" href="{{ path('slide_index') }}">Regresar</a>
+    </div>
+</div>
+{% endblock %}

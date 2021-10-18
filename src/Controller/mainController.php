@@ -51,6 +51,7 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\constants;
+use App\Entity\Slide;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -247,6 +248,8 @@ class mainController extends Controller
         $em = $this->getDoctrine()->getManager();
         $this->container->get('app.service.checker')->checkJobs();
 
+        $slides = $em->getRepository(Slide::class)->findAll();
+
         return $this->render(
             'site/job/index.html.twig',
             [
@@ -268,6 +271,7 @@ class mainController extends Controller
                 'citys' => $this->container->get('app.service.helper')->loadCityes(),
                 'company' => $this->companyService->findActives(),
                 'entity' => count($em->getRepository(User::class)->findByRole('ROLE_ADMIN')),
+                'slides' => $slides
             ]
         );
     }

@@ -31,7 +31,7 @@ set('writable_mode', 'chmod');
 
 set('writable_use_sudo', true);
 
-set('writable_chmod_recursive',true);
+set('writable_chmod_recursive', true);
 
 set('shared_dirs', ['var/log', 'var/sessions', 'vendor', 'public/images', 'public/site/images', 'public/site/docs']);
 
@@ -88,5 +88,5 @@ task('build', [
 ]);
 
 after('deploy:vendors', 'build');
-after('deploy:failed',  'deploy:unlock');
+after('deploy:failed', 'deploy:unlock');
 after('cleanup', 'chmod:777');

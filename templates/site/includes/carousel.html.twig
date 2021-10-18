@@ -1,26 +1,49 @@
 <header>
-    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner" role="listbox">
-            <div class="carousel-item active" style="background-image: url('{{ asset('build/backend/images/bg/banner-1-bg.jpg') }}'); height: 88vh!important;"></div>
-{#            <div class="carousel-item" style="background-image: url('{{ asset('build/backend/images/bg/bg2.png') }}');height: 88vh!important;"></div>#}
-        </div>
-        <form action="{{ path('search') }}" class="form-inline search-form custom-search-form" role="form" method="post">
-            <div class="input-group text-center">
-                <div class="form-group">
-                    <input name="keywords" class="form-control"  type="search" placeholder="Ingresar palabras clave">
-                </div>
-                <div class="form-group">
-                    <select class="form-control" name="location" id="selectpicker search-location">
-                        <option value="" selected>Ubicación</option>
-                        {% for l in locations %}
-                            <option value="{{ l.name }}">{{ l.name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="form-group">
-                    <button id="search-btn" class="button primary-bg"><i class="fas fa-search"></i>Buscar</button>
-                </div>
-            </div>
-        </form>
+  <div id="carouselExampleIndicators"
+    class="carousel slide"
+    data-ride="carousel">
+    <div class="carousel-inner" role="listbox">
+      {% for slide in slides %}
+        <div class="carousel-item {{ loop.index == 1 ? 'active' : '' }}"
+          style="background-image: url('{{
+          vich_uploader_asset(
+            slide.image,
+            'imageFile'
+          )
+          }}'); height: 88vh!important;"></div>
+      {% endfor %}
     </div>
+    <form action="{{ path('search') }}"
+      class="form-inline search-form custom-search-form"
+      role="form"
+      method="post">
+      <div class="input-group text-center">
+        <div class="form-group">
+          <input name="keywords"
+            class="form-control"
+            type="search"
+            placeholder="Ingresar palabras clave" />
+        </div>
+        <div class="form-group">
+          <select class="form-control"
+            name="location"
+            id="selectpicker search-location">
+            <option value="" selected>
+              Ubicación
+            </option>
+            {% for l in locations %}
+              <option value="{{ l.name }}">
+                {{ l.name }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <button id="search-btn" class="button primary-bg">
+            <i class="fas fa-search"></i>Buscar
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
 </header>

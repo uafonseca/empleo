@@ -54,8 +54,7 @@
             $finder->in(__DIR__ . '/Data');
             $finder->name('*.sql');
             $finder->files();
-            // $finder->sortByName();
-    
+                
             foreach ($finder as $file) {
                 print "Importing: {$file->getBasename()} " . PHP_EOL;
     
