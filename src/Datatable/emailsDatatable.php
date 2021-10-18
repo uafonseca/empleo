@@ -81,9 +81,9 @@ class emailsDatatable extends AbstractDatatable
                 'title' => 'Id',
                 'visible' => false,
             ])
-            ->add('creator.name', Column::class, [
-                'title' => 'Autor',
-            ])
+            //->add('creator.name', Column::class, [
+            //    'title' => 'Autor',
+            //])
             ->add('destinatario.name', Column::class, [
                 'title' => 'Destinatario',
             ])

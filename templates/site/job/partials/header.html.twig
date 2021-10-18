@@ -1,7 +1,7 @@
 <header>
     <nav class="navbar navbar-expand-xl absolute-nav  cp-nav navbar-light bg-light fluid-nav" style="opacity: 0.9;">
         <a class="navbar-brand" href="{{ path('homepage') }}">
-            <img src="{{ asset('site/images/logo.png') }}" class="img-fluid" alt="" width="200">
+            <img src="{{ asset('build/backend/images/lolo_last.svg') }}" class="img-fluid" alt="" width="200">
         </a>
         <button class="navbar-toggler collapsed" type="button" data-toggle="collapse"
                 data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -27,9 +27,9 @@
                        aria-expanded="false">Empleos </a>
                     <ul class="dropdown-menu">
                         <li class="menu-item"><a title="About" href="{{ path('job_list') }}">Listado de Empleos</a></li>
-                        {% if is_granted('ROLE_ADMIN') %}
+                        {# {% if is_granted('ROLE_ADMIN') %}
                             <li class="menu-item"><a title="About" href="{{ path('job_new') }}">Publicar empleo</a></li>
-                        {% endif %}
+                        {% endif %} #}
                     </ul>
                 </li>
                 <li class="menu-item dropdown">
@@ -118,8 +118,10 @@
                     {# <li class="menu-item post-job"><a title="Title" href="{{ path('service_new') }}"><i
                                     class="fas fa-plus"></i>Brindar mis servicios</a></li> #}
                 {% elseif  is_granted('ROLE_ADMIN') %}
+                    {#
                     <li class="menu-item post-job"><a title="Title" href="{{ path('service_new') }}"><i
                                     class="fas fa-plus"></i>Crear servicio</a></li>
+                    #}
                     <li>
                         <a id="help" tabindex="0" data-toggle="popover" data-html="true"
                            data-placement="bottom" data-trigger="hover" title="Ayuda"

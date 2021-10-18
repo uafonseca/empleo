@@ -5,7 +5,7 @@
     <div class="section-padding alice-bg">
         <div class="container">
             <div class="row">
-                <div class="col-6">
+                <div class="col-12">
                     <div class="row">
                         <div class="col">
                             <div class="section-header section-header-2 section-header-with-right-content">
@@ -27,10 +27,6 @@
                                         <div class="content">
                                             <h4>
                                                 <a href="{{ path('job_show', {'id': j.id}) }}">{{ j.title }}
-                                                    {#{%  set max_date = j.dateCreated|date_modify("+"~j.user.package.daysImportants~" day") %}#}
-                                                    {#{% if  max_date|date('Y-m-d') >= "now"|date('Y-m-d')%}#}
-                                                    {#<span class="span-dest">DESTACADO</span>#}
-                                                    {#{% endif %}#}
                                                 </a></h4>
                                             <div class="info">
                                                 <span class="company"><a><i data-feather="briefcase"></i>{{ j.CompanyName }}</a></span>
@@ -63,13 +59,14 @@
                                         </div>
                                     </div>
                                     <div class="col-12 job-about">
-{#                                        {{ j.description | easyadmin_truncate(200) | raw }}#}
+
                                     </div>
                                 </div>
                             {% endfor %}
                         </div>
                     </div>
                 </div>
+                {#
                 <div class="col-6">
                     <div class="row">
                         <div class="col">
@@ -81,6 +78,7 @@
                     </div>
                     <div class="row">
                         <div class="col container">
+                            
                             {% for j in services %}
                                 <div class="job-list row">
                                     <div class="thumb">
@@ -92,11 +90,7 @@
                                         <div class="content">
                                             <h4>
                                                 <a href="{{ path('service_view', {'id': j.id}) }}">{{ j.title }}
-                                                    {#{%  set max_date = j.dateCreated|date_modify("+"~j.user.package.daysImportants~" day") %}#}
-                                                    {#{% if  max_date|date('Y-m-d') >= "now"|date('Y-m-d')%}#}
-                                                    {#<span class="span-dest">DESTACADO</span>#}
-                                                    {#{% endif %}#}
-                                                </a></h4>
+                                                                                               </a></h4>
                                             <div class="info">
                                                 <span class="company"><a><i data-feather="briefcase"></i>{{ j.user.company }}</a></span>
                                                 <span class="office-location"><a><i data-feather="map-pin"></i>{{ j.location }}</a></span>
@@ -127,14 +121,12 @@
                                             <p class="deadline">{{ j.expiredDate|localizeddate('short', 'none', 'en')}}</p>
                                         </div>
                                     </div>
-                                    <div class="col-12 job-about">
-{#                                        {{ j.description | easyadmin_truncate(200) | raw }}#}
-                                    </div>
                                 </div>
                             {% endfor %}
                         </div>
                     </div>
                 </div>
+                #}
             </div>
             <div class="row">
                 <div class="col-12 text-center">
