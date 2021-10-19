@@ -44,4 +44,10 @@ vich_uploader:
             upload_destination: '%kernel.root_dir%/../public/uploads'
             namer: vich_uploader.namer_hash
             directory_namer:
-                options: { upload_to: /cuestionarios/images_preguntas }
+                options: { upload_to: /cuestionarios/images_preguntas } 
+        banners_images:
+            uri_prefix: /uploads/banners
+            upload_destination: '%kernel.root_dir%/../public/uploads/banners'
+            namer: vich_uploader.namer_hash
+            directory_namer:
+                options: { upload_to: /slides } 

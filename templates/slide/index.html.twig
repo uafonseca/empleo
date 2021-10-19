@@ -1,61 +1,99 @@
-{% extends 'backend/base.html.twig' %} {% block context %}
-<div class="card">
+{% extends 'backend/base.html.twig' %}
+{% block context %}
+  <div class="card">
     <div class="card-header">
-        Banners
+      Banners
     </div>
     <div class="card-body">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        Banner
-                    </th>
-                    <th>
-                        Título
-                    </th>
-                    <th>
-                        Descripción
-                    </th>
-                    <th>
-                        Acciones
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for slide in slides %}
-                <tr>
-                    <td>
-                        <img width="100" src="{{
+      <table class="table">
+        <thead>
+          <tr>
+            <th>
+              Banner
+            </th>
+            <th>
+              Título
+            </th>
+            <th>
+              Descripción
+            </th>
+            <th>
+              Acciones
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for slide in slides %}
+            <tr>
+              <td>
+                <img width="100"
+                  src="{{
                   slide.image is not null
-                    ? vich_uploader_asset(slide.image, 'imageFile')
+                    ? vich_uploader_asset(slide, 'imageFile')
                     : ''
-                  }}" alt="" srcset="" />
-                    </td>
-                    <td>
-                        {{ slide.title }}
-                    </td>
-                    <td>
-                        {{ slide.shortDescription }}
-                    </td>
+                  }}"
+                  alt=""
+                  srcset="" />
+              </td>
+              <td>
+                {{ slide.title }}
+              </td>
+              <td>
+                {{ slide.shortDescription }}
+              </td>
 
-                    <td>
-                        {% if slide.active %}
-                        <a href="{{path('slide_activate', {id:slide.id})}}" class="btn btn-success">Desactivar</a> {% else %}
-                        <a href="{{path('slide_activate', {id:slide.id})}}" class="btn btn-warning">Activar</a> {% endif %}
-                    </td>
-                </tr>
+              <td>
+                {% if slide.active %}
+                  <a href="{{
+                    path(
+                      'slide_activate',
+                      {
+                        id: slide.id
+                      }
+                    )
+                    }}"
+                    class="btn btn-success">
+                    Desactivar
+                  </a>
                 {% else %}
-                <tr>
-                    <td colspan="5">
-                        no records found
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                  <a href="{{
+                    path(
+                      'slide_activate',
+                      {
+                        id: slide.id
+                      }
+                    )
+                    }}"
+                    class="btn btn-warning">
+                    Activar
+                  </a>
+                {% endif %}
+                <a href="{{
+                  path(
+                    'slide_edit',
+                    {
+                      id: slide.id
+                    }
+                  )
+                  }}"
+                  class="btn btn-info">
+                  Editar
+                </a>
+              </td>
+            </tr>
+          {% else %}
+            <tr>
+              <td colspan="5">
+                no records found
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
-</div>
+  </div>
 
-<a href="{{ path('slide_new') }}" class="btn btn-primary mt-5">
+  <a href="{{ path('slide_new') }}" class="btn btn-primary mt-5">
     Nuevo banner
-</a> {% endblock %}
+  </a>
+{% endblock %}

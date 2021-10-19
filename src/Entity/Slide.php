@@ -4,9 +4,15 @@ namespace App\Entity;
 
 use App\Repository\SlideRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=SlideRepository::class)
+ * @Vich\Uploadable
+ * @ORM\Table
  */
 class Slide
 {
@@ -28,18 +34,30 @@ class Slide
     private $shortDescription;
 
     /**
-     * @ORM\OneToOne(targetEntity=Image::class, cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
-     */
+    * @ORM\Column(type="string", length=255)
+    */
     private $image;
+    
+    /**
+     * @Assert\Image(
+     *     allowLandscape = true,
+     *     allowPortrait = true
+     * )
+     * @Vich\UploadableField(mapping="banners_images", fileNameProperty="image")
+     * @var File
+     */
+    private $imageFile;
+
+    /**
+     * @ORM\Column(type="datetime", nullable = true)
+     */
+    private $updateAt;
 
     /**
      * @ORM\Column(type="boolean")
      */
     protected $active = true;
 
-
-   
     /**
      * @ORM\Column(type="text", nullable=true)
      */
@@ -74,12 +92,12 @@ class Slide
         return $this;
     }
 
-    public function getImage(): ?Image
+    public function getImage(): ?string
     {
         return $this->image;
     }
 
-    public function setImage(Image $image): self
+    public function setImage(string $image): self
     {
         $this->image = $image;
 
@@ -112,6 +130,32 @@ class Slide
     public function setActive($active): self
     {
         $this->active = $active;
+
+        return $this;
+    }
+
+    public function getImageFile():?File
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageFile(File $imageFile): self
+    {
+        $this->imageFile = $imageFile;
+        if ($imageFile instanceof UploadedFile) {
+            $this->setUpdateAt(new \DateTime());
+        }
+        return $this;
+    }
+
+    public function getUpdateAt(): ?\DateTimeInterface
+    {
+        return $this->updateAt;
+    }
+
+    public function setUpdateAt(\DateTimeInterface $updateAt): self
+    {
+        $this->updateAt = $updateAt;
 
         return $this;
     }

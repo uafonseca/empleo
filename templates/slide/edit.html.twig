@@ -1,13 +1,22 @@
-<!DOCTYPE html>
+{% extends 'backend/base.html.twig' %}
+{% block context %}
+  <div class="card">
+    <div class="card-header">
+      Editar banner
+    </div>
+    <div class="card-footer">
+      {{
+        include(
+          'slide/_form.html.twig',
+          {
+            button_label: 'Editar'
+          }
+        )
+      }}
 
-<title>Edit Slide</title>
-
-{% block body %}
-    <h1>Edit Slide</h1>
-
-    {{ include('slide/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('slide_index') }}">back to list</a>
-
-    {{ include('slide/_delete_form.html.twig') }}
+      <a class="btn btn-secondary mt-3" href="{{ path('slide_index') }}">
+        Regresar
+      </a>
+    </div>
+  </div>
 {% endblock %}

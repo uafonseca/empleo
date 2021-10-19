@@ -56,7 +56,7 @@ class SlideController extends AbstractController
      */
     public function edit(Request $request, Slide $slide): Response
     {
-        $form = $this->createForm(Slide1Type::class, $slide);
+        $form = $this->createForm(SlideType::class, $slide);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
