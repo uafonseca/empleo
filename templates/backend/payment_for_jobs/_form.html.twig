@@ -1,43 +1,118 @@
 {{ form_start(form) }}
-    <div class="row">
-        <div class="col-6">{{ form_row(form.name) }}</div>
+<div class="row">
+  <div class="col-6">
+    {{ form_row(form.name) }}
+  </div>
 
-        <div class="col-2">{{ form_row(form.price,{ 'type': 'number' }) }}</div>
+  <div class="col-2">
+    {{ form_row(form.price) }}
+  </div>
 
-        <div class="col-2">{{ form_row(form.anouncements_number_max) }}</div>
+  <div class="col-2">
+    {{ form_row(form.anouncements_number_max) }}
+  </div>
 
-        <div class="col-2">{{ form_row(form.visible_days) }}</div>
+  <div class="col-2">
+    {{ form_row(form.visible_days) }}
+  </div>
 
-        <div class="col-2">{{ form_row(form.days_importants) }}</div>
+  <div class="col-2">
+    {{ form_row(form.days_importants) }}
+  </div>
 
-        <div class="col-2">{{ form_row(form.cv_number_max) }}</div>
+  <div class="col-2">
+    {{ form_row(form.cv_number_max) }}
+  </div>
 
-        <div class="col-12"></div>
-        <div class="col-8 mt-3">
+  <div class="col-3">
+    {{ form_row(form.evaluations_psicological) }}
+  </div>
+
+  <div class="col-3">
+    {{ form_row(form.selection) }}
+  </div>
+
+  <div class="col-12 mt-3">
+    <div class="card">
+      <div class="card-header">
+        Configuración de pago PayPhone
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
             <label for="#">Url de pago finalizado</label>
             <div class="input-group mb-3">
-                <input type="text" id="pago-finalizado-input" readonly class="form-control"  aria-label="Username" value="{{ url('buy_package',{type:'job', uuid: payment_for_job.uuid}) }}">
-                <div class="input-group-prepend">
-                    <button id="pago-finalizdo" type="button" class="btn btn-primary">Copiar</button>
-                </div>
+              <input type="text"
+                id="pago-finalizado-input"
+                readonly
+                class="form-control"
+                aria-label="Username"
+                value="{{
+                url(
+                  'buy_package',
+                  {
+                    type: 'job',
+                    uuid: payment_for_job.uuid
+                  }
+                )
+                }}" />
+              <div class="input-group-prepend">
+                <button id="pago-finalizdo"
+                  type="button"
+                  class="btn btn-primary">
+                  Copiar
+                </button>
+              </div>
             </div>
-
+          </div>
+          <div class="col-md-6">
             <label for="#">Url de pago cancelado</label>
             <div class="input-group mb-3">
-                <input type="text" id="pago-candelado-input" class="form-control" readonly aria-label="Username" value="{{ url('pago_cancelado',{type:'job'}) }}">
-                <div class="input-group-prepend">
-                    <button id="pago-candelado" type="button" class="btn btn-primary">Copiar</button>
-                </div>
+              <input type="text"
+                id="pago-candelado-input"
+                class="form-control"
+                readonly
+                aria-label="Username"
+                value="{{
+                url(
+                  'pago_cancelado',
+                  {
+                    type: 'job'
+                  }
+                )
+                }}" />
+              <div class="input-group-prepend">
+                <button id="pago-candelado"
+                  type="button"
+                  class="btn btn-primary">
+                  Copiar
+                </button>
+              </div>
             </div>
-
+          </div>
         </div>
 
-        <div class="col-12">{{ form_row(form.paypalCode) }}</div>
-    </div>
-<div class="row mt-4">
-    <div class="col-3">{{ form_row(form.evaluations_psicological) }}</div>
+        <div class="row">
+          <div class="col-md-3">
+            {{ form_row(form.identificador) }}
+          </div>
+          <div class="col-md-3">
+            {{ form_row(form.idClient) }}
+          </div>
+          <div class="col-md-3">
+            {{ form_row(form.claveSecreta) }}
+          </div>
+          <div class="col-md-3">
+            {{ form_row(form.contrasennaCodificacion) }}
+          </div>
 
-    <div class="col-3">{{ form_row(form.selection) }}</div>
+          <div class="col-md-12">
+            {{ form_row(form.token) }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-<button class="btn btn-primary"><i class="fa fa-save"></i> Guardar</button>
-{{ form_end(form) }}
+<div class="row mt-4"></div>
+<button class="btn btn-primary"><i class="fa fa-save"></i> Guardar</button> {{ form_end(form) }}

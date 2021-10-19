@@ -80,7 +80,7 @@ task('dump:js-routes', '{{bin/console}} fos:js-routing:dump --target=public/bund
 
 
 task('build', [
-//    'database:update',
+    'database:update',
     'assets:install',
     'dump:js-routes',
     'yarn:install',

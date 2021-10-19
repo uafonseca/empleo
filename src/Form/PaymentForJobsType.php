@@ -16,37 +16,58 @@ class PaymentForJobsType extends AbstractType
     {
         $builder
             ->add('name', null, [
-                'label' => 'Nombre'
+                'label' => 'Nombre',
+                'required' => true
             ])
-            ->add('price', MoneyType::class, [
+            ->add('price', IntegerType::class, [
                 'label' => 'Precio',
-                'currency' => 'USD',
-                'attr' => [
-                    'type' => 'number',
-                ],
+                'required' => true
             ])
             ->add('anouncements_number_max', IntegerType::class, [
-                'label' => 'Cantidad de publicaciones'
+                'label' => 'Cantidad de publicaciones',
+                'required' => true
             ])
             ->add('visible_days', IntegerType::class, [
-                'label' => 'Días de visibilidad'
+                'label' => 'Días de visibilidad',
+                'required' => true
             ])
             ->add('days_importants', IntegerType::class, [
-                'label' => 'Días con prioridad'
+                'label' => 'Días con prioridad',
+                'required' => true
             ])
-            ->add('cv_number_max',IntegerType::class,[
-                'label' => 'Cantidad máxima de CV'
+            ->add('cv_number_max', IntegerType::class, [
+                'label' => 'Cantidad máxima de CV',
+                'required' => true
             ])
-            ->add('evaluations_psicological',null,[
-                'label' => 'Evaluaciones psicológicas'
+            ->add('evaluations_psicological', null, [
+                'label' => 'Evaluaciones psicológicas',
+                'required' => true
             ])
-            ->add('paypalCode',TextareaType::class,[
-                'label' => 'Código PayPal',
-                'required' => false
+            ->add('identificador', null, [
+                'label' => 'Identificador',
+                'required' => true
             ])
-            ->add('selection',null,[
-                'label' => 'Selección de candidatos'
-            ]);
+             ->add('idClient', null, [
+                'label' => 'Id Cliente',
+                'required' => true
+            ])
+             ->add('claveSecreta', null, [
+                'label' => 'Clave Secreta',
+                'required' => true
+            ])
+             ->add('contrasennaCodificacion', null, [
+                'label' => 'Contraseña de Codificación',
+                'required' => true
+            ])
+             ->add('token', null, [
+                'label' => 'Token',
+                'required' => true
+            ])
+            ->add('selection', null, [
+                'label' => 'Selección de candidatos',
+                'required' => true
+            ])
+            ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

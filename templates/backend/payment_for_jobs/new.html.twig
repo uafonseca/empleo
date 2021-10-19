@@ -1,26 +1,24 @@
 {% extends 'backend/base.html.twig' %}
-{% block title %}Tablero{% endblock %}
+{% block title %}
+  Tablero
+{% endblock %}
 {% block context %}
-
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Nuevo paquete</h1>
+  <div class="card">
+    <div class="card-header">
+      Nuevo paquete
     </div>
-    {{ include('backend/payment_for_jobs/_form.html.twig') }}
-
+    <div class="card-body">
+      {{ include('backend/payment_for_jobs/_form.html.twig') }}
+    </div>
+  </div>
 {% endblock %}
 
 {% block scripts %}
-    <script>
-        $(function () {
-            $('#pago-finalizdo').click(function(){
-                $('#pago-finalizado-input').select();
-                document.execCommand("copy");
-            });
+  <script>
+    $(function () { $('#pago-finalizdo').click(function(){
+    $('#pago-finalizado-input').select(); document.execCommand("copy"); });
 
-            $('#pago-candelado').click(function(){
-                $('#pago-candelado-input').select();
-                document.execCommand("copy");
-            });
-        })
-    </script>
+    $('#pago-candelado').click(function(){ $('#pago-candelado-input').select();
+    document.execCommand("copy"); }); })
+  </script>
 {% endblock %}

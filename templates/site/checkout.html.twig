@@ -2,7 +2,41 @@
 {% block title %}
   Candidatos
 {% endblock %}
+{% block headerScript %}
+  <script src="https://pay.payphonetodoesposible.com/api/button/js?appId={{
+    package.identificador
+    }}"></script>
+  <script>
+    window.onload = function() { payphone.Button({
+      token:"{{ package.token }}",
+      btnHorizontal: true,
+      btnCard: true,
+      createOrder: function(actions){
+        return actions.prepare({
+          amount: {{ package.price }},
+          amountWithoutTax: {{ package.price }},
+          currency: 'USD',
+          clientTransactionId: '{{ package.uuid }}'  
+        });
+      },
+      onComplete: function(model, actions){
+        actions.confirm({ 
+          id: model.id, 
+          clientTxId: model.clientTxId
+        }).then(function(value){
+          if (value.transactionStatus == 'Approved')
+          { 
+            alert('Pago ' + value.transactionId + ' recibido, estado ' + value.transactionStatus ); 
+          }
+        }).catch(function(err){ console.log(err); });
+
+        } }).render('#pp-button');
+
+    }
+  </script>
+{% endblock %}
 {% block body %}
+  {# {{ dump(package) }} #}
   {% include 'site/header.html.twig' %}
   <link rel="stylesheet"
     type="text/css"
@@ -93,72 +127,10 @@
                   </div>
                   <div class="row">
                     <div class="col-md-9 offset-md-3">
-                      <div class="row">
-                        {% if package.paypalCode %}
-                          {{ package.paypalCode|raw }}
-                        {% else %}
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <input type="text"
-                                class="form-control"
-                                placeholder="Nombre del titular" />
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <input type="text"
-                                class="form-control"
-                                placeholder="Número de tarjeta" />
-                            </div>
-                          </div>
-                          <div class="w-100"></div>
-                          <div class="col-md-4">
-                            <div class="form-group">
-                              <input type="text"
-                                class="form-control"
-                                placeholder="Mes de expiración" />
-                            </div>
-                          </div>
-                          <div class="col-md-4">
-                            <div class="form-group">
-                              <input type="text"
-                                class="form-control"
-                                placeholder="Año de expiración" />
-                            </div>
-                          </div>
-                          <div class="col-md-4">
-                            <div class="form-group">
-                              <input type="text"
-                                class="form-control"
-                                placeholder="CVV" />
-                            </div>
-                          </div>
-                          <div class="w-100"></div>
-                          <div class="col">
-                            <div class="form-group terms">
-                              <input class="custom-radio"
-                                type="checkbox"
-                                id="radio-4"
-                                name="termsandcondition" />
-                              <label for="radio-4">
-                                <span class="dot"></span> Acepta nuestros <a href="#">
-                                  Términos, condiciones
-                                </a> y <a href="#">Política de privacidad</a>
-                              </label>
-                            </div>
-                            <input type="hidden"
-                              value="{{ package.id }}"
-                              name="package_id" />
-                            <input type="hidden"
-                              value="{{ type }}"
-                              name="type" />
-                            <button class="button">Proceder al pago</button>
-                          </div>
-                        {% endif %}
-                      </div>
+                      <div class="row"></div>
                     </div>
                   </div>
-                  {# </form> #}
+                  <div id='pp-button'></div>
                 </div>
               </div>
               <div class="col-lg-4">

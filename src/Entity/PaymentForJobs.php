@@ -42,9 +42,38 @@ class PaymentForJobs extends Payment
     private $paymentForJobsMetadata;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * Configuracion para metodo de pago PayPhone
      */
-    private $paypalCode;
+
+    /**
+     * @ORM\Column(type="string", nullable=false)
+     */
+    private $identificador;
+
+
+    /**
+     * @ORM\Column(type="string", nullable=false)
+     */
+    private $idClient;
+
+
+    /**
+     * @ORM\Column(type="string", nullable=false)
+     */
+    private $claveSecreta;
+
+
+    /**
+     * @ORM\Column(type="string", nullable=false)
+     */
+    private $contrasennaCodificacion;
+
+
+    /**
+     * @ORM\Column(type="text", nullable=false)
+     */
+    private $token;
+
 
     public function __construct()
     {
@@ -161,6 +190,98 @@ class PaymentForJobs extends Payment
     public function setPaypalCode(?string $paypalCode): self
     {
         $this->paypalCode = $paypalCode;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of token
+     */
+    public function getToken()
+    {
+        return $this->token;
+    }
+
+    /**
+     * Set the value of token
+     *
+     * @return  self
+     */
+    public function setToken($token)
+    {
+        $this->token = $token;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of contrasennaCodificacion
+     */
+    public function getContrasennaCodificacion()
+    {
+        return $this->contrasennaCodificacion;
+    }
+
+    /**
+     * Set the value of contrasennaCodificacion
+     */
+    public function setContrasennaCodificacion($contrasennaCodificacion): self
+    {
+        $this->contrasennaCodificacion = $contrasennaCodificacion;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of claveSecreta
+     */
+    public function getClaveSecreta()
+    {
+        return $this->claveSecreta;
+    }
+
+    /**
+     * Set the value of claveSecreta
+     */
+    public function setClaveSecreta($claveSecreta): self
+    {
+        $this->claveSecreta = $claveSecreta;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of idClient
+     */
+    public function getIdClient()
+    {
+        return $this->idClient;
+    }
+
+    /**
+     * Set the value of idClient
+     */
+    public function setIdClient($idClient): self
+    {
+        $this->idClient = $idClient;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of identificador
+     */
+    public function getIdentificador()
+    {
+        return $this->identificador;
+    }
+
+    /**
+     * Set the value of identificador
+     */
+    public function setIdentificador($identificador): self
+    {
+        $this->identificador = $identificador;
 
         return $this;
     }
