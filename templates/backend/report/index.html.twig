@@ -1,0 +1,23 @@
+{% extends 'backend/base.html.twig' %}
+
+{% block context %}
+  <div class="card">
+    <div class="card-header">
+      <h6>
+        Listado de órdenes{% if pack is not null %}
+          del paquete <span class="badge badge-success">
+            <h5>
+              {{ pack.package.name }}
+            </h5>
+          </span>
+        {% endif %}
+      </h6>
+    </div>
+    <div class="card-body">
+      {{ sg_datatables_render_html(datatable) }}
+    </div>
+  </div>
+{% endblock %}
+{% block scripts %}
+  {{ sg_datatables_render_js(datatable) }}
+{% endblock %}

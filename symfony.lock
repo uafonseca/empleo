@@ -180,6 +180,9 @@
     "friendsofsymfony/user-bundle": {
         "version": "v2.1.2"
     },
+    "gedmo/doctrine-extensions": {
+        "version": "v3.2.0"
+    },
     "guzzle/guzzle": {
         "version": "v3.8.1"
     },

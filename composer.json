@@ -16,6 +16,7 @@
         "easycorp/easyadmin-bundle": "^2.1",
         "friendsofsymfony/ckeditor-bundle": "^2.2",
         "friendsofsymfony/user-bundle": "~2.0",
+        "gedmo/doctrine-extensions": "^3.2",
         "hampe/zurb-ink-bundle": "^2.2",
         "knplabs/knp-paginator-bundle": "^3.0",
         "knplabs/knp-time-bundle": "^1.9",

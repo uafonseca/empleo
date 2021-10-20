@@ -1,17 +1,23 @@
 {% macro show_card(text, value, icon, border_left_class, text_class) %}
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card {{ border_left_class }} shadow h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold {{ text_class }} text-uppercase mb-1">{{ text }}</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ value }}</div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="fas {{ icon }} fa-2x {{ text_class }}"></i>
-                    </div>
-                </div>
+  <div class="col-xl-4 col-md-4 mb-4">
+    <div class="card {{ border_left_class }} shadow h-100 py-2">
+      <div class="card-body">
+        <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+            <div class="text-xs font-weight-bold {{
+              text_class
+              }} text-uppercase mb-1">
+              {{ text }}
             </div>
+            <div class="h5 mb-0 font-weight-bold text-gray-800">
+              {{ value }}
+            </div>
+          </div>
+          <div class="col-auto">
+            <i class="fas {{ icon }} fa-2x {{ text_class }}"></i>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 {% endmacro %}

@@ -6,10 +6,12 @@ use App\Repository\PaymentForJobsMetadataRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass=PaymentForJobsMetadataRepository::class)
  * @ORM\Table
+ * @Gedmo\Loggable
  */
 class PaymentForJobsMetadata
 {

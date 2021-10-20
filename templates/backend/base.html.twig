@@ -8,15 +8,21 @@
     <meta name="description" content="" />
     <meta name="author" content="" /> {% block metadata %}
 
-    {% endblock %}
-    {{ encore_entry_link_tags('app') }}
-    {{ encore_entry_link_tags('backend_layout') }}
-    {% block stylkes %}
+    {% endblock %} {{ encore_entry_link_tags('app') }} {{
+      encore_entry_link_tags('backend_layout')
+    }} {% block stylkes %}
+      {% set img = asset('build/backend/images/backend/ilustration.svg') %}
+      <style>
+        .card-image::before { content: ""; background-image: url("{{ img }}");
+        background-size: cover; position: absolute; top: 0px; right: 0px;
+        bottom: 0px; left: 0px; opacity: 0.15; }
 
+        .span-empleo { background-color: #218838; padding: 4px; margin: 5px;
+        border-radius: 3px; font-size: small; color: white; }
+      </style>
     {% endblock %}
     <title>
       Bendito trabajo |{% block title %}
-
       {% endblock %}
     </title>
   </head>
@@ -383,8 +389,7 @@
                       data-target="#logoutModal">
                       <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400">
 
-                      </i>
-                      Logout
+                      </i> Logout
                     </a>
                   </div>
                 </li>
@@ -455,17 +460,16 @@
       integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"></script>
-    {{ encore_entry_script_tags('app') }}
-    {{ encore_entry_script_tags('backend_layout') }}
-    {{ encore_entry_script_tags('custon') }}
+    {{ encore_entry_script_tags('app') }} {{
+      encore_entry_script_tags('backend_layout')
+    }} {{ encore_entry_script_tags('custon') }}
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{
       asset(
         'bundles/fosjsrouting/js/fos_js_routing.js'
       )
       }}"></script>
-    {{ include('backend/utiles/flashBagComponent.html.twig') }}
-    {% block scripts %}
+    {{ include('backend/utiles/flashBagComponent.html.twig') }} {% block scripts %}
 
     {% endblock %}
   </body>

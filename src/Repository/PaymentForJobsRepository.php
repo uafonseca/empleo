@@ -20,30 +20,28 @@ class PaymentForJobsRepository extends ServiceEntityRepository
         parent::__construct($registry, PaymentForJobs::class);
     }
 
-//    public function  findAviables(User $user)
-//    {
-//        return $this->createQueryBuilder('pfj')
-//            ->leftJoin('pfj.users','user')
-//            ->where('')
-//
-//    }
+    //    public function  findAviables(User $user)
+    //    {
+    //        return $this->createQueryBuilder('pfj')
+    //            ->leftJoin('pfj.users','user')
+    //            ->where('')
+    //
+    //    }
 
-    // /**
-    //  * @return PaymentForJobs[] Returns an array of PaymentForJobs objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return PaymentForJobs[] Returns an array of PaymentForJobs objects
+     */
+    public function getThisMonth($month)
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
+            ->select('p.id, p.name,COUNT(p) as count')
+            ->join('p.paymentForJobsMetadata', 'metadata')
+            ->andWhere('MONTH(metadata.datePurchase) = :val')
+            ->groupBy('p.id')
+            ->setParameter('val', $month)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?PaymentForJobs
