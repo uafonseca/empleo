@@ -1,278 +1,305 @@
-{% extends 'site/base.html.twig' %}
-{% block title %}Tablero
-{% endblock %}
-{% block body %}
-	<style>
-		.no-input-group {
-			width: 80%;
-		}
-	</style>
-	{% include'site/header.html.twig' %}
-	<link rel="stylesheet" type="text/css" href="{{ asset('site/dashboard/css/dashboard.css') }}">
-	<div class="alice-bg padding-top-70 padding-bottom-70">
-		<div
-			class="container">
-			{#{{ include('user/employer/info.html.twig') }}#}
-			<div class="row">
-				<div class="col-md-6">
-					<div class="breadcrumb-area">
-						<h1>Mi perfil</h1>
-						<nav aria-label="breadcrumb">
-							<ol class="breadcrumb">
-								<li class="breadcrumb-item">
-									<a href="#">Inicio</a>
-								</li>
-								<li class="breadcrumb-item active" aria-current="page">Mi perfil</li>
-							</ol>
-						</nav>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- Breadcrumb End -->
+{% extends 'site/base.html.twig' %} {% block title %} Tablero {% endblock %} {% block body %}
+<style>
+    .no-input-group {
+        width: 80%;
+    }
+</style>
+{% include 'site/header.html.twig' %}
+<link rel="stylesheet" type="text/css" href="{{ asset('site/dashboard/css/dashboard.css') }}" />
+<div class="alice-bg padding-top-70 padding-bottom-70">
+    <div class="container">
+        {# {{ include('user/employer/info.html.twig') }} #}
+        <div class="row">
+            <div class="col-md-6">
+                <div class="breadcrumb-area">
+                    <h1>
+                        Mi perfil
+                    </h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                Mi perfil
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
 
-	<div class="alice-bg section-padding-bottom">
-		<div class="container no-gliters">
-			<div class="row no-gliters">
-				<div class="col">
-					<div class="dashboard-container">
-						<div class="dashboard-content-wrapper">
-							{{ form_start(form, {attr: {'class': 'dashboard-form'} }) }}
-							<div class="dashboard-section upload-profile-photo">
-								<div class="update-photo">
-									{% if app.user.image is not null %}
-										<img src="{{ asset('images/user/') ~'_files_'~app.user.username~'/'~ app.user.image }}" class="image" alt="">
-									{% else %}
-										{% if app.user.gender == 'M' %}
-											<img src="{{ asset('images/default/man_logo.jpg') }}" class="image" alt="">
-										{% elseif  app.user.gender == 'F' %}
-											<img src="{{ asset('images/default/woman_logo.jpg') }}" class="image" alt="">
-										{% else %}
-											<img src="{{ asset('images/default/not_image_user.png') }}" class="image" alt="">
-										{% endif %}
-									{% endif %}
-								</div>
-								<div class="file-upload">
-									{{ form_widget(form.imageFile, { 'attr': {'class': 'file-input'} } ) }}
-									150x150 px JPEG
-								</div>
-							</div>
-							<div class="dashboard-section basic-info-input">
-								<h4>
-									<i data-feather="user-check"></i>Información básica</h4>
-								{% if is_granted('ROLE_ADMIN') %}
-									<div class="form-group row">
-										<label class="col-sm-3 col-form-label">Nombre de la compañía<span style="color: red">*</span>
-										</label>
-										<div
-											class="col-sm-9">
-											{#<input type="text" class="form-control" placeholder="Company Name">#}
-											{{ form_widget(form.companyName, { 'attr': {'class': 'form-control','placeholder':'Nombre de la compañía'} } ) }}
-										</div>
-									</div>
-								{% else %}
-									<div class="form-group row" style="visibility: hidden">
-										<label class="col-sm-3 col-form-label">Nombre de la compañía<span style="color: red">*</span>
-										</label>
-										<div class="col-sm-9">
-											{{ form_widget(form.companyName, { 'attr': {'type': 'hidden'} } ) }}
-										</div>
-									</div>
-								{% endif %}
-								<div class="form-group row">
-									<label class="col-sm-3 col-form-label">Nombre
-										<span style="color: red">*</span>
-									</label>
-									<div class="col-sm-9">
-										{{ form_widget(form.name, { 'attr': {'class': 'form-control','placeholder':'Pedro Perez'} } ) }}
-									</div>
-								</div>
-								<div class="form-group row">
-									<label class="col-sm-3 col-form-label">Usuario<span style="color: red">*</span>
-									</label>
-									<div class="col-sm-9">
-										{{ form_widget(form.username, { 'attr': {'class': 'form-control','placeholder':'@usuario'} } ) }}
-									</div>
-								</div>
-								<div class="form-group row">
-									<label class="col-sm-3 col-form-label">Sexo<span style="color: red">*</span>
-									</label>
-									<div class="col-sm-9">
-										{{ form_widget(form.gender, { 'attr': {'class': 'form-control','placeholder':'Género'} } ) }}
-									</div>
-								</div>
-								<div class="form-group row">
-									<label class="col-sm-3 col-form-label">Título de mayor nivel<span style="color: red">*</span>
-									</label>
-									<div class="col-sm-9">
-										{{ form_widget(form.higherLevelTitlee, { 'attr': {'class': 'form-control'} } ) }}
-									</div>
-								</div>
-								<div class="form-group row">
-									<label class="col-sm-3 col-form-label">Profesión/Ocupación<span style="color: red">*</span>
-									</label>
-									<div class="col-sm-9">
-										{{ form_widget(form.profession, { 'attr': {'class': 'form-control'} } ) }}
-									</div>
-								</div>
+<div class="alice-bg section-padding-bottom">
+    <div class="container no-gliters">
+        <div class="row no-gliters">
+            <div class="col">
+                <div class="dashboard-container">
+                    <div class="dashboard-content-wrapper">
+                        {{ form_start( form, { attr: { class: 'dashboard-form' } } ) }}
+                        <div class="dashboard-section upload-profile-photo">
+                            <div class="update-photo">
+                                {% if app.user.image is not null %}
+                                <img src="{{
+                      asset('images/user/') ~ '_files_' ~ app.user.username
+                        ~ '/'
+                        ~ app.user.image
+                      }}" class="image" alt="" /> {% else %} {% if app.user.gender == 'M' %}
+                                <img src="{{ asset('images/default/man_logo.jpg') }}" class="image" alt="" /> {% elseif app.user.gender == 'F' %}
+                                <img src="{{ asset('images/default/woman_logo.jpg') }}" class="image" alt="" /> {% else %}
+                                <img src="{{
+                        asset(
+                          'images/default/not_image_user.png'
+                        )
+                        }}" class="image" alt="" /> {% endif %} {% endif %}
+                            </div>
+                            <div class="file-upload">
+                                {{ form_widget( form.imageFile, { attr: { class: 'file-input' } } ) }} 150x150 px JPEG
+                            </div>
+                        </div>
+                        <div class="dashboard-section basic-info-input">
+                            <h4>
+                                <i data-feather="user-check"></i>Información básica
+                            </h4>
+                            {% if is_granted('ROLE_ADMIN') %}
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">
+                      Nombre de la compañía<span style="color: red">*</span>
+                    </label>
+                                <div class="col-sm-9">
+                                    {# <input type="text" class="form-control" placeholder="Company Name"> #} {{ form_widget( form.companyName, { attr: { class: 'form-control', placeholder: 'Nombre de la compañía' } } ) }}
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="form-group row" style="visibility: hidden">
+                                <label class="col-sm-3 col-form-label">
+                      Nombre de la compañía<span style="color: red">*</span>
+                    </label>
+                                <div class="col-sm-9">
+                                    {{ form_widget( form.companyName, { attr: { type: 'hidden' } } ) }}
+                                </div>
+                            </div>
+                            {% endif %}
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">
+                    Nombre
+                    <span style="color: red">*</span>
+                  </label>
+                                <div class="col-sm-9">
+                                    {{ form_widget( form.name, { attr: { class: 'form-control', placeholder: 'Pedro Perez' } } ) }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">
+                    Usuario<span style="color: red">*</span>
+                  </label>
+                                <div class="col-sm-9">
+                                    {{ form_widget( form.username, { attr: { class: 'form-control', placeholder: '@usuario' } } ) }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">
+                    Sexo<span style="color: red">*</span>
+                  </label>
+                                <div class="col-sm-9">
+                                    {{ form_widget( form.gender, { attr: { class: 'form-control', placeholder: 'Género' } } ) }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">
+                    Título de mayor nivel<span style="color: red">*</span>
+                  </label>
+                                <div class="col-sm-9">
+                                    {{ form_widget( form.higherLevelTitlee, { attr: { class: 'form-control' } } ) }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">
+                    Profesión/Ocupación<span style="color: red">*</span>
+                  </label>
+                                <div class="col-sm-9">
+                                    {{ form_widget( form.profession, { attr: { class: 'form-control' } } ) }}
+                                </div>
+                            </div>
 
-								<div class="form-group row">
-									<label class="col-sm-3 col-form-label">Años de experiencia<span style="color: red">*</span>
-									</label>
-									<div class="col-sm-9">
-										{{ form_widget(form.experience, { 'attr': {'class': 'form-control','placeholder':'Años de experiencia'} } ) }}
-									</div>
-								</div>
-								<div class="form-group row">
-									<label class="col-sm-3 col-form-label">Edad<span style="color: red">*</span>
-									</label>
-									<div class="col-sm-9">
-										{{ form_widget(form.age, { 'attr': {'class': 'form-control','placeholder':'Edad'} } ) }}
-									</div>
-								</div>
-								<div class="form-group row">
-									<label class="col-sm-3 col-form-label">Dirección de correo<span style="color: red">*</span>
-									</label>
-									<div class="col-sm-9">
-										{{ form_widget(form.email, { 'attr': {'class': 'form-control','placeholder':'email@example.com'} } ) }}
-									</div>
-								</div>
-								<div class="form-group row">
-									<label class="col-sm-3 col-form-label">Teléfono</label>
-									<div class="col-sm-9">
-										{{ form_widget(form.phone, { 'attr': {'class': 'form-control','placeholder':'+55 123 4563 4643'} } ) }}
-									</div>
-								</div>
-								<div class="form-group row">
-									<label class="col-sm-3 col-form-label">Dirección</label>
-									<div class="col-sm-9">
-										{{ form_widget(form.address, { 'attr': {'class': 'form-control','placeholder':'Washington D.C'} } ) }}
-									</div>
-								</div>
-								<div class="form-group row">
-									<label class="col-sm-3 col-form-label">Categoría<span style="color: red">*</span>
-									</label>
-									<div class="col-sm-9">
-										{{ form_widget(form.category, { 'attr': {'id':'multiselect','class':'form-control selectpicker', 'data-live-search':'true','multiple':'multiple'} } ) }}
-									</div>
-								</div>
-								<div class="form-group row">
-									<label class="col-sm-3 col-form-label">Sobre usted<span style="color: red">*</span>
-									</label>
-									<div class="col-sm-9">
-										{{ form_widget(form.about, { 'attr': {'class': 'form-control','placeholder':'Sobre usted'} } ) }}
-									</div>
-								</div>
-								<div class="form-group row">
-									<label class="col-sm-3 col-form-label">Su disponibilidad<span style="color: red">*</span>
-									</label>
-									<div class="col-sm-9">
-										{{ form_widget(form.status, { 'attr': {'class': 'form-control','placeholder':'Sobre usted'} } ) }}
-									</div>
-								</div>
-							</div>
-							{% if activePack %}
-								<div class="dashboard-section media-inputs">
-									<h4>
-										<i data-feather="image"></i>Video</h4>
-									<div class="form-group row">
-										<label class="col-sm-3 col-form-label">Video Intro</label>
-										<div class="col-sm-9">
-											<div class="input-group">
-												<div class="input-group-prepend">
-													<div class="input-group-text">Link</div>
-												</div>
-												{{ form_widget(form.videoIntro, { 'attr': {'class': 'form-control','placeholder':'https://www.youtube.com/watch?v=ZRkdyjJ_489M'} } ) }}
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="dashboard-section social-inputs">
-									<h4>
-										<i data-feather="cast"></i>Redes sociales</h4>
-									<div class="form-group row">
-										<label class="col-sm-3 col-form-label">Links</label>
-										<div class="col-sm-9">
-											<div class="input-group">
-												<div class="input-group-prepend">
-													<div class="input-group-text">
-														<i class="fab fa-facebook-f"></i>
-													</div>
-												</div>
-												{{ form_widget(form.socialFacebook, { 'attr': {'class': 'form-control','placeholder':'facebook.com/username'} } ) }}
-											</div>
-										</div>
-									</div>
-									<div class="form-group row">
-										<div class="offset-sm-3 col-sm-9">
-											<div class="input-group">
-												<div class="input-group-prepend">
-													<div class="input-group-text">
-														<i class="fab fa-twitter"></i>
-													</div>
-												</div>
-												{{ form_widget(form.socialTwitter, { 'attr': {'class': 'form-control','placeholder':'twitter.com/username'} } ) }}
-											</div>
-										</div>
-									</div>
-									<div class="form-group row">
-										<div class="offset-sm-3 col-sm-9">
-											<div class="input-group">
-												<div class="input-group-prepend">
-													<div class="input-group-text">
-														<i class="fab fa-google-plus"></i>
-													</div>
-												</div>
-												{{ form_widget(form.socialGoogle, { 'attr': {'class': 'form-control','placeholder':'google.com/username'} } ) }}
-											</div>
-										</div>
-									</div>
-								</div>
-							{% endif %}
-							<button class="button">Guardar</button>
-							<div class="hidden">
-								{{ form_rest(form) }}
-							</div>
-							{{ form_end(form) }}
-						</div>
-						{% include 'user/dashboard_sidebar.html.twig' %}
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-{% endblock %}
-{% block js %}
-	<script src="{{ asset('site/dashboard/js/datePicker.js') }}"></script>
-	<script src="{{ asset('site/js/bootstrap-multiselect.js') }}"></script>
-	<script>
-		$(document).ready(function () {
-$('#multiselect').multiselect({buttonWidth: '300px'});
-console.log('asda')
-$('.file-input').change(function () {
-var curElement = $('.image');
-var reader = new FileReader();
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">
+                    Años de experiencia<span style="color: red">*</span>
+                  </label>
+                                <div class="col-sm-9">
+                                    {{ form_widget( form.experience, { attr: { class: 'form-control', placeholder: 'Años de experiencia' } } ) }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">
+                    Edad<span style="color: red">*</span>
+                  </label>
+                                <div class="col-sm-9">
+                                    {{ form_widget( form.age, { attr: { class: 'form-control', placeholder: 'Edad' } } ) }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">
+                    Dirección de correo<span style="color: red">*</span>
+                  </label>
+                                <div class="col-sm-9">
+                                    {{ form_widget( form.email, { attr: { class: 'form-control', placeholder: 'email@example.com' } } ) }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Teléfono</label>
+                                <div class="col-sm-9">
+                                    {{ form_widget( form.phone, { attr: { class: 'form-control', placeholder: '+55 123 4563 4643' } } ) }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Dirección</label>
+                                <div class="col-sm-9">
+                                    {{ form_widget( form.address, { attr: { class: 'form-control', placeholder: 'Registrar direccción' } } ) }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">
+                    Categoría<span style="color: red">*</span>
+                  </label>
+                                <div class="col-sm-9">
+                                    {{ form_widget( form.category, { attr: { id: 'multiselect', class: 'form-control selectpicker', 'data-live-search': 'true', multiple: 'multiple' } } ) }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">
+                    Sobre usted<span style="color: red">*</span>
+                  </label>
+                                <div class="col-sm-9">
+                                    {{ form_widget( form.about, { attr: { class: 'form-control', placeholder: 'Sobre usted' } } ) }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">
+                    Su disponibilidad<span style="color: red">*</span>
+                  </label>
+                                <div class="col-sm-9">
+                                    {{ form_widget( form.status, { attr: { class: 'form-control', placeholder: 'Sobre usted' } } ) }}
+                                </div>
+                            </div>
+                        </div>
+                        {% if activePack %}
+                        <div class="dashboard-section media-inputs">
+                            <h4>
+                                <i data-feather="image"></i>Video
+                            </h4>
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Video Intro</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                Link
+                                            </div>
+                                        </div>
+                                        {{ form_widget( form.videoIntro, { attr: { class: 'form-control', placeholder: 'https://www.youtube.com/watch?v=ZRkdyjJ_489M' } } ) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dashboard-section social-inputs">
+                            <h4>
+                                <i data-feather="cast"></i>Redes sociales
+                            </h4>
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Links</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="fab fa-facebook-f"></i>
+                                            </div>
+                                        </div>
+                                        {{ form_widget( form.socialFacebook, { attr: { class: 'form-control', placeholder: 'facebook.com/username' } } ) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="offset-sm-3 col-sm-9">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="fab fa-twitter"></i>
+                                            </div>
+                                        </div>
+                                        {{ form_widget( form.socialTwitter, { attr: { class: 'form-control', placeholder: 'twitter.com/username' } } ) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="offset-sm-3 col-sm-9">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="fab fa-google-plus"></i>
+                                            </div>
+                                        </div>
+                                        {{ form_widget( form.socialGoogle, { attr: { class: 'form-control', placeholder: 'google.com/username' } } ) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <button class="button">Guardar</button>
+                        <div class="hidden">
+                            {{ form_rest(form) }}
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                    {% include 'user/dashboard_sidebar.html.twig' %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} {% block js %}
+<script src="{{ asset('site/dashboard/js/datePicker.js') }}"></script>
+<script src="{{ asset('site/js/bootstrap-multiselect.js') }}"></script>
+<script>
+    $(document).ready(function() {
 
-reader.onload = function (e) { // get loaded data and render thumbnail.
-curElement.attr('src', e.target.result);
-};
+        var sel = $('#user_fully_profession');
+        var selected = sel.val();
+        var opts_list = sel.find('option');
+        opts_list.sort(function(a, b) {
+            return $(a).text() > $(b).text() ? 1 : -1;
+        });
+        sel.html('').append(opts_list);
+        sel.val(selected);
 
-// read the image file as a data URL.
-reader.readAsDataURL(this.files[0]);
-});
+        $('#multiselect').multiselect({
+            buttonWidth: '300px',
+            noneSelectedText: 'Seleccionar categoría'
+        });
+        $('.file-input').change(function() {
+            var curElement = $('.image');
+            var
+                reader = new FileReader();
 
-$('#user_fully_employer_imageFile').change(function () {
-var curElement = $(this).parent().parent().parent().find('.image');
-var reader = new FileReader();
+            reader.onload = function(e) { // get loaded data and render thumbnail.
+                curElement.attr('src', e.target.result);
+            };
 
-reader.onload = function (e) { // get loaded data and render thumbnail.
-curElement.attr('src', e.target.result);
-};
+            // read the image file as a data URL. reader.readAsDataURL(this.files[0]);
+        });
 
-// read the image file as a data URL.
-reader.readAsDataURL(this.files[0]);
-});
-});
-	</script>
+        $('#user_fully_employer_imageFile').change(function() {
+            var curElement =
+                $(this).parent().parent().parent().find('.image');
+            var reader = new
+            FileReader();
+
+            reader.onload = function(e) { // get loaded data and render thumbnail.
+                curElement.attr('src', e.target.result);
+            };
+
+            // read the image file as a data URL. reader.readAsDataURL(this.files[0]);
+        });
+    });
+</script>
 {% endblock %}

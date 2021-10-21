@@ -41,7 +41,7 @@ class PaymentForJobsType extends AbstractType
             ])
             ->add('evaluations_psicological', null, [
                 'label' => 'Evaluaciones psicológicas',
-                'required' => true
+                'required' => false
             ])
             ->add('identificador', null, [
                 'label' => 'Identificador',
@@ -65,7 +65,7 @@ class PaymentForJobsType extends AbstractType
             ])
             ->add('selection', null, [
                 'label' => 'Selección de candidatos',
-                'required' => true
+                'required' => false
             ])
             ;
     }

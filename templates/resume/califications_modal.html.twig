@@ -1,41 +1,38 @@
 {% form_theme form 'resume/theme.html.twig' %}
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="panel-heading">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <h5 class="panel-title pull-left">
-                                    Calificación Especial
-                                </h5>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-                <div class="panel-body">
-                    {{ form_start(form) }}
-                      {{ form_row(form.califications) }}
-
-                    <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Guardar</button>
-                    {{ form_end(form) }}
-                </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="panel-heading">
+            <div class="row">
+              <div class="col-md-12">
+                <h5 class="panel-title pull-left">
+                  Mención Especial
+                </h5>
+              </div>
             </div>
+            <div class="clearfix"></div>
+          </div>
         </div>
+        <div class="panel-body">
+          {{ form_start(form) }}
+          {{ form_row(form.califications) }}
+
+          <button type="submit" class="btn btn-success mt-5">
+            <i class="fas fa-save"></i> Guardar
+          </button>
+          {{ form_end(form) }}
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 <script>
-    $(document).ready(function () {
-        $('.califications-collection').collection({
-            add: `<a class="btn btn-primary" href="#"><i class="fa fa-plus"></i> Adicionar </a>`,
-            allow_up: false,
-            allow_down: false,
-            allow_duplicate: false,
-            add_at_the_end: true,
-            buttonLabel: 'Adicionar',
-            name_prefix: 'user_skills[skils]',
-        });
-    })
+  $(document).ready(function () { $('.califications-collection').collection({
+  add: `<a class="btn btn-primary mt-2" href="#">
+    <i class="fa fa-plus"></i> Adicionar
+  </a>`, allow_up: false, allow_down: false, allow_duplicate: false,
+  add_at_the_end: true, buttonLabel: 'Adicionar', name_prefix:
+  'user_skills[skils]', }); })
 </script>

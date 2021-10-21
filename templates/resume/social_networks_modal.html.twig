@@ -1,174 +1,193 @@
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12">
-            <form method="post" action="{{ path('ajax_social') }}" id="social-form">
-                <div class="input-group m-3">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text"><i
-                                    class="fab fa-facebook-f"></i>
-                        </div>
-                    </div>
-                    {% if app.user.sociallinks["fb"] is defined %}
-                        <input name="fb"
-                               value="{{ app.user.sociallinks["fb"] }}"
-                               type="text" class="form-control"
-                               placeholder="https://www.facebook.com/username">
-                    {% else %}
-                        <input name="fb"
-                               type="text" class="form-control"
-                               placeholder="https://www.facebook.com/username">
-                    {% endif %}
-                </div>
-                <div class="input-group m-3">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text"><i
-                                    class="fab fa-twitter"></i>
-                        </div>
-                    </div>
-                    {% if app.user.sociallinks["twitter"] is defined %}
-                        <input name="twitter"
-                               value="{{ app.user.sociallinks["twitter"] }}"
-                               type="text" class="form-control"
-                               placeholder="https://www.twitter.com/username">
-                    {% else %}
-                        <input name="twitter"
-                               type="text" class="form-control"
-                               placeholder="https://www.twitter.com/username">
-                    {% endif %}
-                </div>
-
-
-                <div class="input-group m-3">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text"><i
-                                    class="fab fa-google-plus"></i>
-                        </div>
-                    </div>
-                    {% if app.user.sociallinks["google"] is defined %}
-                        <input name="google"
-                               value="{{ app.user.sociallinks["google"] }}"
-                               type="text" class="form-control"
-                               placeholder="https://www.google.com/username">
-                    {% else %}
-                        <input name="google"
-                               type="text" class="form-control"
-                               placeholder="https://www.google.com/username">
-                    {% endif %}
-                </div>
-
-                <div class="input-group m-3">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text"><i
-                                    class="fab fa-linkedin-in"></i>
-                        </div>
-                    </div>
-                    {% if app.user.sociallinks["linkedin"] is defined %}
-                        <input name="linkedin"
-                               value="{{ app.user.sociallinks["linkedin"] }}"
-                               type="text" class="form-control"
-                               placeholder="https://www.linkedin.com/username">
-                    {% else %}
-                        <input name="linkedin"
-                               type="text" class="form-control"
-                               placeholder="https://www.linkedin.com/username">
-                    {% endif %}
-                </div>
-
-                <div class="input-group m-3">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text"><i
-                                    class="fab fa-pinterest-p"></i>
-                        </div>
-                    </div>
-                    {% if app.user.sociallinks["printerest"] is defined %}
-                        <input name="printerest"
-                               value="{{ app.user.sociallinks["printerest"] }}"
-                               type="text" class="form-control"
-                               placeholder="https://www.pinterest.com/username">
-                    {% else %}
-                        <input name="printerest"
-                               type="text" class="form-control"
-                               placeholder="https://www.pinterest.com/username">
-                    {% endif %}
-                </div>
-
-                <div class="input-group m-3">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text"><i
-                                    class="fab fa-instagram"></i>
-                        </div>
-                    </div>
-                    {% if app.user.sociallinks["instagram"] is defined %}
-                        <input name="instagram"
-                               value="{{ app.user.sociallinks["instagram"] }}"
-                               type="text" class="form-control"
-                               placeholder="https://www.instagram.com/username">
-                    {% else %}
-                        <input name="instagram"
-                               type="text" class="form-control"
-                               placeholder="https://www.instagram.com/username">
-                    {% endif %}
-                </div>
-
-                <div class="input-group m-3">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text"><i
-                                    class="fab fa-behance"></i>
-                        </div>
-                    </div>
-                    {% if app.user.sociallinks["behance"] is defined %}
-                        <input name="behance"
-                               value="{{ app.user.sociallinks["behance"] }}"
-                               type="text" class="form-control"
-                               placeholder="https://www.behance.com/username">
-                    {% else %}
-                        <input name="behance"
-                               type="text" class="form-control"
-                               placeholder="https://www.behance.com/username">
-                    {% endif %}
-                </div>
-
-                <div class="input-group m-3">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text"><i
-                                    class="fab fa-dribbble"></i>
-                        </div>
-                    </div>
-                    {% if app.user.sociallinks["dribbble"] is defined %}
-                        <input name="dribbble"
-                               value="{{ app.user.sociallinks["dribbble"] }}"
-                               type="text" class="form-control"
-                               placeholder="https://www.dribbble.com/username">
-                    {% else %}
-                        <input name="dribbble"
-                               type="text" class="form-control"
-                               placeholder="https://www.dribbble.com/username">
-                    {% endif %}
-                </div>
-
-                <div class="input-group m-3">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text"><i
-                                    class="fab fa-github"></i></div>
-                    </div>
-                    {% if app.user.sociallinks["github"] is defined %}
-                        <input name="github"
-                               value="{{ app.user.sociallinks["github"] }}"
-                               type="text" class="form-control"
-                               placeholder="https://www.github.com/username">
-                    {% else %}
-                        <input name="github"
-                               type="text" class="form-control"
-                               placeholder="https://www.github.com/username">
-                    {% endif %}
-
-                </div>
-                <div class="col-md-12">
-                    <div class="buttons">
-                        <button class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
-                    </div>
-                </div>
-            </form>
+  <div class="row">
+    <div class="col-md-12">
+      <form method="post" action="{{ path('ajax_social') }}" id="social-form">
+        <div class="input-group m-3">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <i class="fab fa-facebook-f"></i>
+            </div>
+          </div>
+          {% if app.user.sociallinks['fb'] is defined %}
+            <input name="fb"
+              value="{{ app.user.sociallinks['fb'] }}"
+              type="text"
+              class="form-control"
+              placeholder="https://www.facebook.com/username" />
+          {% else %}
+            <input name="fb"
+              type="text"
+              class="form-control"
+              placeholder="https://www.facebook.com/username" />
+          {% endif %}
         </div>
+        <div class="input-group m-3">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <i class="fab fa-twitter"></i>
+            </div>
+          </div>
+          {% if app.user.sociallinks['twitter'] is defined %}
+            <input name="twitter"
+              value="{{ app.user.sociallinks['twitter'] }}"
+              type="text"
+              class="form-control"
+              placeholder="https://www.twitter.com/username" />
+          {% else %}
+            <input name="twitter"
+              type="text"
+              class="form-control"
+              placeholder="https://www.twitter.com/username" />
+          {% endif %}
+        </div>
+
+        <div class="input-group m-3">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <i class="fab fa-google-plus"></i>
+            </div>
+          </div>
+          {% if app.user.sociallinks['google'] is defined %}
+            <input name="google"
+              value="{{ app.user.sociallinks['google'] }}"
+              type="text"
+              class="form-control"
+              placeholder="https://www.google.com/username" />
+          {% else %}
+            <input name="google"
+              type="text"
+              class="form-control"
+              placeholder="https://www.google.com/username" />
+          {% endif %}
+        </div>
+
+        <div class="input-group m-3">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <i class="fab fa-linkedin-in"></i>
+            </div>
+          </div>
+          {% if app.user.sociallinks['linkedin'] is defined %}
+            <input name="linkedin"
+              value="{{ app.user.sociallinks['linkedin'] }}"
+              type="text"
+              class="form-control"
+              placeholder="https://www.linkedin.com/username" />
+          {% else %}
+            <input name="linkedin"
+              type="text"
+              class="form-control"
+              placeholder="https://www.linkedin.com/username" />
+          {% endif %}
+        </div>
+
+        <div class="input-group m-3">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <i class="fab fa-pinterest-p"></i>
+            </div>
+          </div>
+          {% if app.user.sociallinks['printerest'] is defined %}
+            <input name="printerest"
+              value="{{ app.user.sociallinks['printerest'] }}"
+              type="text"
+              class="form-control"
+              placeholder="https://www.pinterest.com/username" />
+          {% else %}
+            <input name="printerest"
+              type="text"
+              class="form-control"
+              placeholder="https://www.pinterest.com/username" />
+          {% endif %}
+        </div>
+
+        <div class="input-group m-3">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <i class="fab fa-instagram"></i>
+            </div>
+          </div>
+          {% if app.user.sociallinks['instagram'] is defined %}
+            <input name="instagram"
+              value="{{ app.user.sociallinks['instagram'] }}"
+              type="text"
+              class="form-control"
+              placeholder="https://www.instagram.com/username" />
+          {% else %}
+            <input name="instagram"
+              type="text"
+              class="form-control"
+              placeholder="https://www.instagram.com/username" />
+          {% endif %}
+        </div>
+
+        <div class="input-group m-3">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <i class="fab fa-behance"></i>
+            </div>
+          </div>
+          {% if app.user.sociallinks['behance'] is defined %}
+            <input name="behance"
+              value="{{ app.user.sociallinks['behance'] }}"
+              type="text"
+              class="form-control"
+              placeholder="https://www.behance.com/username" />
+          {% else %}
+            <input name="behance"
+              type="text"
+              class="form-control"
+              placeholder="https://www.behance.com/username" />
+          {% endif %}
+        </div>
+
+        <div class="input-group m-3">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <i class="fab fa-dribbble"></i>
+            </div>
+          </div>
+          {% if app.user.sociallinks['dribbble'] is defined %}
+            <input name="dribbble"
+              value="{{ app.user.sociallinks['dribbble'] }}"
+              type="text"
+              class="form-control"
+              placeholder="https://www.dribbble.com/username" />
+          {% else %}
+            <input name="dribbble"
+              type="text"
+              class="form-control"
+              placeholder="https://www.dribbble.com/username" />
+          {% endif %}
+        </div>
+
+        <div class="input-group m-3">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <i class="fab fa-github"></i>
+            </div>
+          </div>
+          {% if app.user.sociallinks['github'] is defined %}
+            <input name="github"
+              value="{{ app.user.sociallinks['github'] }}"
+              type="text"
+              class="form-control"
+              placeholder="https://www.github.com/username" />
+          {% else %}
+            <input name="github"
+              type="text"
+              class="form-control"
+              placeholder="https://www.github.com/username" />
+          {% endif %}
+        </div>
+        <div class="col-md-12">
+          <div class="buttons">
+            <button class="btn btn-primary mt-5">
+              <i class="fas fa-save"></i> Guardar
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
+  </div>
 </div>

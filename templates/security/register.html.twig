@@ -230,7 +230,7 @@
             <img class="img-custom" src="{{ asset('build/backend/images/lolo_last.svg') }}"/>
 
 
-            {{ form_start(form, { 'attr': {'id': 'regForm'} }) }}
+            {{ form_start(form, { 'attr': {'id': 'regForm'} }) }} 
 
             <h2>Registro:</h2>
             <!-- One "tab" for each step in the form: -->
@@ -268,6 +268,19 @@
                 <p>{{ form_widget(form.plainPassword.second,{'attr' :{'oninput':'this.className'}}) }}</p>
             </div>
 
+            <div class="tab">Términos y condiciones:
+                <div class="row mt-5">
+                    <div class="col-md-1 pt-2">
+                        <input type="checkbox" id="terminos"> 
+                    </div>
+                    <div class="col-md-11">
+                    <label for="terminos">
+                        <p style="display:inline"> Acepto los <a target="_blanck" href="{{path('site_policy')}}">Terminos y condiciones</a></p>
+                    </label>
+                    </div>
+                </div>
+            </div>
+
             <div style="overflow:auto;">
                 <div style="float:right;">
                     <button type="button" id="prevBtn" class="btn btn-primary" onclick="nextPrev(-1)">Anterior</button>
@@ -277,6 +290,7 @@
 
             <!-- Circles which indicates the steps of the form: -->
             <div style="text-align:center;margin-top:40px;">
+                <span class="step"></span>
                 <span class="step"></span>
                 <span class="step"></span>
                 <span class="step"></span>
