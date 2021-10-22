@@ -1,11 +1,10 @@
 {% extends 'site/base.html.twig' %}
 {% block title %}
   Candidatos
+  
 {% endblock %}
 {% block headerScript %}
-  <script src="https://pay.payphonetodoesposible.com/api/button/js?appId={{
-    package.identificador
-    }}"></script>
+  <script src="https://pay.payphonetodoesposible.com/api/button/js?appId={{ package.identificador }}"></script>
   <script>
     window.onload = function() { payphone.Button({
       token:"{{ package.token }}",
@@ -38,9 +37,7 @@
 {% block body %}
   {# {{ dump(package) }} #}
   {% include 'site/header.html.twig' %}
-  <link rel="stylesheet"
-    type="text/css"
-    href="{{ asset('site/dashboard/css/dashboard.css') }}" />
+  <link rel="stylesheet" type="text/css" href="{{ asset('site/dashboard/css/dashboard.css') }}" />
   <div class="alice-bg padding-top-70 padding-bottom-70">
     <div class="container">
       <div class="row">
@@ -48,14 +45,18 @@
           <div class="breadcrumb-area">
             <h1>
               Página de pago
+                          
             </h1>
             <nav aria-label="breadcrumb">
               <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                  <a href="{{ path('homepage') }}">Inicio</a>
+                  <a href="{{ path('homepage') }}">
+                    Inicio
+                  </a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">
                   Página de pago
+                                  
                 </li>
               </ol>
             </nav>
@@ -78,6 +79,7 @@
                   <div class="row">
                     <label class="col-md-3 col-form-label">
                       Detalles de su paquete
+                                          
                     </label>
                     <div class="col-md-9">
                       <div class="row">
@@ -86,18 +88,24 @@
                             <div class="package-select-inputs">
                               <div class="pricing starter">
                                 <span class="package-title">
-                                  Paquete {{ package.name }}
+                                  Paquete 
+                                  {{ package.name }}
                                 </span>
-                                <hr />
+                                <hr/>
                                 <div class="package-info">
                                   <h3 class="monthly-rate">
-                                    <span>${{ package.price }}</span>/{{
-                                      package.visibleDays
-                                    }}
+                                    <span>
+                                      $
+                                      {{ package.price }}
+                                    </span>
+                                    /
+                                    {{ package.visibleDays }}
                                     Días
+                                                                      
                                   </h3>
                                   <p class="user-number">
                                     Máximo de publicaciones
+                                                                        
                                     <strong>
                                       {{ package.anouncementsNumberMax }}
                                     </strong>
@@ -106,14 +114,17 @@
                                 <div class="features">
                                   <h6>
                                     Caracteristicas
+                                                                      
                                   </h6>
                                   <ul>
                                     <li>
                                       Anuncio destacado
+                                                                            
                                       <strong>
                                         {{ package.daysImportants }}
                                       </strong>
                                       días
+                                                                          
                                     </li>
                                   </ul>
                                 </div>
@@ -137,20 +148,29 @@
                 <div class="payment-summery">
                   <h4>
                     Resumen
+                                      
                   </h4>
                   <ul>
                     <li class="payment-list">
-                      <span class="title">Plan de inicio</span>
-                      <span class="amount">${{ package.price }}</span>
+                      <span class="title">
+                        Plan de inicio
+                      </span>
+                      <span class="amount">
+                        $
+                        {{ package.price }}
+                      </span>
                     </li>
-                    <li class="payment-list">
-                      {# <span class="amount">${{ package.price }}</span> #}
+                    <li class="payment-list">{# <span class="amount">${{ package.price }}</span> #}
                     </li>
                   </ul>
                   <div class="total-amount">
-                    <span class="title">Precio Final</span><span class="amount">${{
-                        package.price
-                      }}</span>
+                    <span class="title">
+                      Precio Final
+                    </span>
+                    <span class="amount">
+                      $
+                      {{ package.price }}
+                    </span>
                   </div>
                 </div>
               </div>

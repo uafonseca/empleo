@@ -46,7 +46,11 @@ class UserFullyEmployerType extends AbstractType
             ->add('videoIntro',UrlType::class,array('required'=>false))
             ->add('socialFacebook',null,array('required'=>false))
             ->add('socialTwitter',null,array('required'=>false))
-            ->add('socialGoogle',null,array('required'=>false));
+            ->add('socialGoogle',null,array('required'=>false))
+            ->add('ruc',null,[
+                'label' => 'RUC',
+                'required' => true
+            ]);
     }
     public function configureOptions(OptionsResolver $resolver)
     {

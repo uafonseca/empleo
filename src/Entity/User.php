@@ -285,6 +285,12 @@ class User extends BaseUser
      */
     private $userJobMetadata;
 
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     * @var string
+     */
+    protected $ruc;
+
     public function __construct()
     {
         parent::__construct();
@@ -1401,4 +1407,28 @@ class User extends BaseUser
     }
 
 
+
+    /**
+     * Get the value of ruc
+     *
+     * @return  string
+     */
+    public function getRuc()
+    {
+        return $this->ruc;
+    }
+
+    /**
+     * Set the value of ruc
+     *
+     * @param  string  $ruc
+     *
+     * @return  self
+     */
+    public function setRuc(string $ruc)
+    {
+        $this->ruc = $ruc;
+
+        return $this;
+    }
 }

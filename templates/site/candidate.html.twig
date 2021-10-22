@@ -1,157 +1,195 @@
 {% extends 'site/base.html.twig' %}
-{% block title %}Candidatos{% endblock %}
+{% block title %}
+    Candidatos
+{% endblock %}
 {% block body %}
     {% include'site/header.html.twig' %}
     <link rel="stylesheet" type="text/css" href="{{ asset('site/dashboard/css/dashboard.css') }}">
 
-    <div class="alice-bg padding-top-70 padding-bottom-70">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="breadcrumb-area">
-                        <h1>Listado de candidatos</h1>
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{{ path('homepage') }}">Inicio</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Listado de candidatos</li>
-                            </ol>
-                        </nav>
+        <div class="alice-bg padding-top-70 padding-bottom-70">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="breadcrumb-area">
+                            <h1>
+                                Listado de candidatos
+                            </h1>
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <a href="{{ path('homepage') }}">
+                                            Inicio
+                                        </a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">
+                                        Listado de candidatos
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="alice-bg section-padding-bottom">
-        <div class="container no-gliters">
-            <div class="row no-gliters">
-                <div class="col">
-                    <div class="dashboard-container">
-                        <div class="dashboard-content-wrapper">
-                            <div class="manage-candidate-container">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Status</th>
-                                        <th class="action">Action</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for candidate in candidates %}
-                                        <tr class="candidates-list">
-                                            <td class="title">
-                                                <div class="thumb">
-                                                    {% if candidate.image is not null %}
-                                                    <a href="{{ path('resume_view', {'id': candidate.id}) }}">
-                                                        <img src="{{ asset('images/user/_files_')~candidate.username~'/'~ candidate.image }}"
-                                                             class="img-fluid" alt="">
-                                                    </a>
-                                                    {% else %}
-                                                        {% if candidate.gender == 'M' %}
-                                                    <a href="{{ path('resume_view', {'id': candidate.id}) }}">
-                                                            <img href="{{ path('resume_view', {'id': candidate.id}) }}" src="{{ asset('images/default/man_logo.jpg') }}"
-                                                                 class="img-fluid" alt="">
-                                                    </a>
-                                                        {% elseif  candidate.gender == 'F' %}
-                                                    <a href="{{ path('resume_view', {'id': candidate.id}) }}">
-                                                            <img src="{{ asset('images/default/woman_logo.jpg') }}"
-                                                                 class="img-fluid" alt="">
-                                                    </a>
-                                                        {% else %}
-                                                            <a href="{{ path('resume_view', {'id': candidate.id}) }}">
-                                                                <img  src="{{ asset('images/default/not_image_user.png') }}"
-                                                                      class="img-fluid" alt="">
-                                                            </a>
-                                                        {% endif %}
-                                                    {% endif %}
-                                                </div>
-                                                <div class="body">
-                                                    <h5>
-                                                        <a href="{{ path('resume_view', {'id': candidate.id}) }}">{{ candidate.username }}</a>
-                                                    </h5>
-                                                    <div class="info">
-                                                        {% if candidate.category|length > 0 %}
-                                                            <span class="designation"><a href="#"><i
-                                                                            data-feather="check-square"></i>{% for cat in candidate.category %}{{ cat }}{% endfor %}</a></span>
-                                                        {% else %}
-                                                            <span class="designation"><a href="#"><i
-                                                                            data-feather="check-square"></i>No definido</a></span>
-                                                        {% endif %}
-                                                        <span class="location">
-                                                            <a href="#"><i data-feather="map-pin"></i>
-                                                                {% if candidate.address is not null %}{{ candidate.address }}{% else %}No definido{% endif %}</a></span>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="status"><i data-feather="check-circle"></i>Preseleccionado</td>
-                                            <td class="action">
-                                                {#{{ dump(candidate) }}#}
-                                                {% if candidate.resume.cv is not empty %}
-                                                    <a href="{{ path('dowload_cv', {'name': candidate.resume.cv, 'username': candidate.username}) }}"
-                                                       class="download"><i data-feather="download"></i></a>
-                                                {% else %}
-                                                    <a href="#"
-                                                       onclick="alert('El usuario no ha definido un currículum')"
-                                                       class="download"><i data-feather="download"></i></a>
-                                                {% endif %}
-                                                <a href="#" data-toggle="modal" data-target="#modal-{{ candidate.id }}"
-                                                   class="inbox"><i data-feather="mail"></i></a>
-                                                <a href="#" class="remove"><i data-feather="trash-2"></i></a>
-                                            </td>
-                                        </tr>
-                                        <div class="modal fade" id="modal-{{ candidate.id }}" tabindex="-1"
-                                             role="dialog"
-                                             aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <p>Se enviara un email a {{ candidate.username }}</p>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <form id="send-email-candidate" method="post" action="/ajax/send/email/candidate">
-                                                            <div class="container">
-                                                                <div class="row">
-                                                                    <div class="col-sm-12">
-                                                                        <label for="email-subejct">Asunto</label>
-                                                                        <input required id="email-subejct" class="form-control"
-                                                                               type="text" name="email_subject">
-                                                                        <label for="email-body">Contenido</label>
-                                                                        <textarea required class="form-control" name="email_body"
-                                                                                  id="email-body" cols="30"
-                                                                                  rows="10"></textarea>
-                                                                        <input type="hidden" name="email" value="{{ candidate.email }}">
-                                                                        <input type="hidden" id="id" name="id" value="{{ candidate.id }}">
-                                                                        <br>
-                                                                        <button class="button btn-primary"
-                                                                                type="submit">Enviar
-                                                                        </button>
-                                                                    </div>
+        <div class="alice-bg section-padding-bottom">
+            <div class="container no-gliters">
+                <div class="row no-gliters">
+                    <div class="col">
+                        <div class="dashboard-container">
+                            <div class="dashboard-content-wrapper">
+                                <div class="manage-candidate-container">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>
+                                                    Status
+                                                </th>
+                                                <th class="action">
+                                                    Action
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for candidate in candidates %}
+                                                <tr class="candidates-list">
+                                                    <td class="title">
+                                                        <div class="thumb">
+                                                            {% if candidate.image is not null %}
+                                                                <a href="{{ path('resume_view', {'id': candidate.id}) }}">
+                                                                    <img src="{{ asset('images/user/_files_')~candidate.username~'/'~ candidate.image }}" class="img-fluid" alt=""></a>
+                                                                {% else %}
+                                                                    {% if candidate.gender == 'M' %}
+                                                                        <a href="{{ path('resume_view', {'id': candidate.id}) }}">
+                                                                            <img href="{{ path('resume_view', {'id': candidate.id}) }}" src="{{ asset('images/default/man_logo.jpg') }}" class="img-fluid" alt=""></a>
+                                                                        {% elseif  candidate.gender == 'F' %}
+                                                                            <a href="{{ path('resume_view', {'id': candidate.id}) }}">
+                                                                                <img src="{{ asset('images/default/woman_logo.jpg') }}" class="img-fluid" alt=""></a>
+                                                                            {% else %}
+                                                                                <a href="{{ path('resume_view', {'id': candidate.id}) }}">
+                                                                                    <img src="{{ asset('images/default/not_image_user.png') }}" class="img-fluid" alt=""></a>
+                                                                                {% endif %}
+                                                                            {% endif %}
+                                                                        </div>
+                                                                        <div class="body">
+                                                                            <h5>
+                                                                                <a href="{{ path('resume_view', {'id': candidate.id}) }}">
+                                                                                    {{ candidate.username }}
+                                                                                </a>
+                                                                            </h5>
+                                                                            <div class="info">
+                                                                                {% if candidate.category|length > 0 %}
+                                                                                    <span class="designation">
+                                                                                        <a href="#">
+                                                                                            <i data-feather="check-square"></i>
+                                                                                            {% for cat in candidate.category %}
+                                                                                                {{ cat }}
+                                                                                            {% endfor %}
+                                                                                        </a>
+                                                                                    </span>
+                                                                                {% else %}
+                                                                                    <span class="designation">
+                                                                                        <a href="#">
+                                                                                            <i data-feather="check-square"></i>
+                                                                                            No definido
+                                                                                        </a>
+                                                                                    </span>
+                                                                                {% endif %}
+                                                                                <span class="location">
+                                                                                    <a href="#">
+                                                                                        <i data-feather="map-pin"></i>
+                                                                                        {% if candidate.address is not null %}
+                                                                                            {{ candidate.address }}
+                                                                                        {% else %}
+                                                                                            No definido
+                                                                                        {% endif %}
+                                                                                    </a>
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td class="status">
+                                                                        <i data-feather="check-circle"></i>
+                                                                        Preseleccionado
+                                                                    </td>
+                                                                    <td class="action">
+                                                                        {#{{ dump(candidate) }}#}
+                                                                        {% if candidate.resume.cv is not empty %}
+                                                                            <a href="{{ path('dowload_cv', {'name': candidate.resume.cv, 'username': candidate.username}) }}" class="download">
+                                                                                <i data-feather="download"></i>
+                                                                            </a>
+                                                                        {% else %}
+                                                                            <a href="#" onclick="alert('El usuario no ha definido un currículum')" class="download">
+                                                                                <i data-feather="download"></i>
+                                                                            </a>
+                                                                        {% endif %}
+                                                                        <a href="#" data-toggle="modal" data-target="#modal-{{ candidate.id }}" class="inbox">
+                                                                            <i data-feather="mail"></i>
+                                                                        </a>
+                                                                        <a href="#" class="remove">
+                                                                            <i data-feather="trash-2"></i>
+                                                                        </a>
+                                                                    </td>
+                                                                </tr>
+                                                                <div class="modal fade" id="modal-{{ candidate.id }}" tabindex="-1" role="dialog" aria-hidden="true">
+                                                                    <div class="modal-dialog" role="document">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <p>
+                                                                                    Se enviara un email a 
+                                                                                    {{ candidate.username }}
+                                                                                </p>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <form id="send-email-candidate" method="post" action="/ajax/send/email/candidate">
+                                                                                    <div class="container">
+                                                                                        <div class="row">
+                                                                                            <div class="col-sm-12">
+                                                                                                <label for="email-subejct">
+                                                                                                    Asunto
+                                                                                                </label>
+                                                                                                <input required id="email-subejct" class="form-control" type="text" name="email_subject">
+                                                                                                    <label for="email-body">
+                                                                                                        Contenido
+                                                                                                    </label>
+                                                                                                    <textarea required class="form-control" name="email_body" id="email-body" cols="30" rows="10"></textarea>
+                                                                                                    <input type="hidden" name="email" value="{{ candidate.email }}">
+                                                                                                        <input type="hidden" id="id" name="id" value="{{ candidate.id }}">
+                                                                                                            <br>
+                                                                                                                <button class="button btn-primary" type="submit">
+                                                                                                                    Enviar
+                                                                                                                                                                                            
+                                                                                                                </button>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </form>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            {% endfor %}
+                                                                        </tbody>
+                                                                    </table>
+
                                                                 </div>
                                                             </div>
-                                                        </form>
+                                                            {% if is_granted('ROLE_USER') %}
+                                                                {% include ('user/dashboard_sidebar.html.twig') %}
+                                                            {% elseif is_granted('ROLE_ADMIN') %}
+                                                                {% include ('user/employer/dashboard_sidebar.html.twig') %}
+                                                            {% endif %}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
 
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
-
-                            </div>
-                        </div>
-                        {% if is_granted('ROLE_USER') %}{% include ('user/dashboard_sidebar.html.twig') %}{% elseif is_granted('ROLE_ADMIN') %}
-                            {% include ('user/employer/dashboard_sidebar.html.twig') %}{% endif %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
-
-
-{% endblock %}
-{% block js %}
-    <script src="{{ asset('site/js/ajax.js') }}"></script>
-{% endblock %}
+                                {% endblock %}
+                                {% block js %}
+                                    <script src="{{ asset('site/js/ajax.js') }}"></script>
+                                {% endblock %}
+                                

@@ -1,0 +1,30 @@
+{% extends 'backend/base.html.twig' %}
+
+{% block context %}
+  <div class="card">
+    <div class="card-header">
+      <h6>Reporte de ventas mensual</h6>
+        <form id="searchForm" action="" method="get">
+          <select id="months" name="mont" class="form-control" style="width: 200px;">
+            <option value="-1">--MES--</option>
+            {% for m in months %}
+                <option {% if app.request.get('mont') is defined and app.request.get('mont') == m['value']%}selected{% endif %} value={{ m['value'] }}>{{ m['text'] }}</option>
+            {% endfor %}
+          </select>
+        </form>
+    </div>
+    <div class="card-body">
+      {{ sg_datatables_render_html(datatable) }}
+    </div>
+  </div>
+{% endblock %}
+{% block scripts %}
+  {{ sg_datatables_render_js(datatable) }}
+  <script>
+    $(document).ready(function(){
+      $('#months').change(function(e){
+        $('#searchForm').submit();
+      })
+    })
+  </script>
+{% endblock %}

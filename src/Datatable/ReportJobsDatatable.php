@@ -8,8 +8,7 @@
 
 namespace App\Datatable;
 
-use App\Entity\Category;
-use App\Entity\PaymentForJobs;
+use App\Entity\Job;
 use App\Entity\PaymentForJobsMetadata;
 use Exception;
 use Sg\DatatablesBundle\Datatable\AbstractDatatable;
@@ -22,17 +21,17 @@ use Sg\DatatablesBundle\Datatable\Column\VirtualColumn;
  * Class CategoryDatatable
  * @package App\Datatable
  */
-class PaymentForJobDatatable extends AbstractDatatable
+class ReportJobsDatatable extends AbstractDatatable
 {
     public function getLineFormatter()
     {
         return function ($row) {
-            /** @var PaymentForJobsMetadata obj */
+            /** @var Job obj */
             $obj = $this->getEntityManager()
-                ->getRepository(PaymentForJobsMetadata::class)
+                ->getRepository(Job::class)
                 ->find($row['id']);
 
-            $row['date'] = $obj->getDatePurchase()->format('d/m/Y h:i');
+                $row['date'] = $obj->getDateCreated()->format('d/m/Y h:i');
             return $row;
         };
     }
@@ -62,30 +61,23 @@ class PaymentForJobDatatable extends AbstractDatatable
                 'visible' => false,
             ])
             ->add('date', VirtualColumn::class, [
-                'title' => 'Fecha de venta',
-            ])
-            ->add('package.name', Column::class, [
-                'title' => 'Tipo de plan',
+                'title' => 'Fecha de publicación',
                 'visible' => true,
             ])
-            ->add('package.price', Column::class, [
-                'title' => 'Valor(USD)',
+            ->add('category.name', Column::class, [
+                'title' => 'Categoría',
                 'visible' => true,
             ])
             ->add('user.companyName', Column::class, [
-                'title' => 'Empresa',
+                'title' => 'Empresa a la que aplica',
                 'visible' => true,
             ])
-            ->add('user.ruc', Column::class, [
-                'title' => 'RUC',
+            ->add('user.name', Column::class, [
+                'title' => 'Nombre de usuario',
                 'visible' => true,
             ])
             ->add('user.email', Column::class, [
-                'title' => 'Contacto',
-                'visible' => true,
-            ])
-            ->add('user.address', Column::class, [
-                'title' => 'Dirección',
+                'title' => 'Correo',
                 'visible' => true,
             ])
             ->add('user.phone', Column::class, [
@@ -100,7 +92,7 @@ class PaymentForJobDatatable extends AbstractDatatable
      */
     public function getEntity()
     {
-        return PaymentForJobsMetadata::class;
+        return Job::class;
     }
 
     /**
