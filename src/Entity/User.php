@@ -291,6 +291,16 @@ class User extends BaseUser
      */
     protected $ruc;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Consulta::class, mappedBy="user")
+     */
+    private $consultas;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ClientTransaction::class, mappedBy="user")
+     */
+    private $clientTransactions;
+
     public function __construct()
     {
         parent::__construct();
@@ -313,6 +323,8 @@ class User extends BaseUser
         $this->paymentForJobsMetadata = new ArrayCollection();
         $this->paymentForServicesMetadata = new ArrayCollection();
         $this->userJobMetadata = new ArrayCollection();
+        $this->consultas = new ArrayCollection();
+        $this->clientTransactions = new ArrayCollection();
     }
 
     /**
@@ -1428,6 +1440,66 @@ class User extends BaseUser
     public function setRuc(string $ruc)
     {
         $this->ruc = $ruc;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Consulta[]
+     */
+    public function getConsultas(): Collection
+    {
+        return $this->consultas;
+    }
+
+    public function addConsulta(Consulta $consulta): self
+    {
+        if (!$this->consultas->contains($consulta)) {
+            $this->consultas[] = $consulta;
+            $consulta->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConsulta(Consulta $consulta): self
+    {
+        if ($this->consultas->removeElement($consulta)) {
+            // set the owning side to null (unless already changed)
+            if ($consulta->getUser() === $this) {
+                $consulta->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ClientTransaction[]
+     */
+    public function getClientTransactions(): Collection
+    {
+        return $this->clientTransactions;
+    }
+
+    public function addClientTransaction(ClientTransaction $clientTransaction): self
+    {
+        if (!$this->clientTransactions->contains($clientTransaction)) {
+            $this->clientTransactions[] = $clientTransaction;
+            $clientTransaction->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClientTransaction(ClientTransaction $clientTransaction): self
+    {
+        if ($this->clientTransactions->removeElement($clientTransaction)) {
+            // set the owning side to null (unless already changed)
+            if ($clientTransaction->getUser() === $this) {
+                $clientTransaction->setUser(null);
+            }
+        }
 
         return $this;
     }

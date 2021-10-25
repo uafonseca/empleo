@@ -1,306 +1,403 @@
 <header>
-	<nav class="navbar navbar-expand-xl absolute-nav  cp-nav navbar-light bg-light fluid-nav" style="opacity: 0.9;">
-		<a class="navbar-brand" href="{{ path('homepage') }}">
-			<img src="{{ asset('build/backend/images/lolo_last.svg') }}" class="img-fluid" alt="" width="200">
-		</a>
-		<button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="navbar-nav ml-auto main-nav">
-				<li class="menu-item active">
-					<a title="Home" href="{{ path('homepage') }}">Inicio</a>
-				</li>
-				<li class="menu-item active">
-					<a title="Home" href="{{ path('listado_companias') }}">Empresas</a>
-				</li>
-				{% if is_granted('ROLE_SUPER_ADMIN') %}
-					<li class="menu-item dropdown">
-						<a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">Administración
-						</a>
-						<ul class="dropdown-menu">
-							<li class="menu-item">
-								<a title="About" href="{{ path('backend') }}">Panel de
-									                                    administración</a>
-							</li>
-						</ul>
-					</li>
-				{% endif %}
-				<li class="menu-item dropdown">
-					<a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">Empleos
-					</a>
-					<ul class="dropdown-menu">
-						<li class="menu-item">
-							<a title="About" href="{{ path('job_list') }}">Listado de Empleos</a>
-						</li>
-						{# {% if is_granted('ROLE_ADMIN') %}
-						                            <li class="menu-item"><a title="About" href="{{ path('job_new') }}">Publicar empleo</a></li>
-						                        {% endif %} #}
-					</ul>
-				</li>
-				<li
-					class="menu-item dropdown">
-					{# <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true"
-					                       aria-expanded="false">Servicios </a> #}
-					<ul
-						class="dropdown-menu">
-						{# <li class="menu-item"><a title="About" href="{{ path('service_list') }}">Listado de
-						                                servicios</a></li> #}
-						{% if is_granted('ROLE_USER') %}
-							{# <li class="menu-item"><a title="About" href="{{ path('service_new') }}">Publicar
-							                                    servicio</a></li> #}
-						{% endif %}
-					</ul>
-				</li>
-				{% if is_granted('ROLE_ADMIN') %}
-					<li class="menu-item dropdown">
-						<a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">Empleador</a>
-						<ul class="dropdown-menu">
-							{#                            {% if is_granted('ROLE_SUPER_ADMIN') %}#}
-							{#                                <li class="menu-item"><a title="About" href="#">Listado de empleadores</a></li>#}
-							{#                            {% endif %}#}
-							{# <li class="menu-item"><a title="About" href="{{ path('candidates') }}">Lista de 
-							                                    candidatos</a></li> #}
-								<li class="menu-item"> <a title="About" href="{{ path('dashboard') }}">Tablero</a>
-							</li>
-							<li class="menu-item">
-								<a title="About" href="{{ path('manage_candidates') }}">Gestión de
-									                                    candidatos</a>
-							</li>
-							<li class="menu-item">
-								<a title="About" href="{{ path('job_manage') }}">Gestionar trabajos</a>
-							</li>
-							<li class="menu-item">
-								<a title="About" href="{{ path('job_new') }}">Publicar trabajo</a>
-								{# <li class="menu-item"><a title="About" href="{{ path('my_services_list') }}">Servicios creados</a>
-								                            </li> #}
-							</li>
-						</ul>
-					</li>
-				{% elseif is_granted('ROLE_USER') %}
-					<li class="menu-item dropdown">
-						<a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">Usuario</a>
-						<ul class="dropdown-menu">
-							<li class="menu-item">
-								<a title="About" href="{{ path('dashboard') }}">Tablero</a>
-							</li>
-							<li class="menu-item">
-								<a title="About" href="{{ path('dashboard_edit') }}">Editar perfil</a>
-							</li>
-							<li class="menu-item">
-								<a title="About" href="{{ path('dashboard_resume_edit') }}">Agregar
-									                                    Curriculum Vitae</a>
-							</li>
-							<li class="menu-item">
-								<a title="About" href="{{ path('dashboard_resume') }}">CV</a>
-							</li>
-							<li class="menu-item">
-								<a title="About" href="{{ path('dashboard_resume_edit') }}">Editar
-									                                    Curriculum Vitae</a>
-							</li>
-							<li class="menu-item">
-								<a title="About" href="{{ path('dashboard_bookmarked') }}">Marcados</a>
-							</li>
-							<li class="menu-item">
-								<a title="About" href="{{ path('dashboard_applied') }}">Trabajos aplicados</a>
-								{# <li class="menu-item"><a title="About" href="{{ path('load_services_request') }}">Servicios solicitados</a></li> #}
-							</li>
-						</ul>
-					</li>
-				{% endif %}
-				<li class="menu-item dropdown">
-					<a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">Páginas</a>
-					<ul class="dropdown-menu">
-						<li class="menu-item">
-							<a title="About" href="{{ path('static_page_view', {'type': constant('App\\Entity\\StaticPage::TYPE_ABOUT') |url_encode}) }}">Sobre
-								                                Nosotros</a>
-						</li>
-						<li class="menu-item">
-							<a title="About" href="{{ path('static_page_view', {'type': constant('App\\Entity\\StaticPage::TYPE_CONTACT')|url_encode}) }}">Contáctenos</a>
-						</li>
-						<li class="menu-item">
-							<a title="About" href="{{ path('static_page_view', {'type': constant('App\\Entity\\StaticPage::TYPE_PRICE')|url_encode}) }}">Planes de servicios</a>
-						</li>
-						<li class="menu-item">
-							<a title="About" href="{{ path('static_page_view', {'type': constant('App\\Entity\\StaticPage::TYPE_HOW_WORKING')|url_encode}) }}">Cómo
-								                                funciona</a>
-						</li>
-						<li class="menu-item">
-							<a title="About" href="{{ path('static_page_view', {'type': constant('App\\Entity\\StaticPage::TYPE_FAQ')|url_encode}) }}">FAQ</a>
-						</li>
-						<li class="menu-item">
-							<a title="About" href="{{ path('site_policy') }}">Términos y
-								                                condiciones</a>
-						</li>
-					</ul>
-				</li>
-				{% if is_granted('IS_AUTHENTICATED_FULLY') == false %}
-					<li class="menu-item post-job">
-						<a title="Title" href="{{ path('job_new') }}">
-							<i class="fas fa-plus"></i>Publicar un trabajo</a>
-					</li>
-					<li>
-						<a id="help" tabindex="0" data-toggle="popover" data-html="true" data-placement="bottom" data-trigger="hover" title="Ayuda" data-content="<p class='text-center'>Seleccione un acción para crear un servicio o publicar un trabajo</p>"></a>
-					</li>
-					{# <li class="menu-item post-job"><a title="Title" href="{{ path('service_new') }}"><i
-					                                    class="fas fa-plus"></i>Brindar mis servicios</a></li> #}
-				{% elseif  is_granted('ROLE_ADMIN') %}
-					{#
-					                    <li class="menu-item post-job"><a title="Title" href="{{ path('service_new') }}"><i
-					                                    class="fas fa-plus"></i>Crear servicio</a></li>
-					                    #}
-					<li>
-						<a id="help" tabindex="0" data-toggle="popover" data-html="true" data-placement="bottom" data-trigger="hover" title="Ayuda" data-content="<p class='text-center'>Seleccione un acción para crear un servicio o publicar un trabajo</p>"></a>
-					</li>
+    <nav class="navbar navbar-expand-xl absolute-nav  cp-nav navbar-light bg-light fluid-nav" style="opacity: 0.9;">
+        <a class="navbar-brand" href="{{ path('homepage') }}">
+            <img src="{{ asset('build/backend/images/lolo_last.svg') }}" class="img-fluid" alt="" width="200"></a>
+            <a class="btn btn-success btn-lg ml-5 p-4" href="{{ path('consulta_index') }}">
+                Consultas gratuitas
+                		
+            </a>
+            <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto main-nav">
+                    <li class="menu-item active">
+                        <a title="Home" href="{{ path('homepage') }}">
+                            Inicio
+                        </a>
+                    </li>
+                    <li class="menu-item active">
+                        <a title="Home" href="{{ path('listado_companias') }}">
+                            Empresas
+                        </a>
+                    </li>
+                    {% if is_granted('ROLE_SUPER_ADMIN') %}
+                        <li class="menu-item dropdown">
+                            <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+                                Administración
+                                						
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="menu-item">
+                                    <a title="About" href="{{ path('backend') }}">
+                                        Panel de
+                                        									                                    administración
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    {% endif %}
+                    <li class="menu-item dropdown">
+                        <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+                            Empleos
+                            					
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="menu-item">
+                                <a title="About" href="{{ path('job_list') }}">
+                                    Listado de Empleos
+                                </a>
+                            </li>
+                        {# {% if is_granted('ROLE_ADMIN') %}
+                        						                            <li class="menu-item"><a title="About" href="{{ path('job_new') }}">Publicar empleo</a></li>
+                        						                        {% endif %} #}
+                        </ul>
+                    </li>
+                    <li class="menu-item dropdown">
+                        {# <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true"
+                        					                       aria-expanded="false">Servicios </a> #}
+                        <ul class="dropdown-menu">
+                            {# <li class="menu-item"><a title="About" href="{{ path('service_list') }}">Listado de
+                            						                                servicios</a></li> #}
+                            {% if is_granted('ROLE_USER') %}{# <li class="menu-item"><a title="About" href="{{ path('service_new') }}">Publicar
+                                							                                    servicio</a></li> #}
+                            {% endif %}
+                        </ul>
+                    </li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li class="menu-item dropdown">
+                            <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+                                Empleador
+                            </a>
+                            <ul class="dropdown-menu">
+                                {#                            {% if is_granted('ROLE_SUPER_ADMIN') %}#}
+                                {#                                <li class="menu-item"><a title="About" href="#">Listado de empleadores</a></li>#}
+                                {#                            {% endif %}#}
+                                {# <li class="menu-item"><a title="About" href="{{ path('candidates') }}">Lista de 
+                                							                                    candidatos</a></li> #}
+                                    <li class="menu-item"> <a title="About" href="{{ path('dashboard') }}">
+                                        Tablero
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a title="About" href="{{ path('manage_candidates') }}">
+                                        Gestión de
+                                        									                                    candidatos
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a title="About" href="{{ path('job_manage') }}">
+                                        Gestionar trabajos
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a title="About" href="{{ path('job_new') }}">
+                                        Publicar trabajo
+                                    </a>
+                                {# <li class="menu-item"><a title="About" href="{{ path('my_services_list') }}">Servicios creados</a>
+                                								                            </li> #}
+                                </li>
+                            </ul>
+                        </li>
+                    {% elseif is_granted('ROLE_USER') %}
+                        <li class="menu-item dropdown">
+                            <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+                                Usuario
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="menu-item">
+                                    <a title="About" href="{{ path('dashboard') }}">
+                                        Tablero
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a title="About" href="{{ path('dashboard_edit') }}">
+                                        Editar perfil
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a title="About" href="{{ path('dashboard_resume_edit') }}">
+                                        Agregar
+                                        									                                    Curriculum Vitae
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a title="About" href="{{ path('dashboard_resume') }}">
+                                        CV
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a title="About" href="{{ path('dashboard_resume_edit') }}">
+                                        Editar
+                                        									                                    Curriculum Vitae
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a title="About" href="{{ path('dashboard_bookmarked') }}">
+                                        Marcados
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a title="About" href="{{ path('dashboard_applied') }}">
+                                        Trabajos aplicados
+                                    </a>
+                                {# <li class="menu-item"><a title="About" href="{{ path('load_services_request') }}">Servicios solicitados</a></li> #}
+                                </li>
+                            </ul>
+                        </li>
+                    {% endif %}
+                    <li class="menu-item dropdown">
+                        <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+                            Páginas
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="menu-item">
+                                <a title="About" href="{{ path('static_page_view', {'type': constant('App\\Entity\\StaticPage::TYPE_ABOUT') |url_encode}) }}">
+                                    Sobre
+                                    								                                Nosotros
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a title="About" href="{{ path('static_page_view', {'type': constant('App\\Entity\\StaticPage::TYPE_CONTACT')|url_encode}) }}">
+                                    Contáctenos
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a title="About" href="{{ path('static_page_view', {'type': constant('App\\Entity\\StaticPage::TYPE_PRICE')|url_encode}) }}">
+                                    Planes de servicios
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a title="About" href="{{ path('static_page_view', {'type': constant('App\\Entity\\StaticPage::TYPE_HOW_WORKING')|url_encode}) }}">
+                                    Cómo
+                                    								                                funciona
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a title="About" href="{{ path('static_page_view', {'type': constant('App\\Entity\\StaticPage::TYPE_FAQ')|url_encode}) }}">
+                                    FAQ
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a title="About" href="{{ path('site_policy') }}">
+                                    Términos y
+                                    								                                condiciones
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') == false %}
+                        <li class="menu-item post-job">
+                            <a title="Title" href="{{ path('job_new') }}">
+                                <i class="fas fa-plus"></i>
+                                Publicar un trabajo
+                            </a>
+                        </li>
+                        <li>
+                            <a id="help" tabindex="0" data-toggle="popover" data-html="true" data-placement="bottom" data-trigger="hover" title="Ayuda" data-content="<p class='text-center'>Seleccione para publicar un trabajo</p>"></a>
+                        </li>
+                    {# <li class="menu-item post-job"><a title="Title" href="{{ path('service_new') }}"><i
+                    					                                    class="fas fa-plus"></i>Brindar mis servicios</a></li> #}
+                        {% elseif  is_granted('ROLE_ADMIN') %}
+                        {#
+                        					                    <li class="menu-item post-job"><a title="Title" href="{{ path('service_new') }}"><i
+                        					                                    class="fas fa-plus"></i>Crear servicio</a></li>
+                        					                    #}
+                        <li>
+                            <a id="help" tabindex="0" data-toggle="popover" data-html="true" data-placement="bottom" data-trigger="hover" title="Ayuda" data-content="<p class='text-center'>Seleccione para publicar un trabajo</p>"></a>
+                        </li>
 
-					<li class="menu-item post-job">
-						<a title="Title" href="{{ path('job_new') }}">
-							<i class="fas fa-plus"></i>Publicar un trabajo</a>
-					</li>
-					{% elseif is_granted('ROLE_USER') %}
-					{# <li class="menu-item post-job"><a title="Title" href="{{ path('service_new') }}"><i
-					                                    class="fas fa-plus"></i>Crear servicio</a></li> #}
-				{% endif %}
-			</ul>
-			<ul class="navbar-nav ml-auto account-nav">
-				{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-					<li class="dropdown menu-item header-top-notification">
-						<a href="#" class="notification-button"></a>
-						<div class="notification-card">
-							<div class="notification-head">
-								<span>Notificaciones</span>
-								<a href="#">Marcar todo como leído</a>
-							</div>
-							<div class="notification-body">
-								{% for n in notifications %}
-									<a href="#" class="notification-list">
-										<i class="fas fa-bolt"></i>
-										<p>{{ n.context }}</p>
-										<span class="time">{{ n.date|ago }}</span>
-									</a>
-								{% endfor %}
-							</div>
-							<div class="notification-footer">
-								<a href="{{ path('dashboard') }}">Ver todas las notificaciones</a>
-							</div>
-						</div>
-					</li>
-				{% endif %}
-				{% if app.user == false %}
-					<li class="menu-item login-popup">
-						<a href="#" title="Title" type="button" data-toggle="modal" data-target="#exampleModalLong">Entrar
-						</a>
-					</li>
-					<li class="menu-item login-popup">
-						<a href="{{ path('app_register') }}" title="Registro">Registrarse</a>
-					</li>
-				{% else %}
-					<li class="menu-item dropdown">
-						<a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">{{ app.user.username }}</a>
-						<ul class="dropdown-menu">
-							<li>
-								<a href="{{ path('dashboard') }}">
-									<span class="ti-user"></span>
-									Cuenta</a>
-							</li>
-							<li>
-								<a href="{{ path('dashboard_edit') }}">
-									<span class="ti-settings"></span>
-									Configuración</a>
-							</li>
-							<li>
-								<a href="/logout">
-									<span class="ti-power-off"></span>
-									Salir</a>
-							</li>
-						</ul>
-					</li>
-				{% endif %}
-			</ul>
-		</div>
-	</nav>
-	<!-- Modal -->
-	{#{{ dump(app.user) }}#}
-	<div class="account-entry">
-		<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title">
-							<i data-feather="user"></i>Entrar</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<form id="login-form" method="post" action="{{ path("fos_user_security_check") }}">
-							<div class="form-group">
-								<input type="text" value="" name="_username" id="inputUsername" class="form-control" placeholder="Usuario o dirección de correo electrónico" required autofocus>
-							</div>
-							<div class="form-group">
-								<input type="password" name="_password" id="inputPassword" class="form-control" placeholder="Contraseña" required>
-								<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-							</div>
-							<div class="more-option">
-								<div class="form-check">
-									<input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-									<label class="form-check-label" for="defaultCheck1">
-										Recuérdame
-									</label>
-								</div>
-								<a href="{{ path('fos_user_resetting_request') }}">¿Olvidó su contraseña?</a>
-							</div>
-							<button id="_submit" type="submit" class="button primary-bg btn-block">Entrar</button>
-						</form>
-						<p>¿No tiene una cuenta?
-							<a href="{{ path('app_register') }}">Registrarse
-							</a>
-						</p>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="modal fade" id="exampleModalLong2" tabindex="-1" role="dialog" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title">
-							<i data-feather="edit"></i>Registro</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<div class="account-type">
-							<a href="#" class="candidate-acc active">
-								<i data-feather="user"></i>Candidato</a>
-							<a href="#" class="employer-acc">
-								<i data-feather="briefcase"></i>Empleador</a>
-						</div>
-						<form action="#">
-							<div class="form-group">
-								<input type="text" placeholder="Nombre de usuario" class="form-control">
-							</div>
-							<div class="form-group">
-								<input type="email" placeholder="Dirección de correo electrónico" class="form-control">
-							</div>
-							<div class="form-group">
-								<input type="password" placeholder="Contraseña" class="form-control">
-							</div>
-							<div class="more-option terms">
-								<div class="form-check">
-									<input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
-									<label class="form-check-label" for="defaultCheck2">
-										Acepto los
-										<a href="{{ path('site_policy') }}">términos y condiciones</a>
-									</label>
-								</div>
-							</div>
-							<button class="button primary-bg btn-block">Registrar</button>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</header>
+                        <li class="menu-item post-job">
+                            <a title="Title" href="{{ path('job_new') }}">
+                                <i class="fas fa-plus"></i>
+                                Publicar un trabajo
+                            </a>
+                        </li>
+                        {% elseif is_granted('ROLE_USER') %}
+                    {# <li class="menu-item post-job"><a title="Title" href="{{ path('service_new') }}"><i
+                    					                                    class="fas fa-plus"></i>Crear servicio</a></li> #}
+                    {% endif %}
+                </ul>
+                <ul class="navbar-nav ml-auto account-nav">
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <li class="dropdown menu-item header-top-notification">
+                            <a href="#" class="notification-button"></a>
+                            <div class="notification-card">
+                                <div class="notification-head">
+                                    <span>
+                                        Notificaciones
+                                    </span>
+                                    <a href="#">
+                                        Marcar todo como leído
+                                    </a>
+                                </div>
+                                <div class="notification-body">
+                                    {% for n in notifications %}
+                                        <a href="#" class="notification-list">
+                                            <i class="fas fa-bolt"></i>
+                                            <p>
+                                                {{ n.context }}
+                                            </p>
+                                            <span class="time">
+                                                {{ n.date|ago }}
+                                            </span>
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                                <div class="notification-footer">
+                                    <a href="{{ path('dashboard') }}">
+                                        Ver todas las notificaciones
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                    {% endif %}
+                    {% if app.user == false %}
+                        <li class="menu-item login-popup">
+                            <a href="#" title="Title" type="button" data-toggle="modal" data-target="#exampleModalLong">
+                                Entrar
+                                						
+                            </a>
+                        </li>
+                        <li class="menu-item login-popup">
+                            <a href="{{ path('app_register') }}" title="Registro">
+                                Registrarse
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="menu-item dropdown">
+                            <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+                                {{ app.user.username }}
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="{{ path('dashboard') }}">
+                                        <span class="ti-user"></span>
+                                        Cuenta
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('dashboard_edit') }}">
+                                        <span class="ti-settings"></span>
+                                        Configuración
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/logout">
+                                        <span class="ti-power-off"></span>
+                                        Salir
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+        <!-- Modal -->
+        {#{{ dump(app.user) }}#}
+        <div class="account-entry">
+            <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">
+                                <i data-feather="user"></i>
+                                Entrar
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">
+                                    &times;
+                                </span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="login-form" method="post" action="{{ path("fos_user_security_check") }}">
+                                <div class="form-group">
+                                    <input type="text" value="" name="_username" id="inputUsername" class="form-control" placeholder="Usuario o dirección de correo electrónico" required autofocus></div>
+                                    <div class="form-group">
+                                        <input type="password" name="_password" id="inputPassword" class="form-control" placeholder="Contraseña" required>
+                                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"></div>
+                                            <div class="more-option">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                                        <label class="form-check-label" for="defaultCheck1">
+                                                            Recuérdame
+                                                            									
+                                                        </label>
+                                                    </div>
+                                                    <a href="{{ path('fos_user_resetting_request') }}">
+                                                        ¿Olvidó su contraseña?
+                                                    </a>
+                                                </div>
+                                                <button id="_submit" type="submit" class="button primary-bg btn-block">
+                                                    Entrar
+                                                </button>
+                                            </form>
+                                            <p>
+                                                ¿No tiene una cuenta?
+                                                							
+                                                <a href="{{ path('app_register') }}">
+                                                    Registrarse
+                                                    							
+                                                </a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal fade" id="exampleModalLong2" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">
+                                                <i data-feather="edit"></i>
+                                                Registro
+                                            </h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">
+                                                    &times;
+                                                </span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="account-type">
+                                                <a href="#" class="candidate-acc active">
+                                                    <i data-feather="user"></i>
+                                                    Candidato
+                                                </a>
+                                                <a href="#" class="employer-acc">
+                                                    <i data-feather="briefcase"></i>
+                                                    Empleador
+                                                </a>
+                                            </div>
+                                            <form action="#">
+                                                <div class="form-group">
+                                                    <input type="text" placeholder="Nombre de usuario" class="form-control"></div>
+                                                    <div class="form-group">
+                                                        <input type="email" placeholder="Dirección de correo electrónico" class="form-control"></div>
+                                                        <div class="form-group">
+                                                            <input type="password" placeholder="Contraseña" class="form-control"></div>
+                                                            <div class="more-option terms">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
+                                                                        <label class="form-check-label" for="defaultCheck2">
+                                                                            Acepto los
+                                                                            										
+                                                                            <a href="{{ path('site_policy') }}">
+                                                                                términos y condiciones
+                                                                            </a>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <button class="button primary-bg btn-block">
+                                                                    Registrar
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </header>
+                                    

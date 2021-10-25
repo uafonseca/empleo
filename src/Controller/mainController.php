@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Ubel
@@ -51,11 +52,14 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\constants;
+use App\Entity\ClientTransaction;
 use App\Entity\Slide;
+use DateTime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+
 
 /**
  * Class mainController
@@ -193,10 +197,17 @@ class mainController extends Controller
 
     /**
      * @Route("/checkout/{packId}/{type}",name="checkout")
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
     public function checkout($packId, $type)
     {
         $em = $this->getDoctrine()->getManager();
+        $transaction = new ClientTransaction();
+        $transaction
+            ->setCreatedAt(new DateTime('now'))
+            ->setConfirmed(false)
+            ->setUser($this->getUser())
+            ->setCode(md5(uniqid(rand(), true)));
         if ($type == 'job') {
             /** @var PaymentForJobs $package */
             $package = $em->getRepository(PaymentForJobs::class)->find($packId);
@@ -204,13 +215,15 @@ class mainController extends Controller
             /** @var PaymentForServices $package */
             $package = $em->getRepository(PaymentForServices::class)->find($packId);
         }
-
+        $em->persist($transaction);
+        $em->flush();
         return $this->render(
             'site/checkout.html.twig',
             [
                 'notifications' => $this->loadNotifications(),
                 'package' => $package,
                 'type' => $type,
+                'transaction' => $transaction
             ]
         );
     }
@@ -633,11 +646,11 @@ class mainController extends Controller
         /** @var User $user */
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $jobs = $user->getJobAppiled();
-//        $jobs = array();
-//        $entityManager = $this->getDoctrine()->getManager();
-//        foreach ($marked as $id) {
-//            $jobs[] = $entityManager->getRepository(Job::class)->find($id);
-//        }
+        //        $jobs = array();
+        //        $entityManager = $this->getDoctrine()->getManager();
+        //        foreach ($marked as $id) {
+        //            $jobs[] = $entityManager->getRepository(Job::class)->find($id);
+        //        }
 
         return $this->render(
             'user/applied.html.twig',

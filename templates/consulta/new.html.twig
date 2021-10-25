@@ -1,0 +1,46 @@
+{% extends 'site/base.html.twig' %}
+{% form_theme form
+    'bootstrap_4_layout.html.twig'
+    'backend/policy/theme.html.twig'
+    'backend/jquery.collection.html.twig' %}
+{% block body %}
+    {{ include ('site/header.html.twig',{'notifications': notifications}  ) }}
+    <div class="alice-bg padding-top-70 padding-bottom-70">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="breadcrumb-area">
+                        <h1>
+                            Nueva consulta                                         
+                                                    
+                        </h1>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="{{ path('homepage') }}">
+                                        Inicio                                                           
+                                                                            
+                                    </a>
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page">
+                                    Nueva consulta
+                                                                    
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="alice-bg section-padding-bottom">
+        <div class="container">
+            <div class="row no-gutters">
+                <div class="col-12">
+                    {{ include('consulta/_form.html.twig') }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
