@@ -13,9 +13,10 @@ use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
+
 
 class PaypalController extends AbstractController
 {
@@ -26,15 +27,18 @@ class PaypalController extends AbstractController
     /** @var SessionInterface  */
     private $session;
 
+    private $client;
+
     /**
      * PaypalController constructor.
      * @param PaymentForJobsMetadataService $pfjmService
      * @param SessionInterface $session
      */
-    public function __construct(PaymentForJobsMetadataService $pfjmService, SessionInterface $session)
+    public function __construct(PaymentForJobsMetadataService $pfjmService, SessionInterface $session, HttpClientInterface $client)
     {
         $this->pfjmService = $pfjmService;
         $this->session = $session;
+        $this->client = $client;
     }
 
     /**
@@ -58,11 +62,6 @@ class PaypalController extends AbstractController
     public function buyPackage(Request $request, $type, $uuid)
     {
 
-
-
-
-
-
         /** @var User $currentUser */
         $currentUser = $this->getUser();
         $em = $this->getDoctrine()->getManager();
@@ -75,33 +74,26 @@ class PaypalController extends AbstractController
             $client = $request->query->get('clientTransactionId');
 
             //Preparar JSON de llamada
-            $data_array = array(
+            $data_array = [
                 'id' => (int)$transaccion,
                 'clientTxId' => $client
-            );
+            ];
 
             $data = json_encode($data_array);
 
-            //Iniciar Llamada
-            $curl = curl_init();
-            curl_setopt($curl, CURLOPT_URL, 'https://pay.payphonetodoesposible.com/api/button/V2/Confirm');
-            curl_setopt($curl, CURLOPT_POST, 1);
+            $response = $this->client->request(
+                'POST',
+                'https://pay.payphonetodoesposible.com/api/button/V2/Confirm',
+                [
+                    'headers' => [
+                        'auth_bearer' => $pack->getToken(),
+                    ],
+                    'json' => $data
+                ]
+            );
 
-            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-            curl_setopt_array($curl, array(
-                CURLOPT_HTTPHEADER => array(
-                    'Authorization:' + $pack->getToken(), 'Content-Type:application/json'
-                ),
-            ));
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-            $result = curl_exec($curl);
-            curl_close($curl);
-
-            echo $result;
-
+            var_dump($response);
             die;
-
-
 
             $currentUser->addPackageJob($pack);
 
