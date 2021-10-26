@@ -1,6 +1,10 @@
 {% extends 'site/base.html.twig' %}
 {% block title %}
   Candidatos
+              
+            
+          
+        
       
     
   
@@ -28,7 +32,12 @@
           if (value.transactionStatus == 'Approved')
           { 
             alert('Pago ' + value.transactionId + ' recibido, estado ' + value.transactionStatus ); 
-            console.log(value);
+            const clientId = '{{ transaction.code }}';
+            const transaccion = value.transactionId;
+
+            const url = {{ path('buy_package',{type:'job',uuid:package.uuid}) }} + '?id='+transaccion+'&clientTransactionId='+clientId;
+
+            location.href=url;
           }
         }).catch(function(err){ console.log(err); });
 
@@ -47,46 +56,17 @@
         <div class="col-md-6">
           <div class="breadcrumb-area">
             <h1>
-              Página de pago
-                                                                                                                                                        
-                                                                                                                                          
-                                                                                                                            
-                                                                                                              
-                                                                                                
-                                                                                  
-                                                                    
-                                                      
-                                        
-                          
+              Página de pago                        
             </h1>
             <nav aria-label="breadcrumb">
               <ol class="breadcrumb">
                 <li class="breadcrumb-item">
                   <a href="{{ path('homepage') }}">
-                    Inicio
-                                                                                                                                                                                                      
-                                                                                                                                                                                  
-                                                                                                                                                              
-                                                                                                                                          
-                                                                                                                      
-                                                                                                  
-                                                                              
-                                                          
-                                      
+                    Inicio            
                   </a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">
-                  Página de pago
-                                                                                                                                                                                                    
-                                                                                                                                                                                  
-                                                                                                                                                                
-                                                                                                                                              
-                                                                                                                            
-                                                                                                          
-                                                                                        
-                                                                      
-                                                    
-                                  
+                  Página de pago                                  
                 </li>
               </ol>
             </nav>
@@ -108,17 +88,7 @@
                   {# <form action="{{ path('buy_package') }}" method="post"> #}
                   <div class="row">
                     <label class="col-md-3 col-form-label">
-                      Detalles de su paquete
-                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                          
-                                                                                                                                                                                                    
-                                                                                                                                                                              
-                                                                                                                                                        
-                                                                                                                                  
-                                                                                                            
-                                                                                      
-                                                                
-                                          
+                      Detalles de su paquete   
                     </label>
                     <div class="col-md-9">
                       <div class="row">
@@ -127,69 +97,22 @@
                             <div class="package-select-inputs">
                               <div class="pricing starter">
                                 <span class="package-title">
-                                  Paquete 
-                                                                                                                                                                                                                                                                                                                                                    
-                                                                                                                                                                                                                                                                                                                  
-                                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                                              
-                                                                                                                                                                                                            
-                                                                                                                                                                          
-                                                                                                                                        
-                                                                                                      
-                                                                    
+                                  Paquete                             
                                   {{ package.name }}
                                 </span>
                                 <hr/>
                                 <div class="package-info">
                                   <h3 class="monthly-rate">
                                     <span>
-                                      $
-                                                                                                                                                                                                                                                                                                                                                                                            
-                                                                                                                                                                                                                                                                                                                                                      
-                                                                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                                                                          
-                                                                                                                                                                                                                                    
-                                                                                                                                                                                              
-                                                                                                                                                        
-                                                                                                                  
-                                                                            
+                                      $                                  
                                       {{ package.price }}
                                     </span>
-                                    /
-                                                                                                                                                                                                                                                                                                                                                                        
-                                                                                                                                                                                                                                                                                                                                    
-                                                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                                                            
-                                                                                                                                                                                                                        
-                                                                                                                                                                                    
-                                                                                                                                                
-                                                                                                            
-                                                                        
+                                    /                               
                                     {{ package.visibleDays }}
-                                    Días
-                                                                                                                                                                                                                                                                                                                                                                                                          
-                                                                                                                                                                                                                                                                                                                                                                      
-                                                                                                                                                                                                                                                                                                                                  
-                                                                                                                                                                                                                                                                                              
-                                                                                                                                                                                                                                                          
-                                                                                                                                                                                                                      
-                                                                                                                                                                                  
-                                                                                                                                              
-                                                                                                          
-                                                                      
+                                    Días                         
                                   </h3>
                                   <p class="user-number">
-                                    Máximo de publicaciones
-                                                                                                                                                                                                                                                                                                                                                                                                            
-                                                                                                                                                                                                                                                                                                                                                                        
-                                                                                                                                                                                                                                                                                                                                    
-                                                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                                                            
-                                                                                                                                                                                                                        
-                                                                                                                                                                                    
-                                                                                                                                                
-                                                                                                            
-                                                                        
+                                    Máximo de publicaciones                           
                                     <strong>
                                       {{ package.anouncementsNumberMax }}
                                     </strong>
@@ -197,45 +120,15 @@
                                 </div>
                                 <div class="features">
                                   <h6>
-                                    Caracteristicas
-                                                                                                                                                                                                                                                                                                                                                                                                          
-                                                                                                                                                                                                                                                                                                                                                                      
-                                                                                                                                                                                                                                                                                                                                  
-                                                                                                                                                                                                                                                                                              
-                                                                                                                                                                                                                                                          
-                                                                                                                                                                                                                      
-                                                                                                                                                                                  
-                                                                                                                                              
-                                                                                                          
-                                                                      
+                                    Caracteristicas                        
                                   </h6>
                                   <ul>
                                     <li>
-                                      Anuncio destacado
-                                                                                                                                                                                                                                                                                                                                                                                                                                  
-                                                                                                                                                                                                                                                                                                                                                                                            
-                                                                                                                                                                                                                                                                                                                                                      
-                                                                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                                                                          
-                                                                                                                                                                                                                                    
-                                                                                                                                                                                              
-                                                                                                                                                        
-                                                                                                                  
-                                                                            
+                                      Anuncio destacado                               
                                       <strong>
                                         {{ package.daysImportants }}
                                       </strong>
-                                      días
-                                                                                                                                                                                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                                                                                                                                                                                          
-                                                                                                                                                                                                                                                                                                                                                    
-                                                                                                                                                                                                                                                                                                              
-                                                                                                                                                                                                                                                                        
-                                                                                                                                                                                                                                  
-                                                                                                                                                                                            
-                                                                                                                                                      
-                                                                                                                
-                                                                          
+                                      días                                 
                                     </li>
                                   </ul>
                                 </div>
@@ -258,43 +151,15 @@
               <div class="col-lg-4">
                 <div class="payment-summery">
                   <h4>
-                    Resumen
-                                                                                                                                                                                                                          
-                                                                                                                                                                                                      
-                                                                                                                                                                                  
-                                                                                                                                                              
-                                                                                                                                          
-                                                                                                                      
-                                                                                                  
-                                                                              
-                                                          
-                                      
+                    Resumen             
                   </h4>
                   <ul>
                     <li class="payment-list">
                       <span class="title">
-                        Plan de inicio
-                                                                                                                                                                                                                                              
-                                                                                                                                                                                                                      
-                                                                                                                                                                                              
-                                                                                                                                                                      
-                                                                                                                                              
-                                                                                                                      
-                                                                                              
-                                                                      
-                                              
+                        Plan de inicio          
                       </span>
                       <span class="amount">
                         $
-                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                        
-                                                                                                                                                                                                
-                                                                                                                                                                        
-                                                                                                                                                
-                                                                                                                        
-                                                                                                
-                                                                        
-                                                
                         {{ package.price }}
                       </span>
                     </li>
@@ -303,28 +168,10 @@
                   </ul>
                   <div class="total-amount">
                     <span class="title">
-                      Precio Final
-                                                                                                                                                                                                                          
-                                                                                                                                                                                                    
-                                                                                                                                                                              
-                                                                                                                                                        
-                                                                                                                                  
-                                                                                                            
-                                                                                      
-                                                                
-                                          
+                      Precio Final             
                     </span>
                     <span class="amount">
-                      $
-                                                                                                                                                                                                                            
-                                                                                                                                                                                                      
-                                                                                                                                                                                
-                                                                                                                                                          
-                                                                                                                                    
-                                                                                                              
-                                                                                        
-                                                                  
-                                            
+                      $                  
                       {{ package.price }}
                     </span>
                   </div>

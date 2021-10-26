@@ -57,12 +57,54 @@ class PaypalController extends AbstractController
      */
     public function buyPackage(Request $request, $type, $uuid)
     {
+
+
+
+
+
+
         /** @var User $currentUser */
         $currentUser = $this->getUser();
         $em = $this->getDoctrine()->getManager();
         if ($type == 'job') {
             /** @var PaymentForJobs $pack */
             $pack = $em->getRepository(PaymentForJobs::class)->findOneBy(array('uuid' => $uuid));
+
+
+
+
+            //Obtener parametros de la URL enviados por PayPhone
+            $transaccion = $request->query->get('id');
+            $client = $request->query->get('clientTransactionId');
+
+            //Preparar JSON de llamada
+            $data_array = array(
+                'id' => (int)$transaccion,
+                'clientTxId' => $client
+            );
+
+            $data = json_encode($data_array);
+
+            //Iniciar Llamada
+            $curl = curl_init();
+            curl_setopt($curl, CURLOPT_URL, 'https://pay.payphonetodoesposible.com/api/button/V2/Confirm');
+            curl_setopt($curl, CURLOPT_POST, 1);
+
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+            curl_setopt_array($curl, array(
+                CURLOPT_HTTPHEADER => array(
+                    'Authorization: Bearer ' + $pack->getToken(), 'Content-Type:application/json'
+                ),
+            ));
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+            $result = curl_exec($curl);
+            curl_close($curl);
+
+            echo $result;
+
+            die;
+
+
 
             $currentUser->addPackageJob($pack);
 
