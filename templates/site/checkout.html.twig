@@ -7,7 +7,8 @@
 {% block headerScript %}
   <script src="https://pay.payphonetodoesposible.com/api/button/js?appId={{ package.identificador }}"></script>
   <script>
-    window.onload = function() { payphone.Button({
+    window.onload = function() { 
+    payphone.Button({
       token:"{{ package.token }}",
       btnHorizontal: true,
       btnCard: true,
@@ -30,15 +31,32 @@
             const clientId = '{{ transaction.code }}';
             const transaccion = value.transactionId;
 
-            const url = '{{ path('buy_package',{type:'job',uuid:package.uuid}) }}' + '?id='+transaccion+'&clientTransactionId='+clientId;
+            //const url = '{{ path('buy_package',{type:'job',uuid:package.uuid}) }}' + '?id='+transaccion+'&clientTransactionId='+clientId;
 
-            location.href=url;
+            //location.href=url;
+
+            postData('https://pay.payphonetodoesposible.com/api/button/V2/Confirm', { id:transaccion,clientTxId: clientId})
+            .then(data => {
+              console.log(data); // JSON data parsed by `data.json()` call
+            });
           }
         }).catch(function(err){ console.log(err); });
 
         } }).render('#pp-button');
 
     }
+
+    async function postData(url = '', data = {}) {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer {{ package.token }}',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+      });
+      return response.json();
+}
   </script>
 {% endblock %}
 {% block body %}
