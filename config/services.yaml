@@ -4,74 +4,85 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: 'es'
-    app.path.blog_images: /images/blog
-    app.path.user_images: /images/user
-    app.path.company_images: /site/images/upload/company
-    app.path.image_store: /site/images/upload/company/images_stored
-    app.path.user_cv: /site/docs/user/cv
-    container.autowiring.strict_mode: true
-    paypal_username: 'paypal_username'
-    paypal_password: 'paypal_password'
-    paypal_signature: 'paypal_signature'
+  locale: "es"
+  app.path.blog_images: /images/blog
+  app.path.user_images: /images/user
+  app.path.company_images: /site/images/upload/company
+  app.path.image_store: /site/images/upload/company/images_stored
+  app.path.user_cv: /site/docs/user/cv
+  container.autowiring.strict_mode: true
+  paypal_username: "paypal_username"
+  paypal_password: "paypal_password"
+  paypal_signature: "paypal_signature"
 services:
-    # default configuration for services in *this* file
-    _defaults:
-        autowire: true      # Automatically injects dependencies in your services.
-        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-        public: true
+  # default configuration for services in *this* file
+  _defaults:
+    autowire: true # Automatically injects dependencies in your services.
+    autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+    public: true
 
-    App\:
-        resource: '../src/*'
-        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+  App\:
+    resource: "../src/*"
+    exclude: "../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}"
 
-    App\Controller\:
-        resource: '../src/Controller'
-        tags: ['controller.service_arguments']
+  App\Controller\:
+    resource: "../src/Controller"
+    tags: ["controller.service_arguments"]
 
-    twig.extension.intl:
-        class: Twig_Extensions_Extension_Intl
-        tags:
-            - { name: twig.extension }
-    twig.extension.date:
-        class: Twig_Extensions_Extension_Date
-        tags:
-            - { name: twig.extension }
+  twig.extension.intl:
+    class: Twig_Extensions_Extension_Intl
+    tags:
+      - { name: twig.extension }
+  twig.extension.date:
+    class: Twig_Extensions_Extension_Date
+    tags:
+      - { name: twig.extension }
 
-    app.service.helper:
-        class: App\Service\Helper
-        calls:
-            - [setContainer, ['@service_container']]
-        tags:
-            - { name: controller.service_arguments }
+  app.service.helper:
+    class: App\Service\Helper
+    calls:
+      - [setContainer, ["@service_container"]]
+    tags:
+      - { name: controller.service_arguments }
 
-    app.service.checker:
-        class: App\Service\Checker
-        calls:
-            - [setContainer, ['@service_container']]
-        tags:
-            - { name: controller.service_arguments }
+  app.service.checker:
+    class: App\Service\Checker
+    calls:
+      - [setContainer, ["@service_container"]]
+    tags:
+      - { name: controller.service_arguments }
 
-    app.service.namer_directory:
-        class: App\Service\NamerDirectory
-        calls:
-            - [setContainer, ['@service_container']]
-            - [directoryName, ['@?', '@.errored..service_locator.rsKi3b0.Vich\UploaderBundle\Mapping\PropertyMapping']]
-        tags:
-            - { name: controller.service_arguments }
+  app.service.namer_directory:
+    class: App\Service\NamerDirectory
+    calls:
+      - [setContainer, ["@service_container"]]
+      - [
+          directoryName,
+          [
+            "@?",
+            '@.errored..service_locator.rsKi3b0.Vich\UploaderBundle\Mapping\PropertyMapping',
+          ],
+        ]
+    tags:
+      - { name: controller.service_arguments }
 
-    app.service.user_namer_directory:
-        class: App\Service\UserNamerDirectory
-        calls:
-            - [setContainer, ['@service_container']]
-            - [directoryName, ['@?', '@.errored..service_locator.rsKi3b0.Vich\UploaderBundle\Mapping\PropertyMapping']]
-        tags:
-            - { name: controller.service_arguments }
+  app.service.user_namer_directory:
+    class: App\Service\UserNamerDirectory
+    calls:
+      - [setContainer, ["@service_container"]]
+      - [
+          directoryName,
+          [
+            "@?",
+            '@.errored..service_locator.rsKi3b0.Vich\UploaderBundle\Mapping\PropertyMapping',
+          ],
+        ]
+    tags:
+      - { name: controller.service_arguments }
 
-
-    Sg\DatatablesBundle\Datatable\DatatableFactory:
-        alias: sg_datatables.factory
-    Sg\DatatablesBundle\Response\DatatableResponse:
-        alias: sg_datatables.response
-    Knp\Bundle\TimeBundle\Templating\Helper\TimeHelper:
-        alias: time.templating.helper.time
+  Sg\DatatablesBundle\Datatable\DatatableFactory:
+    alias: sg_datatables.factory
+  Sg\DatatablesBundle\Response\DatatableResponse:
+    alias: sg_datatables.response
+  Knp\Bundle\TimeBundle\Templating\Helper\TimeHelper:
+    alias: time.templating.helper.time
