@@ -70,9 +70,6 @@ class PaypalController extends AbstractController
             /** @var PaymentForJobs $pack */
             $pack = $em->getRepository(PaymentForJobs::class)->findOneBy(array('uuid' => $uuid));
 
-
-
-
             //Obtener parametros de la URL enviados por PayPhone
             $transaccion = $request->query->get('id');
             $client = $request->query->get('clientTransactionId');
@@ -93,7 +90,7 @@ class PaypalController extends AbstractController
             curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
             curl_setopt_array($curl, array(
                 CURLOPT_HTTPHEADER => array(
-                    'Authorization: Bearer ' + $pack->getToken(), 'Content-Type:application/json'
+                    'Authorization:' + $pack->getToken(), 'Content-Type:application/json'
                 ),
             ));
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
