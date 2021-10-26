@@ -57,12 +57,6 @@ class PaypalController extends AbstractController
      */
     public function buyPackage(Request $request, $type, $uuid)
     {
-
-
-
-
-
-
         /** @var User $currentUser */
         $currentUser = $this->getUser();
         $em = $this->getDoctrine()->getManager();
@@ -88,12 +82,14 @@ class PaypalController extends AbstractController
             curl_setopt($curl, CURLOPT_POST, 1);
 
             curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-            curl_setopt_array($curl, array(
-                CURLOPT_HTTPHEADER => array(
-                    'Authorization: Bearer ' + $pack->getToken(), 'Content-Type:application/json'
-                ),
-            ));
+            curl_setopt($curl, CURLOPT_HTTPHEADER, [
+                'Authorization: Bearer ' + $pack->getToken(),
+                'Content-Type:application/json'
+            ]);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+
+            var_dump($curl);
+
             $result = curl_exec($curl);
             curl_close($curl);
 
