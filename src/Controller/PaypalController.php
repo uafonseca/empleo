@@ -42,7 +42,8 @@ class PaypalController extends AbstractController
      * @return RedirectResponse
      * @Route("/cancell/{type}", name="pago_cancelado")
      */
-    public function pagoCancelado($type){
+    public function pagoCancelado($type)
+    {
         $this->session->set('_error_', 'Ha ocurrido un error al procesar su solicitud');
 
         return $this->redirectToRoute('pricing_page', ['type' => $type]);
@@ -54,7 +55,7 @@ class PaypalController extends AbstractController
      * @throws Exception
      * @Route("/buypackage/{type}/{uuid}", name="buy_package")
      */
-    public function buyPackage(Request $request,$type,$uuid)
+    public function buyPackage(Request $request, $type, $uuid)
     {
         /** @var User $currentUser */
         $currentUser = $this->getUser();
@@ -79,8 +80,6 @@ class PaypalController extends AbstractController
 
             $em->persist($metadata);
             $em->flush();
-
-
         } else {
             /** @var PaymentForServices $pack */
             $pack = $em->getRepository(PaymentForServices::class)->findOneBy(array('uuid' => $uuid));
@@ -111,11 +110,11 @@ class PaypalController extends AbstractController
     /**
      *  @Route("/test", name="test")
      */
-    public function test(){
+    public function test()
+    {
         $freePurshases = $this->pfjmService->checkFreePack($this->getUser());
 
-        if (count($freePurshases) > 0)
-        {
+        if (count($freePurshases) > 0) {
             /** @var PaymentForJobsMetadata $meta */
             $meta =  $freePurshases[0];
             $intervalo = new \DateInterval('P1M');
@@ -123,8 +122,7 @@ class PaypalController extends AbstractController
 
             $fecha->add($intervalo);
 
-            if ($fecha > new \DateTime('now'))
-            {
+            if ($fecha > new \DateTime('now')) {
                 echo 'OK';
             }
         }
@@ -142,8 +140,7 @@ class PaypalController extends AbstractController
     {
         $freePurshases = $this->pfjmService->checkFreePack($this->getUser());
 
-        if (count($freePurshases) > 0)
-        {
+        if (count($freePurshases) > 0) {
             /** @var PaymentForJobsMetadata $meta */
             $meta =  $freePurshases[0];
             $intervalo = new \DateInterval('P1M');
@@ -151,8 +148,7 @@ class PaypalController extends AbstractController
 
             $fecha->add($intervalo);
 
-            if ($fecha > new \DateTime('now'))
-            {
+            if ($fecha > new \DateTime('now')) {
 
                 $this->session->set('_error', 'Solo puede adquirir este paquete una vez cada 30 días');
 

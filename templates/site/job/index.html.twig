@@ -1,6 +1,7 @@
 {% extends 'site/base.html.twig' %}
 {% block title %}
     Inicio
+        
     
 {% endblock %}
 {% block jobs_list %}
@@ -14,12 +15,13 @@
                             <div class="section-header section-header-2 section-header-with-right-content">
                                 <h2>
                                     Trabajos recientes
+                                                                                                                                            
                                                                                                         
                                                                     
                                 </h2>
                                 <a href="{{ path('job_list') }}" class="header-right">
                                     + Buscar todos los empleos
-                                                                                                        
+                                                                                                                                                              
                                                                     
                                 </a>
                             </div>
@@ -58,6 +60,7 @@
                                                             <a>
                                                                 <i data-feather="clock"></i>
                                                                 A tiempo parcial
+                                                                                                                                                                                                                                                            
                                                                                                                                                                                             
                                                                                                                             
                                                             </a>
@@ -68,6 +71,7 @@
                                                             <a>
                                                                 <i data-feather="clock"></i>
                                                                 A tiempo completo
+                                                                                                                                                                                                                                                            
                                                                                                                                                                                             
                                                                                                                             
                                                             </a>
@@ -78,6 +82,7 @@
                                                             <a>
                                                                 <i data-feather="clock"></i>
                                                                 Temporal
+                                                                                                                                                                                                                                                            
                                                                                                                                                                                             
                                                                                                                             
                                                             </a>
@@ -88,6 +93,7 @@
                                                             <a>
                                                                 <i data-feather="clock"></i>
                                                                 Independiente
+                                                                                                                                                                                                                                                            
                                                                                                                                                                                             
                                                                                                                             
                                                             </a>
@@ -101,11 +107,13 @@
                                                         <a id="applied-btn-{{ j.id }}" onclick="applied('{{ j.id }}')" class="button btn">
                                                             {% if get_status_job(app.user,j) %}
                                                                 Cancelar
+                                                                                                                                                                                                                                                            
                                                                                                                                                                                             
                                                                                                                             
                                                             {% else %}
                                                                 Aplica ya!
-                                                                                                                                                                                                														
+                                                                                                                                                                                                                                                                														
+                                                                                                                                                                                                                                                            
                                                                                                                                                                                             
                                                                                                                             
                                                             {% endif %}
@@ -116,6 +124,7 @@
                                                     {% else %}
                                                         <a data-toggle="modal" data-target="#exampleModalLong" class="button btn">
                                                             Aplica ya!
+                                                                                                                                                                                                                                            
                                                                                                                                                                                 
                                                                                                                     
                                                         </a>
@@ -138,6 +147,7 @@
                         <a href="{{ path('job_list') }}" class="btn btn-primary btn-lg" style="margin-top: 20px;">
                             <i class="fa fa-eye"></i>
                             Ver más
+                                                                                                            
                                                                                 
                                                     
                         </a>
