@@ -35,7 +35,7 @@
             const clientId = '{{ transaction.code }}';
             const transaccion = value.transactionId;
 
-            const url = {{ path('buy_package',{type:'job',uuid:package.uuid}) }} + '?id='+transaccion+'&clientTransactionId='+clientId;
+            const url = '{{ path('buy_package',{type:'job',uuid:package.uuid}) }}' + '?id='+transaccion+'&clientTransactionId='+clientId;
 
             location.href=url;
           }
