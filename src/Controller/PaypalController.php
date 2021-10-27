@@ -2,8 +2,7 @@
 
 namespace App\Controller;
 
-use App\constants;
-use App\Entity\Notification;
+
 use App\Entity\PaymentForJobs;
 use App\Entity\PaymentForJobsMetadata;
 use App\Entity\PaymentForServices;
@@ -58,65 +57,53 @@ class PaypalController extends AbstractController
      */
     public function buyPackage(Request $request, $type, $uuid)
     {
+        /** @var User $currentUser */
+        $currentUser = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
+        if ($type == 'job') {
+            /** @var PaymentForJobs $pack */
+            $pack = $em->getRepository(PaymentForJobs::class)->findOneBy(array('uuid' => $uuid));
 
-        if ($request->query->get('status') == 'Approved') {
+            $currentUser->addPackageJob($pack);
 
-            /** @var User $currentUser */
-            $currentUser = $this->getUser();
+            $metadata = new PaymentForJobsMetadata();
+            $metadata
+                ->setUser($currentUser)
+                ->setPackage($pack)
+                ->setDatePurchase(new \DateTime('now'))
+                ->setActive(true)
+                ->setCurrentPostCount(0);
 
-            $this->addFlash('success', 'Transacción Aceptada');
-            $notification = new Notification();
-            $notification->setDate(new \DateTime());
-            $notification->setType(constants::NOTIFICATION_PAYMENT_SUCCESS);
-            $notification->setContext("Transacción Aceptada");
-            $notification->setUser($currentUser);
-            $notification->setActive(true);
+            $currentUser->addPaymentForJobsMetadata($metadata);
 
-            $em = $this->getDoctrine()->getManager();
+            $pack->addPaymentForJobsMetadata($metadata);
 
-            $em->persist($notification);
-            if ($type == 'job') {
-                /** @var PaymentForJobs $pack */
-                $pack = $em->getRepository(PaymentForJobs::class)->findOneBy(array('uuid' => $uuid));
+            $em->persist($metadata);
+            $em->flush();
+        } else {
+            /** @var PaymentForServices $pack */
+            $pack = $em->getRepository(PaymentForServices::class)->findOneBy(array('uuid' => $uuid));
 
-                $currentUser->addPackageJob($pack);
+            $currentUser->addPackageService($pack);
 
-                $metadata = new PaymentForJobsMetadata();
-                $metadata
-                    ->setUser($currentUser)
-                    ->setPackage($pack)
-                    ->setDatePurchase(new \DateTime('now'))
-                    ->setActive(true)
-                    ->setCurrentPostCount(0);
+            $metadata = new PaymentForServicesMetadata();
+            $metadata
+                ->setUser($currentUser)
+                ->setPackage($pack)
+                ->setDatePurchase(new \DateTime('now'))
+                ->setActive(true)
+                ->setCurrentPostCount(0);
 
-                $currentUser->addPaymentForJobsMetadata($metadata);
+            $currentUser->addPaymentForServicesMetadata($metadata);
 
-                $pack->addPaymentForJobsMetadata($metadata);
+            $pack->addPaymentForServicesMetadata($metadata);
 
-                $em->persist($metadata);
-                $em->flush();
-            } else {
-                /** @var PaymentForServices $pack */
-                $pack = $em->getRepository(PaymentForServices::class)->findOneBy(array('uuid' => $uuid));
+            $em->persist($metadata);
+            $em->flush();
 
-                $currentUser->addPackageService($pack);
-
-                $metadata = new PaymentForServicesMetadata();
-                $metadata
-                    ->setUser($currentUser)
-                    ->setPackage($pack)
-                    ->setDatePurchase(new \DateTime('now'))
-                    ->setActive(true)
-                    ->setCurrentPostCount(0);
-
-                $currentUser->addPaymentForServicesMetadata($metadata);
-
-                $pack->addPaymentForServicesMetadata($metadata);
-
-                $em->persist($metadata);
-                $em->flush();
-            }
+            //TODO  proceder al pago con PayPal
         }
+
         return $this->redirectToRoute('dashboard');
     }
 

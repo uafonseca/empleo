@@ -33,12 +33,9 @@
 
             const url = '{{ path('buy_package',{type:'job',uuid:package.uuid}) }}';
 
-            //location.href=url;
-
             postData('https://pay.payphonetodoesposible.com/api/button/V2/Confirm', { id:transaccion,clientTxId: clientId})
             .then(data => {
-              let result = JSON.parse(data);
-              location.href=url+'?status'+result['transactionStatus']
+              location.href=url;
             });
           }
         }).catch(function(err){ console.log(err); });
