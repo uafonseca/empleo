@@ -2,7 +2,8 @@
 
 namespace App\Controller;
 
-
+use App\constants;
+use App\Entity\Notification;
 use App\Entity\PaymentForJobs;
 use App\Entity\PaymentForJobsMetadata;
 use App\Entity\PaymentForServices;
@@ -57,88 +58,65 @@ class PaypalController extends AbstractController
      */
     public function buyPackage(Request $request, $type, $uuid)
     {
-        /** @var User $currentUser */
-        $currentUser = $this->getUser();
-        $em = $this->getDoctrine()->getManager();
-        if ($type == 'job') {
-            /** @var PaymentForJobs $pack */
-            $pack = $em->getRepository(PaymentForJobs::class)->findOneBy(array('uuid' => $uuid));
 
-            //Obtener parametros de la URL enviados por PayPhone
-            $transaccion = $request->query->get('id');
-            $client = $request->query->get('clientTransactionId');
+        if ($request->query->get('status') == 'Approved') {
 
-            //Preparar JSON de llamada
-            $data_array = array(
-                'id' => (int)$transaccion,
-                'clientTxId' => $client
-            );
+            /** @var User $currentUser */
+            $currentUser = $this->getUser();
 
-            $data = json_encode($data_array);
+            $this->addFlash('success', 'Transacción Aceptada');
+            $notification = new Notification();
+            $notification->setDate(new \DateTime());
+            $notification->setType(constants::NOTIFICATION_PAYMENT_SUCCESS);
+            $notification->setContext("Transacción Aceptada");
+            $notification->setUser($currentUser);
+            $notification->setActive(true);
 
-            //Iniciar Llamada
-            $curl = curl_init();
-            curl_setopt($curl, CURLOPT_URL, 'https://pay.payphonetodoesposible.com/api/button/V2/Confirm');
-            curl_setopt($curl, CURLOPT_POST, 1);
+            $em = $this->getDoctrine()->getManager();
 
-            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-            curl_setopt($curl, CURLOPT_HTTPHEADER, [
-                'Authorization: Bearer ' + $pack->getToken(),
-                'Content-Type:application/json'
-            ]);
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+            $em->persist($notification);
+            if ($type == 'job') {
+                /** @var PaymentForJobs $pack */
+                $pack = $em->getRepository(PaymentForJobs::class)->findOneBy(array('uuid' => $uuid));
 
-            var_dump($curl);
+                $currentUser->addPackageJob($pack);
 
-            $result = curl_exec($curl);
-            curl_close($curl);
+                $metadata = new PaymentForJobsMetadata();
+                $metadata
+                    ->setUser($currentUser)
+                    ->setPackage($pack)
+                    ->setDatePurchase(new \DateTime('now'))
+                    ->setActive(true)
+                    ->setCurrentPostCount(0);
 
-            echo $result;
+                $currentUser->addPaymentForJobsMetadata($metadata);
 
-            die;
+                $pack->addPaymentForJobsMetadata($metadata);
 
+                $em->persist($metadata);
+                $em->flush();
+            } else {
+                /** @var PaymentForServices $pack */
+                $pack = $em->getRepository(PaymentForServices::class)->findOneBy(array('uuid' => $uuid));
 
+                $currentUser->addPackageService($pack);
 
-            $currentUser->addPackageJob($pack);
+                $metadata = new PaymentForServicesMetadata();
+                $metadata
+                    ->setUser($currentUser)
+                    ->setPackage($pack)
+                    ->setDatePurchase(new \DateTime('now'))
+                    ->setActive(true)
+                    ->setCurrentPostCount(0);
 
-            $metadata = new PaymentForJobsMetadata();
-            $metadata
-                ->setUser($currentUser)
-                ->setPackage($pack)
-                ->setDatePurchase(new \DateTime('now'))
-                ->setActive(true)
-                ->setCurrentPostCount(0);
+                $currentUser->addPaymentForServicesMetadata($metadata);
 
-            $currentUser->addPaymentForJobsMetadata($metadata);
+                $pack->addPaymentForServicesMetadata($metadata);
 
-            $pack->addPaymentForJobsMetadata($metadata);
-
-            $em->persist($metadata);
-            $em->flush();
-        } else {
-            /** @var PaymentForServices $pack */
-            $pack = $em->getRepository(PaymentForServices::class)->findOneBy(array('uuid' => $uuid));
-
-            $currentUser->addPackageService($pack);
-
-            $metadata = new PaymentForServicesMetadata();
-            $metadata
-                ->setUser($currentUser)
-                ->setPackage($pack)
-                ->setDatePurchase(new \DateTime('now'))
-                ->setActive(true)
-                ->setCurrentPostCount(0);
-
-            $currentUser->addPaymentForServicesMetadata($metadata);
-
-            $pack->addPaymentForServicesMetadata($metadata);
-
-            $em->persist($metadata);
-            $em->flush();
-
-            //TODO  proceder al pago con PayPal
+                $em->persist($metadata);
+                $em->flush();
+            }
         }
-
         return $this->redirectToRoute('dashboard');
     }
 

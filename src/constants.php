@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Ubel
@@ -16,6 +17,7 @@ abstract class constants
     const NOTIFICATION_PROFILE_UPDATE       =   "update_profile";
     const NOTIFICATION_JOB_CREATE           =   "create_profile";
     const NOTIFICATION_JOB_UPDATE           =   "update_job";
+    const NOTIFICATION_PAYMENT_SUCCESS           =   "payment_success";
     //-----notifications-----//
     //----------END----------//
 
