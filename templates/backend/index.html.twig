@@ -1,68 +1,131 @@
-{% extends 'backend/base.html.twig' %} {% import 'backend/macros.html.twig' as macro %} {% block title %} Administración {% endblock %} {% block context %} {{ encore_entry_link_tags('backend_layout') }}
+{% extends 'backend/base.html.twig' %} {% import 'backend/macros.html.twig' as
+macro %} {% block title %} Administración {% endblock %} {% block context %}
+{{ encore_entry_link_tags("backend_layout") }}
 
 <div class="row">
-    <div class="col-md-9">
-        <div class="row">
-            {{ macro.show_card( 'Categorías (general)', categories|length, 'fas fa-calculator', 'border-left-success', 'text-success' ) }} {{ macro.show_card( 'Publicaciones (Trabajos)', jobs|length, 'fa-calendar', 'border-left-primary', 'text-primary' ) }} {{ macro.show_card(
-            'Servicios ', announcements|length, 'fas fa-taxi', 'border-left-danger', 'text-danger' ) }}
-        </div>
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="card shadow mb-4">
-                    <!-- Card Header - Dropdown -->
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">
-                            Comportamiento de las publicaciones en el año
-                        </h6>
-                        <div class="dropdown no-arrow">
-                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                                <div class="dropdown-header">
-                                    Dropdown Header:
-                                </div>
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Something else here</a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Card Body -->
-                    <div class="card-body">
-                        <div class="chart-area">
-                            <canvas id="myAreaChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <div class="col-md-9">
+    <div class="row">
+      {{
+        macro.show_card(
+          "Categorías (general)",
+          categories | length,
+          "fas fa-calculator",
+          "border-left-success",
+          "text-success"
+        )
+      }}
+      {{
+        macro.show_card(
+          "Publicaciones (Trabajos)",
+          jobs | length,
+          "fa-calendar",
+          "border-left-primary",
+          "text-primary"
+        )
+      }}
+      {{
+        macro.show_card(
+          "Servicios ",
+          announcements | length,
+          "fas fa-taxi",
+          "border-left-danger",
+          "text-danger"
+        )
+      }}
     </div>
-    <div class="col-md-3">
-        <div class="card shadow mb-4 card-image">
-            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">
-                    Reportes este més
-                </h6>
+    <div class="row">
+      <div class="col-xl-12">
+        <div class="card shadow mb-4">
+          <!-- Card Header - Dropdown -->
+          <div
+            class="
+              card-header
+              py-3
+              d-flex
+              flex-row
+              align-items-center
+              justify-content-between
+            "
+          >
+            <h6 class="m-0 font-weight-bold text-primary">
+              Comportamiento de las publicaciones en el año
+            </h6>
+            <div class="dropdown no-arrow">
+              <a
+                class="dropdown-toggle"
+                href="#"
+                role="button"
+                id="dropdownMenuLink"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+              </a>
+              <div
+                class="
+                  dropdown-menu dropdown-menu-right
+                  shadow
+                  animated--fade-in
+                "
+                aria-labelledby="dropdownMenuLink"
+              >
+                <div class="dropdown-header">Dropdown Header:</div>
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
             </div>
-            <div class="card-body">
-                <div class="row">
-                    {% for p in payments %}
-                    <div class="col-12 d-flex justify-content-around">
-                        <span class="span-empleo">{{p['name']}}</span>
-                        <a href="{{path('report_index',{id:p['id']})}}" class="pull-right">
-                            <span style="font-size:20px">{{p['count']}}</span>/Órdenes
-                        </a>
-                    </div>
-                </div> 
+          </div>
+          <!-- Card Body -->
+          <div class="card-body">
+            <div class="chart-area">
+              <canvas id="myAreaChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card shadow mb-4 card-image">
+      <div
+        class="
+          card-header
+          py-3
+          d-flex
+          flex-row
+          align-items-center
+          justify-content-between
+        "
+      >
+        <h6 class="m-0 font-weight-bold text-primary">Reportes este més</h6>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          {% for p in payments %}
+          <div class="col-12 d-flex justify-content-around">
+            <span class="span-empleo">{{ p["name"] }}</span>
+            <a
+              href="{{ path('report_index', { id: p['id'] }) }}"
+              class="pull-right"
+            >
+              <span style="font-size: 20px">{{ p["count"] }}</span
+              >/Órdenes
+            </a>
+          </div>
+        </div>
 
-                {% endfor %}
-                <div class="col-12 mt-5 text-center">
-                    <a href="{{path('report_index')}}" class="btn btn-sm btn-primary">Listado</a>
-                </div>
-            </div>
+        {% endfor %}
+        <div class="col-12 mt-5 text-center">
+          <a href="{{ path('report_index') }}" class="btn btn-sm btn-primary"
+            >Listado</a
+          >
         </div>
+      </div>
     </div>
+  </div>
 </div>
-{% endblock %} {% block scripts %} {{ encore_entry_script_tags('backend_dashboard') }} {% endblock %}
+{% endblock %} {% block scripts %}
+{{ encore_entry_script_tags("backend_dashboard") }} {% endblock %}
