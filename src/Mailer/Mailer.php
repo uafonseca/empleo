@@ -60,7 +60,7 @@ class Mailer
     public function __construct(
         \Swift_Mailer $mailer,
         UrlGeneratorInterface $router,
-        EngineInterface $templating,
+
         Security $security,
         UploaderHelper $vich_uploader,
         RequestStack $request_stack,
@@ -68,7 +68,7 @@ class Mailer
     ) {
         $this->mailer = $mailer;
         $this->router = $router;
-        $this->templating = $templating;
+
         $this->security = $security;
         $this->uploader = $vich_uploader;
         $this->request_stack = $request_stack;

@@ -29,7 +29,7 @@ class Image
      * @ORM\Column(type="string", length=255)
      */
     private $image;
-    
+
     /**
      * @Assert\Image(
      *     allowLandscape = true,
@@ -49,7 +49,7 @@ class Image
      * @ORM\ManyToOne(targetEntity="App\Entity\Anouncement", inversedBy="images")
      */
     private $ManyToOne;
-    
+
     public function __construct()
     {
         $this->updateAt = new DateTime('now');
@@ -65,14 +65,14 @@ class Image
         return $this->image;
     }
 
-    public function setImage(string $image): self
+    public function setImage(?string $image): self
     {
         $this->image = $image;
 
         return $this;
     }
 
-    public function getImageFile():?File
+    public function getImageFile(): ?File
     {
         return $this->imageFile;
     }
@@ -109,7 +109,7 @@ class Image
 
         return $this;
     }
-    
+
     public function __toString()
     {
         return $this->image;

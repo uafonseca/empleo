@@ -28,7 +28,7 @@ class CompanyRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('company')
             ->leftJoin('company.jobs', 'job')
             ->where('job.status=:status')
-            ->setParameter('status',constants::JOB_STATUS_ACTIVE)
+            ->setParameter('status', constants::JOB_STATUS_ACTIVE)
             ->getQuery()
             ->getResult();
     }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Ubel
@@ -11,7 +12,7 @@ namespace App\Repository;
 use App\Entity\Job;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 
 /**
@@ -23,7 +24,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class UserRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
     }
@@ -34,10 +35,9 @@ class UserRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('u')
             ->andWhere('u.roles LIKE :role')
-            ->setParameter('role', '%'.$role.'%')
+            ->setParameter('role', '%' . $role . '%')
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 
     /**
@@ -45,13 +45,14 @@ class UserRepository extends ServiceEntityRepository
      * @param Job $job
      * @return mixed
      */
-    public function findCandidates(User $user, Job $job){
+    public function findCandidates(User $user, Job $job)
+    {
         return $this->createQueryBuilder('u')
             ->leftJoin('u.userJobMetadata', 'userJobMetadata')
             ->where('userJobMetadata.job =:job')
             ->andWhere('userJobMetadata.user =:user')
-            ->setParameter('job',$job)
-            ->setParameter('user',$user)
+            ->setParameter('job', $job)
+            ->setParameter('user', $user)
             ->orderBy('userJobMetadata.status')
             ->getQuery()
             ->getResult();
@@ -60,19 +61,19 @@ class UserRepository extends ServiceEntityRepository
     /**
      * @return User[] Returns an array of user objects
      */
-    public function findCandidatesList($id){
-//        return $this->createQueryBuilder('u')
-//            ->leftJoin('u.')
+    public function findCandidatesList($id)
+    {
+        //        return $this->createQueryBuilder('u')
+        //            ->leftJoin('u.')
 
 
         return $this->createQueryBuilder('u')
             ->select('u')
-            ->join('u.jobAppiled','uj')
-            ->join('App\Entity\Job','job')
+            ->join('u.jobAppiled', 'uj')
+            ->join('App\Entity\Job', 'job')
             ->where('job.id =:id')
             ->setParameter('id', $id)
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 }

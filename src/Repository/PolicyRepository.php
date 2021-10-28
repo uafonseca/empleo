@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Policy;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Policy|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,7 +14,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class PolicyRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Policy::class);
     }
@@ -23,12 +23,13 @@ class PolicyRepository extends ServiceEntityRepository
      * @return mixed
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function load(){
-    	return $this->createQueryBuilder('p')
-		    ->select('p')
-		    ->setMaxResults(1)
-		    ->getQuery()
-		    ->getOneOrNullResult();
+    public function load()
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
     // /**

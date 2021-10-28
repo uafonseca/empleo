@@ -1,53 +1,53 @@
 vich_uploader:
-    db_driver: orm
-    mappings:
-        blog_images:
-            namer: Vich\UploaderBundle\Naming\UniqidNamer
-            uri_prefix:         '%app.path.blog_images%'
-            upload_destination: '%kernel.project_dir%/public%app.path.blog_images%'
-            inject_on_load:     false
-            delete_on_update:   true
-            delete_on_remove:   true
-        user_images:
-            namer: Vich\UploaderBundle\Naming\UniqidNamer
-            uri_prefix:         '%app.path.user_images%'
-            upload_destination: '%kernel.project_dir%/public%app.path.user_images%'
-            directory_namer : app.service.user_namer_directory
-            inject_on_load:     false
-            delete_on_update:   true
-            delete_on_remove:   true
-        company_images:
-            namer: Vich\UploaderBundle\Naming\UniqidNamer
-            uri_prefix:         '%app.path.company_images%'
-            upload_destination: '%kernel.project_dir%/public%app.path.company_images%'
-            directory_namer : app.service.namer_directory
-            inject_on_load:     false
-            delete_on_update:   true
-            delete_on_remove:   true
-        user_cv:
-            namer: Vich\UploaderBundle\Naming\UniqidNamer
-            uri_prefix:         '%app.path.user_cv%'
-            upload_destination: '%kernel.project_dir%/public%app.path.user_cv%'
-            inject_on_load:     false
-            delete_on_update:   true
-            delete_on_remove:   true
-        image_store:
-            namer: Vich\UploaderBundle\Naming\UniqidNamer
-            uri_prefix:         '%app.path.image_store%'
-            upload_destination: '%kernel.project_dir%/public%app.path.image_store%'
-            directory_namer : app.service.namer_directory
-            inject_on_load:     false
-            delete_on_update:   true
-            delete_on_remove:   true
-        company_image:
-            uri_prefix: /uploads
-            upload_destination: '%kernel.root_dir%/../public/uploads'
-            namer: vich_uploader.namer_hash
-            directory_namer:
-                options: { upload_to: /cuestionarios/images_preguntas } 
-        banners_images:
-            uri_prefix: /uploads/banners
-            upload_destination: '%kernel.root_dir%/../public/uploads/banners'
-            namer: vich_uploader.namer_hash
-            directory_namer:
-                options: { upload_to: /slides } 
+  db_driver: orm
+  mappings:
+    blog_images:
+      namer: Vich\UploaderBundle\Naming\UniqidNamer
+      uri_prefix: "%app.path.blog_images%"
+      upload_destination: "%kernel.project_dir%/public%app.path.blog_images%"
+      inject_on_load: false
+      delete_on_update: true
+      delete_on_remove: true
+    user_images:
+      namer: Vich\UploaderBundle\Naming\UniqidNamer
+      uri_prefix: "%app.path.user_images%"
+      upload_destination: "%kernel.project_dir%/public%app.path.user_images%"
+      directory_namer: app.service.user_namer_directory
+      inject_on_load: false
+      delete_on_update: true
+      delete_on_remove: true
+    company_images:
+      namer: Vich\UploaderBundle\Naming\UniqidNamer
+      uri_prefix: "%app.path.company_images%"
+      upload_destination: "%kernel.project_dir%/public%app.path.company_images%"
+      directory_namer: app.service.namer_directory
+      inject_on_load: false
+      delete_on_update: true
+      delete_on_remove: true
+    user_cv:
+      namer: Vich\UploaderBundle\Naming\UniqidNamer
+      uri_prefix: "%app.path.user_cv%"
+      upload_destination: "%kernel.project_dir%/public%app.path.user_cv%"
+      inject_on_load: false
+      delete_on_update: true
+      delete_on_remove: true
+    image_store:
+      namer: Vich\UploaderBundle\Naming\UniqidNamer
+      uri_prefix: "%app.path.image_store%"
+      upload_destination: "%kernel.project_dir%/public%app.path.image_store%"
+      directory_namer: app.service.namer_directory
+      inject_on_load: false
+      delete_on_update: true
+      delete_on_remove: true
+    company_image:
+      uri_prefix: /uploads
+      upload_destination: "%kernel.root_dir%/../public/uploads"
+      namer: vich_uploader.namer_hash
+      directory_namer:
+        options: { upload_to: /cuestionarios/images_preguntas }
+    banners_images:
+      uri_prefix: /uploads/banners
+      upload_destination: "%kernel.root_dir%/../public/uploads/banners"
+      namer: vich_uploader.namer_hash
+      directory_namer:
+        options: { upload_to: /slides }

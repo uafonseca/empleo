@@ -26,12 +26,13 @@ class ContactMessageRepository extends ServiceEntityRepository
      * @param User $logged
      * @return int|mixed|string
      */
-    public function findByCandidate(User $candidate, User $logged){
+    public function findByCandidate(User $candidate, User $logged)
+    {
         return $this->createQueryBuilder('contactMessage')
             ->andWhere('contactMessage.creator =:creator')
             ->andWhere('contactMessage.destinatario=:candidate')
-            ->setParameter('candidate',$candidate)
-            ->setParameter('creator',$logged)
+            ->setParameter('candidate', $candidate)
+            ->setParameter('creator', $logged)
             ->orderBy('contactMessage.date', 'DESC')
             ->getQuery()
             ->getResult();

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: ubel
@@ -55,18 +56,17 @@ class Mailer
     public function __construct(
         Swift_Mailer $mailer,
         UrlGeneratorInterface $router,
-        EngineInterface $templating,
+
         UploaderHelper $vich_uploader,
         RequestStack $request_stack,
         EntityManagerInterface $entityManager,
         EventDispatcherInterface $event_dispatcher,
         TokenStorageInterface $token
-    )
-    {
+    ) {
         $this->request_stack = $request_stack;
         $this->vich_uploader = $vich_uploader;
         $this->entityManager = $entityManager;
-        $this->templating = $templating;
+
         $this->mailer = $mailer;
         $this->router = $router;
         $this->event_dispatcher = $event_dispatcher;
@@ -98,7 +98,8 @@ class Mailer
     /**
      * @param Notification $notification
      */
-    public function sendNotification(Notification $notification){
+    public function sendNotification(Notification $notification)
+    {
         $subject = 'Se ha registrado una nueva notificación';
         $this->sendEmailMessage($subject, $this->notificationTemplate($notification), 'emplearecuador@gmail.com', $notification->getUser()->getEmail(), false);
     }
@@ -107,7 +108,8 @@ class Mailer
      * @param Notification $notification
      * @return string
      */
-    public function notificationTemplate(Notification $notification){
+    public function notificationTemplate(Notification $notification)
+    {
         return $this->templating->render('mail/notification.html.twig', [
             'notification' => $notification
         ]);
@@ -116,8 +118,9 @@ class Mailer
     /**
      * @param ContactMessage $message
      */
-    public function sendEmailCandidate(ContactMessage $message){
-        $subject = 'Nuevo mensaje de '.$message->getCreator()->getName();
+    public function sendEmailCandidate(ContactMessage $message)
+    {
+        $subject = 'Nuevo mensaje de ' . $message->getCreator()->getName();
         $this->sendEmailMessage($subject, $this->candidateEmailTemplate($message), 'emplearecuador@gmail.com', $message->getDestinatario()->getEmail(), false);
     }
 
@@ -125,7 +128,8 @@ class Mailer
      * @param ContactMessage $message
      * @return string
      */
-    public function candidateEmailTemplate(ContactMessage $message){
+    public function candidateEmailTemplate(ContactMessage $message)
+    {
         return $this->templating->render('mail/privateEmail.html.twig', [
             'message' => $message
         ]);

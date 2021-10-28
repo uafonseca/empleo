@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Category|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,7 +14,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class CategoryRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Category::class);
     }
@@ -42,29 +42,30 @@ class CategoryRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
-    public function getCategoryesName(){
+    public function getCategoryesName()
+    {
         return $this->createQueryBuilder('c')
             ->select('c.name as name, c.id as id')
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
-    public function getCount($key){
+    public function getCount($key)
+    {
         return $this->createQueryBuilder('c')
             ->select('count(c) as count')
             ->where('c.name = :key')
-            ->setParameter('key',$key)
+            ->setParameter('key', $key)
             ->getQuery()
             ->getOneOrNullResult();
     }
 
-    public function counter(){
+    public function counter()
+    {
         return $this->createQueryBuilder('c')
-            ->from('App:Category','category')
+            ->from('App:Category', 'category')
             ->select('category, COUNT(category.name)')
             ->groupBy('category.name')
             ->getQuery()
             ->getResult();
     }
-
 }

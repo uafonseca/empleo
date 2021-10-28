@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\FeedUrl;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method FeedUrl|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,14 +14,14 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class FeedUrlRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, FeedUrl::class);
     }
 
-     /**
-      * @return FeedUrl[] Returns an array of FeedUrl objects
-      */
+    /**
+     * @return FeedUrl[] Returns an array of FeedUrl objects
+     */
 
     public function findByEnabledField($value)
     {
@@ -31,8 +31,7 @@ class FeedUrlRepository extends ServiceEntityRepository
             ->orderBy('f.id', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
 
@@ -43,8 +42,6 @@ class FeedUrlRepository extends ServiceEntityRepository
             ->andWhere('f.exampleField = :val')
             ->setParameter('val', $value)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
-
 }

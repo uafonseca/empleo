@@ -34,10 +34,10 @@ class Slide
     private $shortDescription;
 
     /**
-    * @ORM\Column(type="string", length=255)
-    */
+     * @ORM\Column(type="string", length=255)
+     */
     private $image;
-    
+
     /**
      * @Assert\Image(
      *     allowLandscape = true,
@@ -97,7 +97,7 @@ class Slide
         return $this->image;
     }
 
-    public function setImage(string $image): self
+    public function setImage(?string $image): self
     {
         $this->image = $image;
 
@@ -134,12 +134,12 @@ class Slide
         return $this;
     }
 
-    public function getImageFile():?File
+    public function getImageFile()
     {
         return $this->imageFile;
     }
 
-    public function setImageFile(File $imageFile): self
+    public function setImageFile($imageFile): self
     {
         $this->imageFile = $imageFile;
         if ($imageFile instanceof UploadedFile) {

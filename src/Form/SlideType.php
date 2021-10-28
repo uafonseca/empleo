@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class SlideType extends AbstractType
 {
@@ -20,18 +21,15 @@ class SlideType extends AbstractType
 
             ->add(
                 'imageFile',
-                FileType::class,
+                VichFileType::class,
                 [
-                        'multiple' => false,
-                        'required'=>true,
-                        'attr' => [
-                            'accept' => 'image/*',
-                            'class' => 'file-to-upload'
-                        ],
-                        'label' => 'Banner'
-                    ]
-            )
-        ;
+                    'required' => true,
+                    'label' => 'Banner',
+                    'allow_delete' => false,
+                    'download_uri' => false,
+                    'empty_data' => ''
+                ]
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver): void

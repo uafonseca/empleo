@@ -19,12 +19,15 @@ services:
   _defaults:
     autowire: true # Automatically injects dependencies in your services.
     autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-    public: true
 
+  # makes classes in src/ available to be used as services
+  # this creates a service per class whose id is the fully-qualified class name
   App\:
     resource: "../src/*"
-    exclude: "../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}"
+    exclude: "../src/{Entity,Migrations,Tests,Kernel.php}"
 
+  # controllers are imported separately to make sure services can be injected
+  # as action arguments even if you don't extend any base controller class
   App\Controller\:
     resource: "../src/Controller"
     tags: ["controller.service_arguments"]
@@ -51,6 +54,13 @@ services:
       - [setContainer, ["@service_container"]]
     tags:
       - { name: controller.service_arguments }
+
+  Sg\DatatablesBundle\Datatable\DatatableFactory:
+    alias: sg_datatables.factory
+  Sg\DatatablesBundle\Response\DatatableResponse:
+    alias: sg_datatables.response
+  Knp\Bundle\TimeBundle\Templating\Helper\TimeHelper:
+    alias: time.templating.helper.time
 
   app.service.namer_directory:
     class: App\Service\NamerDirectory
@@ -80,9 +90,5 @@ services:
     tags:
       - { name: controller.service_arguments }
 
-  Sg\DatatablesBundle\Datatable\DatatableFactory:
-    alias: sg_datatables.factory
-  Sg\DatatablesBundle\Response\DatatableResponse:
-    alias: sg_datatables.response
-  Knp\Bundle\TimeBundle\Templating\Helper\TimeHelper:
-    alias: time.templating.helper.time
+  # add more service definitions when explicit configuration is needed
+  # please note that last definitions always *replace* previous ones

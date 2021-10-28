@@ -6,6 +6,7 @@ use App\Entity\Slide;
 use App\Form\Slide1Type;
 use App\Form\SlideType;
 use App\Repository\SlideRepository;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -49,7 +50,7 @@ class SlideController extends AbstractController
         ]);
     }
 
-  
+
 
     /**
      * @Route("/{id}/edit", name="slide_edit", methods={"GET","POST"})
@@ -60,6 +61,8 @@ class SlideController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('slide_index', [], Response::HTTP_SEE_OTHER);
@@ -84,7 +87,7 @@ class SlideController extends AbstractController
         return $this->redirectToRoute('slide_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    
+
     /**
      * Activa o desactiva un banner dependiendo de su estado inicial
      *
@@ -93,7 +96,7 @@ class SlideController extends AbstractController
      * @param Slide $slide
      * @return Response
      */
-    public function activate(Slide $slide):Response
+    public function activate(Slide $slide): Response
     {
         $em = $this->getDoctrine()->getManager();
         $slide->setActive(!$slide->getActive());

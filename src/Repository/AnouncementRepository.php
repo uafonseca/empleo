@@ -8,7 +8,7 @@ use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Anouncement|null find($id, $lockMode = null, $lockVersion = null)
@@ -18,7 +18,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class AnouncementRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Anouncement::class);
     }
@@ -30,51 +30,52 @@ class AnouncementRepository extends ServiceEntityRepository
      * @param $experience
      * @return int|mixed|string
      */
-	public function searchByFilters($profesion, $location, $gender, $experience){
-		$qb = $this->createQueryBuilder('j');
-		if ($profesion != null) {
-			$qb->andWhere('j.profession =: key ')
-				->setParameter('key', '%'.$profesion.'%');
-		}
-		if ($location != null) {
-			$qb->orWhere('j.Location LIKE :key')
-				->setParameter('key', '%'.$location.'%');
-		}
-		if ($gender != null) {
-			$qb->orWhere('j.gender LIKE :key')
-				->setParameter('key', '%'.$gender.'%');
-		}
-		if ($experience != null) {
-			$qb->orWhere('j.experience LIKE :key')
-				->setParameter('key', '%'.$experience.'%');
-		}
-		$qb->andWhere('j.status = :status')
-			->setParameter('status', constants::JOB_STATUS_ACTIVE);
-		
-		return $qb
-			->orderBy('j.date', 'DESC')
-			->getQuery()
-			->getResult();
-		
-	}
+    public function searchByFilters($profesion, $location, $gender, $experience)
+    {
+        $qb = $this->createQueryBuilder('j');
+        if ($profesion != null) {
+            $qb->andWhere('j.profession =: key ')
+                ->setParameter('key', '%' . $profesion . '%');
+        }
+        if ($location != null) {
+            $qb->orWhere('j.Location LIKE :key')
+                ->setParameter('key', '%' . $location . '%');
+        }
+        if ($gender != null) {
+            $qb->orWhere('j.gender LIKE :key')
+                ->setParameter('key', '%' . $gender . '%');
+        }
+        if ($experience != null) {
+            $qb->orWhere('j.experience LIKE :key')
+                ->setParameter('key', '%' . $experience . '%');
+        }
+        $qb->andWhere('j.status = :status')
+            ->setParameter('status', constants::JOB_STATUS_ACTIVE);
+
+        return $qb
+            ->orderBy('j.date', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
     /**
      * @param $month
      * @return mixed
      * @throws NoResultException
      * @throws NonUniqueResultException
      */
-    public function countByMonth($month){
+    public function countByMonth($month)
+    {
         return $this->createQueryBuilder('anouncement')
             ->select('COUNT(anouncement.id)')
             ->where('MONTH(anouncement.date) =:m')
-            ->setParameter('m',$month)
+            ->setParameter('m', $month)
             ->getQuery()
             ->getSingleScalarResult();
     }
 
 
-    public function findApplied(User $user){
-
+    public function findApplied(User $user)
+    {
     }
 
 
