@@ -2,7 +2,8 @@
 
 namespace App\Controller;
 
-
+use App\constants;
+use App\Entity\Notification;
 use App\Entity\PaymentForJobs;
 use App\Entity\PaymentForJobsMetadata;
 use App\Entity\PaymentForServices;
@@ -66,12 +67,15 @@ class PaypalController extends AbstractController
 
             $currentUser->addPackageJob($pack);
 
+            $transaccion = $request->query->get('transaccion');
+
             $metadata = new PaymentForJobsMetadata();
             $metadata
                 ->setUser($currentUser)
                 ->setPackage($pack)
                 ->setDatePurchase(new \DateTime('now'))
                 ->setActive(true)
+                ->setTransaccion($transaccion)
                 ->setCurrentPostCount(0);
 
             $currentUser->addPaymentForJobsMetadata($metadata);
@@ -79,6 +83,17 @@ class PaypalController extends AbstractController
             $pack->addPaymentForJobsMetadata($metadata);
 
             $em->persist($metadata);
+
+
+            $notification = new Notification();
+            $notification->setDate(new \DateTime());
+            $notification->setType(constants::NOTIFICATION_PAYMENT_SUCCESS);
+            $notification->setContext("Pago efectuado satisfactoriamente");
+            $notification->setUser($currentUser);
+            $notification->setActive(true);
+            $em->persist($notification);
+
+
             $em->flush();
         } else {
             /** @var PaymentForServices $pack */

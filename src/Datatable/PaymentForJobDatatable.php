@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: ubel
@@ -55,21 +56,27 @@ class PaymentForJobDatatable extends AbstractDatatable
 
         $this->features->set([
             'processing' => true,
+            'scroll_x' => true
         ]);
+
         $this->columnBuilder
             ->add('id', Column::class, [
                 'title' => 'Id',
                 'visible' => false,
             ])
             ->add('date', VirtualColumn::class, [
-                'title' => 'Fecha de venta',
+                'title' => 'F. Venta',
             ])
             ->add('package.name', Column::class, [
-                'title' => 'Tipo de plan',
+                'title' => 'Plan',
                 'visible' => true,
             ])
             ->add('package.price', Column::class, [
                 'title' => 'Valor(USD)',
+                'visible' => true,
+            ])
+            ->add('transaccion', Column::class, [
+                'title' => 'Transacción',
                 'visible' => true,
             ])
             ->add('user.companyName', Column::class, [
@@ -91,8 +98,7 @@ class PaymentForJobDatatable extends AbstractDatatable
             ->add('user.phone', Column::class, [
                 'title' => 'Teléfono',
                 'visible' => true,
-            ])
-           ;
+            ]);
     }
 
     /**

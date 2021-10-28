@@ -2,14 +2,11 @@
     <nav class="navbar navbar-expand-xl absolute-nav  cp-nav navbar-light bg-light fluid-nav" style="opacity: 0.9;">
         <a class="navbar-brand" href="{{ path('homepage') }}">
             <img src="{{ asset('build/backend/images/lolo_last.svg') }}" class="img-fluid" alt="" width="200"></a>
-            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            
                 <a class="btn btn-success btn-lg ml-5 p-4" href="{{ path('consulta_index') }}">
-                    Consultas gratuitas     
-                                                                            
-                                                        
-                                    
+                    Consultas gratuitas            
                 </a>
-            {% endif %}
+            
             <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -17,41 +14,23 @@
                 <ul class="navbar-nav ml-auto main-nav">
                     <li class="menu-item active">
                         <a title="Home" href="{{ path('homepage') }}">
-                            Inicio
-                                                                                                                                        
-                                                                                                            
-                                                                                
-                                                    
+                            Inicio                  
                         </a>
                     </li>
                     <li class="menu-item active">
                         <a title="Home" href="{{ path('listado_companias') }}">
-                            Empresas
-                                                                                                                                        
-                                                                                                            
-                                                                                
-                                                    
+                            Empresas                 
                         </a>
                     </li>
                     {% if is_granted('ROLE_SUPER_ADMIN') %}
                         <li class="menu-item dropdown">
                             <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
-                                Administración
-                                                                                                                                                                						
-                                                                                                                                                            
-                                                                                                                            
-                                                                                            
-                                                            
+                                Administración                         
                             </a>
                             <ul class="dropdown-menu">
                                 <li class="menu-item">
                                     <a title="About" href="{{ path('backend') }}">
-                                        Panel de
-                                                                                                                                                                                                        									                                    administración
-                                                                                                                                                                                                    
-                                                                                                                                                            
-                                                                                                                    
-                                                                            
+                                        Panel de Administración
                                     </a>
                                 </li>
                             </ul>
@@ -59,21 +38,12 @@
                     {% endif %}
                     <li class="menu-item dropdown">
                         <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
-                            Empleos
-                                                                                                                                            					
-                                                                                                                                        
-                                                                                                            
-                                                                                
-                                                    
+                            Empleos                      
                         </a>
                         <ul class="dropdown-menu">
                             <li class="menu-item">
                                 <a title="About" href="{{ path('job_list') }}">
-                                    Listado de Empleos
-                                                                                                                                                                                
-                                                                                                                                            
-                                                                                                        
-                                                                    
+                                    Listado de Empleos                              
                                 </a>
                             </li>
                         {# {% if is_granted('ROLE_ADMIN') %}
@@ -95,11 +65,7 @@
                     {% if is_granted('ROLE_ADMIN') %}
                         <li class="menu-item dropdown">
                             <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
-                                Empleador
-                                                                                                                                                            
-                                                                                                                            
-                                                                                            
-                                                            
+                                Empleador                     
                             </a>
                             <ul class="dropdown-menu">
                                 {#                            {% if is_granted('ROLE_SUPER_ADMIN') %}#}
@@ -108,39 +74,22 @@
                                 {# <li class="menu-item"><a title="About" href="{{ path('candidates') }}">Lista de 
                                                                                                                                                                 							                                    candidatos</a></li> #}
                                     <li class="menu-item"> <a title="About" href="{{ path('dashboard') }}">
-                                        Tablero
-                                                                                                                                                                                                    
-                                                                                                                                                            
-                                                                                                                    
-                                                                            
+                                        Tablero                                   
                                     </a>
                                 </li>
                                 <li class="menu-item">
                                     <a title="About" href="{{ path('manage_candidates') }}">
-                                        Gestión de
-                                                                                                                                                                                                        									                                    candidatos
-                                                                                                                                                                                                    
-                                                                                                                                                            
-                                                                                                                    
-                                                                            
+                                        Gestión de                           
                                     </a>
                                 </li>
                                 <li class="menu-item">
                                     <a title="About" href="{{ path('job_manage') }}">
-                                        Gestionar trabajos
-                                                                                                                                                                                                    
-                                                                                                                                                            
-                                                                                                                    
-                                                                            
+                                        Gestionar trabajos                                
                                     </a>
                                 </li>
                                 <li class="menu-item">
                                     <a title="About" href="{{ path('job_new') }}">
-                                        Publicar trabajo
-                                                                                                                                                                                                    
-                                                                                                                                                            
-                                                                                                                    
-                                                                            
+                                        Publicar trabajo                                  
                                     </a>
                                 {# <li class="menu-item"><a title="About" href="{{ path('my_services_list') }}">Servicios creados</a>
                                                                                                                                                                 								                            </li> #}
@@ -150,76 +99,42 @@
                     {% elseif is_granted('ROLE_USER') %}
                         <li class="menu-item dropdown">
                             <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
-                                Usuario
-                                                                                                                                                            
-                                                                                                                            
-                                                                                            
-                                                            
+                                Usuario                       
                             </a>
                             <ul class="dropdown-menu">
                                 <li class="menu-item">
                                     <a title="About" href="{{ path('dashboard') }}">
-                                        Tablero
-                                                                                                                                                                                                    
-                                                                                                                                                            
-                                                                                                                    
-                                                                            
+                                        Tablero                                    
                                     </a>
                                 </li>
                                 <li class="menu-item">
                                     <a title="About" href="{{ path('dashboard_edit') }}">
-                                        Editar perfil
-                                                                                                                                                                                                    
-                                                                                                                                                            
-                                                                                                                    
-                                                                            
+                                        Editar perfil                                       
                                     </a>
                                 </li>
                                 <li class="menu-item">
                                     <a title="About" href="{{ path('dashboard_resume_edit') }}">
-                                        Agregar
-                                                                                                                                                                                                        									                                    Curriculum Vitae
-                                                                                                                                                                                                    
-                                                                                                                                                            
-                                                                                                                    
-                                                                            
+                                        Agregar                             
                                     </a>
                                 </li>
                                 <li class="menu-item">
                                     <a title="About" href="{{ path('dashboard_resume') }}">
-                                        CV
-                                                                                                                                                                                                    
-                                                                                                                                                            
-                                                                                                                    
-                                                                            
+                                        CV                               
                                     </a>
                                 </li>
                                 <li class="menu-item">
                                     <a title="About" href="{{ path('dashboard_resume_edit') }}">
-                                        Editar
-                                                                                                                                                                                                        									                                    Curriculum Vitae
-                                                                                                                                                                                                    
-                                                                                                                                                            
-                                                                                                                    
-                                                                            
+                                        Editar                               
                                     </a>
                                 </li>
                                 <li class="menu-item">
                                     <a title="About" href="{{ path('dashboard_bookmarked') }}">
-                                        Marcados
-                                                                                                                                                                                                    
-                                                                                                                                                            
-                                                                                                                    
-                                                                            
+                                        Marcados                               
                                     </a>
                                 </li>
                                 <li class="menu-item">
                                     <a title="About" href="{{ path('dashboard_applied') }}">
-                                        Trabajos aplicados
-                                                                                                                                                                                                    
-                                                                                                                                                            
-                                                                                                                    
-                                                                            
+                                        Trabajos aplicados                                 
                                     </a>
                                 {# <li class="menu-item"><a title="About" href="{{ path('load_services_request') }}">Servicios solicitados</a></li> #}
                                 </li>
@@ -228,68 +143,37 @@
                     {% endif %}
                     <li class="menu-item dropdown">
                         <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
-                            Páginas
-                                                                                                                                        
-                                                                                                            
-                                                                                
-                                                    
+                            Páginas                 
                         </a>
                         <ul class="dropdown-menu">
                             <li class="menu-item">
                                 <a title="About" href="{{ path('static_page_view', {'type': constant('App\\Entity\\StaticPage::TYPE_ABOUT') |url_encode}) }}">
-                                    Sobre
-                                                                                                                                                                                    								                                Nosotros
-                                                                                                                                                                                
-                                                                                                                                            
-                                                                                                        
-                                                                    
+                                    Sobre                                 
                                 </a>
                             </li>
                             <li class="menu-item">
                                 <a title="About" href="{{ path('static_page_view', {'type': constant('App\\Entity\\StaticPage::TYPE_CONTACT')|url_encode}) }}">
-                                    Contáctenos
-                                                                                                                                                                                
-                                                                                                                                            
-                                                                                                        
-                                                                    
+                                    Contáctenos                             
                                 </a>
                             </li>
                             <li class="menu-item">
                                 <a title="About" href="{{ path('static_page_view', {'type': constant('App\\Entity\\StaticPage::TYPE_PRICE')|url_encode}) }}">
-                                    Planes de servicios
-                                                                                                                                                                                
-                                                                                                                                            
-                                                                                                        
-                                                                    
+                                    Planes de servicios                          
                                 </a>
                             </li>
                             <li class="menu-item">
                                 <a title="About" href="{{ path('static_page_view', {'type': constant('App\\Entity\\StaticPage::TYPE_HOW_WORKING')|url_encode}) }}">
-                                    Cómo
-                                                                                                                                                                                    								                                funciona
-                                                                                                                                                                                
-                                                                                                                                            
-                                                                                                        
-                                                                    
+                                    Cómo                             
                                 </a>
                             </li>
                             <li class="menu-item">
                                 <a title="About" href="{{ path('static_page_view', {'type': constant('App\\Entity\\StaticPage::TYPE_FAQ')|url_encode}) }}">
-                                    FAQ
-                                                                                                                                                                                
-                                                                                                                                            
-                                                                                                        
-                                                                    
+                                    FAQ                                
                                 </a>
                             </li>
                             <li class="menu-item">
                                 <a title="About" href="{{ path('site_policy') }}">
-                                    Términos y
-                                                                                                                                                                                    								                                condiciones
-                                                                                                                                                                                
-                                                                                                                                            
-                                                                                                        
-                                                                    
+                                    Términos y condiciones                                                                    
                                 </a>
                             </li>
                         </ul>
@@ -298,11 +182,7 @@
                         <li class="menu-item post-job">
                             <a title="Title" href="{{ path('job_new') }}">
                                 <i class="fas fa-plus"></i>
-                                Publicar un trabajo
-                                                                                                                                                            
-                                                                                                                            
-                                                                                            
-                                                            
+                                Publicar un trabajo                          
                             </a>
                         </li>
                         <li>
@@ -311,10 +191,7 @@
                     {# <li class="menu-item post-job"><a title="Title" href="{{ path('service_new') }}"><i
                                                                                                     					                                    class="fas fa-plus"></i>Brindar mis servicios</a></li> #}
                         {% elseif  is_granted('ROLE_ADMIN') %}
-                        {#
-                                                                                                                        					                    <li class="menu-item post-job"><a title="Title" href="{{ path('service_new') }}"><i
-                                                                                                                        					                                    class="fas fa-plus"></i>Crear servicio</a></li>
-                                                                                                                        					                    #}
+                        {#                                                                                					                    #}
                         <li>
                             <a id="help" tabindex="0" data-toggle="popover" data-html="true" data-placement="bottom" data-trigger="hover" title="Ayuda" data-content="<p class='text-center'>Seleccione para publicar un trabajo</p>"></a>
                         </li>
@@ -322,11 +199,7 @@
                         <li class="menu-item post-job">
                             <a title="Title" href="{{ path('job_new') }}">
                                 <i class="fas fa-plus"></i>
-                                Publicar un trabajo
-                                                                                                                                                            
-                                                                                                                            
-                                                                                            
-                                                            
+                                Publicar un trabajo             
                             </a>
                         </li>
                         {% elseif is_granted('ROLE_USER') %}
@@ -341,18 +214,10 @@
                             <div class="notification-card">
                                 <div class="notification-head">
                                     <span>
-                                        Notificaciones
-                                                                                                                                                                                                    
-                                                                                                                                                            
-                                                                                                                    
-                                                                            
+                                        Notificaciones                                   
                                     </span>
                                     <a href="#">
-                                        Marcar todo como leído
-                                                                                                                                                                                                    
-                                                                                                                                                            
-                                                                                                                    
-                                                                            
+                                        Marcar todo como leído                    
                                     </a>
                                 </div>
                                 <div class="notification-body">
@@ -370,11 +235,7 @@
                                 </div>
                                 <div class="notification-footer">
                                     <a href="{{ path('dashboard') }}">
-                                        Ver todas las notificaciones
-                                                                                                                                                                                                    
-                                                                                                                                                            
-                                                                                                                    
-                                                                            
+                                        Ver todas las notificaciones                            
                                     </a>
                                 </div>
                             </div>
@@ -383,21 +244,12 @@
                     {% if app.user == false %}
                         <li class="menu-item login-popup">
                             <a href="#" title="Title" type="button" data-toggle="modal" data-target="#exampleModalLong">
-                                Entrar
-                                                                                                                                                                						
-                                                                                                                                                            
-                                                                                                                            
-                                                                                            
-                                                            
+                                Entrar                
                             </a>
                         </li>
                         <li class="menu-item login-popup">
                             <a href="{{ path('app_register') }}" title="Registro">
-                                Registrarse
-                                                                                                                                                            
-                                                                                                                            
-                                                                                            
-                                                            
+                                Registrarse                 
                             </a>
                         </li>
                     {% else %}
@@ -409,31 +261,19 @@
                                 <li>
                                     <a href="{{ path('dashboard') }}">
                                         <span class="ti-user"></span>
-                                        Cuenta
-                                                                                                                                                                                                    
-                                                                                                                                                            
-                                                                                                                    
-                                                                            
+                                        Cuenta                            
                                     </a>
                                 </li>
                                 <li>
                                     <a href="{{ path('dashboard_edit') }}">
                                         <span class="ti-settings"></span>
-                                        Configuración
-                                                                                                                                                                                                    
-                                                                                                                                                            
-                                                                                                                    
-                                                                            
+                                        Configuración                                  
                                     </a>
                                 </li>
                                 <li>
                                     <a href="/logout">
                                         <span class="ti-power-off"></span>
-                                        Salir
-                                                                                                                                                                                                    
-                                                                                                                                                            
-                                                                                                                    
-                                                                            
+                                        Salir                               
                                     </a>
                                 </li>
                             </ul>
@@ -451,19 +291,11 @@
                         <div class="modal-header">
                             <h5 class="modal-title">
                                 <i data-feather="user"></i>
-                                Entrar
-                                                                                                                                                            
-                                                                                                                            
-                                                                                            
-                                                            
+                                Entrar                 
                             </h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">
-                                    &times;
-                                                                                                                                                                                
-                                                                                                                                            
-                                                                                                        
-                                                                    
+                                    &times;                                                                    
                                 </span>
                             </button>
                         </div>
@@ -478,44 +310,21 @@
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
                                                         <label class="form-check-label" for="defaultCheck1">
-                                                            Recuérdame
-                                                                                                                                                                                                                                                                                                            									
-                                                                                                                                                                                                                                                                                                        
-                                                                                                                                                                                                                                            
-                                                                                                                                                                                
-                                                                                                                    
+                                                            Recuérdame                                   
                                                         </label>
                                                     </div>
                                                     <a href="{{ path('fos_user_resetting_request') }}">
-                                                        ¿Olvidó su contraseña?
-                                                                                                                                                                                                                                                                                    
-                                                                                                                                                                                                                            
-                                                                                                                                                                    
-                                                                                                            
+                                                        ¿Olvidó su contraseña?                                               
                                                     </a>
                                                 </div>
                                                 <button id="_submit" type="submit" class="button primary-bg btn-block">
-                                                    Entrar
-                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                            
-                                                                                                                                                        
-                                                                                                    
+                                                    Entrar                                         
                                                 </button>
                                             </form>
                                             <p>
-                                                ¿No tiene una cuenta?
-                                                                                                                                                                                                                                                							
-                                                                                                                                                                                                                                                
-                                                                                                                                                                                                
-                                                                                                                                                
-                                                                                                
+                                                ¿No tiene una cuenta?                                     
                                                 <a href="{{ path('app_register') }}">
-                                                    Registrarse
-                                                                                                                                                                                                                                                                    							
-                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                            
-                                                                                                                                                        
-                                                                                                    
+                                                    Registrarse                                        
                                                 </a>
                                             </p>
                                         </div>
@@ -528,19 +337,11 @@
                                         <div class="modal-header">
                                             <h5 class="modal-title">
                                                 <i data-feather="edit"></i>
-                                                Registro
-                                                                                                                                                                                                                                            
-                                                                                                                                                                                            
-                                                                                                                                            
-                                                                                            
+                                                Registro                                     
                                             </h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">
-                                                    &times;
-                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                            
-                                                                                                                                                        
-                                                                                                    
+                                                    &times;                                        
                                                 </span>
                                             </button>
                                         </div>
@@ -548,19 +349,11 @@
                                             <div class="account-type">
                                                 <a href="#" class="candidate-acc active">
                                                     <i data-feather="user"></i>
-                                                    Candidato
-                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                            
-                                                                                                                                                        
-                                                                                                    
+                                                    Candidato                                         
                                                 </a>
                                                 <a href="#" class="employer-acc">
                                                     <i data-feather="briefcase"></i>
-                                                    Empleador
-                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                            
-                                                                                                                                                        
-                                                                                                    
+                                                    Empleador                                       
                                                 </a>
                                             </div>
                                             <form action="#">
@@ -574,28 +367,15 @@
                                                                 <div class="form-check">
                                                                     <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
                                                                         <label class="form-check-label" for="defaultCheck2">
-                                                                            Acepto los
-                                                                                                                                                                                                                                                                                                                                                                                            										
-                                                                                                                                                                                                                                                                                                                                                                                            
-                                                                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                                    
-                                                                                                                                                        
+                                                                            Acepto los                                                  
                                                                             <a href="{{ path('site_policy') }}">
-                                                                                términos y condiciones
-                                                                                                                                                                                                                                                                                                                                                                                                            
-                                                                                                                                                                                                                                                                                                                            
-                                                                                                                                                                                                                                            
-                                                                                                                                                            
+                                                                                términos y condiciones                                                                             
                                                                             </a>
                                                                         </label>
                                                                     </div>
                                                                 </div>
                                                                 <button class="button primary-bg btn-block">
-                                                                    Registrar
-                                                                                                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                                                                            
-                                                                                                                                                                                                        
-                                                                                                                                    
+                                                                    Registrar                                        
                                                                 </button>
                                                             </form>
                                                         </div>

@@ -46,9 +46,14 @@ class PaymentForJobsMetadata
      * @ORM\Column(type="datetime")
      */
     private $datePurchase;
-    
 
-    public function getId():?int
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $transaccion;
+
+
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -116,6 +121,24 @@ class PaymentForJobsMetadata
     public function setDatePurchase(\DateTimeInterface $datePurchase): self
     {
         $this->datePurchase = $datePurchase;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of transaccion
+     */
+    public function getTransaccion()
+    {
+        return $this->transaccion;
+    }
+
+    /**
+     * Set the value of transaccion
+     */
+    public function setTransaccion($transaccion): self
+    {
+        $this->transaccion = $transaccion;
 
         return $this;
     }
