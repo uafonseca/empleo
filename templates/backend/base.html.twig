@@ -232,6 +232,43 @@
             </div>
           </div>
         </li>
+        <hr class="sidebar-divider" />
+        <li class="nav-item">
+          <a
+            class="nav-link collapsed"
+            href="#"
+            data-toggle="collapse"
+            data-target="#consultas"
+            aria-expanded="true"
+            aria-controls="collapsePages"
+          >
+            <i class="fas fa-file-word"></i>
+            <span> Consultas </span>
+          </a>
+          <div
+            id="consultas"
+            class="collapse"
+            aria-labelledby="headingPages"
+            data-parent="#accordionSidebar"
+          >
+            <div class="bg-white py-2 collapse-inner rounded">
+              <a
+                class="collapse-item"
+                href="{{ path('consulta_index', { type: 'company' }) }}"
+              >
+                Empresas
+              </a>
+            </div>
+            <div class="bg-white py-2 collapse-inner rounded">
+              <a
+                class="collapse-item"
+                href="{{ path('consulta_index', { type: 'user' }) }}"
+              >
+                Usuarios
+              </a>
+            </div>
+          </div>
+        </li>
 
         <!-- Divider -->
         <hr class="sidebar-divider" />

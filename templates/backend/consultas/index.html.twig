@@ -1,0 +1,12 @@
+{% extends 'backend/base.html.twig' %} {% block context %}
+
+<div class="card">
+  <div class="card-header"></div>
+  <div class="card-body">
+    {{ sg_datatables_render_html(datatable) }}
+  </div>
+</div>
+
+{% endblock %} {% block scripts %}
+{{ sg_datatables_render_js(datatable) }}
+{% endblock %}

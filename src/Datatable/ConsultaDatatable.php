@@ -46,6 +46,9 @@ class ConsultaDatatable extends AbstractDatatable
             'method' => 'POST',
         ]);
 
+        $props = $options['props'];
+
+
         $this->options->set([
             'classes' => 'table table-hover',
             'individual_filtering' => false,
@@ -66,6 +69,25 @@ class ConsultaDatatable extends AbstractDatatable
             ->add('type', Column::class, [
                 'title' => 'Tipo'
             ]);
+        if ($this->authorizationChecker->isGranted('ROLE_SUPER_ADMIN')) {
+            if (isset($props['type']) && $props['type'] === 'company') {
+                $this->columnBuilder
+                    ->add('user.companyName', Column::class, [
+                        'title' => 'Empresa',
+                        'default_content' => 'NA'
+                    ]);
+            } elseif (isset($props['type']) && $props['type'] === 'user') {
+                $this->columnBuilder
+                    ->add('user.phone', Column::class, [
+                        'title' => 'Teléfono',
+                        'default_content' => 'NA'
+                    ])
+                    ->add('user.email', Column::class, [
+                        'title' => 'Correo',
+                        'default_content' => 'NA'
+                    ]);
+            }
+        }
     }
 
     /**

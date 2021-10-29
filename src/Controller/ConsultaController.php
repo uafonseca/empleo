@@ -17,15 +17,19 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sg\DatatablesBundle\Datatable\DatatableFactory;
 use Sg\DatatablesBundle\Response\DatatableResponse;
 
+use function GuzzleHttp\Promise\queue;
+
 /**
  * @Route("/consulta")
  */
-class ConsultaController extends AbstractController {
+class ConsultaController extends AbstractController
+{
 
     private $datatableFactory;
     private $datatableResponse;
 
-    public function __construct(DatatableFactory $datatableFactory, DatatableResponse $datatableResponse) {
+    public function __construct(DatatableFactory $datatableFactory, DatatableResponse $datatableResponse)
+    {
         $this->datatableFactory = $datatableFactory;
         $this->datatableResponse = $datatableResponse;
     }
@@ -34,29 +38,53 @@ class ConsultaController extends AbstractController {
      * @Route("/", name="consulta_index")
      * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
-    public function index(Request $request): Response {
+    public function index(Request $request): Response
+    {
         $entityManager = $this->getDoctrine()->getManager();
         $slides = $entityManager->getRepository(Slide::class)->findAll();
 
         $datatable = $this->datatableFactory->create(ConsultaDatatable::class);
         $datatable->buildDatatable([
-            'url' => $this->generateUrl('consulta_index')
+            'url' => $this->generateUrl('consulta_index', $request->query->all()),
+            'props' => $request->query->all()
         ]);
+
+        $template = 'backend/consultas/index.html.twig';
 
         if ($request->isXmlHttpRequest() && $request->isMethod('POST')) {
             $this->datatableResponse->setDatatable($datatable);
             $qb = $this->datatableResponse->getDatatableQueryBuilder();
-            $qb
+            if (!$this->isGranted('ROLE_SUPER_ADMIN')) {
+                $qb
                     ->getQb()
                     ->where('consulta.user = :user')
                     ->setParameter('user', $this->getUser());
+                $template = 'consulta/index.html.twig';
+            }
+
+            $type = $request->query->get('type');
+            if ($type && $type === 'user') {
+                $qb
+                    ->getQb()
+                    ->join('consulta.user', 'usuario')
+                    ->where('usuario.candidate =:t')
+                    ->setParameter('t', true);
+            } elseif ($type && $type === 'company') {
+                $qb
+                    ->getQb()
+                    ->join('consulta.user', 'usuario')
+                    ->where('usuario.candidate =:t')
+                    ->setParameter('t', false);
+            }
+
+
             return $this->datatableResponse->getResponse();
         }
 
-        return $this->render('consulta/index.html.twig', [
-                    'slides' => $slides,
-                    'notifications' => $this->loadNotifications(),
-                    'datatable' => $datatable
+        return $this->render($template, [
+            'slides' => $slides,
+            'notifications' => $this->loadNotifications(),
+            'datatable' => $datatable
         ]);
     }
 
@@ -64,7 +92,8 @@ class ConsultaController extends AbstractController {
      * @Route("/new", name="consulta_new", methods={"GET","POST"})
      * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
-    public function new(Request $request): Response {
+    public function new(Request $request): Response
+    {
         $consultum = new Consulta();
         $form = $this->createForm(ConsultaType::class, $consultum);
         $form->handleRequest($request);
@@ -87,30 +116,31 @@ class ConsultaController extends AbstractController {
         }
 
         return $this->render('consulta/new.html.twig', [
-                    'consultum' => $consultum,
-                    'form' => $form->createView(),
-                    'slides' => $slides,
-                    'notifications' => $this->loadNotifications(),
+            'consultum' => $consultum,
+            'form' => $form->createView(),
+            'slides' => $slides,
+            'notifications' => $this->loadNotifications(),
         ]);
     }
 
     /**
      * @return object[]|null
      */
-    public function loadNotifications() {
+    public function loadNotifications()
+    {
         $user = $this->get('security.token_storage')->getToken()->getUser();
 
         if (null != $user) {
             $em = $this->getDoctrine()->getManager();
             $notifications = $em->getRepository(Notification::class)->findBy(
-                    array(
-                        'user' => $user,
-                        'active' => true,
-                    ),
-                    array(
-                        'date' => 'DESC',
-                    ),
-                    10
+                array(
+                    'user' => $user,
+                    'active' => true,
+                ),
+                array(
+                    'date' => 'DESC',
+                ),
+                10
             );
 
             return $notifications;
@@ -121,16 +151,18 @@ class ConsultaController extends AbstractController {
     /**
      * @Route("/{id}", name="consulta_show", methods={"GET"})
      */
-    public function show(Consulta $consultum): Response {
+    public function show(Consulta $consultum): Response
+    {
         return $this->render('consulta/show.html.twig', [
-                    'consultum' => $consultum,
+            'consultum' => $consultum,
         ]);
     }
 
     /**
      * @Route("/{id}/edit", name="consulta_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Consulta $consultum): Response {
+    public function edit(Request $request, Consulta $consultum): Response
+    {
         $form = $this->createForm(ConsultaType::class, $consultum);
         $form->handleRequest($request);
 
@@ -141,15 +173,16 @@ class ConsultaController extends AbstractController {
         }
 
         return $this->render('consulta/edit.html.twig', [
-                    'consultum' => $consultum,
-                    'form' => $form->createView(),
+            'consultum' => $consultum,
+            'form' => $form->createView(),
         ]);
     }
 
     /**
      * @Route("/{id}", name="consulta_delete", methods={"POST"})
      */
-    public function delete(Request $request, Consulta $consultum): Response {
+    public function delete(Request $request, Consulta $consultum): Response
+    {
         if ($this->isCsrfTokenValid('delete' . $consultum->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($consultum);
@@ -158,5 +191,4 @@ class ConsultaController extends AbstractController {
 
         return $this->redirectToRoute('consulta_index', [], Response::HTTP_SEE_OTHER);
     }
-
 }
