@@ -9,7 +9,9 @@
 
 namespace App;
 
-
+/**
+ * Undocumented class
+ */
 abstract class constants
 {
     //---------BEGIN---------//
@@ -17,7 +19,8 @@ abstract class constants
     const NOTIFICATION_PROFILE_UPDATE       =   "update_profile";
     const NOTIFICATION_JOB_CREATE           =   "create_profile";
     const NOTIFICATION_JOB_UPDATE           =   "update_job";
-    const NOTIFICATION_PAYMENT_SUCCESS           =   "payment_success";
+    const NOTIFICATION_PAYMENT_SUCCESS      =   "payment_success";
+    const NOTIFICATION_QUERY_CREATE         =   "query_create";
     //-----notifications-----//
     //----------END----------//
 

@@ -75,11 +75,12 @@ class SecurityController extends Controller
             $user->setSecret(rand(10000, 99999));
             $entityManager->persist($user);
             $entityManager->flush();
-            $message = (new \Swift_Message('Bienvenido a emplear.gessma.com'))
+            $message = (new \Swift_Message('Bienvenido a benditotrabajo.com'))
                 ->setFrom('emplearecuador@gmail.com')
                 ->setBody(
                     $this->renderView(
-                        'mail/register.html.twig', [
+                        'mail/register.html.twig',
+                        [
                             'user' => $user,
                             'plain_password' => $plain_password,
                         ]

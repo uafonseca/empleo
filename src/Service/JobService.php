@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: ubel
@@ -44,21 +45,24 @@ class JobService
     /**
      * @return array
      */
-    public function findByAllCategory(){
+    public function findByAllCategory()
+    {
         return $this->repository->getCounter();
     }
 
     /**
      * @return array|object[]
      */
-    public function findAll(){
+    public function findAll()
+    {
         return $this->repository->findAll();
     }
 
     /**
      * @param Job $job
      */
-    public function update(Job $job){
+    public function update(Job $job)
+    {
         $this->entityManager->persist($job);
         $this->entityManager->flush();
     }
@@ -75,7 +79,7 @@ class JobService
             if ($paymentForJobsMetadatum->getActive())
                 $metas[] = $paymentForJobsMetadatum;
         }
-        return $metas;
+        return array_unique($metas);
     }
 
     /**
@@ -90,7 +94,7 @@ class JobService
             if ($paymentForServicesMetadatum->getActive())
                 $metas[] = $paymentForServicesMetadatum;
         }
-        return $metas;
+        return array_unique($metas);
     }
 
     /**
@@ -106,17 +110,16 @@ class JobService
 
         $collection = new ArrayCollection($allPackages);
 
-        if ($user->getBuyFreePackJob()){
+        if ($user->getBuyFreePackJob()) {
             /** @var PaymentForJobs $item */
-            foreach ($collection as $item){
+            foreach ($collection as $item) {
                 if ($item->getPrice() === 0)
                     $collection->removeElement($item);
             }
         }
 
         /** @var PaymentForJobsMetadata  $activesPack */
-        foreach ($activesPacks as $activesPack)
-        {
+        foreach ($activesPacks as $activesPack) {
             $collection->removeElement($activesPack->getPackage());
         }
         return $collection;
@@ -136,8 +139,7 @@ class JobService
         $collection = new ArrayCollection($allPackages);
 
         /** @var PaymentForJobsMetadata  $activesPack */
-        foreach ($activesPacks as $activesPack)
-        {
+        foreach ($activesPacks as $activesPack) {
             $collection->removeElement($activesPack->getPackage());
         }
         return $collection;

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\constants;
 use App\Datatable\ConsultaDatatable;
 use App\Entity\Consulta;
 use App\Form\ConsultaType;
@@ -110,6 +111,13 @@ class ConsultaController extends AbstractController
             $consultum->setCreatedAt(new DateTime('now'));
 
             $entityManager->persist($consultum);
+            $notification = new Notification();
+            $notification->setDate(new \DateTime());
+            $notification->setType(constants::NOTIFICATION_PAYMENT_SUCCESS);
+            $notification->setContext("Consulta enviada correctamente");
+            $notification->setUser($loggedUser);
+            $notification->setActive(true);
+            $entityManager->persist($notification);
             $entityManager->flush();
 
             return $this->redirectToRoute('homepage', [], Response::HTTP_SEE_OTHER);
