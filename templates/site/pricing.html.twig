@@ -141,6 +141,12 @@
                   {% endif %}
                 </div>
               </div>
+              {% else %}
+              <div class="col-md-4">
+                <div class="alert alert-warning">
+                  No existen paquetes disponibles
+                </div>
+              </div>
               {% endfor %} {% endif %} {% if type == 'service' %} {% for p in
               packagesServices %}
               <div class="col-md-4">
@@ -215,10 +221,18 @@
                   {% endif %}
                 </div>
               </div>
-              {% endfor %} {% endif %}
+              {% else %}
+              <div class="col-md-4">
+                <div class="alert alert-warning">
+                  No existen paquetes disponibles
+                </div>
+              </div>
+              {% endfor %} } {% endif %}
             </div>
           </div>
-          {% include 'user/dashboard_sidebar.html.twig' %}
+          {% if is_granted('ROLE_ADMIN') %} {% include
+          'user/employer/dashboard_sidebar.html.twig' %} {% else %} {% include
+          'user/dashboard_sidebar.html.twig' %} {% endif %}
         </div>
       </div>
     </div>
