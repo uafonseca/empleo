@@ -3,20 +3,24 @@
   <div class="container">
     <h2>
       Hola 
+            
       {{ user.username }}
       , ya estas registrado en
+                
           
     </h2>
     <img id="logo" src="{{ absolute_url(asset('build/backend/images/lolo_last.svg')) }}" alt="Emplear_Logo" />
     <p>
       Desde ahora podrás revisar, acceder y registrar todas las ofertas
-            laborales de la manera más fácil
+                  laborales de la manera más fácil
+                
           
     </p>
     <table>
       <caption>
         <h2>
           Detalles de su cuenta
+                            
                   
         </h2>
       </caption>
@@ -24,24 +28,25 @@
         <tr>
           <th>
             Código de verificación
+                                  
                       
           </th>
           <th>
             Tipo de cuenta
+                                  
                       
           </th>
           <th>
             Nombre de usuario
+                                  
                       
           </th>
           <th>
             Clave
+                                  
                       
           </th>
-          <th>
-            Fecha
-                      
-          </th>
+
         </tr>
       </thead>
       <tbody>
@@ -52,11 +57,13 @@
           {% if user.candidate %}
             <td>
               Candidato
+                                        
                           
             </td>
           {% else %}
             <td>
               Empleador
+                                        
                           
             </td>
           {% endif %}
@@ -66,19 +73,19 @@
           <td>
             {{ plain_password }}
           </td>
-          <tD>
-            {{ 'now'|date('d/m/Y h:i') }}
-          </tD>
+
         </tr>
       </tbody>
     </table>
     <p>
       Para verifiar su cuenta puede ingresar
+                
           
     </p>
     <br/>
     <a class="button" href="{{ url('homepage') }}">
       Aquí
+          
     </a>
     <br/>
     <br/>
