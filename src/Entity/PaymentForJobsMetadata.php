@@ -145,6 +145,6 @@ class PaymentForJobsMetadata
 
     public function __toString()
     {
-        return $this->id;
+        return $this->id . '';
     }
 }
