@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Templating\EngineInterface;
+use Twig\Environment;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
 
@@ -38,7 +39,7 @@ class Mailer
     /** @var EntityManagerInterface */
     private $entityManager;
 
-    /** @var EngineInterface */
+    /** @var Environment  */
     private $templating;
 
     /** @var Swift_Mailer */
@@ -56,17 +57,17 @@ class Mailer
     public function __construct(
         Swift_Mailer $mailer,
         UrlGeneratorInterface $router,
-
         UploaderHelper $vich_uploader,
         RequestStack $request_stack,
         EntityManagerInterface $entityManager,
         EventDispatcherInterface $event_dispatcher,
-        TokenStorageInterface $token
+        TokenStorageInterface $token,
+        Environment $templating
     ) {
         $this->request_stack = $request_stack;
         $this->vich_uploader = $vich_uploader;
         $this->entityManager = $entityManager;
-
+        $this->templating =  $templating;
         $this->mailer = $mailer;
         $this->router = $router;
         $this->event_dispatcher = $event_dispatcher;
