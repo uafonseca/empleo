@@ -37,7 +37,7 @@ set('shared_dirs', ['public/uploads', 'var/log', 'var/sessions', 'vendor', 'publ
 
 set('writable_dirs', ['var/log', 'var/cache', 'var/sessions', 'public/', '/var/www/html/empleo', '/var/www/html/empleo_prod']);
 
-set('ssh_multiplexing', true);
+set('ssh_multiplexing', false);
 
 set('release_name', function () {
     return date('YmdHis');

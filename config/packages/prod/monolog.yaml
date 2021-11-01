@@ -18,7 +18,7 @@ monolog:
             type:         swift_mailer
             from_email:   'ubelangelfonse@gmail.com'
             to_email:     ['ubelangelfonseca@gmail.com', 'murdiales.ecu@gmail.com']
-            subject:      ':( Ah ocurrido un error[emplear.gessmac.com]! %%message%%'
+            subject:      ':( Ah ocurrido un error[Benditotrabajo.com]! %%message%%'
             level:        error
             formatter:    monolog.formatter.html
             content_type: text/html

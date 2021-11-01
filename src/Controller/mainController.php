@@ -888,7 +888,7 @@ class mainController extends Controller
             ]);
 
             $this->mailer->sendEmailMessage(
-                'Notificación de emplear.gessmac.com',
+                'Notificación de Benditotrabajo.com',
                 $mailerThemplate,
                 'emplearecuador@gmail.com',
                 $destinanario->getEmail(),

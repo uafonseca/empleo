@@ -45,29 +45,28 @@ class PaymentForJobsType extends AbstractType
             ])
             ->add('identificador', null, [
                 'label' => 'Identificador',
-                'required' => true
+                'required' => false
             ])
-             ->add('idClient', null, [
+            ->add('idClient', null, [
                 'label' => 'Id Cliente',
-                'required' => true
+                'required' => false
             ])
-             ->add('claveSecreta', null, [
+            ->add('claveSecreta', null, [
                 'label' => 'Clave Secreta',
-                'required' => true
+                'required' => false
             ])
-             ->add('contrasennaCodificacion', null, [
+            ->add('contrasennaCodificacion', null, [
                 'label' => 'Contraseña de Codificación',
-                'required' => true
+                'required' => false
             ])
-             ->add('token', null, [
+            ->add('token', null, [
                 'label' => 'Token',
-                'required' => true
+                'required' => false
             ])
             ->add('selection', null, [
                 'label' => 'Selección de candidatos',
                 'required' => false
-            ])
-            ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
