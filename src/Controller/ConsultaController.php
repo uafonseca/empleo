@@ -50,7 +50,11 @@ class ConsultaController extends AbstractController
             'props' => $request->query->all()
         ]);
 
-        $template = 'backend/consultas/index.html.twig';
+        if ($this->isGranted('ROLE_SUPER_ADMIN')) {
+            $template = 'backend/consultas/index.html.twig';
+        } else {
+            $template = 'consulta/index.html.twig';
+        }
 
         if ($request->isXmlHttpRequest() && $request->isMethod('POST')) {
             $this->datatableResponse->setDatatable($datatable);
@@ -60,7 +64,8 @@ class ConsultaController extends AbstractController
                     ->getQb()
                     ->where('consulta.user = :user')
                     ->setParameter('user', $this->getUser());
-                $template = 'consulta/index.html.twig';
+            } else {
+                $template = 'backend/consultas/index.html.twig';
             }
 
             $type = $request->query->get('type');

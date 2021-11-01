@@ -111,4 +111,9 @@ class PaymentForServices extends Payment
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->id . '';
+    }
 }
