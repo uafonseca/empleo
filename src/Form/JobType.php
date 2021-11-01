@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Ubel
@@ -52,6 +53,7 @@ class JobType extends AbstractType
                     'Prácticas profesionales' => 'practica_profesional',
                     'Por obra' => 'obra',
                     'Por contrato' => 'contrato',
+                    'Servicios profesionales' => 'servicios_profesionales',
                 ],
                 'placeholder' => 'Seleccione tipo',
                 'label' => 'Tipo'
@@ -71,7 +73,7 @@ class JobType extends AbstractType
             ])
             ->add('qualification', ChoiceType::class, [
                 'choices' => [
-                    'Urge' => 'Urge',
+                    'Urgente' => 'Urgente',
                     'Inmediato' => 'Inmediato',
                 ],
                 'placeholder' => 'Seleccione prioridad',
@@ -99,27 +101,27 @@ class JobType extends AbstractType
             ])
             ->add('city', null, [
                 'attr' => ['id' => 'city'],
-                'label'=>'Ciudad'
+                'label' => 'Ciudad'
             ])
-//            ->add('gender', ChoiceType::class, [
-//                'choices' => [
-//                    'Femenino' => 'femenino',
-//                    'Másculino' => 'masculino',
-//                    'Cualquier' => 'cualquier',
-//                ],
-//                'placeholder' => 'Género',
-//                'label'=>'Género'
-//            ])
+            //            ->add('gender', ChoiceType::class, [
+            //                'choices' => [
+            //                    'Femenino' => 'femenino',
+            //                    'Másculino' => 'masculino',
+            //                    'Cualquier' => 'cualquier',
+            //                ],
+            //                'placeholder' => 'Género',
+            //                'label'=>'Género'
+            //            ])
             ->add('zip_code', null, [
                 'attr' => ['id' => 'postal_code'],
-                'label'=>'Código postal'
+                'label' => 'Código postal'
             ])
             ->add('imageFile', FileType::class, array(
                 'required' => true,
             ))
             ->add('your_localtion', null, [
                 'attr' => ['id' => 'autocomplete'],
-                'label'=>'Ubicación'
+                'label' => 'Ubicación'
             ])
             ->add('company', CompanyType::class, [
                 'label' => 'Datos de la compañía'
@@ -131,10 +133,10 @@ class JobType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Job::class,
-//            'error_mapping' => [
-//                '.' => 'city',
-//
-//            ],
+            //            'error_mapping' => [
+            //                '.' => 'city',
+            //
+            //            ],
         ]);
     }
 }

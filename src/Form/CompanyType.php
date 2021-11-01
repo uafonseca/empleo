@@ -19,18 +19,18 @@ class CompanyType extends AbstractType
                 'label' => 'Imagen',
                 'required' => false,
             ])
-            ->add('name',null,[
+            ->add('name', null, [
                 'label' => 'Nombre',
                 'required' => true
             ])
-            ->add('url',UrlType::class,[
+            ->add('url', UrlType::class, [
                 'label' => 'Sitio Web',
-                'required' => false
+                'required' => true
             ])
-            ->add('description',CKEditorType::class,[
-                'label' => 'Descripción'
-            ])
-        ;
+            ->add('description', CKEditorType::class, [
+                'label' => 'Descripción',
+                'required' => true
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
