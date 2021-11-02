@@ -1,18 +1,20 @@
 {% extends 'mail/base.html.twig' %}
 {% block content %}
-  <div class="container">
-    <h2>
-      Notificación de {{ app.request.baseUrl }}
-    </h2>
-    <img id="logo"
-      src="{{ absolute_url(asset('build/backend/images/lolo_last.svg')) }}"
-      alt="Emplear_Logo" />
-    <hr />
-    <p>
-      Estimado {{ user.name }}, su publicación {{ job.title }} no cumple con nuestras
-      políticas
-    </p>
-    <br />
-    {# <p><em>{{ body|raw }}</em></p> #}
-  </div>
+	<div class="container">
+		<h2>
+			Notificación de
+			{{ app.request.baseUrl }}
+		</h2>
+		<img id="logo" src="{{ absolute_url(asset('site/images/logo_last.svg')) }}" alt="Emplear_Logo"/>
+		<hr/>
+		<p>
+			Estimado
+			{{ user.name }}, su publicación
+			{{ job.title }}
+			no cumple con nuestras
+			      políticas
+		</p>
+		<br/>
+		{# <p><em>{{ body|raw }}</em></p> #}
+	</div>
 {% endblock %}
