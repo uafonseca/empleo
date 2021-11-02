@@ -61,8 +61,7 @@ class JobController extends AbstractController
         NotificationService $notificationService,
         JobService $jobService,
         Mailer $mailer
-    )
-    {
+    ) {
         $this->datatableFactory = $datatableFactory;
         $this->datatableResponse = $datatableResponse;
         $this->userService = $userService;
@@ -107,12 +106,12 @@ class JobController extends AbstractController
         $user = $this->getUser();
 
         $metadata = $this->userService->isReadyToGetJob($user);
-        if (!$metadata && !$user->getBuyFreePackJob()){
+        if (!$metadata && !$user->getBuyFreePackJob()) {
             $em = $this->getDoctrine()->getManager();
             $paymentForJobs =  $em->getRepository(PaymentForJobs::class)->findAll();
             /** @var PaymentForJobs $paymentForJob */
-            foreach ($paymentForJobs as $paymentForJob){
-                if ($paymentForJob->getPrice() === 0){
+            foreach ($paymentForJobs as $paymentForJob) {
+                if ($paymentForJob->getPrice() === 0) {
                     $user->addPackageJob($paymentForJob);
                     $metadata = new PaymentForJobsMetadata();
                     $metadata
@@ -135,9 +134,9 @@ class JobController extends AbstractController
         /** @var PaymentForJobsMetadata $metadata */
         if (null != $metadata = $this->userService->isReadyToGetJob($user)) {
 
-            if ($metadata->getCurrentPostCount() == $metadata->getPackage()->getAnouncementsNumberMax()){
+            if ($metadata->getCurrentPostCount() == $metadata->getPackage()->getAnouncementsNumberMax()) {
                 $metadata->setActive(false);
-                $this->addFlash('warning','Debe acceder a comprar un paquete');
+                $this->addFlash('warning', 'Debe acceder a comprar un paquete');
                 return $this->redirectToRoute('pricing_page', ['type' => 'job']);
             }
 
@@ -192,7 +191,7 @@ class JobController extends AbstractController
             );
         }
 
-        return $this->redirectToRoute('pricing_page', ['type' => 'job','redirect' => true]);
+        return $this->redirectToRoute('pricing_page', ['type' => 'job', 'redirect' => true]);
     }
 
     /**
@@ -247,9 +246,9 @@ class JobController extends AbstractController
 
             $user = $this->getUser();
 
-            $mailerThemplate = $this->renderView('mail/job_loock.html.twig',['user'=>$user,'job'=>$job]);
+            $mailerThemplate = $this->renderView('mail/job_loock.html.twig', ['user' => $user, 'job' => $job]);
 
-            $this->mailer->sendEmailMessage('Su anuncio no cumple con nuestros términos',$mailerThemplate,['emplearecuador@gmail.com'],$job->getUser()->getEmail(),'emplearecuador@gmail.com');
+            $this->mailer->sendEmailMessage('Su anuncio no cumple con nuestros términos', $mailerThemplate, ['benditotrabajoecuador@gmail.com'], $job->getUser()->getEmail(), 'benditotrabajoecuador@gmail.com');
         }
         return new JsonResponse([
             'type' => 'success',

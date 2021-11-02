@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Ubel
@@ -374,7 +375,7 @@ class AjaxController extends AbstractController
 
             $this->notificate(
                 constants::NOTIFICATIONS_JOB_APPLIED_OK,
-                "El usuario: " . $user->getName()." aplicó a la oferta" . $job->getTitle(),
+                "El usuario: " . $user->getName() . " aplicó a la oferta" . $job->getTitle(),
                 $job->getUser()
             );
             $user->addApplied($job->getId());
@@ -412,7 +413,7 @@ class AjaxController extends AbstractController
     {
         try {
             $message = (new \Swift_Message('Notificación'))
-                ->setFrom('emplearecuador@gmail.com')
+                ->setFrom('benditotrabajoecuador@gmail.com')
                 ->setBody(
                     $this->renderView(
                         'mail/contact.html.twig',
@@ -475,7 +476,7 @@ class AjaxController extends AbstractController
         }
         try {
             $message = (new \Swift_Message('Notificación'))
-                ->setFrom('emplearecuador@gmail.com')
+                ->setFrom('benditotrabajoecuador@gmail.com')
                 ->setBody(
                     $this->renderView(
                         'mail/contrata.html.twig',
@@ -536,7 +537,7 @@ class AjaxController extends AbstractController
         $user = $this->get('security.token_storage')->getToken()->getUser();
         try {
             $message = (new \Swift_Message('Notificación: ' . $subject))
-                ->setFrom('emplearecuador@gmail.com')
+                ->setFrom('benditotrabajoecuador@gmail.com')
                 ->setBody(
                     $this->renderView(
                         'mail/service_contact.html.twig',

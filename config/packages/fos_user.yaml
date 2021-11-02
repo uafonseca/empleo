@@ -6,6 +6,6 @@ fos_user:
         confirmation:
             enabled: true
     from_email:
-        address: "uafonseca@uci.cu"
-        sender_name: "Sender Name"
+        address: "pauqqhnarhjujepf"
+        sender_name: "Bendito Trabajo"
 

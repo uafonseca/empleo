@@ -76,7 +76,7 @@ class SecurityController extends Controller
             $entityManager->persist($user);
             $entityManager->flush();
             $message = (new \Swift_Message('Bienvenido a benditotrabajo.com'))
-                ->setFrom('emplearecuador@gmail.com')
+                ->setFrom('benditotrabajoecuador@gmail.com')
                 ->setBody(
                     $this->renderView(
                         'mail/register.html.twig',

@@ -86,7 +86,7 @@ class Mailer
         $message = (new \Swift_Message($subject))
             ->setFrom($fromEmail)
             ->setTo($toEmail)
-            ->setReadReceiptTo(['emplearecuador@gmail.com'])
+            ->setReadReceiptTo(['benditotrabajoecuador@gmail.com'])
             ->setBody($renderedTemplate, 'text/html');
         if ($attachment) {
             $dominio = $this->request_stack->getCurrentRequest()->getSchemeAndHttpHost();
@@ -102,7 +102,7 @@ class Mailer
     public function sendNotification(Notification $notification)
     {
         $subject = 'Se ha registrado una nueva notificación';
-        $this->sendEmailMessage($subject, $this->notificationTemplate($notification), 'emplearecuador@gmail.com', $notification->getUser()->getEmail(), false);
+        $this->sendEmailMessage($subject, $this->notificationTemplate($notification), 'benditotrabajoecuador@gmail.com', $notification->getUser()->getEmail(), false);
     }
 
     /**
@@ -122,7 +122,7 @@ class Mailer
     public function sendEmailCandidate(ContactMessage $message)
     {
         $subject = 'Nuevo mensaje de ' . $message->getCreator()->getName();
-        $this->sendEmailMessage($subject, $this->candidateEmailTemplate($message), 'emplearecuador@gmail.com', $message->getDestinatario()->getEmail(), false);
+        $this->sendEmailMessage($subject, $this->candidateEmailTemplate($message), 'benditotrabajoecuador@gmail.com', $message->getDestinatario()->getEmail(), false);
     }
 
     /**

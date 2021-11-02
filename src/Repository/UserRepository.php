@@ -63,16 +63,22 @@ class UserRepository extends ServiceEntityRepository
      */
     public function findCandidatesList($id)
     {
-        //        return $this->createQueryBuilder('u')
-        //            ->leftJoin('u.')
-
-
         return $this->createQueryBuilder('u')
             ->select('u')
             ->join('u.jobAppiled', 'uj')
             ->join('App\Entity\Job', 'job')
             ->where('job.id =:id')
             ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findUsersByJobsAppiled(array $jobs = [])
+    {
+        return $this->createQueryBuilder('user')
+            ->join('user.jobAppiled', 'appiled')
+            ->where('appiled IN (:list)')
+            ->setParameter('list', $jobs)
             ->getQuery()
             ->getResult();
     }

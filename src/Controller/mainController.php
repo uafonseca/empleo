@@ -705,7 +705,15 @@ class mainController extends Controller
     public function manageCandidates(Request $request, AuthorizationCheckerInterface $authChecker, UserRepository $userRepository)
     {
         $verificated = $this->verificateUser($authChecker);
-        $users = $userRepository->findCandidatesList($user = $this->getUser()->getId());
+
+
+        $em = $this->getDoctrine()->getManager();
+        $myJobs = $em->getRepository(Job::class)->findBy([
+            'user' => $this->getUser()
+        ]);
+
+        $users = $em->getRepository(User::class)->findUsersByJobsAppiled($myJobs);
+
         $i = 0;
         foreach ($users as $user) {
             if (!$user->getCandidate()) {
@@ -890,7 +898,7 @@ class mainController extends Controller
             $this->mailer->sendEmailMessage(
                 'Notificación de Benditotrabajo.com',
                 $mailerThemplate,
-                'emplearecuador@gmail.com',
+                'benditotrabajoecuador@gmail.com',
                 $destinanario->getEmail(),
                 'ubelamgelfonseca@gmail.com'
             );
@@ -973,7 +981,7 @@ class mainController extends Controller
             $currentUser->setSecret(rand(10000, 99999));
         }
         $message = (new \Swift_Message('Código de verificación'))
-            ->setFrom('emplearecuador@gmail.com')
+            ->setFrom('benditotrabajoecuador@gmail.com')
             ->setBody(
                 $this->renderView(
                     'mail/code.html.twig',
