@@ -1165,9 +1165,17 @@ class mainController extends Controller
 
             $builder = $this->datatableResponse->getDatatableQueryBuilder();
 
-            $builder->getQb()
-                ->where('contactmessage.creator=:user')
-                ->setParameter('user', $this->getUser());
+            if ($this->isGranted('ROLE_ADMIN')) {
+                $builder->getQb()
+                    ->where('contactmessage.creator=:user')
+                    ->setParameter('user', $this->getUser());
+            } else {
+                $builder->getQb()
+                    ->where('contactmessage.destinatario=:user')
+                    ->setParameter('user', $this->getUser());
+            }
+
+
 
             return $this->datatableResponse->getResponse();
         }

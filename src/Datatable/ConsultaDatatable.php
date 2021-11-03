@@ -31,6 +31,7 @@ class ConsultaDatatable extends AbstractDatatable
             /** @var Consulta $consulta */
             $consulta = $this->getEntityManager()->getRepository(Consulta::class)->find($row['id']);
             $row['date'] = $consulta->getCreatedAt()->format('d/m/Y h:i');
+            $row['respuesta'] = $consulta->getRespuestas()->count() > 0;
             return $row;
         };
     }
@@ -66,6 +67,10 @@ class ConsultaDatatable extends AbstractDatatable
             ->add('date', VirtualColumn::class, [
                 'title' => 'Fecha de creación'
             ])
+            ->add('ciudad', Column::class, [
+                'title' => 'Ciudad',
+                'default_content'=> '-'
+            ])
             ->add('type', Column::class, [
                 'title' => 'Tipo'
             ]);
@@ -87,6 +92,33 @@ class ConsultaDatatable extends AbstractDatatable
                         'default_content' => 'NA'
                     ]);
             }
+            $this->columnBuilder
+                ->add(null,ActionColumn::class,[
+                    'title' => $this->translator->trans('sg.datatables.actions.title'),
+                    'actions' => [
+                        TableActions::add('respuesta_consulta_new'),
+                    ]
+                ]);
+        }else{
+            $this->columnBuilder
+                ->add(null,ActionColumn::class,[
+                    'title' => $this->translator->trans('sg.datatables.actions.title'),
+                    'actions' => [
+                        [
+                            'route' => 'respuesta_consulta_index',
+                            'icon' => 'fa fa-eye text-success cortex-table-action-icon',
+                            'attributes' => array(
+                                'class' => 'action-show',
+                                'data-toggle' => 'tooltip',
+                                'data-placement' => 'top',
+                                'title' => "Ver respuesta"
+                            ),
+                            'render_if'=> function($row){
+                                return $row['respuesta'];
+                            }
+                        ]
+                    ]
+                ]);
         }
     }
 

@@ -1,0 +1,49 @@
+<div class="card">
+    <div class="card-header">
+        <div class="card-title">
+            Respuesta a consulta
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                Fecha: {{consulta.createdAt|date('d/m/Y h:i')}}
+            </div>
+            <div class="col-md-12">
+                {% if consulta.user.companyName is
+                not null %}
+                Empresa: {{consulta.user.companyName}}
+                {% else %}
+                Usuario: {{consulta.user.email}}
+                {% endif %}
+            </div>
+            <div class="col-md-12">
+                Tipo: {{consulta.type}}
+            </div>
+            <div class="col-md-12">
+                {{consulta.texto|raw}}
+            </div>
+        </div>
+        {{ include('respuesta_consulta/_form.html.twig') }}
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('form[name="respuesta_consulta"]').on('submit', function (e) {
+            e.preventDefault();
+            var form = $(this);
+            var url = form.attr('action');
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: form.serialize(),
+                success: function (response) {
+                    if (response.type === 'success') {
+                        alert('Respuesta enviada')
+                    }
+                    coreApp.dialogs.close(form);
+                }
+            });
+        });
+    })
+</script>

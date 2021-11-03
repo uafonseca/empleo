@@ -25,6 +25,10 @@ class ConsultaType extends AbstractType
                 ],
                 'label' => 'Tipo'
             ])
+            ->add('ciudad', null, [
+                'label' => 'Ciudad',
+                'required' => true
+            ])
             ->add('texto', CKEditorType::class, [
                 'label' => 'Descripción'
             ]);

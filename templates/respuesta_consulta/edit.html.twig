@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+
+<title>Edit RespuestaConsulta</title>
+
+{% block body %}
+    <h1>Edit RespuestaConsulta</h1>
+
+    {{ include('respuesta_consulta/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('respuesta_consulta_index') }}">back to list</a>
+
+    {{ include('respuesta_consulta/_delete_form.html.twig') }}
+{% endblock %}

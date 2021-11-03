@@ -30,7 +30,7 @@ class TableActions
                 'style' => "color: " . $color . ";",
                 'data-toggle' => 'tooltip',
                 'data-placement' => 'top',
-                'data-title' => $title
+                'title' => $title
             )
         ];
     }

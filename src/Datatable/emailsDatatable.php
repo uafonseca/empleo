@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: ubel
@@ -28,32 +29,16 @@ use Sg\DatatablesBundle\Datatable\Filter\DateRangeFilter;
 class emailsDatatable extends AbstractDatatable
 {
 
-//    public function getLineFormatter()
-//    {
-//        return function ($row)
-//        {
-//            /** @var Job $job */
-//            $job = $this->getEntityManager()->getRepository(Job::class)->find($row['id']);
-//
-//            switch ($job->getStatus())
-//            {
-//                case constants::JOB_STATUS_LOOCK:
-//                    $row['status'] = '<span class="badge badge-danger">BLOQUEADO</span>';
-//                    break;
-//                case constants::JOB_STATUS_ACTIVE:
-//                    $row['status'] = '<span class="badge badge-success">ACTIVO</span>';
-//                    break;
-//                case constants::JOB_STATUS_EXPIRED:
-//                    $row['status'] = '<span class="badge badge-warning">EXPIRADO</span>';
-//                    break;
-//                default:
-//                    $row['status'] = '<span class="badge badge-info">PENDIENTE</span>';
-//                    break;
-//            }
-//            return $row;
-//
-//        };
-//    }
+    public function getLineFormatter()
+    {
+        return function ($row) {
+            /** @var ContactMessage $msg */
+            $msg = $this->getEntityManager()->getRepository(ContactMessage::class)->find($row['id']);
+
+            $row['date'] = $msg->getDate()->format('d/m/Y h:i');
+            return $row;
+        };
+    }
 
     /**
      * @param array $options
@@ -80,31 +65,24 @@ class emailsDatatable extends AbstractDatatable
                 'title' => 'Id',
                 'visible' => false,
             ])
-            //->add('creator.name', Column::class, [
-            //    'title' => 'Autor',
-            //])
-            ->add('destinatario.name', Column::class, [
-                'title' => 'Destinatario',
-            ])
-            ->add('date', DateTimeColumn::class, [
+            ->add('date', VirtualColumn::class, [
                 'title' => 'Fecha',
-                'default_content' => '-',
-                'date_format' => 'L',
-                'filter' => array(DateRangeFilter::class, array(
-                    'cancel_button' => true,
-                )),
-                'timeago' => true
             ])
             ->add('context', Column::class, [
                 'title' => 'Contenido',
-            ])
-//            ->add(null,ActionColumn::class,[
-//                'title' => $this->translator->trans('sg.datatables.actions.title'),
-//                'actions' => [
-//                    TableActions::edit('actualizar_trabajo'),
-//                ]
-//            ])
-        ;
+            ]);
+
+        if ($this->authorizationChecker->isGranted('ROLE_ADMIN')) {
+            $this->columnBuilder
+                ->add('destinatario.name', Column::class, [
+                    'title' => 'Destinatario',
+                ]);
+        } else {
+            $this->columnBuilder
+                ->add('creator.name', Column::class, [
+                    'title' => 'Enviado por',
+                ]);
+        }
     }
 
     /**

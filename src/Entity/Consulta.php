@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -44,9 +46,24 @@ class Consulta
     private $texto;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    private $ciudad;
+
+    /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="consultas")
      */
     private $user;
+
+    /**
+     * @ORM\OneToMany(targetEntity=RespuestaConsulta::class, mappedBy="consulta")
+     */
+    private $respuestas;
+
+    public function __construct()
+    {
+        $this->respuestas = new ArrayCollection();
+    }
 
     /**
      * Get the value of id
@@ -140,6 +157,44 @@ class Consulta
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+    public function getCiudad()
+    {
+        return $this->ciudad;
+    }
+
+    public function setCiudad(string $ciudad){
+        $this->ciudad = $ciudad;
+    }
+
+    /**
+     * @return Collection|RespuestaConsulta[]
+     */
+    public function getRespuestas(): Collection
+    {
+        return $this->respuestas;
+    }
+
+    public function addRespuesta(RespuestaConsulta $respuesta): self
+    {
+        if (!$this->respuestas->contains($respuesta)) {
+            $this->respuestas[] = $respuesta;
+            $respuesta->setConsulta($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRespuesta(RespuestaConsulta $respuesta): self
+    {
+        if ($this->respuestas->removeElement($respuesta)) {
+            // set the owning side to null (unless already changed)
+            if ($respuesta->getConsulta() === $this) {
+                $respuesta->setConsulta(null);
+            }
+        }
 
         return $this;
     }
