@@ -19,6 +19,9 @@ class ResumeRepository extends ServiceEntityRepository
         parent::__construct($registry, Resume::class);
     }
 
+
+    
+
     // /**
     //  * @return Resume[] Returns an array of Resume objects
     //  */
