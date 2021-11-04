@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<title>Alert</title>
+
+{% block body %}
+    <h1>Alert</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ alert.id }}</td>
+            </tr>
+            <tr>
+                <th>Keywords</th>
+                <td>{{ alert.keywords ? alert.keywords|join(', ') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('alert_index') }}">back to list</a>
+
+    <a href="{{ path('alert_edit', {'id': alert.id}) }}">edit</a>
+
+    {{ include('alert/_delete_form.html.twig') }}
+{% endblock %}

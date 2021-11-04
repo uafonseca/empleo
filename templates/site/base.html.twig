@@ -1,62 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="google-site-verification" content="vNFitz6yibJRiBJtDjy97_vfeIFfs-ORViVI3_q_Pvo" />
-    <meta name="description" content="Estamos enfocados en el proceso de socialización de las ofertas de emple en ecuador y cualquier parte del mundo" />
-    <meta name="keywords" content="empleo, trabajo, oferta, servicios, ecuador, laboral, personal, currículun vitae" />
 
-    <title>
-      Bendito trabajo |
-      {% block title %}{% endblock %}
-    </title>
-    {{ encore_entry_link_tags('app') }}
-    {{ encore_entry_link_tags('home') }}
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="google-site-verification" content="vNFitz6yibJRiBJtDjy97_vfeIFfs-ORViVI3_q_Pvo" />
+  <meta name="description"
+    content="Estamos enfocados en el proceso de socialización de las ofertas de emple en ecuador y cualquier parte del mundo" />
+  <meta name="keywords" content="empleo, trabajo, oferta, servicios, ecuador, laboral, personal, currículun vitae" />
 
-    <link rel="icon" href="{{ asset('site/images/favicon.png') }}" />
-    <link rel="apple-touch-icon" href="{{ asset('site/images/apple-touch-icon.png') }}" />
-    <link rel="apple-touch-icon" sizes="72x72" href="{{ asset('site/images/icon-72x72.png') }}" />
-    <link rel="apple-touch-icon" sizes="114x114" href="{{ asset('site/images/icon-114x114.png') }}" />
-    {% block stylesheet %}{% endblock %}
-    {% block headerScript %}{% endblock %}
-  </head>
-  <body>
-    {% block body %}
-      {{ include('site/job/partials/header.html.twig') }}
-      {{ include('site/includes/carousel.html.twig') }}
-      {% block jobs_list %}{% endblock %}
+  <title>
+    Bendito trabajo |
+    {% block title %}{% endblock %}
+  </title>
+  {{ encore_entry_link_tags('app') }}
+  {{ encore_entry_link_tags('home') }}
 
-      <div class="section-padding-top padding-bottom-90">
-        <div class="container">
-          <div class="row">
-            <div class="col">
-              <div id="company-carousel" class="company-carousel owl-carousel owl-loaded owl-drag"></div>
-            </div>
-          </div>
+  <link rel="icon" href="{{ asset('site/images/favicon.png') }}" />
+  <link rel="apple-touch-icon" href="{{ asset('site/images/apple-touch-icon.png') }}" />
+  <link rel="apple-touch-icon" sizes="72x72" href="{{ asset('site/images/icon-72x72.png') }}" />
+  <link rel="apple-touch-icon" sizes="114x114" href="{{ asset('site/images/icon-114x114.png') }}" />
+  {% block stylesheet %}{% endblock %}
+  {% block headerScript %}{% endblock %}
+</head>
+
+<body>
+  {% block body %}
+  {{ include('site/job/partials/header.html.twig') }}
+  {{ include('site/includes/carousel.html.twig') }}
+  {% block jobs_list %}{% endblock %}
+
+  <div class="section-padding-top padding-bottom-90">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div id="company-carousel" class="company-carousel owl-carousel owl-loaded owl-drag"></div>
         </div>
       </div>
+    </div>
+  </div>
 
-      <div class="searchAndFilter-wrapper">
-        {{ include('site/includes/filters.html.twig') }}
-      </div>
-    {% endblock %}
-    {{ encore_entry_script_tags('app') }}
-    {{ include('site/job/partials/footer.html.twig') }}
-    {{ include('site/job/partials/scripts.html.twig') }}
-    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-    <script src="{{ asset(
+  <div class="searchAndFilter-wrapper">
+    {{ include('site/includes/filters.html.twig') }}
+  </div>
+  {% endblock %}
+  {{ encore_entry_script_tags('app') }}
+  {{ include('site/job/partials/footer.html.twig') }}
+  {{ include('site/job/partials/scripts.html.twig') }}
+  <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+  <script src="{{ asset(
         'bundles/fosjsrouting/js/fos_js_routing.js'
       ) }}"></script>
-    {{ encore_entry_script_tags('home') }}
-    {% block js %}{% endblock %}
-    {{ include('site/utils/flagsBag.html.twig') }}
-    <script>
-      $(function () { $('.post-job').on({ mouseenter: function () {
-      $('#help').popover('show') }, mouseleave: function () {
-      $('#help').popover('hide') } }) })
-    </script>
-    {% block scrips %}{% endblock %}
-  </body>
+  {{ encore_entry_script_tags('home') }}
+  {% block js %}{% endblock %}
+  {{ include('site/utils/flagsBag.html.twig') }}
+  <script>
+    $(function () {
+      $('.post-job').on({
+        mouseenter: function () {
+          $('#help').popover('show')
+        }, mouseleave: function () {
+          $('#help').popover('hide')
+        }
+      })
+    })
+  </script>
+  {% block scrips %}{% endblock %}
+  <script>
+    $(document).ready(function () {
+      const url = "{{path('alert_new')}}";
+      $('#createAlert').on('click', function (e) {
+        e.preventDefault();
+        const form = $('#alertForm');
+        const email = $('#email').val();
+        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+          $.ajax({
+            type: "GET",
+            url: url,
+            data: form.serialize(),
+            success: function (response) {
+              if (response.type === 'success') {
+                $('#response').html(response.message)
+                $('#response').removeClass('text-warning').addClass('text-success');
+              } else {
+                $('#response').html(response.message)
+                $('#response').removeClass('text-success').addClass('text-warning');
+              }
+            }
+          });
+        } else {
+          $('#response').html('El correo no es válido')
+          $('#response').removeClass('text-success').addClass('text-warning');
+        }
+
+      })
+    })
+  </script>
+</body>
+
 </html>
