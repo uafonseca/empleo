@@ -83,6 +83,7 @@
               if (response.type === 'success') {
                 $('#response').html(response.message)
                 $('#response').removeClass('text-warning').addClass('text-success');
+                $('#email').val('');
               } else {
                 $('#response').html(response.message)
                 $('#response').removeClass('text-success').addClass('text-warning');
