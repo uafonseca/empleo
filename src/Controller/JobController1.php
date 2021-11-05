@@ -8,7 +8,8 @@
     
     namespace App\Controller;
 
-    use App\constants;
+use App\AppEvents;
+use App\constants;
     use App\Datatable\MyJobDatatable;
     use App\Entity\Anouncement;
     use App\Entity\Category;
@@ -20,7 +21,8 @@
     use App\Entity\PaymentForServices;
     use App\Entity\Profession;
     use App\Entity\User;
-    use App\Repository\JobRepository;
+use App\Event\AlertEvent;
+use App\Repository\JobRepository;
     use App\Service\JobService;
     use Exception;
     use Sg\DatatablesBundle\Datatable\DatatableFactory;
@@ -34,6 +36,7 @@
     use Symfony\Component\Routing\Annotation\Route;
     use App\Form\JobType;
     use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+    use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
     
     class JobController1 extends Controller
     {
@@ -47,17 +50,20 @@
         /** @var DatatableResponse  */
         private $datatableResponse;
 
+        private EventDispatcherInterface $dispatcher;
+
         /**
          * JobController1 constructor.
          * @param JobService $jobservice
          * @param DatatableFactory $datatableFactory
          * @param DatatableResponse $datatableResponse
          */
-        public function __construct(JobService $jobservice, DatatableFactory $datatableFactory, DatatableResponse $datatableResponse)
+        public function __construct(JobService $jobservice, DatatableFactory $datatableFactory, DatatableResponse $datatableResponse, EventDispatcherInterface $eventDispatcher)
         {
             $this->jobservice = $jobservice;
             $this->datatableFactory = $datatableFactory;
             $this->datatableResponse = $datatableResponse;
+            $this->dispatcher = $eventDispatcher;
         }
 
 
@@ -115,6 +121,7 @@
                 $notification->setActive(true);
                 $entityManager->persist($notification);
                 $entityManager->flush();
+                $this->dispatcher->dispatch(new AlertEvent($post), AppEvents::GENERATE_ALERT);
                 return $this->redirectToRoute('job_manage');
             }
             if (null == $this->container->get('app.service.helper')->expired()) {

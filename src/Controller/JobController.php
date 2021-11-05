@@ -2,12 +2,14 @@
 
 namespace App\Controller;
 
+use App\AppEvents;
 use App\constants;
 use App\Datatable\JobDatatable;
 use App\Entity\Job;
 use App\Entity\PaymentForJobs;
 use App\Entity\PaymentForJobsMetadata;
 use App\Entity\User;
+use App\Event\AlertEvent;
 use App\Form\JobType;
 use App\Mailer\Mailer;
 use App\Service\JobService;
@@ -22,6 +24,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class JobController extends AbstractController
 {
@@ -44,6 +47,7 @@ class JobController extends AbstractController
 
     /** @var Mailer */
     private $mailer;
+    private EventDispatcherInterface $dispatcher;
 
     /**
      * JobController constructor.
@@ -60,7 +64,8 @@ class JobController extends AbstractController
         UserService $userService,
         NotificationService $notificationService,
         JobService $jobService,
-        Mailer $mailer
+        Mailer $mailer,
+        EventDispatcherInterface $eventDispatcher
     ) {
         $this->datatableFactory = $datatableFactory;
         $this->datatableResponse = $datatableResponse;
@@ -68,6 +73,7 @@ class JobController extends AbstractController
         $this->notificationService = $notificationService;
         $this->jobService = $jobService;
         $this->mailer = $mailer;
+        $this->dispatcher = $eventDispatcher;
     }
 
     /**
@@ -169,6 +175,7 @@ class JobController extends AbstractController
                 $user->setCompany($post->getCompany());
 
                 $this->notificationService->create(constants::NOTIFICATION_JOB_CREATE, 'Empleo creado satisfactoriamente', $user);
+                $this->dispatcher->dispatch(new AlertEvent($post), AppEvents::GENERATE_ALERT);
 
                 $this->jobService->update($post);
 

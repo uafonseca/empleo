@@ -9,7 +9,9 @@
 
 namespace App\Service;
 
+use App\Entity\Alert;
 use App\Entity\ContactMessage;
+use App\Entity\Job;
 use App\Entity\Notification;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
@@ -134,5 +136,35 @@ class Mailer
         return $this->templating->render('mail/privateEmail.html.twig', [
             'message' => $message
         ]);
+    }
+
+
+
+    public function alertNotification(Job $job)
+    {
+        $emails = $this->extractEmails($this->entityManager->getRepository(Alert::class)->getValidAlerts());
+        
+        $template = $this->templating->render('mail/alert.html.twig', [
+            'job' => $job
+        ]);
+        $subject = 'Nueva oferta que quizás pueda interesarte ';
+        $this->sendEmailMessage($subject, $template, 'benditotrabajoecuador@gmail.com', $emails, false);
+
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param array $alerts
+     * @return array
+     */
+    public function extractEmails(array $alerts):array{
+        $emails = [];
+        /** @var Alert $alert */
+        foreach ($alerts as $alert) {
+            if(filter_var($alert->getEmail(), FILTER_VALIDATE_EMAIL))
+                $emails[]=$alert->getEmail();
+        }
+        return $emails;
     }
 }
