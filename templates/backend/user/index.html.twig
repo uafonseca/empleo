@@ -1,0 +1,17 @@
+{% extends 'backend/base.html.twig' %}
+
+{% block title %}Listado de usuarios
+{% endblock %}
+
+{% block context %}
+	<div class="card">
+		<div class="card-header">Registro de creación de usuarios</div>
+		<div class="card-body">
+			{{sg_datatables_render_html(datatable)}}
+		</div>
+	</div>
+{% endblock %}
+
+{% block scripts %}
+	{{sg_datatables_render_js(datatable)}}
+{% endblock %}

@@ -1,54 +1,54 @@
 <header>
-  <div class="carousel-inner" role="listbox">
-    <div class="container-fluid" style="padding-top: 80px; z-index: 1;position: absolute;">
-      <div class="row">
-        <div class="col-4 text-center"></div>
-        <div class="col-4 text-center">
-          <form id="alertForm" action="" class="p-2" method="post"
-            style=" background-color: white; opacity: 0.9; border-radius: 5px;">
-            <div class="input-group mb-3">
-              <label for="email">Recibe en tu correo las últimas publicaciones de ofertas</label>
-              <input id="email" name="email" type="email" class="form-control form-control-lg"
-                aria-label="Recipient's username" aria-describedby="basic-addon2">
-              <div class="input-group-append">
-                <button id="createAlert" class="btn btn-outline-secondary" type="submit">Notificar</button>
-              </div>
-            </div>
-            <span id="response" class=""></span>
-          </form>
-        </div>
-        <div class="col-4 text-center"></div>
-      </div>
-    </div>
-    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-      {% for slide in slides %}
-      <div class="carousel-item {{ loop.index == 1 ? 'active' : '' }}" style="background-image: url('{{
-					          vich_uploader_asset(slide, 'imageFile')
-					        }}'); height: 88vh!important;"></div>
-      {% endfor %}
-    </div>
-    <form action="{{ path('search') }}" class="form-inline search-form custom-search-form" role="form" method="post">
-      <div class="input-group text-center">
-        <div class="form-group">
-          <input name="keywords" class="form-control" type="search" placeholder="Ingresar palabras clave" />
-        </div>
-        <div class="form-group">
-          <select class="form-control" name="location" id="selectpicker search-location">
-            <option value="" selected>Ubicación</option>
-            {% for l in locations %}
-            <option value="{{ l.name }}">
-              {{ l.name }}
-            </option>
-            {% endfor %}
-          </select>
-        </div>
-        <div class="form-group">
-          <button id="search-btn" class="button primary-bg">
-            <i class="fas fa-search"></i>
-            Buscar
-          </button>
-        </div>
-      </div>
-    </form>
-  </div>
+	<div class="carousel-inner" role="listbox">
+		<div class="container-fluid" style="padding-top: 80px; z-index: 1;position: absolute;">
+			{% if app.user is null %}}
+				<div class="row">
+					<div class="col-4 text-center"></div>
+					<div class="col-4 text-center">
+						<form id="alertForm" action="" class="p-2" method="post" style=" background-color: white; opacity: 0.9; border-radius: 5px;">
+							<div class="input-group mb-3">
+								<label for="email">Recibe en tu correo las últimas publicaciones de ofertas</label>
+								<input id="email" name="email" type="email" class="form-control form-control-lg" aria-label="Recipient's username" aria-describedby="basic-addon2">
+								<div class="input-group-append">
+									<button id="createAlert" class="btn btn-outline-secondary" type="submit">Notificar</button>
+								</div>
+							</div>
+							<span id="response" class=""></span>
+						</form>
+					</div>
+					<div class="col-4 text-center"></div>
+				</div>
+			{% endif %}
+		</div>
+		<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+			{% for slide in slides %}
+				<div class="carousel-item {{ loop.index == 1 ? 'active' : '' }}" style="background-image: url('{{
+																          vich_uploader_asset(slide, 'imageFile')
+																        }}'); height: 88vh!important;"></div>
+			{% endfor %}
+		</div>
+		<form action="{{ path('search') }}" class="form-inline search-form custom-search-form" role="form" method="post">
+			<div class="input-group text-center">
+				<div class="form-group">
+					<input name="keywords" class="form-control" type="search" placeholder="Ingresar palabras clave"/>
+				</div>
+				<div class="form-group">
+					<select class="form-control" name="location" id="selectpicker search-location">
+						<option value="" selected>Ubicación</option>
+						{% for l in locations %}
+							<option value="{{ l.name }}">
+								{{ l.name }}
+							</option>
+						{% endfor %}
+					</select>
+				</div>
+				<div class="form-group">
+					<button id="search-btn" class="button primary-bg">
+						<i class="fas fa-search"></i>
+						Buscar
+					</button>
+				</div>
+			</div>
+		</form>
+	</div>
 </header>

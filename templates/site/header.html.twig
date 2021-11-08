@@ -56,9 +56,9 @@
 						<div
 							class="dropdown header-top-account">
 							{# <select class="selectpicker select-language" data-width="fit">
-							                                                                                                <option  data-content='<span class="flag-icon flag-icon-mx"></span> Español'>Español</option>
-							                                                                                                <option data-content='<span class="flag-icon flag-icon-us"></span> English'>English</option>
-							                                                                                            </select> #}
+																																			                                                                                                <option  data-content='<span class="flag-icon flag-icon-mx"></span> Español'>Español</option>
+																																			                                                                                                <option data-content='<span class="flag-icon flag-icon-us"></span> English'>English</option>
+																																			                                                                                            </select> #}
 							{% if is_granted('IS_AUTHENTICATED_FULLY') %}
 								<a href="#" class="account-button">
 									{{ app.user.username }}
@@ -239,7 +239,7 @@
 									<li class="menu-item">
 										<a title="About" href="{{ path('static_page_view', {'type': constant('App\\Entity\\StaticPage::TYPE_ABOUT') |url_encode}) }}">
 											Sobre
-											                                                                                                                                                                            Nosotros
+																																																							                                                                                                                                                                            Nosotros
 
 										</a>
 									</li>
@@ -253,14 +253,14 @@
 									<li class="menu-item">
 										<a title="About" href="{{ path('static_page_view', {'type': constant('App\\Entity\\StaticPage::TYPE_PRICE')|url_encode}) }}">
 											Determinación
-											                                                                                                                                                                            de precios
+																																																							                                                                                                                                                                            de precios
 
 										</a>
 									</li>
 									<li class="menu-item">
 										<a title="About" href="{{ path('static_page_view', {'type': constant('App\\Entity\\StaticPage::TYPE_HOW_WORKING')|url_encode}) }}">
 											Cómo
-											                                                                                                                                                                            funciona
+																																																							                                                                                                                                                                            funciona
 
 										</a>
 									</li>
@@ -287,10 +287,10 @@
 									</a>
 								</li>
 								{# <li class="menu-item post-job" style="margin-left: 10px">
-								                                                                                                
-								                                                                                                	<a title="Title" href="{{ path('service_new') }}">
-								                                                                                                		<i class="fas fa-plus"></i>Crear servicio</a>
-								                                                                                                </li>#}
+																																								                                                                                                
+																																								                                                                                                	<a title="Title" href="{{ path('service_new') }}">
+																																								                                                                                                		<i class="fas fa-plus"></i>Crear servicio</a>
+																																								                                                                                                </li>#}
 
 							{% elseif  is_granted('ROLE_ADMIN') %}
 								{# <li class="menu-item post-job" ><a title="Title" href="{{ path('service_new') }}"><i class="fas fa-plus"></i>Crear servicio</a></li> #}
@@ -310,4 +310,22 @@
 			</div>
 		</div>
 	</div>
+	{% if app.user is null %}}
+		<div class="row">
+			<div class="col-4 text-center"></div>
+			<div class="col-4 text-center">
+				<form id="alertForm" action="" class="p-2" method="post" style=" background-color: white; opacity: 0.9; border-radius: 5px;">
+					<div class="input-group mb-3">
+						<label for="email">Recibe en tu correo las últimas publicaciones de ofertas</label>
+						<input id="email" name="email" type="email" class="form-control form-control-lg" aria-label="Recipient's username" aria-describedby="basic-addon2">
+						<div class="input-group-append">
+							<button id="createAlert" class="btn btn-outline-secondary" type="submit">Notificar</button>
+						</div>
+					</div>
+					<span id="response" class=""></span>
+				</form>
+			</div>
+			<div class="col-4 text-center"></div>
+		</div>
+	{% endif %}
 </header>

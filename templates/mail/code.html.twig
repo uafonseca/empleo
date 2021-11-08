@@ -1,14 +1,14 @@
 {% extends 'mail/base.html.twig' %}
 {% block content %}
 	<div class="container">
-		<img src="{{ absolute_url(asset('site/images/logo_last.svg')) }}" alt="Emplear_Logo"/>
+		<img src="{{ absolute_url(asset('site/images/logo_last.png')) }}" alt="Emplear_Logo"/>
 		<h2>
 			Hola
 			{{ app.user.username }}
 		</h2>
 		<h3>
 			para continuar con el proceso por favor ingresa este código de
-			      verificación
+						      verificación
 		</h3>
 
 		<input id="code-number" readonly type="text" value="{{ code }}"/>

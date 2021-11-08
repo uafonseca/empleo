@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Datatable\UserDatatable;
 use App\Entity\PaymentForJobs;
 use App\Repository\AnouncementRepository;
 use App\Repository\JobRepository;
@@ -14,6 +15,12 @@ use Doctrine\ORM\NoResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Sg\DatatablesBundle\Datatable\DatatableFactory;
+use Sg\DatatablesBundle\Response\DatatableResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use App\Entity\User;
+use Exception;
 
 /**
  * Class BackendController
@@ -31,6 +38,10 @@ class BackendController extends AbstractController
     /** @var AnnouncementService  */
     private $announcementService;
 
+    private $datatableFactory;
+
+    private $datatableResponse;
+
     /**
      * BackendController constructor.
      * @param CategoryService $categoryService
@@ -40,11 +51,15 @@ class BackendController extends AbstractController
     public function __construct(
         CategoryService $categoryService,
         JobService $jobService,
-        AnnouncementService $announcementService
+        AnnouncementService $announcementService,
+        DatatableFactory $datatableFactory,
+        DatatableResponse $datatableResponse
     ) {
         $this->categoryService = $categoryService;
         $this->jobService = $jobService;
         $this->announcementService = $announcementService;
+        $this->datatableFactory = $datatableFactory;
+        $this->datatableResponse = $datatableResponse;
     }
 
     /**
@@ -90,5 +105,66 @@ class BackendController extends AbstractController
             )[0];
         }
         return new JsonResponse($outputs);
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param Request $request
+     * @return Response
+     * @Route("/backend/userList", name="userList", options={"expose" = true})
+     */
+    public function userList(Request $request):Response{
+        $datatable = $this->datatableFactory->create(UserDatatable::class);
+        $datatable->buildDatatable([
+            'url' => $this->generateUrl('userList')
+        ]);
+
+        if($request->isXmlHttpRequest() && $request->isMethod('POST')){
+            $this->datatableResponse->setDatatable($datatable);
+            $qb = $this->datatableResponse->getDatatableQueryBuilder();
+            return $this->datatableResponse->getResponse();
+        }
+
+        return $this->render('backend/user/index.html.twig',[
+            'datatable' => $datatable
+        ]);
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param User $user
+     * @return Response
+     * @Route("/backend/user/remove/{id}", name="userRemove")
+     */
+    public function removeUser(User $user):Response{
+        $em = $this->getDoctrine()->getManager();
+        try{
+            $em->remove($user);
+            $em->flush();
+        }
+        catch(Exception $e){
+            $this->addFlash('error', 'Ha ocurrido un error al eliminar el usuario');
+        }
+        $this->addFlash('success', 'Usuario eliminado correctamente');
+        return $this->redirectToRoute('userList');
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param User $user
+     * @return Response
+     * @Route("/backend/user/activatge/{id}", name="userActivate")
+     */
+    public function activateDesactivate(User $user):Response{
+        $em = $this->getDoctrine()->getManager();
+       
+        $user->setEnabled(!$user->isEnabled());
+        $em->flush();
+       
+        $this->addFlash('success', 'Usuario modificado correctamente');
+        return $this->redirectToRoute('userList');
     }
 }
