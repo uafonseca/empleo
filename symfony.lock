@@ -11,6 +11,12 @@
     "brick/math": {
         "version": "0.8.15"
     },
+    "captcha-com/captcha": {
+        "version": "4.2.5"
+    },
+    "captcha-com/symfony-captcha-bundle": {
+        "version": "4.2.12"
+    },
     "clue/stream-filter": {
         "version": "v1.4.1"
     },
@@ -495,9 +501,6 @@
     "symfony/dotenv": {
         "version": "v4.2.12"
     },
-    "symfony/error-handler": {
-        "version": "v4.4.30"
-    },
     "symfony/event-dispatcher": {
         "version": "v4.2.12"
     },
@@ -546,9 +549,6 @@
             "src/Kernel.php",
             "src/Controller/.gitignore"
         ]
-    },
-    "symfony/http-client-contracts": {
-        "version": "v2.4.0"
     },
     "symfony/http-foundation": {
         "version": "v4.2.12"

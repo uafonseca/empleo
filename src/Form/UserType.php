@@ -22,8 +22,8 @@ use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Regex;
+use Captcha\Bundle\CaptchaBundle\Form\Type\CaptchaType;
+
 
 class UserType extends AbstractType
 {
@@ -62,7 +62,11 @@ class UserType extends AbstractType
                 'first_options' => ['attr' => ['placeholder' => 'Contraseña'], 'label' => false],
                 'second_options' => ['attr' => ['placeholder' => 'Repita su contraseña', 'label' => false]],
                 'label' => false
-            ));
+            ))
+            ->add('captchaCode', CaptchaType::class, array(
+                'captchaConfig' => 'ExampleCaptcha'
+              ))
+            ;
     }
 
     public function buildFormFully(FormBuilderInterface $builder, array $options)

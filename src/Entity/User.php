@@ -17,6 +17,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Captcha\Bundle\CaptchaBundle\Validator\Constraints as CaptchaAssert;
 
 
 /**
@@ -301,6 +302,13 @@ class User extends BaseUser
      */
     private $clientTransactions;
 
+    /**
+     * @CaptchaAssert\ValidCaptcha(
+     *      message = "CAPTCHA fallido, Intente nuevamente."
+     * )
+     */
+  protected $captchaCode;
+
     public function __construct()
     {
         parent::__construct();
@@ -325,6 +333,16 @@ class User extends BaseUser
         $this->userJobMetadata = new ArrayCollection();
         $this->consultas = new ArrayCollection();
         $this->clientTransactions = new ArrayCollection();
+    }
+
+    public function setCaptchaCode($captchaCode)
+    {
+        $this->captchaCode = $captchaCode;
+    }
+
+    public function getCaptchaCode()
+    {
+        return $this->captchaCode;
     }
 
     /**
