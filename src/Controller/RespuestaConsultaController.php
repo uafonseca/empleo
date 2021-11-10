@@ -80,6 +80,17 @@ class RespuestaConsultaController extends AbstractController
         ]);
     }
 
+
+     /**
+     * @Route("/mostrar/{id}", name="respuesta_consulta_mostrar", methods={"GET"})
+     */
+    public function mostrar(Consulta $consulta): Response
+    {
+        return $this->render('respuesta_consulta/show.html.twig', [
+            'respuesta_consultum' => $consulta->getRespuestas()->count() ? $consulta->getRespuestas()[0] : null,
+        ]);
+    }
+
     /**
      * @Route("/{id}/edit", name="respuesta_consulta_edit", methods={"GET","POST"})
      */

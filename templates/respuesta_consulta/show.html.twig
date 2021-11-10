@@ -1,30 +1,15 @@
-<!DOCTYPE html>
-
-<title>RespuestaConsulta</title>
-
-{% block body %}
-    <h1>RespuestaConsulta</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ respuesta_consultum.id }}</td>
-            </tr>
-            <tr>
-                <th>Texto</th>
-                <td>{{ respuesta_consultum.texto }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ respuesta_consultum.createdAt ? respuesta_consultum.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('respuesta_consulta_index') }}">back to list</a>
-
-    <a href="{{ path('respuesta_consulta_edit', {'id': respuesta_consultum.id}) }}">edit</a>
-
-    {{ include('respuesta_consulta/_delete_form.html.twig') }}
-{% endblock %}
+<div class="card">
+    <div class="card-header">
+        Respuesta de consulta
+    </div>
+    <div class="card-body">
+        {% if respuesta_consultum is not null %}
+        <th>Fecha</th>
+        <td>{{ respuesta_consultum.createdAt ? respuesta_consultum.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+        <th>Texto</th>
+        <td>{{ respuesta_consultum.texto }}</td>
+        {% else %}
+            <p class="text-muted">No hay respuestas</p>
+        {% endif %}
+    </div>
+</div>

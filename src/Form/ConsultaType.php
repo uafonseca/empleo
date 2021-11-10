@@ -3,7 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Consulta;
+use App\Entity\State;
+use Doctrine\ORM\EntityRepository;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -25,9 +28,16 @@ class ConsultaType extends AbstractType
                 ],
                 'label' => 'Tipo'
             ])
-            ->add('ciudad', null, [
+            ->add('city', EntityType::class, [
                 'label' => 'Ciudad',
-                'required' => true
+                'class' => State::class,
+                'required' => true,
+                'query_builder'=> function(EntityRepository $entityRepository){
+                    return $entityRepository->createQueryBuilder('c')
+                        ->join('c.contry', 'country')
+                        ->where('country.name =:name')
+                        ->setParameter('name','Ecuador');
+                }
             ])
             ->add('texto', CKEditorType::class, [
                 'label' => 'Descripción'

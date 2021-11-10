@@ -94,15 +94,16 @@ class ConsultaDatatable extends AbstractDatatable
             }
             $this->columnBuilder
                 ->add(null,ActionColumn::class,[
-                    'title' => $this->translator->trans('sg.datatables.actions.title'),
+                    'title' => 'Acciones',
                     'actions' => [
                         TableActions::add('respuesta_consulta_new'),
+                        TableActions::show('respuesta_consulta_mostrar'),
                     ]
                 ]);
         }else{
             $this->columnBuilder
                 ->add(null,ActionColumn::class,[
-                    'title' => $this->translator->trans('sg.datatables.actions.title'),
+                    'title' => 'Acciones',
                     'actions' => [
                         [
                             'route' => 'respuesta_consulta_index',

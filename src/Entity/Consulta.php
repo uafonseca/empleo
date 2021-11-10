@@ -46,11 +46,6 @@ class Consulta
     private $texto;
 
     /**
-     * @ORM\Column(type="string")
-     */
-    private $ciudad;
-
-    /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="consultas")
      */
     private $user;
@@ -59,6 +54,11 @@ class Consulta
      * @ORM\OneToMany(targetEntity=RespuestaConsulta::class, mappedBy="consulta")
      */
     private $respuestas;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=State::class)
+     */
+    private $city;
 
     public function __construct()
     {
@@ -160,15 +160,6 @@ class Consulta
 
         return $this;
     }
-    public function getCiudad()
-    {
-        return $this->ciudad;
-    }
-
-    public function setCiudad(string $ciudad){
-        $this->ciudad = $ciudad;
-    }
-
     /**
      * @return Collection|RespuestaConsulta[]
      */
@@ -195,6 +186,18 @@ class Consulta
                 $respuesta->setConsulta(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCity(): ?State
+    {
+        return $this->city;
+    }
+
+    public function setCity(?State $city): self
+    {
+        $this->city = $city;
 
         return $this;
     }

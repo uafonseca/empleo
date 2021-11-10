@@ -1,23 +1,23 @@
 {% extends 'backend/base.html.twig' %}
 {% block context %}
 
-<div class="card">
-  <div class="card-header"></div>
-  <div class="card-body">
-    {{ sg_datatables_render_html(datatable) }}
-  </div>
-</div>
+	<div class="card">
+		<div class="card-header"></div>
+		<div class="card-body">
+			{{ sg_datatables_render_html(datatable) }}
+		</div>
+	</div>
 
 {% endblock %}
 {% block scripts %}
-{{ sg_datatables_render_js(datatable) }}
-<script>
-  $(document).ready(function () {
-    $('#sg-datatables-consultas').on('click', '.action-add', function (e) {
-      e.preventDefault();
-      const scope = $(this)
-      coreApp.dialogs.create({ url: scope.attr('href') });
-    })
-  })
-</script>
+	{{ sg_datatables_render_js(datatable) }}
+	<script>
+		$(document).ready(function () {
+$('#sg-datatables-consultas').on('click', '.action-add, .action-show', function (e) {
+e.preventDefault();
+const scope = $(this)
+coreApp.dialogs.create({url: scope.attr('href')});
+})
+})
+	</script>
 {% endblock %}
