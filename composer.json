@@ -7,6 +7,7 @@
         "ext-iconv": "*",
         "beberlei/doctrineextensions": "^1.2",
         "beelab/paypal-bundle": "^1.4",
+        "captcha-com/symfony-captcha-bundle": "4.*",
         "debril/rss-atom-bundle": "^4.2",
         "desarrolla2/rss-client-bundle": "2.*",
         "doctrine/annotations": "^1.6",
