@@ -22,7 +22,7 @@ use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Captcha\Bundle\CaptchaBundle\Form\Type\CaptchaType;
+use Gregwar\CaptchaBundle\Type\CaptchaType;
 
 
 class UserType extends AbstractType
@@ -63,9 +63,10 @@ class UserType extends AbstractType
                 'second_options' => ['attr' => ['placeholder' => 'Repita su contraseña', 'label' => false]],
                 'label' => false
             ))
-            ->add('captchaCode', CaptchaType::class, array(
-                'captchaConfig' => 'ExampleCaptcha'
-              ))
+            ->add('captchaCode', CaptchaType::class);
+            // ->add('captchaCode', CaptchaType::class, array(
+            //     'captchaConfig' => 'ExampleCaptcha'
+            //   ))
             ;
     }
 

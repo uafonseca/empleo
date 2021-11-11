@@ -11,12 +11,6 @@
     "brick/math": {
         "version": "0.8.15"
     },
-    "captcha-com/captcha": {
-        "version": "4.2.5"
-    },
-    "captcha-com/symfony-captcha-bundle": {
-        "version": "4.2.12"
-    },
     "clue/stream-filter": {
         "version": "v1.4.1"
     },
@@ -188,6 +182,12 @@
     },
     "gedmo/doctrine-extensions": {
         "version": "v3.2.0"
+    },
+    "gregwar/captcha": {
+        "version": "v1.1.9"
+    },
+    "gregwar/captcha-bundle": {
+        "version": "v2.1.5"
     },
     "guzzle/guzzle": {
         "version": "v3.8.1"

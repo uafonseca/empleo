@@ -12,12 +12,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
-use phpDocumentor\Reflection\Types\Array_;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use Captcha\Bundle\CaptchaBundle\Validator\Constraints as CaptchaAssert;
 
 
 /**
@@ -302,12 +300,8 @@ class User extends BaseUser
      */
     private $clientTransactions;
 
-    /**
-     * @CaptchaAssert\ValidCaptcha(
-     *      message = "CAPTCHA fallido, Intente nuevamente."
-     * )
-     */
-  protected $captchaCode;
+
+    protected $captchaCode;
 
     public function __construct()
     {
