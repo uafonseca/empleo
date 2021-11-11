@@ -1,15 +1,14 @@
 <header>
 	<div class="carousel-inner" role="listbox">
 		<div class="container-fluid" style="padding-top: 80px; z-index: 1;position: absolute;">
-			{% if app.user is null %}}
+			{% if app.user is null %}
 				<div class="row">
 					<div class="col-4 text-center"></div>
 					<div class="col-4 text-center">
 						<form id="alertForm" action="" class="p-2" method="post" style=" background-color: white; opacity: 0.9; border-radius: 5px;">
+							<label for="email">Recibe las últimas publicaciones</label>
 							<div class="input-group mb-3">
-								<label for="email">Recibe en tu correo las últimas publicaciones de ofertas</label>
-								<br>
-								<input id="email" name="email" type="email" class="form-control form-control-lg" aria-label="Recipient's username" aria-describedby="basic-addon2">
+								<input id="email" placeholder="Registra tu correo" name="email" type="email" class="form-control form-control-lg" aria-label="Recipient's username" aria-describedby="basic-addon2">
 								<div class="input-group-append">
 									<button id="createAlert" class="btn btn-outline-secondary" type="submit">Notificar</button>
 								</div>
@@ -24,8 +23,8 @@
 		<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 			{% for slide in slides %}
 				<div class="carousel-item {{ loop.index == 1 ? 'active' : '' }}" style="background-image: url('{{
-																					          vich_uploader_asset(slide, 'imageFile')
-																					        }}'); height: 88vh!important;"></div>
+																																									          vich_uploader_asset(slide, 'imageFile')
+																																									        }}'); height: 88vh!important;"></div>
 			{% endfor %}
 		</div>
 		<form action="{{ path('search') }}" class="form-inline search-form custom-search-form" role="form" method="post">
