@@ -67,7 +67,7 @@ class ConsultaDatatable extends AbstractDatatable
             ->add('date', VirtualColumn::class, [
                 'title' => 'Fecha de creación'
             ])
-            ->add('ciudad', Column::class, [
+            ->add('city.name', Column::class, [
                 'title' => 'Ciudad',
                 'default_content'=> '-'
             ])

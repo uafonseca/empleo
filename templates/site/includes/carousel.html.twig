@@ -8,6 +8,7 @@
 						<form id="alertForm" action="" class="p-2" method="post" style=" background-color: white; opacity: 0.9; border-radius: 5px;">
 							<div class="input-group mb-3">
 								<label for="email">Recibe en tu correo las últimas publicaciones de ofertas</label>
+								<br>
 								<input id="email" name="email" type="email" class="form-control form-control-lg" aria-label="Recipient's username" aria-describedby="basic-addon2">
 								<div class="input-group-append">
 									<button id="createAlert" class="btn btn-outline-secondary" type="submit">Notificar</button>
@@ -23,8 +24,8 @@
 		<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 			{% for slide in slides %}
 				<div class="carousel-item {{ loop.index == 1 ? 'active' : '' }}" style="background-image: url('{{
-																          vich_uploader_asset(slide, 'imageFile')
-																        }}'); height: 88vh!important;"></div>
+																					          vich_uploader_asset(slide, 'imageFile')
+																					        }}'); height: 88vh!important;"></div>
 			{% endfor %}
 		</div>
 		<form action="{{ path('search') }}" class="form-inline search-form custom-search-form" role="form" method="post">
