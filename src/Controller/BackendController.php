@@ -148,7 +148,10 @@ class BackendController extends AbstractController
             $this->addFlash('error', 'Ha ocurrido un error al eliminar el usuario');
         }
         $this->addFlash('success', 'Usuario eliminado correctamente');
-        return $this->redirectToRoute('userList');
+        return new JsonResponse([
+            'type' => 'success',
+            'messsage' => 'Datos eliminados'
+        ]);
     }
 
     /**

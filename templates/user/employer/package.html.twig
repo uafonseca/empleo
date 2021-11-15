@@ -2,79 +2,76 @@
 	<div class="package breadcrumb-form">
 		<div class="container border">
 			{% if paymentMetadata['jobs'] is defined %}
-				{% for pack in
-      paymentMetadata['jobs'] %}
-					<div class="row" style="margin-top: 10px">
-						<div class="col-md-4" style="text-align: center">
-							<h5>EMPLEOS</h5>
+				{% for pack in paymentMetadata['jobs'] %}
+					{% set difference = date('now').diff(date(pack.datePurchase)) %}
+					{% if pack.package.visible_days - difference.days >= 0 %}
+						<div class="row" style="margin-top: 10px">
+							<div class="col-md-4" style="text-align: center">
+								<h5>EMPLEOS</h5>
+							</div>
+							<div class="col-md-4">
+								<button type="button" class="disabled btn btn-success btn-lg btn-block">
+									{{ pack.package.name }}
+								</button>
+								<input type="hidden" name="checker" value="{{ pack.id }}"/>
+							</div>
+							<div class="col-md-4 text-right">
+								<button type="button" onclick="location.assign('{{ url('pricing_page', { type: 'job' })}}')" class="btn btn-primary btn-lg btn-block parpadea text">
+									Cambiar plan
+								</button>
+							</div>
 						</div>
-						<div class="col-md-4">
-							<button type="button" class="disabled btn btn-success btn-lg btn-block">
-								{{ pack.package.name }}
-							</button>
-							<input type="hidden" name="checker" value="{{ pack.id }}"/>
+						<div class="row">
+							<div class="col-md-6" style="text-align: left">
+								<span style="font-size: small">Su plan expira dentro de
+									<span style="margin: 5px; font-size: medium" class="badge badge-danger">
+										{{ pack.package.visible_days - difference.days }}</span>días</span>
+							</div>
+							<div class="col-md-6" style="text-align: left">
+								<span style="font-size: small">Publicaciones disponibles<span style="margin-left: 5px; font-size: medium" class="badge badge-danger">
+										{{pack.package.anouncements_number_max - pack.currentPostCount}}</span>
+								</span>
+							</div>
 						</div>
-						<div class="col-md-4 text-right">
-							<button type="button" onclick="location.assign('{{
-																              url('pricing_page', { type: 'job' })
-																            }}')" class="btn btn-primary btn-lg btn-block parpadea text">
-								Cambiar plan
-							</button>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-6" style="text-align: left">
-							{% set difference = date('now').diff(date(pack.datePurchase)) %}
-							<span style="font-size: small">Su plan expira dentro de
-								<span style="margin: 5px; font-size: medium" class="badge badge-danger">
-									{{ pack.package.visible_days - difference.days }}</span>días</span>
-						</div>
-						<div class="col-md-6" style="text-align: left">
-							<span style="font-size: small">Publicaciones disponibles<span style="margin-left: 5px; font-size: medium" class="badge badge-danger">
-									{{
-                pack.package.anouncements_number_max - pack.currentPostCount
-              }}</span>
-							</span>
-						</div>
-					</div>
+					{% endif %}
 				{% endfor %}
 			{% endif %}
-			{% if paymentMetadata['services'] is defined %}
-				{% for pack in paymentMetadata['services'] %}
-					<div class="row" style="margin-top: 10px">
-						<div class="col-md-4" style="text-align: center">
-							<h5>SERVICIOS</h5>
-						</div>
-						<div class="col-md-4">
-							<button type="button" class="disabled btn btn-success btn-lg btn-block">
-								{{ pack.package.name }}
-							</button>
-						</div>
-						<div class="col-md-4 text-right">
-							<button type="button" onclick="location.assign('{{
-																              url('pricing_page', { type: 'service' })
-																            }}')" class="btn btn-primary btn-lg btn-block parpadea text">
-								Cambiar plan
-							</button>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-6" style="text-align: left">
-							{% set difference = date('now').diff(date(pack.datePurchase)) %}
-							<span style="font-size: small">Su plan expira dentro de
-								<span style="margin: 5px; font-size: medium" class="badge badge-danger">
-									{{ pack.package.visible_days - difference.days }}</span>días</span>
-						</div>
-						<div class="col-md-6" style="text-align: left">
-							<span style="font-size: small">Publicaciones disponibles<span style="margin-left: 5px; font-size: medium" class="badge badge-danger">
-									{{
-                pack.package.anouncements_number_max - pack.currentPostCount
-              }}</span>
-							</span>
-						</div>
-					</div>
-				{% endfor %}
-			{% endif %}
+			{# {% if paymentMetadata['services'] is defined %}
+							{% for pack in paymentMetadata['services'] %}
+								<div class="row" style="margin-top: 10px">
+									<div class="col-md-4" style="text-align: center">
+										<h5>SERVICIOS</h5>
+									</div>
+									<div class="col-md-4">
+										<button type="button" class="disabled btn btn-success btn-lg btn-block">
+											{{ pack.package.name }}
+										</button>
+									</div>
+									<div class="col-md-4 text-right">
+										<button type="button" onclick="location.assign('{{
+																																																																											              url('pricing_page', { type: 'service' })
+																																																																											            }}')" class="btn btn-primary btn-lg btn-block parpadea text">
+											Cambiar plan
+										</button>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-6" style="text-align: left">
+										{% set difference = date('now').diff(date(pack.datePurchase)) %}
+										<span style="font-size: small">Su plan expira dentro de
+											<span style="margin: 5px; font-size: medium" class="badge badge-danger">
+												{{ pack.package.visible_days - difference.days }}</span>días</span>
+									</div>
+									<div class="col-md-6" style="text-align: left">
+										<span style="font-size: small">Publicaciones disponibles<span style="margin-left: 5px; font-size: medium" class="badge badge-danger">
+												{{
+			                pack.package.anouncements_number_max - pack.currentPostCount
+			              }}</span>
+										</span>
+									</div>
+								</div>
+							{% endfor %}
+						{% endif %} #}
 		</div>
 	</div>
 </div>

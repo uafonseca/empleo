@@ -180,8 +180,10 @@ class PaypalController extends AbstractController
             /** @var PaymentForJobs $pack */
             $pack = $em->getRepository(PaymentForJobs::class)->find($packId);
 
-            if ($pack === null || $pack->getPrice() !== 0 || $currentUser->getBuyFreePackJob())
+            if ($pack === null || $pack->getPrice() !== 0  /*|| $currentUser->getBuyFreePackJob()*/){
+        
                 return $this->redirectToRoute('pricing_page', ['type' => $type]);
+            }
 
             $currentUser->addPackageJob($pack);
 
