@@ -63,10 +63,6 @@ class UserType extends AbstractType
             'second_options' => ['attr' => ['placeholder' => 'Repita su contraseña', 'label' => false]],
             'label' => false
         ))
-            // ->add('captchaCode', CaptchaType::class);
-            // ->add('captchaCode', CaptchaType::class, array(
-            //     'captchaConfig' => 'ExampleCaptcha'
-            //   ))
             ;
     }
 
