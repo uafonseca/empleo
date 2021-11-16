@@ -165,11 +165,11 @@
 		</div>
 		<div class="form-group">
 			<label class="form-check-label"><input type="checkbox" required="required"> Acepto los <a
-					href="{{path('site_policy')}}">Terminos y condiciones</a> </label>
+					href="{{path('site_policy')}}">Términos y condiciones</a> </label>
 		</div>
+		<div class="g-recaptcha" data-sitekey="6LcdIjsdAAAAAK-ZEHRbS8EldQ7NRsQjjKwwySww"></div>
 		<div class="form-group">
-			<button type="button" class="btn btn-primary g-recaptcha btn-lg"
-				data-sitekey="6LdytTodAAAAABdPMdV7wBFWUKViAcZDoztrvd-f" data-callback='onSubmit' data-action='submit'>
+			<button type="submit" class="btn btn-primary  btn-lg">
 				Registrarme
 			</button>
 		</div>
@@ -177,7 +177,8 @@
 		{{ form_end(form) }}
 	</div>
 </body>
-<script src="https://www.google.com/recaptcha/api.js"></script>
+<!-- <script src="https://www.google.com/recaptcha/api.js"></script> -->
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script>
 	function onSubmit(token) {
 		document.getElementById("regForm").submit();
