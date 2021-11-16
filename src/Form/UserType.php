@@ -30,40 +30,40 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class, [//
-                'label' => false,
-                'attr' => ['placeholder' => 'Nombre(s)']
-            ])
-            ->add('email', EmailType::class, [//
-                'label' => false,
-                'attr' => ['placeholder' => 'Correo electrónico']
-            ])
-            ->add('username', null, [//
-                'label' => false,
-                'attr' => ['placeholder' => 'Nombre de usuario']
-            ])
-            ->add('employer', ChoiceType::class, [
-                'choices' => array(
-                    'Registrarme como empleador' => true,
-                    'Registrarme como usuario' => false,
-                ),
-                'expanded' => true,
-                'label' => false,
-                'required' => true,
-                'data' => false
-            ])
-            ->add('phone', TelType::class, [//
-                'label' => false,
-                'attr' => ['placeholder' => 'Teléfono'],
-            ])
-            ->add('plainPassword', RepeatedType::class, array(
-                'type' => PasswordType::class,
-                'invalid_message' => 'Las contraseñas deben ser iguales',
-                'first_options' => ['attr' => ['placeholder' => 'Contraseña'], 'label' => false],
-                'second_options' => ['attr' => ['placeholder' => 'Repita su contraseña', 'label' => false]],
-                'label' => false
-            ))
-            ->add('captchaCode', CaptchaType::class);
+            ->add('name', TextType::class , [ //
+            'label' => false,
+            'attr' => ['placeholder' => 'Nombre(s)']
+        ])
+            ->add('email', EmailType::class , [ //
+            'label' => false,
+            'attr' => ['placeholder' => 'Correo electrónico']
+        ])
+            ->add('username', null, [ //
+            'label' => false,
+            'attr' => ['placeholder' => 'Nombre de usuario']
+        ])
+            ->add('employer', ChoiceType::class , [
+            'choices' => array(
+                'Registrarme como empleador' => true,
+                'Registrarme como usuario' => false,
+            ),
+            'expanded' => true,
+            'label' => false,
+            'required' => true,
+            'data' => false
+        ])
+            ->add('phone', TelType::class , [ //
+            'label' => false,
+            'attr' => ['placeholder' => 'Teléfono'],
+        ])
+            ->add('plainPassword', RepeatedType::class , array(
+            'type' => PasswordType::class ,
+            'invalid_message' => 'Las contraseñas deben ser iguales',
+            'first_options' => ['attr' => ['placeholder' => 'Contraseña'], 'label' => false],
+            'second_options' => ['attr' => ['placeholder' => 'Repita su contraseña', 'label' => false]],
+            'label' => false
+        ))
+            // ->add('captchaCode', CaptchaType::class);
             // ->add('captchaCode', CaptchaType::class, array(
             //     'captchaConfig' => 'ExampleCaptcha'
             //   ))
@@ -78,7 +78,7 @@ class UserType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => User::class,
+            'data_class' => User::class ,
         ]);
     }
 }
