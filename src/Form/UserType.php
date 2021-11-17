@@ -55,7 +55,7 @@ class UserType extends AbstractType
             ])
             ->add('phone', null, [ //
                 'label' => false,
-                'attr' => ['placeholder' => 'Teléfono','pattern' =>'^[-/d]/d*$'],
+                'attr' => ['placeholder' => 'Teléfono','pattern' =>'[0-9]+'],
                 'constraints' => [new Regex('/[^0-9]/')],
             ])
             ->add('plainPassword', RepeatedType::class, array(
