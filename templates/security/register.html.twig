@@ -182,16 +182,17 @@
 </body>
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script>
+    function correctCaptcha() {
+        $("form").each(function () {
+            $(this).find(':input[type="submit"]').prop('disabled', false);
+        });
+    }
     $(function () {
         $("form").each(function () {
             $(this).find(':input[type="submit"]').prop('disabled', true);
         });
 
-        function correctCaptcha() {
-            $("form").each(function () {
-                $(this).find(':input[type="submit"]').prop('disabled', false);
-            });
-        }
+
 
         $("#user_plainPassword_second").bind("keyup", function () {
             if ($('#user_plainPassword_first').val() != $(this).val()) {
@@ -265,7 +266,7 @@
     $('#user_username').on('change', function (e){
         $('#user_username').val($('#user_username').val().split(" ").join(""));
     })
-    
+
     $(function () {
         $('.radio').click(function (e) {
             if ($('#option1').is(':checked')) {
