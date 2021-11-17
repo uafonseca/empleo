@@ -263,8 +263,12 @@
         document.getElementById("regForm").submit();
     }
 
-    $('#user_username').on('change', function (e){
+    $('#user_username').on('keyup', function (e){
         $('#user_username').val($('#user_username').val().split(" ").join(""));
+    })
+
+    $('#user_phone').on('keyup', function (e){
+        this.value = this.value.replace(/[^0-9]/g, '');
     })
 
     $(function () {

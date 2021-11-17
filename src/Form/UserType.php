@@ -15,8 +15,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -55,9 +53,9 @@ class UserType extends AbstractType
                 'required' => true,
                 'data' => false
             ])
-            ->add('phone', IntegerType::class, [ //
+            ->add('phone', null, [ //
                 'label' => false,
-                'attr' => ['placeholder' => 'Teléfono'],
+                'attr' => ['placeholder' => 'Teléfono','pattern' =>'^[-/d]/d*$'],
                 'constraints' => [new Regex('/[^0-9]/')],
             ])
             ->add('plainPassword', RepeatedType::class, array(
