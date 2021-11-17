@@ -23,7 +23,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Gregwar\CaptchaBundle\Type\CaptchaType;
-
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class UserType extends AbstractType
 {
@@ -52,16 +53,18 @@ class UserType extends AbstractType
             'required' => true,
             'data' => false
         ])
-            ->add('phone', TelType::class , [ //
+            ->add('phone', null, [ //
             'label' => false,
             'attr' => ['placeholder' => 'Teléfono'],
+            'constraints' => [new Regex('/[^0-9]/')],
         ])
             ->add('plainPassword', RepeatedType::class , array(
             'type' => PasswordType::class ,
             'invalid_message' => 'Las contraseñas deben ser iguales',
             'first_options' => ['attr' => ['placeholder' => 'Contraseña'], 'label' => false],
             'second_options' => ['attr' => ['placeholder' => 'Repita su contraseña', 'label' => false]],
-            'label' => false
+            'label' => false,
+            'constraints' => [new Length(['min' => 6])],
         ))
             ;
     }

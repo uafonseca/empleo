@@ -159,9 +159,11 @@
 		</div>
 		<div class="form-group">
 			{{ form_widget(form.plainPassword.first) }}
+			<span id="password_strength"></span>
 		</div>
 		<div class="form-group">
 			{{ form_widget(form.plainPassword.second) }}
+			<span id="password_match"></span>
 		</div>
 		<div class="form-group">
 			<label class="form-check-label"><input type="checkbox" required="required"> Acepto los <a
@@ -177,13 +179,87 @@
 		{{ form_end(form) }}
 	</div>
 </body>
-<!-- <script src="https://www.google.com/recaptcha/api.js"></script> -->
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script type="text/javascript">
+	$(function () {
+		$("#user_plainPassword_second").bind("keyup", function () {
+			if ($('#user_plainPassword_first').val() != $(this).val()) {
+				$('#password_match').html('Las contraseñas no coinciden')
+				$("#password_match").css("color", 'red');
+			} else {
+				$('#password_match').html('Las contraseñas coinciden')
+				$("#password_match").css("color", "green");
+			}
+		})
+		$("#user_plainPassword_first").bind("keyup", function () {
+			//TextBox left blank.
+			if ($(this).val().length == 0) {
+				$("#password_strength").html("");
+				return;
+			}
+
+			//Regular Expressions.
+			var regex = new Array();
+			regex.push("[A-Z]"); //Uppercase Alphabet.
+			regex.push("[a-z]"); //Lowercase Alphabet.
+			regex.push("[0-9]"); //Digit.
+			regex.push("[$@$!%*#?&]"); //Special Character.
+
+			var passed = 0;
+
+			//Validate for each Regular Expression.
+			for (var i = 0; i < regex.length; i++) {
+				if (new RegExp(regex[i]).test($(this).val())) {
+					passed++;
+				}
+			}
+
+
+			//Validate for length of Password.
+			if (passed > 2 && $(this).val().length > 8) {
+				passed++;
+			}
+
+			//Display status.
+			var color = "";
+			var strength = "";
+			switch (passed) {
+				case 0:
+				case 1:
+					strength = "Débil";
+					color = "red";
+					break;
+				case 2:
+					strength = "Buena";
+					color = "darkorange";
+					break;
+				case 3:
+				case 4:
+					strength = "Fuerte";
+					color = "green";
+					break;
+				case 5:
+					strength = "Muy fuerte";
+					color = "darkgreen";
+					break;
+			}
+			$("#password_strength").html(strength);
+			$("#password_strength").css("color", color);
+		});
+	});
+</script>
 <script>
 	function onSubmit(token) {
 		document.getElementById("regForm").submit();
 	}
 	$(function () {
+		$('#user_phone').keypress(function (event) {
+			var keycode = event.which;
+			if (!(event.shiftKey == false && (keycode == 46 || keycode == 8 || keycode == 37 || keycode == 39 || (keycode >= 48 && keycode <= 57)))) {
+				event.preventDefault();
+			}
+		});
+
 		$('.radio').click(function (e) {
 			if ($('#option1').is(':checked')) {
 				$('#user_employer_1').prop('checked', true);
