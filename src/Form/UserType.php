@@ -56,7 +56,6 @@ class UserType extends AbstractType
             ->add('phone', null, [ //
                 'label' => false,
                 'attr' => ['placeholder' => 'Teléfono','pattern' =>'[0-9]+'],
-                'constraints' => [new Regex('/[^0-9]/')],
             ])
             ->add('plainPassword', RepeatedType::class, array(
                 'type' => PasswordType::class,
@@ -64,7 +63,10 @@ class UserType extends AbstractType
                 'first_options' => ['attr' => ['placeholder' => 'Contraseña'], 'label' => false],
                 'second_options' => ['attr' => ['placeholder' => 'Repita su contraseña', 'label' => false]],
                 'label' => false,
-                'constraints' => [new Length(['min' => 6])],
+                'constraints' => [new Length([
+                    'min' => 6,
+                    'minMessage' => 'Este campo debe contrner más de {{ limit }} caractéres'
+                ])],
             ));
     }
 
