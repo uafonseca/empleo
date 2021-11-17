@@ -2,277 +2,284 @@
 <html lang="en">
 
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700">
-	<title>Registro</title>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-	<style>
-		body {
-			color: #fff;
-			background: #3598dc;
-			font-family: 'Roboto', sans-serif;
-		}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700">
+    <title>Registro</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            color: #fff;
+            background: #3598dc;
+            font-family: 'Roboto', sans-serif;
+        }
 
-		.hidden {
-			display: none;
-		}
+        .hidden {
+            display: none;
+        }
 
-		.form-control {
-			height: 41px;
-			background: #f2f2f2;
-			box-shadow: none !important;
-			border: none;
-		}
+        .form-control {
+            height: 41px;
+            background: #f2f2f2;
+            box-shadow: none !important;
+            border: none;
+        }
 
-		.form-control:focus {
-			background: #e2e2e2;
-		}
+        .form-control:focus {
+            background: #e2e2e2;
+        }
 
-		.form-control,
-		.btn {
-			border-radius: 3px;
-		}
+        .form-control,
+        .btn {
+            border-radius: 3px;
+        }
 
-		.signup-form {
-			width: 400px;
-			margin: 30px auto;
-		}
+        .signup-form {
+            width: 400px;
+            margin: 30px auto;
+        }
 
-		.signup-form form {
-			color: #999;
-			border-radius: 3px;
-			margin-bottom: 15px;
-			background: #fff;
-			box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-			padding: 30px;
-		}
+        .signup-form form {
+            color: #999;
+            border-radius: 3px;
+            margin-bottom: 15px;
+            background: #fff;
+            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+        }
 
-		.signup-form h2 {
-			color: #333;
-			font-weight: bold;
-			margin-top: 0;
-		}
+        .signup-form h2 {
+            color: #333;
+            font-weight: bold;
+            margin-top: 0;
+        }
 
-		.signup-form hr {
-			margin: 0 -30px 20px;
-		}
+        .signup-form hr {
+            margin: 0 -30px 20px;
+        }
 
-		.signup-form .form-group {
-			margin-bottom: 20px;
-		}
+        .signup-form .form-group {
+            margin-bottom: 20px;
+        }
 
-		.signup-form input[type="checkbox"] {
-			margin-top: 3px;
-		}
+        .signup-form input[type="checkbox"] {
+            margin-top: 3px;
+        }
 
-		.signup-form .row div:first-child {
-			padding-right: 10px;
-		}
+        .signup-form .row div:first-child {
+            padding-right: 10px;
+        }
 
-		.signup-form .row div:last-child {
-			padding-left: 10px;
-		}
+        .signup-form .row div:last-child {
+            padding-left: 10px;
+        }
 
-		.signup-form .btn {
-			font-size: 16px;
-			font-weight: bold;
-			background: #3598dc;
-			border: none;
-			min-width: 140px;
-		}
+        .signup-form .btn {
+            font-size: 16px;
+            font-weight: bold;
+            background: #3598dc;
+            border: none;
+            min-width: 140px;
+        }
 
-		.signup-form .btn:hover,
-		.signup-form .btn:focus {
-			background: #2389cd !important;
-			outline: none;
-		}
+        .signup-form .btn:hover,
+        .signup-form .btn:focus {
+            background: #2389cd !important;
+            outline: none;
+        }
 
-		.signup-form a {
-			color: #fff;
-			text-decoration: underline;
-		}
+        .signup-form a {
+            color: #fff;
+            text-decoration: underline;
+        }
 
-		.signup-form a:hover {
-			text-decoration: none;
-		}
+        .signup-form a:hover {
+            text-decoration: none;
+        }
 
-		.signup-form form a {
-			color: #3598dc;
-			text-decoration: none;
-		}
+        .signup-form form a {
+            color: #3598dc;
+            text-decoration: none;
+        }
 
-		.signup-form form a:hover {
-			text-decoration: underline;
-		}
+        .signup-form form a:hover {
+            text-decoration: underline;
+        }
 
-		.signup-form .hint-text {
-			padding-bottom: 15px;
-			text-align: center;
-		}
-	</style>
+        .signup-form .hint-text {
+            padding-bottom: 15px;
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
-	<div class="signup-form">
-		{{ form_start(form, { 'attr': {'id': 'regForm'} }) }}
-		<h2>Registro</h2>
-		<p>La mejor forma de buscar trabajo!</p>
-		<hr>
-		<div class="form-group">
-			<div class="row">
-				<div class="col">
-					{{ form_widget(form.name) }}
-				</div>
-				<div class="col">
-					{{ form_widget(form.phone) }}
-				</div>
-			</div>
-		</div>
-		<div class="form-group">
-			{{ form_widget(form.username) }}
-		</div>
-		<div class="form-group">
-			{{ form_widget(form.email) }}
-		</div>
+<div class="signup-form">
+    {{ form_start(form, { 'attr': {'id': 'regForm'} }) }}
+    <h2>Registro</h2>
+    <p>La mejor forma de buscar trabajo!</p>
+    <hr>
+    <div class="form-group">
+        <div class="row">
+            <div class="col">
+                {{ form_widget(form.name) }}
+            </div>
+            <div class="col">
+                {{ form_widget(form.phone) }}
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        {{ form_widget(form.username) }}
+    </div>
+    <div class="form-group">
+        {{ form_widget(form.email) }}
+    </div>
 
-		<div class="form-group">
-			<div class="btn-group btn-group-toggle pl-3" data-toggle="buttons">
-				<label class="btn btn-primary active">
-					<i class="fa fa-check"></i>
-					<input type="radio" name="options" id="option1" autocomplete="off" class="radio" checked>
-					Usuario
-				</label>
-				<label class="btn btn-success">
-					<i class="fa fa-check hidden"></i>
-					<input type="radio" name="options" id="option2" autocomplete="off" class="radio">
-					Empleador
-				</label>
-			</div>
-			<div class="hidden">
-				{{ form_row(form.employer,{'attr' :{'oninput':'this.className'}}) }}
-			</div>
-		</div>
-		<div class="form-group">
-			{{ form_widget(form.plainPassword.first) }}
-			<span id="password_strength"></span>
-		</div>
-		<div class="form-group">
-			{{ form_widget(form.plainPassword.second) }}
-			<span id="password_match"></span>
-		</div>
-		<div class="form-group">
-			<label class="form-check-label"><input type="checkbox" required="required"> Acepto los <a
-					href="{{path('site_policy')}}">Términos y condiciones</a> </label>
-		</div>
-		<div class="g-recaptcha" data-sitekey="6LcdIjsdAAAAAK-ZEHRbS8EldQ7NRsQjjKwwySww"></div>
-		<div class="form-group">
-			<button type="submit" class="btn btn-primary  btn-lg">
-				Registrarme
-			</button>
-		</div>
-		<div class="hint-text">¿Ya tienes una cuenta? <a href="{{ path('app_login') }}">Entrar aquí</a></div>
-		{{ form_end(form) }}
-	</div>
+    <div class="form-group">
+        <div class="btn-group btn-group-toggle pl-3" data-toggle="buttons">
+            <label class="btn btn-primary active">
+                <i class="fa fa-check"></i>
+                <input type="radio" name="options" id="option1" autocomplete="off" class="radio" checked>
+                Usuario
+            </label>
+            <label class="btn btn-success">
+                <i class="fa fa-check hidden"></i>
+                <input type="radio" name="options" id="option2" autocomplete="off" class="radio">
+                Empleador
+            </label>
+        </div>
+        <div class="hidden">
+            {{ form_row(form.employer,{'attr' :{'oninput':'this.className'}}) }}
+        </div>
+    </div>
+    <div class="form-group">
+        {{ form_widget(form.plainPassword.first) }}
+        <span id="password_strength"></span>
+    </div>
+    <div class="form-group">
+        {{ form_widget(form.plainPassword.second) }}
+        <span id="password_match"></span>
+    </div>
+    <div class="form-group">
+        <label class="form-check-label"><input type="checkbox" required="required"> Acepto los <a
+                    href="{{ path('site_policy') }}">Términos y condiciones</a> </label>
+    </div>
+    <div class="g-recaptcha" data-callback="correctCaptcha"
+         data-sitekey="6LcdIjsdAAAAAK-ZEHRbS8EldQ7NRsQjjKwwySww"></div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary  btn-lg">
+            Registrarme
+        </button>
+    </div>
+    <div class="hint-text">¿Ya tienes una cuenta? <a href="{{ path('app_login') }}">Entrar aquí</a></div>
+    {{ form_end(form) }}
+</div>
 </body>
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-<script type="text/javascript">
-	$(function () {
-		$("#user_plainPassword_second").bind("keyup", function () {
-			if ($('#user_plainPassword_first').val() != $(this).val()) {
-				$('#password_match').html('Las contraseñas no coinciden')
-				$("#password_match").css("color", 'red');
-			} else {
-				$('#password_match').html('Las contraseñas coinciden')
-				$("#password_match").css("color", "green");
-			}
-		})
-		$("#user_plainPassword_first").bind("keyup", function () {
-			//TextBox left blank.
-			if ($(this).val().length == 0) {
-				$("#password_strength").html("");
-				return;
-			}
-
-			//Regular Expressions.
-			var regex = new Array();
-			regex.push("[A-Z]"); //Uppercase Alphabet.
-			regex.push("[a-z]"); //Lowercase Alphabet.
-			regex.push("[0-9]"); //Digit.
-			regex.push("[$@$!%*#?&]"); //Special Character.
-
-			var passed = 0;
-
-			//Validate for each Regular Expression.
-			for (var i = 0; i < regex.length; i++) {
-				if (new RegExp(regex[i]).test($(this).val())) {
-					passed++;
-				}
-			}
-
-
-			//Validate for length of Password.
-			if (passed > 2 && $(this).val().length > 8) {
-				passed++;
-			}
-
-			//Display status.
-			var color = "";
-			var strength = "";
-			switch (passed) {
-				case 0:
-				case 1:
-					strength = "Débil";
-					color = "red";
-					break;
-				case 2:
-					strength = "Buena";
-					color = "darkorange";
-					break;
-				case 3:
-				case 4:
-					strength = "Fuerte";
-					color = "green";
-					break;
-				case 5:
-					strength = "Muy fuerte";
-					color = "darkgreen";
-					break;
-			}
-			$("#password_strength").html(strength);
-			$("#password_strength").css("color", color);
-		});
-	});
-</script>
 <script>
-	function onSubmit(token) {
-		document.getElementById("regForm").submit();
-	}
-	$(function () {
-		$('#user_phone').keypress(function (event) {
-			var keycode = event.which;
-			if (!(event.shiftKey == false && (keycode == 46 || keycode == 8 || keycode == 37 || keycode == 39 || (keycode >= 48 && keycode <= 57)))) {
-				event.preventDefault();
-			}
-		});
+    $(function () {
+        $("form").each(function () {
+            $(this).find(':input[type="submit"]').prop('disabled', true);
+        });
 
-		$('.radio').click(function (e) {
-			if ($('#option1').is(':checked')) {
-				$('#user_employer_1').prop('checked', true);
-				$(this).prev().removeClass('hidden');
-				$('#option2').prev().addClass('hidden');
-			}
-			if ($('#option2').is(':checked')) {
-				$('#user_employer_0').prop('checked', true);
-				$(this).prev().removeClass('hidden');
-				$('#option1').prev().addClass('hidden');
-			}
-		});
-	});
+        function correctCaptcha() {
+            $("form").each(function () {
+                $(this).find(':input[type="submit"]').prop('disabled', false);
+            });
+        }
+
+        $("#user_plainPassword_second").bind("keyup", function () {
+            if ($('#user_plainPassword_first').val() != $(this).val()) {
+                $('#password_match').html('Las contraseñas no coinciden')
+                $("#password_match").css("color", 'red');
+            } else {
+                $('#password_match').html('Las contraseñas coinciden')
+                $("#password_match").css("color", "green");
+            }
+        })
+        $("#user_plainPassword_first").bind("keyup", function () {
+            //TextBox left blank.
+            if ($(this).val().length == 0) {
+                $("#password_strength").html("");
+                return;
+            }
+
+            //Regular Expressions.
+            var regex = new Array();
+            regex.push("[A-Z]"); //Uppercase Alphabet.
+            regex.push("[a-z]"); //Lowercase Alphabet.
+            regex.push("[0-9]"); //Digit.
+            regex.push("[$@$!%*#?&]"); //Special Character.
+
+            var passed = 0;
+
+            //Validate for each Regular Expression.
+            for (var i = 0; i < regex.length; i++) {
+                if (new RegExp(regex[i]).test($(this).val())) {
+                    passed++;
+                }
+            }
+
+
+            //Validate for length of Password.
+            if (passed > 2 && $(this).val().length > 8) {
+                passed++;
+            }
+
+            //Display status.
+            var color = "";
+            var strength = "";
+            switch (passed) {
+                case 0:
+                case 1:
+                    strength = "Débil";
+                    color = "red";
+                    break;
+                case 2:
+                    strength = "Buena";
+                    color = "darkorange";
+                    break;
+                case 3:
+                case 4:
+                    strength = "Fuerte";
+                    color = "green";
+                    break;
+                case 5:
+                    strength = "Muy fuerte";
+                    color = "darkgreen";
+                    break;
+            }
+            $("#password_strength").html(strength);
+            $("#password_strength").css("color", color);
+        });
+    });
+    function onSubmit(token) {
+        document.getElementById("regForm").submit();
+    }
+
+    $('#user_username').on('change', function (e){
+        $('#user_username').val($('#user_username').val().split(" ").join(""));
+    })
+    
+    $(function () {
+        $('.radio').click(function (e) {
+            if ($('#option1').is(':checked')) {
+                $('#user_employer_1').prop('checked', true);
+                $(this).prev().removeClass('hidden');
+                $('#option2').prev().addClass('hidden');
+            }
+            if ($('#option2').is(':checked')) {
+                $('#user_employer_0').prop('checked', true);
+                $(this).prev().removeClass('hidden');
+                $('#option1').prev().addClass('hidden');
+            }
+        });
+    });
 </script>
 
 </html>
