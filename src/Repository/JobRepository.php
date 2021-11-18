@@ -101,7 +101,8 @@ class JobRepository extends ServiceEntityRepository
 	public function getCityesByName()
 	{
 		return $this->createQueryBuilder('j')
-			->select('j.city as name')
+            ->select('city.name')
+            ->join('j.city', 'city')
 			->distinct()
 			->getQuery()
 			->getResult();

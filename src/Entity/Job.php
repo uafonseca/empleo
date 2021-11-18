@@ -125,11 +125,12 @@ class Job
     private $others;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToOne(targetEntity=Country::class)
      */
     private $country;
+
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToOne(targetEntity=State::class)
      */
     private $city;
 
@@ -426,12 +427,12 @@ class Job
         return $this;
     }
 
-    public function getCountry(): ?string
+    public function getCountry()
     {
         return $this->country;
     }
 
-    public function setCountry(string $country): self
+    public function setCountry( $country): self
     {
         $this->country = $country;
 

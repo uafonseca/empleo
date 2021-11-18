@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Datatable\UserDatatable;
 use App\Entity\PaymentForJobs;
+use App\Form\UserEditType;
+use App\Form\UserType;
 use App\Repository\AnouncementRepository;
 use App\Repository\JobRepository;
 use App\Service\AnnouncementService;
@@ -169,5 +171,26 @@ class BackendController extends AbstractController
        
         $this->addFlash('success', 'Usuario modificado correctamente');
         return $this->redirectToRoute('userList');
+    }
+
+    /**
+     * @param User $user
+     * @param Request $request
+     * @return Response
+     *
+     * @Route("/backend/user/edit/{id}", name="userEdit")
+     */
+    public  function editUser(User $user, Request $request):Response{
+        $form = $this->createForm(UserEditType::class, $user);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+            return $this->redirectToRoute('userList');
+        }
+        return $this->render('backend/user/edit.html.twig',[
+            'form' => $form->createView()
+        ]);
     }
 }

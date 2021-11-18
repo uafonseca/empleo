@@ -23,6 +23,16 @@ use App\Entity\User;
 class UserDatatable extends AbstractDatatable
 {
 
+    public  function  getLineFormatter()
+    {
+        return function ($row){
+            $user = $this->getEntityManager()->getRepository(User::class)->find($row['id']);
+
+            $row['roles'] = in_array('ROLE_SUPER_ADMIN',$user->getRoles()) ? 'Adminisrador' : '';
+            $row['roles'] = in_array('ROLE_ADMIN',$user->getRoles()) ? 'Empleador' : 'Candidato';
+            return $row;
+        };
+    }
 
     /**
      * @param array $options
@@ -46,36 +56,69 @@ class UserDatatable extends AbstractDatatable
             'scroll_x' => true
         ]);
         $this->columnBuilder
-            ->add('id', Column::class,[
+            ->add('id', Column::class, [
                 'title' => 'Id',
                 'visible' => false,
             ])
-            ->add('name',Column::class,[
-                'title' => 'Nombre',
+            ->add('enabled', Column::class, [
+                'title' => 'enabled',
+                'visible' => false,
             ])
-            ->add('username',Column::class,[
+            ->add('name', Column::class, [
+                'title' => 'Nombres',
+            ])
+            ->add('username', Column::class, [
                 'title' => 'Usuario',
             ])
-            ->add('email',Column::class,[
+            ->add('email', Column::class, [
                 'title' => 'Correo',
             ])
-            ->add('name',Column::class,[
+            ->add('name', Column::class, [
                 'title' => 'Nombre',
             ])
-            ->add('phone',Column::class,[
+            ->add('phone', Column::class, [
                 'title' => 'Teléfono',
             ])
-            ->add('roles',Column::class,[
+            ->add('roles', VirtualColumn::class, [
                 'title' => 'Tipo de cuenta',
             ])
-            ->add(null,ActionColumn::class,[
+            ->add(null, ActionColumn::class, [
                 'title' => $this->translator->trans('sg.datatables.actions.title'),
                 'actions' => [
-                    TableActions::default('userActivate', 'fa-check','',''),
+                    [
+                        'route' => 'userActivate',
+                        'route_parameters' => array_merge(array(
+                            'id' => 'id'
+                        )),
+                        'icon' => 'fa fa-power-off text-danger cortex-table-action-icon',
+                        'attributes' => array(
+                            'class' => 'action-show',
+                            'color' => 'red',
+                            'title' => "Desactivar"
+                        ),
+                        'render_if' => function ($row) {
+                            return $row['enabled'];
+                        }
+                    ],
+                    [
+                        'route' => 'userActivate',
+                        'route_parameters' => array_merge(array(
+                            'id' => 'id'
+                        )),
+                        'icon' => 'fa fa-check-circle text-success cortex-table-action-icon',
+                        'attributes' => array(
+                            'class' => 'action-show',
+                            'color' => 'red',
+                            'title' => "Activar"
+                        ),
+                        'render_if' => function ($row) {
+                            return !$row['enabled'];
+                        }
+                    ],
                     TableActions::delete('userRemove'),
+                    TableActions::edit('userEdit'),
                 ]
-            ])
-        ;
+            ]);
     }
 
     /**

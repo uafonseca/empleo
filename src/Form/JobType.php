@@ -10,7 +10,10 @@
 namespace App\Form;
 
 use App\Entity\Category;
+use App\Entity\Country;
 use App\Entity\Job;
+use App\Entity\State;
+use Doctrine\ORM\EntityRepository;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -95,23 +98,27 @@ class JobType extends AbstractType
             ->add('others', CKEditorType::class, [
                 'label' => 'Otros'
             ])
-            ->add('country', null, [
-                'attr' => ['id' => 'country'],
-                'label' => 'País'
-            ])
-            ->add('city', null, [
-                'attr' => ['id' => 'city'],
-                'label' => 'Ciudad'
-            ])
-            //            ->add('gender', ChoiceType::class, [
-            //                'choices' => [
-            //                    'Femenino' => 'femenino',
-            //                    'Másculino' => 'masculino',
-            //                    'Cualquier' => 'cualquier',
-            //                ],
-            //                'placeholder' => 'Género',
-            //                'label'=>'Género'
-            //            ])
+            ->add('country',EntityType::class,[
+                    'class' => Country::class,
+                    'choice_label' => 'Name',
+                    'query_builder' => function (EntityRepository $entityRepository) {
+                        return $entityRepository->createQueryBuilder('c')
+                            ->where('c.name=:countri')
+                            ->setParameter('countri', 'Ecuador');
+                    }
+                ]
+            )
+            ->add('city', EntityType::class, [
+                    'class' => State::class,
+                    'choice_label' => 'Name',
+                    'query_builder' => function (EntityRepository $entityRepository) {
+                        return $entityRepository->createQueryBuilder('c')
+                            ->join('c.contry', 'contry')
+                            ->where('contry.name=:name')
+                            ->setParameter('name', 'Ecuador');
+                    }
+                ]
+            )
             ->add('zip_code', null, [
                 'attr' => ['id' => 'postal_code'],
                 'label' => 'Código postal'
@@ -133,10 +140,6 @@ class JobType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Job::class,
-            //            'error_mapping' => [
-            //                '.' => 'city',
-            //
-            //            ],
         ]);
     }
 }
