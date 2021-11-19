@@ -29,7 +29,7 @@ class ConsultaType extends AbstractType
                 'label' => 'Tipo'
             ])
             ->add('city', EntityType::class, [
-                'label' => 'Ciudad',
+                'label' => 'Provincia',
                 'class' => State::class,
                 'required' => true,
                 'query_builder'=> function(EntityRepository $entityRepository){

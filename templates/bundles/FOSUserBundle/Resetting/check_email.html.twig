@@ -6,22 +6,18 @@
     Información de Recuperación
 {% endblock %}
 
-{% block fos_user_content %}
-
-    <div class="form-box">
-        <div class="form-top">
+{% block body %}
+    <div class="form-box pt-5 mt-5">
+        <div class="form-top pt-5 mt-5">
             <div class="form-top-left text-center">
                 <h3> Información de Recuperación</h3>
             </div>
-            <div class="form-top-right">
-                <span style="color: #428bca"><i class="fa fa-info-circle"></i></span>
-            </div>
         </div>
-        <div class="form-bottom">
+        <div  class="text-center" class="form-bottom">
             <p style="color: #333">
-                {{ 'resetting.check_email'|trans({'%tokenLifetime%': tokenLifetime})|nl2br }}
+                {{ 'resetting.check_email'|trans({'%tokenLifetime%': tokenLifetime},'FOSUserBundle','es')|nl2br }}
             </p>
-            <a href="{{ path('fos_user_resetting_request') }}" class="forget_password pull-right">
+            <a href="{{ path('fos_user_resetting_request') }}" class="btn btn-primary pull-right">
                 Volver a enviar código</a>
         </div>
     </div>

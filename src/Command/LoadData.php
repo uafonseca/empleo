@@ -9,6 +9,7 @@
     namespace App\Command;
 
     use App\Entity\User;
+    use Doctrine\DBAL\Exception;
     use Doctrine\ORM\EntityManagerInterface;
     use Symfony\Bridge\Doctrine\IdGenerator\UuidV1Generator;
     use Symfony\Component\Console\Command\Command;
@@ -17,18 +18,17 @@
     use Symfony\Component\Console\Output\OutputInterface;
     use Symfony\Component\Console\Style\SymfonyStyle;
     use Symfony\Component\Finder\Finder;
-    
+
+
     class LoadData extends Command
     {
         /**  @var EntityManagerInterface */
-        private $entityManager;
+        private EntityManagerInterface $entityManager;
+        private Finder $finder;
 
         /**
-          * UpdateCedulasCommand constructor.
-          *
-          * @param EntityManagerInterface $entityManager
-          * @param UuidGenerator $uuid
-          */
+         * @param EntityManagerInterface $entityManager
+         */
         public function __construct(EntityManagerInterface $entityManager)
         {
             $this->finder = new Finder();
@@ -47,8 +47,9 @@
          * @param InputInterface $input
          * @param OutputInterface $output
          * @return int
+         * @throws Exception
          */
-        protected function execute(InputInterface $input, OutputInterface $output)
+        protected function execute(InputInterface $input, OutputInterface $output): int
         {
             $finder = new Finder();
             $finder->in(__DIR__ . '/Data');
