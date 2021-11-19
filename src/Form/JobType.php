@@ -78,6 +78,7 @@ class JobType extends AbstractType
                 'choices' => [
                     'Urgente' => 'Urgente',
                     'Inmediato' => 'Inmediato',
+                    'Ninguna' => 'Ninguna',
                 ],
                 'placeholder' => 'Seleccione prioridad',
                 'label' => 'Tipo de prioridad'
@@ -119,10 +120,10 @@ class JobType extends AbstractType
                     }
                 ]
             )
-            ->add('zip_code', null, [
-                'attr' => ['id' => 'postal_code'],
-                'label' => 'Código postal'
-            ])
+//            ->add('zip_code', null, [
+//                'attr' => ['id' => 'postal_code'],
+//                'label' => 'Código postal'
+//            ])
             ->add('imageFile', FileType::class, array(
                 'required' => true,
             ))

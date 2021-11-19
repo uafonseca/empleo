@@ -6,6 +6,6 @@ fos_user:
         confirmation:
             enabled: true
     from_email:
-        address: "pauqqhnarhjujepf"
+        address: "benditotrabajoecuador@gmail.com"
         sender_name: "Bendito Trabajo"
 
