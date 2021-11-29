@@ -224,17 +224,19 @@
 								</a>
 							</div>
 							<div class="notification-body">
-								{% for n in notifications %}
-									<a href="#" class="notification-list">
-										<i class="fas fa-bolt"></i>
-										<p>
-											{{ n.context }}
-										</p>
-										<span class="time">
-											{{ n.date|ago }}
-										</span>
-									</a>
-								{% endfor %}
+								{% if notifications is defined and notifications is not null %}
+									{% for n in notifications %}
+										<a href="#" class="notification-list">
+											<i class="fas fa-bolt"></i>
+											<p>
+												{{ n.context }}
+											</p>
+											<span class="time">
+												{{ n.date|ago }}
+											</span>
+										</a>
+									{% endfor %}
+								{% endif %}
 							</div>
 							<div class="notification-footer">
 								<a href="{{ path('dashboard') }}">
