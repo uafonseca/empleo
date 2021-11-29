@@ -153,6 +153,9 @@
     "fig/link-util": {
         "version": "1.1.1"
     },
+    "friendsofphp/proxy-manager-lts": {
+        "version": "v1.0.5"
+    },
     "friendsofsymfony/ckeditor-bundle": {
         "version": "2.0",
         "recipe": {
@@ -209,6 +212,9 @@
     },
     "jms/metadata": {
         "version": "2.3.0"
+    },
+    "jms/serializer": {
+        "version": "3.16.0"
     },
     "knplabs/knp-components": {
         "version": "v1.3.10"
@@ -299,6 +305,9 @@
     },
     "phpspec/prophecy": {
         "version": "1.14.0"
+    },
+    "phpstan/phpdoc-parser": {
+        "version": "1.2.0"
     },
     "phpunit/php-code-coverage": {
         "version": "9.2.7"
@@ -440,6 +449,36 @@
             "config/routes/sg_datatables_bundle.yaml"
         ]
     },
+    "sonata-project/block-bundle": {
+        "version": "4.8.0"
+    },
+    "sonata-project/cache": {
+        "version": "2.2.0"
+    },
+    "sonata-project/doctrine-extensions": {
+        "version": "1.15.0"
+    },
+    "sonata-project/exporter": {
+        "version": "2.9.1"
+    },
+    "sonata-project/form-extensions": {
+        "version": "1.12",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.4",
+            "ref": "9c8a1e8ce2b1f215015ed16652c4ed18eb5867fd"
+        },
+        "files": [
+            "./config/packages/sonata_form.yaml"
+        ]
+    },
+    "sonata-project/seo-bundle": {
+        "version": "3.0.0"
+    },
+    "sonata-project/twig-extensions": {
+        "version": "1.9.0"
+    },
     "swiftmailer/swiftmailer": {
         "version": "v6.2.3"
     },
@@ -501,6 +540,9 @@
     "symfony/dotenv": {
         "version": "v4.2.12"
     },
+    "symfony/error-handler": {
+        "version": "v4.4.34"
+    },
     "symfony/event-dispatcher": {
         "version": "v4.2.12"
     },
@@ -549,6 +591,9 @@
             "src/Kernel.php",
             "src/Controller/.gitignore"
         ]
+    },
+    "symfony/http-client-contracts": {
+        "version": "v2.5.0"
     },
     "symfony/http-foundation": {
         "version": "v4.2.12"
@@ -609,6 +654,9 @@
             "phpunit.xml.dist",
             "tests/bootstrap.php"
         ]
+    },
+    "symfony/polyfill-intl-grapheme": {
+        "version": "v1.23.1"
     },
     "symfony/polyfill-intl-icu": {
         "version": "v1.17.1"
@@ -689,6 +737,9 @@
     },
     "symfony/stopwatch": {
         "version": "v4.2.12"
+    },
+    "symfony/string": {
+        "version": "v5.3.10"
     },
     "symfony/swiftmailer-bundle": {
         "version": "2.5",

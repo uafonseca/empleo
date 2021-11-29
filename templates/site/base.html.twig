@@ -1,17 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html {{ sonata_seo_html_attributes() }}>
 
-<head>
+<head {{ sonata_seo_head_attributes() }}>
   <!-- Required meta tags -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <meta name="google-site-verification" content="vNFitz6yibJRiBJtDjy97_vfeIFfs-ORViVI3_q_Pvo" />
-  <meta name="description"
+  <meta name="google-site-verification" content="VQxeSAT7hZy-DZpyslHlt4A0pmCzmTC22PgiTUzSNds" />
+  <meta property="og:image" content="https://benditotrabajo.com/build/backend/images/logo_last.png" /> 
+  {{ sonata_seo_metadatas() }}
+  {{ sonata_seo_link_canonical() }}
+  {{ sonata_seo_lang_alternates() }}
+  {# <meta name="description"
     content="Estamos enfocados en el proceso de socialización de las ofertas de emple en ecuador y cualquier parte del mundo" />
-  <meta name="keywords" content="empleo, trabajo, oferta, servicios, ecuador, laboral, personal, currículun vitae" />
+  <meta name="keywords" content="empleo, trabajo, oferta, servicios, ecuador, laboral, personal, currículun vitae" /> #}
 
   <title>
-    Bendito trabajo |
+    {{ sonata_seo_title_text() }} |
     {% block title %}{% endblock %}
   </title>
   {{ encore_entry_link_tags('app') }}
