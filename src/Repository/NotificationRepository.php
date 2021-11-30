@@ -2,10 +2,12 @@
 
 namespace App\Repository;
 
+use App\constants;
 use App\Entity\Notification;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use PHPUnit\TextUI\XmlConfiguration\Constant;
 
 /**
  * @method Notification|null find($id, $lockMode = null, $lockVersion = null)
@@ -20,12 +22,40 @@ class NotificationRepository extends ServiceEntityRepository
         parent::__construct($registry, Notification::class);
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param User $user
+     * @return void
+     */
     public function orderByDate(User $user)
     {
         return $this->createQueryBuilder('notification')
             ->where('notification.user=:user')
             ->orderBy('notification.date', 'desc')
             ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param User $user
+     * @param string $type
+     * @param boolean $active
+     * @return void
+     */
+    public function findByType(User $user, string $type, bool $active = true)
+    {
+        return $this->createQueryBuilder('notification')
+            ->where('notification.user=:user')
+            ->andWhere('notification.type = :t')
+            ->andWhere('notification.active = :a')
+            ->orderBy('notification.date', 'desc')
+            ->setParameter('user', $user)
+            ->setParameter('t', constants::RESPUESTA_CONSULTA_CREATE)
+            ->setParameter('a', $active)
             ->getQuery()
             ->getResult();
     }

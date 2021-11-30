@@ -2,104 +2,137 @@
 <html {{ sonata_seo_html_attributes() }}>
 
 <head {{ sonata_seo_head_attributes() }}>
-  <!-- Required meta tags -->
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <meta name="google-site-verification" content="VQxeSAT7hZy-DZpyslHlt4A0pmCzmTC22PgiTUzSNds" />
-  <meta property="og:image" content="https://benditotrabajo.com/build/backend/images/logo_last.png" /> 
-  {{ sonata_seo_metadatas() }}
-  {{ sonata_seo_link_canonical() }}
-  {{ sonata_seo_lang_alternates() }}
-  <title>
-    {{ sonata_seo_title_text() }} |
-    {% block title %}{% endblock %}
-  </title>
-  {{ encore_entry_link_tags('app') }}
-  {{ encore_entry_link_tags('home') }}
+	<!-- Required meta tags -->
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta name="google-site-verification" content="VQxeSAT7hZy-DZpyslHlt4A0pmCzmTC22PgiTUzSNds" />
+	<meta property="og:image" content="https://benditotrabajo.com/build/backend/images/logo_last.png" />
+	{{ sonata_seo_metadatas() }}
+	{{ sonata_seo_link_canonical() }}
+	{{ sonata_seo_lang_alternates() }}
+	<title>
+		{{ sonata_seo_title_text() }}
+		|
+		{% block title %}{% endblock %}
+	</title>
+	{{ encore_entry_link_tags('app') }}
+	{{ encore_entry_link_tags('home') }}
+	<style>
+		.counter-badge {
+			position: absolute;
+			left: 10px;
+			bottom: 17px;
+			border-radius: 50%;
+		}
+	</style>
 
-  <link rel="icon" href="{{ asset('site/images/favicon.png') }}" />
-  <link rel="apple-touch-icon" href="{{ asset('site/images/apple-touch-icon.png') }}" />
-  <link rel="apple-touch-icon" sizes="72x72" href="{{ asset('site/images/icon-72x72.png') }}" />
-  <link rel="apple-touch-icon" sizes="114x114" href="{{ asset('site/images/icon-114x114.png') }}" />
-  {% block stylesheet %}{% endblock %}
-  {% block headerScript %}{% endblock %}
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2667595224207635"
-     crossorigin="anonymous"></script>
+	<link rel="icon" href="{{ asset('site/images/favicon.png') }}" />
+	<link rel="apple-touch-icon" href="{{ asset('site/images/apple-touch-icon.png') }}" />
+	<link rel="apple-touch-icon" sizes="72x72" href="{{ asset('site/images/icon-72x72.png') }}" />
+	<link rel="apple-touch-icon" sizes="114x114" href="{{ asset('site/images/icon-114x114.png') }}" /> {% block
+	stylesheet %}{% endblock %}{% block headerScript %}{% endblock %}
+	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2667595224207635"
+		crossorigin="anonymous"></script>
 </head>
 
 <body>
-  {% block body %}
-  {{ include('site/job/partials/header.html.twig') }}
-  {{ include('site/includes/carousel.html.twig') }}
-  {% block jobs_list %}{% endblock %}
+	{% block body %}
+	{{ include('site/job/partials/header.html.twig') }}
+	{{ include('site/includes/carousel.html.twig') }}
+	{% block jobs_list %}{% endblock %}
 
-  <div class="section-padding-top padding-bottom-90">
-    <div class="container">
-      <div class="row">
-        <div class="col">
-          <div id="company-carousel" class="company-carousel owl-carousel owl-loaded owl-drag"></div>
-        </div>
-      </div>
-    </div>
-  </div>
+	<div class="section-padding-top padding-bottom-90">
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<div id="company-carousel" class="company-carousel owl-carousel owl-loaded owl-drag"></div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-  <div class="searchAndFilter-wrapper">
-    {{ include('site/includes/filters.html.twig') }}
-  </div>
-  {% endblock %}
-  {{ encore_entry_script_tags('app') }}
-  {{ include('site/job/partials/footer.html.twig') }}
-  {{ include('site/job/partials/scripts.html.twig') }}
-  <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-  <script src="{{ asset(
-        'bundles/fosjsrouting/js/fos_js_routing.js'
-      ) }}"></script>
-  {{ encore_entry_script_tags('home') }}
-  {% block js %}{% endblock %}
-  {{ include('site/utils/flagsBag.html.twig') }}
-  <script>
-    $(function () {
-      $('.post-job').on({
-        mouseenter: function () {
-          $('#help').popover('show')
-        }, mouseleave: function () {
-          $('#help').popover('hide')
-        }
-      })
-    })
-  </script>
-  {% block scrips %}{% endblock %}
-  <script>
-    $(document).ready(function () {
-      const url = "{{path('alert_new')}}";
-      $('#createAlert').on('click', function (e) {
-        e.preventDefault();
-        const form = $('#alertForm');
-        const email = $('#email').val();
-        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-          $.ajax({
-            type: "GET",
-            url: url,
-            data: form.serialize(),
-            success: function (response) {
-              if (response.type === 'success') {
-                $('#response').html(response.message)
-                $('#response').removeClass('text-warning').addClass('text-success');
-                $('#email').val('');
-              } else {
-                $('#response').html(response.message)
-                $('#response').removeClass('text-success').addClass('text-warning');
-              }
-            }
-          });
-        } else {
-          $('#response').html('El correo no es válido')
-          $('#response').removeClass('text-success').addClass('text-warning');
-        }
+	<div class="searchAndFilter-wrapper">
+		{{ include('site/includes/filters.html.twig') }}
+	</div>
+	{% endblock %}
+	{{ encore_entry_script_tags('app') }}
+	{{ include('site/job/partials/footer.html.twig') }}
+	{{ include('site/job/partials/scripts.html.twig') }}
+	<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+	<script src="{{ asset( 'bundles/fosjsrouting/js/fos_js_routing.js' ) }}"></script>
+	{{ encore_entry_script_tags('home') }}
+	{% block js %}{% endblock %}
+	{{ include('site/utils/flagsBag.html.twig') }}
+	<script>
+		$(function () {
+			$('.post-job').on({
+				mouseenter: function () {
+					$('#help').popover('show')
+				},
+				mouseleave: function () {
+					$('#help').popover('hide')
+				}
+			})
+		})
+	</script>
+	{% block scrips %}{% endblock %}
+	<script>
+		$(document).ready(function () {
+			const url = "{{ path('alert_new') }}";
+			$('#createAlert').on('click', function (e) {
+				e.preventDefault();
+				const form = $('#alertForm');
+				const email = $('#email').val();
+				if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+					$.ajax({
+						type: "GET",
+						url: url,
+						data: form.serialize(),
+						success: function (response) {
+							if (response.type === 'success') {
+								$('#response').html(response.message)
+								$('#response').removeClass('text-warning').addClass('text-success');
+								$('#email').val('');
+							} else {
+								$('#response').html(response.message)
+								$('#response').removeClass('text-success').addClass('text-warning');
+							}
+						}
+					});
+				} else {
+					$('#response').html('El correo no es válido')
+					$('#response').removeClass('text-success').addClass('text-warning');
+				}
 
-      })
-    })
-  </script>
+			})
+		})
+	</script>
+	<script>
+		$(document).ready(function () {
+			let count = 0;
+			{% if notifications is defined and notifications is not null %}
+			  	{% for n in notifications %}
+					{% if n.active %} 
+						count++;
+					{% endif %}
+				 {% endfor %}
+			{% endif %}
+
+			if (count > 0) {
+				$('.counter-badge').html(count)
+			}
+			$('#mar-all-as-read').on('click', function (e) {
+				e.preventDefault();
+				$.ajax({
+					url: Routing.generate('mark_all_as_read'),
+					success: function (response) {
+						if (response.type === 'success')
+							location.reload();
+					}
+				});
+			})
+		})
+	</script>
 </body>
 
 </html>

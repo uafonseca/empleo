@@ -17,18 +17,16 @@
 						{% if is_granted('IS_AUTHENTICATED_FULLY') %}
 							<div class="dropdown header-top-notification">
 								<a href="#" class="notification-button">
+									<span class="counter-badge badge badge-danger"></span>
 									Notificaciones
-
 								</a>
 								<div class="notification-card">
 									<div class="notification-head">
 										<span>
 											Notificaciones
-
 										</span>
-										<a href="#">
+										<a id="mar-all-as-read" href="#">
 											Marcar todos como leídos
-
 										</a>
 									</div>
 									<div class="notification-body">
@@ -56,9 +54,9 @@
 						<div
 							class="dropdown header-top-account">
 							{# <select class="selectpicker select-language" data-width="fit">
-																																																								                                                                                                <option  data-content='<span class="flag-icon flag-icon-mx"></span> Español'>Español</option>
-																																																								                                                                                                <option data-content='<span class="flag-icon flag-icon-us"></span> English'>English</option>
-																																																								                                                                                            </select> #}
+																																																																																																																														                                                                                                <option  data-content='<span class="flag-icon flag-icon-mx"></span> Español'>Español</option>
+																																																																																																																														                                                                                                <option data-content='<span class="flag-icon flag-icon-us"></span> English'>English</option>
+																																																																																																																														                                                                                            </select> #}
 							{% if is_granted('IS_AUTHENTICATED_FULLY') %}
 								<a href="#" class="account-button">
 									{{ app.user.username }}
@@ -239,7 +237,7 @@
 									<li class="menu-item">
 										<a title="About" href="{{ path('static_page_view', {'type': constant('App\\Entity\\StaticPage::TYPE_ABOUT') |url_encode}) }}">
 											Sobre
-																																																																																								                                                                                                                                                                            Nosotros
+																																																																																																																																																																																																						                                                                                                                                                                            Nosotros
 
 										</a>
 									</li>
@@ -253,14 +251,14 @@
 									<li class="menu-item">
 										<a title="About" href="{{ path('static_page_view', {'type': constant('App\\Entity\\StaticPage::TYPE_PRICE')|url_encode}) }}">
 											Determinación
-																																																																																								                                                                                                                                                                            de precios
+																																																																																																																																																																																																						                                                                                                                                                                            de precios
 
 										</a>
 									</li>
 									<li class="menu-item">
 										<a title="About" href="{{ path('static_page_view', {'type': constant('App\\Entity\\StaticPage::TYPE_HOW_WORKING')|url_encode}) }}">
 											Cómo
-																																																																																								                                                                                                                                                                            funciona
+																																																																																																																																																																																																						                                                                                                                                                                            funciona
 
 										</a>
 									</li>
@@ -287,10 +285,10 @@
 									</a>
 								</li>
 								{# <li class="menu-item post-job" style="margin-left: 10px">
-																																																																                                                                                                
-																																																																                                                                                                	<a title="Title" href="{{ path('service_new') }}">
-																																																																                                                                                                		<i class="fas fa-plus"></i>Crear servicio</a>
-																																																																                                                                                                </li>#}
+																																																																																																																																																                                                                                                
+																																																																																																																																																                                                                                                	<a title="Title" href="{{ path('service_new') }}">
+																																																																																																																																																                                                                                                		<i class="fas fa-plus"></i>Crear servicio</a>
+																																																																																																																																																                                                                                                </li>#}
 
 							{% elseif  is_granted('ROLE_ADMIN') %}
 								{# <li class="menu-item post-job" ><a title="Title" href="{{ path('service_new') }}"><i class="fas fa-plus"></i>Crear servicio</a></li> #}

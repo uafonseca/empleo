@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\constants;
 use App\Entity\Consulta;
+use App\Entity\Notification;
 use App\Entity\RespuestaConsulta;
 use App\Form\RespuestaConsultaType;
 use App\Repository\RespuestaConsultaRepository;
@@ -20,23 +22,38 @@ use Symfony\Component\Routing\Annotation\Route;
 class RespuestaConsultaController extends AbstractController
 {
     /**
-     * @Route("/", name="respuesta_consulta_index", methods={"GET"})
+     * @Route("/index/{id}", name="respuesta_consulta_index", methods={"GET"})
      */
-    public function index(RespuestaConsultaRepository $respuestaConsultaRepository): Response
+    public function index(Consulta $consulta, RespuestaConsultaRepository $respuestaConsultaRepository): Response
     {
+        $respuestas = $respuestaConsultaRepository->getMyRespuestas($this->getUser(), $consulta);
+
+        $em = $this->getDoctrine()->getManager();
+
+        /** @var RespuestaConsulta $respuesta */
+        foreach ($respuestas as $respuesta) {
+            $respuesta->setIsRead(true);
+        }
+        $em->flush();
+
         return $this->render('respuesta_consulta/index.html.twig', [
-            'respuesta_consultas' => $respuestaConsultaRepository->getMyRespuestas($this->getUser()),
+            'respuesta_consultas' => $respuestas
         ]);
     }
 
     /**
-     * @Route("/new", name="respuesta_consulta_new", methods={"GET","POST"})
+     * Undocumented function
+     *
+     * @param Request $request
+     * @return Response
+     * 
+     * @Route("/create", name="respuesta_consulta_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
         $respuestaConsultum = new RespuestaConsulta();
-        $form = $this->createForm(RespuestaConsultaType::class, $respuestaConsultum,[
-            'action' => $this->generateUrl('respuesta_consulta_new',[
+        $form = $this->createForm(RespuestaConsultaType::class, $respuestaConsultum, [
+            'action' => $this->generateUrl('respuesta_consulta_new', [
                 'id' => $request->query->get('id')
             ])
         ]);
@@ -52,7 +69,15 @@ class RespuestaConsultaController extends AbstractController
             $consulta->addRespuesta($respuestaConsultum);
             $respuestaConsultum->setConsulta($consulta);
             $respuestaConsultum->setCreatedAt(new DateTime('now'));
+            $respuestaConsultum->setIsRead(false);
             $entityManager->persist($respuestaConsultum);
+            $notification = new Notification();
+            $notification->setDate(new \DateTime());
+            $notification->setType(constants::RESPUESTA_CONSULTA_CREATE);
+            $notification->setContext("Se ha dado respuesta a su consulta");
+            $notification->setUser($consulta->getUser());
+            $notification->setActive(true);
+            $entityManager->persist($notification);
             $entityManager->flush();
 
             return new JsonResponse([
@@ -61,7 +86,7 @@ class RespuestaConsultaController extends AbstractController
             ]);
         }
 
-        
+
         $consulta = $entityManager->getRepository(Consulta::class)->find($request->query->get('id'));
         return $this->render('respuesta_consulta/new.html.twig', [
             'respuesta_consultum' => $respuestaConsultum,
@@ -69,6 +94,8 @@ class RespuestaConsultaController extends AbstractController
             'consulta' => $consulta
         ]);
     }
+
+
 
     /**
      * @Route("/{id}", name="respuesta_consulta_show", methods={"GET"})
@@ -81,7 +108,7 @@ class RespuestaConsultaController extends AbstractController
     }
 
 
-     /**
+    /**
      * @Route("/mostrar/{id}", name="respuesta_consulta_mostrar", methods={"GET"})
      */
     public function mostrar(Consulta $consulta): Response
@@ -116,7 +143,7 @@ class RespuestaConsultaController extends AbstractController
      */
     public function delete(Request $request, RespuestaConsulta $respuestaConsultum): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$respuestaConsultum->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $respuestaConsultum->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($respuestaConsultum);
             $entityManager->flush();

@@ -7,12 +7,13 @@ use App\Repository\NotificationRepository;
 use App\Service\NotificationService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class NotificationController
  * @package App\Controller
- * @Route("/backend/notification")
+ * @Route("/notification")
  */
 class NotificationController extends AbstractController
 {
@@ -36,7 +37,7 @@ class NotificationController extends AbstractController
      */
     public function showAll()
     {
-        return $this->render('notification/index.html.twig',[
+        return $this->render('notification/index.html.twig', [
             'notifications' => $this->notificationService->orderByDate($this->getUser())
         ]);
     }
@@ -46,9 +47,10 @@ class NotificationController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @Route("/remove/{id}", name="notification_remove", options={"expose" = true})
      */
-    public function delete(Notification $notification){
+    public function delete(Notification $notification)
+    {
         $this->notificationService->remove($notification);
-        $this->addFlash('success','Notificación eliminada');
+        $this->addFlash('success', 'Notificación eliminada');
         return $this->redirectToRoute('notification_list');
     }
 
@@ -60,11 +62,11 @@ class NotificationController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         /** @var Notification $notification */
-        foreach ($this->getUser()->getNotifications() as $notification){
+        foreach ($this->getUser()->getNotifications() as $notification) {
             $em->remove($notification);
             $em->flush();
         }
-        $this->addFlash('success','Notificaciones eliminadas');
+        $this->addFlash('success', 'Notificaciones eliminadas');
         return $this->redirectToRoute('notification_list');
     }
 
@@ -89,6 +91,32 @@ class NotificationController extends AbstractController
                 5
             )
         ]);
+    }
 
+
+
+    /**
+     * Marca todas las notificaciones como leidas
+     *
+     * @return Response
+     * 
+     * @Route("/mark_all_as_read", name="mark_all_as_read", options={"expose" = true})
+     */
+    public function readAll(): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $notifications = $em->getRepository(Notification::class)->findBy([
+            'active' => true
+        ]);
+
+        /** @var Notification $n */
+        foreach ($notifications as $n)
+            $n->setActive(false);
+
+        $em->flush();
+
+        return new JsonResponse([
+            'type' => 'success',
+        ]);
     }
 }

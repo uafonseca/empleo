@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Consulta;
 use App\Entity\Image;
 use App\Entity\RespuestaConsulta;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -21,14 +22,17 @@ class RespuestaConsultaRepository extends ServiceEntityRepository
         parent::__construct($registry, RespuestaConsulta::class);
     }
 
-   public function getMyRespuestas(User $user){
+    public function getMyRespuestas(User $user, Consulta $consulta)
+    {
         return $this->createQueryBuilder('r')
-        ->join('r.consulta', 'consulta')
-        ->where('consulta.user =:user')
-        ->setParameter('user', $user)
-        ->getQuery()
-        ->getResult();
-   }
+            ->join('r.consulta', 'consulta')
+            ->where('consulta.user =:user')
+            ->andWhere('consulta =:c')
+            ->setParameter('user', $user)
+            ->setParameter('c', $consulta)
+            ->getQuery()
+            ->getResult();
+    }
 
     /*
     public function findOneBySomeField($value): ?Image

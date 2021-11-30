@@ -1,145 +1,139 @@
 {% extends 'site/base.html.twig' %}
 {% block title %}
-    Inicio
-
-
+	Inicio
 {% endblock %}
 {% block jobs_list %}
-    <!-- Jobs End -->
-    <div class="section-padding alice-bg">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="row">
-                        <div class="col">
-                            <div class="section-header section-header-2 section-header-with-right-content">
-                                <h2>
-                                    Trabajos recientes
-                                </h2>
-                                <a href="{{ path('job_list') }}" class="header-right">
-                                    + Buscar todos los empleos
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col container">
-                            {% for j in jobs %}
-                                <div class="job-list row">
-                                    <div class="thumb">
-                                        <a href="{{ path('job_show', {'id': j.id}) }}">
-                                            <img src="{{ asset('site/images/upload/company/')~'_user_'~j.user.id~'/'~ j.image }}"
-                                                 class="img-fluid" alt="{{ j.title }}"></a>
-                                    </div>
-                                    <div class="body">
-                                        <div class="content">
-                                            <h4>
-                                                <a href="{{ path('job_show', {'id': j.id}) }}">
-                                                    {{ j.title }}
-                                                </a>
-                                            </h4>
-                                            <div class="info">
-                                                    <span class="company">
-                                                        <a>
-                                                            <i data-feather="briefcase"></i>
-                                                            {{ j.CompanyName }}
-                                                        </a>
-                                                    </span>
-                                                <span class="office-location">
-                                                        <a>
-                                                            <i data-feather="map-pin"></i>
-                                                            {{ j.Localtion }}
-                                                        </a>
-                                                    </span>
-                                                {% if j.type == 'partial' %}
-                                                    <span class="job-type part-time">
-                                                            <a>
-                                                                <i data-feather="clock"></i>
-                                                                A tiempo parcial
-                                                            </a>
-                                                        </span>
-                                                {% endif %}
-                                                {% if j.type == 'ful' %}
-                                                    <span class="job-type full-time">
-                                                            <a>
-                                                                <i data-feather="clock"></i>
-                                                                A tiempo completo
-                                                            </a>
-                                                        </span>
-                                                {% endif %}
-                                                {% if j.type == 'temporary' %}
-                                                    <span class="job-type temporary">
-                                                            <a>
-                                                                <i data-feather="clock"></i>
-                                                                Temporal
-                                                            </a>
-                                                        </span>
-                                                {% endif %}
-                                                {% if j.type == 'freelance' %}
-                                                    <span class="job-type freelance">
-                                                            <a>
-                                                                <i data-feather="clock"></i>
-                                                                Independiente
-                                                            </a>
-                                                        </span>
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                        <div class="more">
-                                            <div class="buttons">
-                                                {% if app.user %}
-                                                    <a id="applied-btn-{{ j.id }}" onclick="applied('{{ j.id }}')"
-                                                       class="button btn">
-                                                        {% if get_status_job(app.user,j) %}
-                                                            Cancelar
-                                                        {% else %}
-                                                            Aplica ya!
-                                                        {% endif %}
-                                                    </a>
-                                                    <a onclick="bookMark('{{ j.id }}')"
-                                                       class="favourite {% if j.id in app.user.bookmarked %}active{% endif %} ">
-                                                        <i data-feather="heart"></i>
-                                                    </a>
-                                                {% else %}
-                                                    <a data-toggle="modal" data-target="#exampleModalLong"
-                                                       class="button btn">
-                                                        Aplica ya!
-                                                    </a>
-                                                {% endif %}
-                                            </div>
-                                            <p class="deadline">
-                                                {{ j.dateCreated|localizeddate('short', 'none', 'en') }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 job-about"></div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12 text-center">
-                    <a href="{{ path('job_list') }}" class="btn btn-primary btn-lg" style="margin-top: 20px;">
-                        <i class="fa fa-eye"></i>
-                        Ver más
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2667595224207635"
-     crossorigin="anonymous"></script>
-        <!-- Bloq1 -->
-        <ins class="adsbygoogle"
-            style="display:block"
-            data-ad-client="ca-pub-2667595224207635"
-            data-ad-slot="2646587945"
-            data-ad-format="auto"
-            data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+	<!-- Jobs End -->
+	<div class="section-padding alice-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="row">
+						<div class="col">
+							<div class="section-header section-header-2 section-header-with-right-content">
+								<h2>
+									Trabajos recientes
+								</h2>
+								<a href="{{ path('job_list') }}" class="header-right">
+									+ Buscar todos los empleos
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col container">
+							{% for j in jobs %}
+								<div class="job-list row">
+									<div class="thumb">
+										<a href="{{ path('job_show', {'id': j.id}) }}">
+											<img src="{{ asset('site/images/upload/company/')~'_user_'~j.user.id~'/'~ j.image }}" class="img-fluid" alt="{{ j.title }}"></a>
+									</div>
+									<div class="body">
+										<div class="content">
+											<h4>
+												<a href="{{ path('job_show', {'id': j.id}) }}">
+													{{ j.title }}
+												</a>
+											</h4>
+											<div class="info">
+												<span class="company">
+													<a>
+														<i data-feather="briefcase"></i>
+														{{ j.CompanyName }}
+													</a>
+												</span>
+												<span class="office-location">
+													<a>
+														<i data-feather="map-pin"></i>
+														{{ j.Localtion }}
+													</a>
+												</span>
+												{% if j.type == 'partial' %}
+													<span class="job-type part-time">
+														<a>
+															<i data-feather="clock"></i>
+															A tiempo parcial
+														</a>
+													</span>
+												{% endif %}
+												{% if j.type == 'ful' %}
+													<span class="job-type full-time">
+														<a>
+															<i data-feather="clock"></i>
+															A tiempo completo
+														</a>
+													</span>
+												{% endif %}
+												{% if j.type == 'temporary' %}
+													<span class="job-type temporary">
+														<a>
+															<i data-feather="clock"></i>
+															Temporal
+														</a>
+													</span>
+												{% endif %}
+												{% if j.type == 'freelance' %}
+													<span class="job-type freelance">
+														<a>
+															<i data-feather="clock"></i>
+															Independiente
+														</a>
+													</span>
+												{% endif %}
+											</div>
+										</div>
+										<div class="more">
+											<div class="buttons">
+												{% if app.user %}
+													<a id="applied-btn-{{ j.id }}" onclick="applied('{{ j.id }}')" class="button btn">
+														{% if get_status_job(app.user,j) %}
+															Cancelar
+														{% else %}
+															Aplica ya!
+														{% endif %}
+													</a>
+													<a onclick="bookMark('{{ j.id }}')" class="favourite {% if j.id in app.user.bookmarked %}active{% endif %} ">
+														<i data-feather="heart"></i>
+													</a>
+												{% else %}
+													<a data-toggle="modal" data-target="#exampleModalLong" class="button btn">
+														Aplica ya!
+													</a>
+												{% endif %}
+											</div>
+											<p class="deadline">
+												{{ j.dateCreated|localizeddate('short', 'none', 'en') }}
+											</p>
+										</div>
+									</div>
+									<div class="col-12 job-about"></div>
+								</div>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12 text-center">
+					<a href="{{ path('job_list') }}" class="btn btn-primary btn-lg" style="margin-top: 20px;">
+						<i class="fa fa-eye"></i>
+						Ver más
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2667595224207635" crossorigin="anonymous"></script>
+				<!-- Bloq1 -->
+				<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2667595224207635" data-ad-slot="2646587945" data-ad-format="auto" data-full-width-responsive="true"></ins>
+				<script>
+					(adsbygoogle = window.adsbygoogle || []).push({});
+				</script>
+			</div>
+		</div>
+	</div>
+
 {% endblock %}
-    

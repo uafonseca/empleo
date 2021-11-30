@@ -37,6 +37,11 @@ class RespuestaConsulta
      */
     private $createdAt;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isRead;
+
     public function getConsulta(): ?Consulta
     {
         return $this->consulta;
@@ -87,6 +92,18 @@ class RespuestaConsulta
     public function setTexto($texto)
     {
         $this->texto = $texto;
+
+        return $this;
+    }
+
+    public function getIsRead(): ?bool
+    {
+        return $this->isRead;
+    }
+
+    public function setIsRead(bool $isRead): self
+    {
+        $this->isRead = $isRead;
 
         return $this;
     }

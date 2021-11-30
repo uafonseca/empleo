@@ -69,7 +69,7 @@ class ConsultaDatatable extends AbstractDatatable
             ])
             ->add('city.name', Column::class, [
                 'title' => 'Ciudad',
-                'default_content'=> '-'
+                'default_content' => '-'
             ])
             ->add('type', Column::class, [
                 'title' => 'Tipo'
@@ -93,20 +93,23 @@ class ConsultaDatatable extends AbstractDatatable
                     ]);
             }
             $this->columnBuilder
-                ->add(null,ActionColumn::class,[
+                ->add(null, ActionColumn::class, [
                     'title' => 'Acciones',
                     'actions' => [
                         TableActions::add('respuesta_consulta_new'),
                         TableActions::show('respuesta_consulta_mostrar'),
                     ]
                 ]);
-        }else{
+        } else {
             $this->columnBuilder
-                ->add(null,ActionColumn::class,[
+                ->add(null, ActionColumn::class, [
                     'title' => 'Acciones',
                     'actions' => [
                         [
                             'route' => 'respuesta_consulta_index',
+                            'route_parameters' => array_merge(array(
+                                'id' => 'id'
+                            )),
                             'icon' => 'fa fa-eye text-success cortex-table-action-icon',
                             'attributes' => array(
                                 'class' => 'action-show',
@@ -114,7 +117,7 @@ class ConsultaDatatable extends AbstractDatatable
                                 'data-placement' => 'top',
                                 'title' => "Ver respuesta"
                             ),
-                            'render_if'=> function($row){
+                            'render_if' => function ($row) {
                                 return $row['respuesta'];
                             }
                         ]

@@ -72,4 +72,11 @@ abstract class constants
     //--------job_status--------//
     //----------END----------//
 
+    //---------BEGIN---------//
+    //-------Consultas------//
+    const RESPUESTA_CONSULTA_CREATE         = 'RESPUESTA_CONSULTA_CREATE';
+    //--------Consultas--------//
+    //----------END----------//
+
+
 }
